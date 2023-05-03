@@ -1,0 +1,11 @@
+#!/bin/bash
+function build {
+	npm install
+	npm run build
+}
+
+function deploy {
+	cp --archive "$SRCDIR/build" "$TARGET"
+	sudo systemctl restart nginx
+}
+
