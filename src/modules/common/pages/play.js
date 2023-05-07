@@ -197,7 +197,9 @@ export default function Play() {
             reconnect();
           };
           client.onclose = () => {
-            console.log("WebSocket connection closed");
+            console.log("WebSocket connection closed33");
+            window.location.reload();
+
             reconnect();
           };
         }

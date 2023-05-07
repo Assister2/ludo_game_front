@@ -6,11 +6,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { CDN_URL } from "../../../../config";
-import {Guide} from "./components/Guide";
+import { Guide } from "./components/Guide";
 import SideBar from "./components/SideBar";
 import { Link, useHref } from "react-router-dom";
-import Cookies from "js-cookie"
-import {withRouter} from 'react-router-dom';
+import Cookies from "js-cookie";
+import { withRouter } from "react-router-dom";
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -47,7 +47,7 @@ export default function Header(props) {
     }
     return [<Guide />];
   }
-  
+
   useEffect(() => {
     setShowComm(showCommission());
   }, [path]);
@@ -78,11 +78,7 @@ export default function Header(props) {
               <img src={`${CDN_URL}svgs/ham.svg`} alt="Menu" />
             </button>
             <Link to="/">
-            <img
-              src={`${CDN_URL}/avatar/logo.png`}
-              alt="logo"
-              height="50"
-            />
+              <img src={`${CDN_URL}/avatar/logo.png`} alt="logo" height="50" />
             </Link>
             <div style={{ marginLeft: "auto", marginRight: "10px" }}>
               {getOptions(false)}
