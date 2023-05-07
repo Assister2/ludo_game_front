@@ -54,7 +54,7 @@ export default function Play() {
     };
     let heartbeatInterval = null;
 
-    // document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const connect = () => {
       if (!clientRef.current) {
@@ -244,7 +244,7 @@ export default function Play() {
   useEffect(() => {
     if (isTabVisible) {
       if (isTabSwitch) {
-        window.location.reload();
+        // window.location.reload();
         // if (ws) {
         //     switch (ws.readyState) {
         //       case WebSocket.CLOSING:
@@ -378,13 +378,13 @@ export default function Play() {
           // Calculate the difference in minutes between the two dates
           const diffMinutes = date2.diff(date1, "minutes");
           if (diffMinutes >= 3) {
-            console.log(diffMinutes);
-            ws.send(
-              JSON.stringify({
-                type: "deleteOpenChallengesOfCreator",
-                payload: { userId },
-              })
-            );
+            console.log("mindutess", diffMinutes);
+            // ws.send(
+            //   JSON.stringify({
+            //     type: "deleteOpenChallengesOfCreator",
+            //     payload: { userId },
+            //   })
+            // );
           }
         }
       });
