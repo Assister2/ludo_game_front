@@ -37,7 +37,8 @@ export default function Buy() {
     };
     wss.onclose = () => {
       console.log("WebSocket connection closed233");
-      window.location.reload();
+      wss.close();
+      // window.location.reload();
     };
   }, []);
   const pay = () => {

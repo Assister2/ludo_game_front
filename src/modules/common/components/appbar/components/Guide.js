@@ -13,6 +13,7 @@ let URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`;
 function Guide(props) {
   const dispatch = useDispatch();
   const [f_open, setOpen] = useState(false);
+  const [ws, setWs] = useState();
   const walletData = useSelector((state) => state.wallet);
 
   const { data } = useSelector((state) => state.loginReducer);
@@ -34,7 +35,7 @@ function Guide(props) {
           window.location.href = "/play";
           return null;
         }
-        console.log("working", data);
+        // console.log("working", data);
         console.log("tokenwa", Cookies.get("token"));
         dispatch(getUserProfileReq());
         dispatch(getWalletReq());
@@ -59,12 +60,14 @@ function Guide(props) {
     let client = null;
     let reconnectTimeout = null;
     const connect = () => {
+      console.log("websocket starting");
       if (!clientRef.current) {
         client = new WebSocket(URL);
         clientRef.current = client;
         window.client = client;
         if (client) {
           client.onopen = () => {
+            setWs(client);
             interval = setInterval(() => {
               client.send(
                 JSON.stringify({
@@ -96,7 +99,9 @@ function Guide(props) {
           };
           client.onclose = () => {
             console.log("WebSocket connection closed23");
-            window.location.reload();
+            client.close();
+
+            // window.location.reload();
             reconnect();
           };
         }
@@ -121,12 +126,16 @@ function Guide(props) {
       console.log("Cleaning up WebSocket...");
       clearInterval(interval);
       clearTimeout(reconnectTimeout);
+      ws.close();
       if (client) {
         client.close();
         clientRef.current = null;
       }
     };
   }, []);
+  const closeconn = () => {
+    ws.close();
+  };
 
   // Render your component here...
 
@@ -288,6 +297,15 @@ function Guide(props) {
           </div>
         </SwipeableDrawer>
       </div>
+      {/* <button
+        // disabled={createChallengeLoading}
+        onClick={() => {
+          closeconn();
+        }}
+        className="btn btn-primary w-25"
+      >
+        close
+      </button> */}
       {data.isLoggedIn ? (
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">

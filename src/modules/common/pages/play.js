@@ -30,6 +30,7 @@ export default function Play() {
   const [holdChallenge, setHoldChallenge] = useState({});
   const [holdModal, setHoldModal] = useState(false);
   const [gameState, setGameState] = useState(true);
+
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const audioPlayer = useRef(null);
@@ -55,7 +56,7 @@ export default function Play() {
     let heartbeatInterval = null;
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
+    console.log("checkkkkd", clientRef.current);
     const connect = () => {
       if (!clientRef.current) {
         client = new WebSocket(URL);
@@ -198,7 +199,9 @@ export default function Play() {
           };
           client.onclose = () => {
             console.log("WebSocket connection closed33");
-            window.location.reload();
+            // window.location.reload();
+            client.close();
+            setWs();
 
             reconnect();
           };
@@ -216,15 +219,14 @@ export default function Play() {
       }
     };
     connect();
+
     return () => {
       console.log("Cleaning up WebSocket...");
       clientRef.current = null;
 
       clearTimeout(reconnectTimeout);
       clearInterval(heartbeatInterval);
-      if (client) {
-        client.close();
-      }
+      ws.close();
       setMessages();
       setPlaying();
       setGameState();
@@ -243,29 +245,29 @@ export default function Play() {
     };
   }, []);
 
-  useEffect(() => {
-    if (isTabVisible) {
-      if (isTabSwitch) {
-        // window.location.reload();
-        // if (ws) {
-        //     switch (ws.readyState) {
-        //       case WebSocket.CLOSING:
-        //         window.location.reload();
-        //         break;
-        //       case WebSocket.CLOSED:
-        //         window.location.reload();
-        //         break;
-        //       default:
-        //         {}
-        //     }
-        // }
-        setTabSwitch(false);
-      }
-    } else {
-      setTabSwitch(true);
-      setIsTabVisibleTime(moment().toISOString());
-    }
-  }, [isTabVisible]);
+  // useEffect(() => {
+  //   if (isTabVisible) {
+  //     if (isTabSwitch) {
+  //       // window.location.reload();
+  //       // if (ws) {
+  //       //     switch (ws.readyState) {
+  //       //       case WebSocket.CLOSING:
+  //       //         window.location.reload();
+  //       //         break;
+  //       //       case WebSocket.CLOSED:
+  //       //         window.location.reload();
+  //       //         break;
+  //       //       default:
+  //       //         {}
+  //       //     }
+  //       // }
+  //       setTabSwitch(false);
+  //     }
+  //   } else {
+  //     setTabSwitch(true);
+  //     setIsTabVisibleTime(moment().toISOString());
+  //   }
+  // }, [isTabVisible]);
 
   useEffect(() => {
     let challegesData = [...challenges];
@@ -405,7 +407,12 @@ export default function Play() {
   //         }))
   //     }
   // }
-
+  const closeconn = () => {
+    console.log("checkkk", client);
+    if (ws) {
+      ws.close();
+    }
+  };
   const createChallenge = () => {
     if (amount <= 0) {
       cogoToast.error("amount should be greater that 0 and multiples of 50");
@@ -807,6 +814,16 @@ export default function Play() {
             >
               Set
             </button>
+            <br></br>
+            {/* <button
+              // disabled={createChallengeLoading}
+              onClick={() => {
+                closeconn();
+              }}
+              className="btn btn-primary w-25"
+            >
+              close
+            </button> */}
           </div>
           {/* <div className="show dropdown">
                         <button type="button" aria-expanded="false" id="dropdownMenuButton" className="dropdown-toggle btn btn-outline-primary" data-toggle ="dropdown">

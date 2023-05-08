@@ -84,7 +84,8 @@ export default function Game(props) {
       };
       wss.onclose = () => {
         console.log("WebSocket connection closeddsd");
-        window.location.reload();
+        wss.close();
+        // window.location.reload();
         // Attempt to reconnect in 5 seconds
         setTimeout(() => {
           console.log("Attempting to reconnect...");
