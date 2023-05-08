@@ -200,7 +200,10 @@ export default function Play() {
           client.onclose = () => {
             console.log("WebSocket connection closed33");
             // window.location.reload();
-            client.close();
+            if (client) {
+              client.close();
+            }
+
             setWs();
 
             reconnect();
@@ -223,7 +226,6 @@ export default function Play() {
     return () => {
       console.log("Cleaning up WebSocket...");
       clientRef.current = null;
-
       clearTimeout(reconnectTimeout);
       clearInterval(heartbeatInterval);
       ws.close();

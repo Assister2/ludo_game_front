@@ -126,7 +126,6 @@ function Guide(props) {
       console.log("Cleaning up WebSocket...");
       clearInterval(interval);
       clearTimeout(reconnectTimeout);
-      ws.close();
       if (client) {
         client.close();
         clientRef.current = null;
