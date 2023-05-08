@@ -1,8 +1,10 @@
 import cogoToast from "cogo-toast";
 import Cookies from "js-cookie";
+
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsSortUp } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch } from "react-redux";
 import { CDN_URL } from "../../../config";
@@ -27,6 +29,8 @@ export default function Play() {
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
+  const location = useLocation();
+
   const [holdChallenge, setHoldChallenge] = useState({});
   const [holdModal, setHoldModal] = useState(false);
   const [gameState, setGameState] = useState(true);
@@ -56,7 +60,7 @@ export default function Play() {
     let heartbeatInterval = null;
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    console.log("checkkkkd", clientRef.current);
+
     const connect = () => {
       if (!clientRef.current) {
         client = new WebSocket(URL);
@@ -190,6 +194,7 @@ export default function Play() {
                   playAudio();
                 }
               });
+
               setChallenges(tempData);
             }
           };
@@ -228,7 +233,7 @@ export default function Play() {
       clientRef.current = null;
       clearTimeout(reconnectTimeout);
       clearInterval(heartbeatInterval);
-      ws.close();
+      // ws.close();
       setMessages();
       setPlaying();
       setGameState();
@@ -370,45 +375,78 @@ export default function Play() {
 
   //     }
   // }, [ws])
+  useEffect(() => {
+    return () => {
+      // This function will be executed when the component is unmounted
+
+      // Calculate the difference in minutes between the two dates
+
+      if (ws) {
+        ws.send(
+          JSON.stringify({
+            type: "deleteOpenChallengesOfCreator",
+            payload: { userId },
+          })
+        );
+      }
+    };
+  }, [location, ws]);
+  // useEffect(() => {
+  //   // This function will be executed whenever the location changes
+  //   console.log("checkkchanglegschanged:", location.pathname);
+  //   console.log("checkkchanglegs", challenges);
+  //   console.log("checkkchanglegs33", window.location);
+
+  //   const beforeUnloadCallback = (event) => {
+  //     event.preventDefault();
+  //     console.log("beforeUnloadCallbackffff");
+  //   };
+
+  //   window.addEventListener("beforeunload", beforeUnloadCallback);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", beforeUnloadCallback);
+  //   };
+  // }, [location]);
 
   // setInterval(() => {
-  //   if (challenges.length > 0) {
-  //     challenges.forEach((item) => {
-  //       if (
-  //         item.state == "open" &&
-  //         item.status == 1 &&
-  //         item.creator._id == userId
-  //       ) {
-  //         const date1 = moment(item.createdAt);
-  //         const date2 = moment();
-  //         // Calculate the difference in minutes between the two dates
-  //         const diffMinutes = date2.diff(date1, "minutes");
-  //         if (diffMinutes >= 3) {
-  //           console.log("mindutess", diffMinutes);
-  //           // ws.send(
-  //           //   JSON.stringify({
-  //           //     type: "deleteOpenChallengesOfCreator",
-  //           //     payload: { userId },
-  //           //   })
-  //           // );
-  //         }
+  // if (challenges.length > 0) {
+  //   challenges.forEach((item) => {
+  //     if (
+  //       item.state == "open" &&
+  //       item.status == 1 &&
+  //       item.creator._id == userId
+  //     ) {
+  //       const date1 = moment(item.createdAt);
+  //       const date2 = moment();
+  //       // Calculate the difference in minutes between the two dates
+  //       const diffMinutes = date2.diff(date1, "minutes");
+  //       if (diffMinutes >= 3) {
+  //         console.log("mindutess", diffMinutes);
+  //         ws.send(
+  //           JSON.stringify({
+  //             type: "deleteOpenChallengesOfCreator",
+  //             payload: { userId },
+  //           })
+  //         );
   //       }
-  //     });
-  //   }
+  //     }
+  //   });
+  // }
   // }, 3000);
   // window.onbeforeunload = () => {
-  //     if (ws) {
-  //         console.log('---------------------------------------');
-  //         ws.send(JSON.stringify({
-  //             type: "cancelRequestedOnPageChange",
-  //             payload: { userId }
-  //         }))
-  //         ws.send(JSON.stringify({
-  //             type: "deleteOpenChallengesOfCreator",
-  //             payload: { userId }
-  //         }))
-  //     }
-  // }
+  //   console.log("onbeforeunloaddd");
+  //   // if (ws) {
+  //   //     console.log('---------------------------------------');
+  //   //     ws.send(JSON.stringify({
+  //   //         type: "cancelRequestedOnPageChange",
+  //   //         payload: { userId }
+  //   //     }))
+  //   //     ws.send(JSON.stringify({
+  //   //         type: "deleteOpenChallengesOfCreator",
+  //   //         payload: { userId }
+  //   //     }))
+  //   // }
+  // };
   const closeconn = () => {
     console.log("checkkk", client);
     if (ws) {

@@ -45,6 +45,7 @@ function* login(param) {
   // console.log("data",data)
     yield put(loginSuccess(data));
     param.navigation(`/`);
+    window.location.reload();
 
   } else if (data.status == 400) {
     cogoToast.error(data.error);
