@@ -1,19 +1,29 @@
 import cogoToast from "cogo-toast";
+import Avatar from "react-avatar";
 import Cookies from "js-cookie";
-
+import io from "socket.io-client";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsSortUp } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import socketNew2 from "../../../socker";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch } from "react-redux";
 import { CDN_URL } from "../../../config";
+import { useSelector } from "react-redux";
 import NotificationSound from "./notification.mp3";
 import Moment from "react-moment";
 import moment from "moment";
-const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
+// const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
 export default function Play() {
+  // const avatarURLs = [
+  //   "https://example.com/avatar1.jpg",
+  //   "https://example.com/avatar2.jpg",
+  //   "https://example.com/avatar3.jpg",
+  //   // Add more avatar URLs as needed
+  // ];
+  // const socket2 = useSelector((state) => state.socketReducer);
+  // console.log("newconnecitonss33434", socket2);
   const dispatch = useDispatch();
   const isLoggedIn = Cookies.get("isLoggedIn");
   const userId = Cookies.get("userId");
@@ -29,6 +39,14 @@ export default function Play() {
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
+  const socket2 = useSelector((state) => state.socketReducer);
+  if (!socket2.instance) {
+    console.log("working232");
+    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
+  }
+  const { instance } = socket2;
+  var socketNew = instance;
+  // console.log("newconnecitonss343", instance);
   const location = useLocation();
 
   const [holdChallenge, setHoldChallenge] = useState({});
@@ -42,7 +60,17 @@ export default function Play() {
   function playAudio() {
     // audioPlayer.current.play();
   }
-
+  const avatarURLs = [
+    "https://example.com/avatar1.jpg",
+    "https://example.com/avatar2.jpg",
+    "https://example.com/avatar3.jpg",
+    // Add more avatar URLs as needed
+  ];
+  function getRandomAvatarIndex() {
+    return Math.floor(Math.random() * avatarURLs.length);
+  }
+  const randomAvatarIndex = getRandomAvatarIndex();
+  const randomAvatarURL = avatarURLs[randomAvatarIndex];
   const clientRef = useRef(null);
   const [waitingToReconnect, setWaitingToReconnect] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -53,203 +81,224 @@ export default function Play() {
   }
 
   useEffect(() => {
-    let reconnectTimeout = null;
-    const handleVisibilityChange = () => {
-      setIsTabVisible(!document.hidden);
-    };
-    let heartbeatInterval = null;
+    if (userId) {
+      if (userId) {
+        console.log("now1");
+        socketNew.connect();
+      }
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+      let reconnectTimeout = null;
+      const handleVisibilityChange = () => {
+        setIsTabVisible(!document.hidden);
+      };
+      let heartbeatInterval = null;
 
-    const connect = () => {
-      if (!clientRef.current) {
-        client = new WebSocket(URL);
-        clientRef.current = client;
-        window.client = client;
-        console.log("Connecting to WebSocket...");
-        if (client) {
-          client.onopen = () => {
-            setIsOpen(true);
-            console.log("ws opened");
-            setWs(client);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      // socketNew.on("connect", () => {
+      //   console.log("connecteeeee", socketNew.connected);
+      // });
+      // const connect = () => {
+      // if (!clientRef.current) {
+      // client = new WebSocket(URL);
 
-            heartbeatInterval = setInterval(() => {
-              client.send(JSON.stringify({ type: "heartbeat" }));
-            }, 30000);
+      client = socketNew.connect();
 
-            client.send(
-              JSON.stringify({
-                type: "",
-                payload: { userId },
-              })
-            );
-          };
-          client.onmessage = (event) => {
-            event = JSON.parse(event.data);
+      // if (!socketNew.connected) {
+      //   console.log("checkkkdfd", !socketNew.connected);
+      //   client = io("http://localhost:4002");
+      // }
 
-            if (event.type === "heartbeat") {
-              client.send(JSON.stringify({ type: "ack" }));
-            }
+      clientRef.current = client;
+      window.client = client;
+      console.log("Connecting to WebSocket...");
+      // if (client) {
+      setIsOpen(true);
+      console.log("ws opened");
+      setWs(client);
 
-            if (event.challengeRedirect) {
-              navigate(`/game/${event.challengeId}`);
-              return;
-            }
-            if (event.status == 400) {
-              cogoToast.error(event.error);
-              return;
-            }
-            if (event.sort) {
-              event.sort((a, b) => {
-                if (
-                  a.state === "playing" &&
-                  (a.player === userId || a.creator._id === userId)
-                ) {
-                  return -1;
-                }
-                if (
-                  b.state === "playing" &&
-                  (b.player === userId || b.creator._id === userId)
-                )
-                  return 1;
+      heartbeatInterval = setInterval(() => {
+        client.send(JSON.stringify({ type: "heartbeat" }));
+      }, 3000);
 
-                if (a.state === "requested" && a.player._id === userId)
-                  return -1;
-                if (b.state === "requested" && b.player._id === userId)
-                  return 1;
+      client.send(
+        JSON.stringify({
+          type: "",
+          payload: { userId },
+        })
+      );
+      client.emit(
+        "getUserWallet",
+        JSON.stringify({
+          type: "getUserWallet",
+          payload: {
+            userId: userId,
+          },
+        })
+      );
 
-                // 1) state == "open" && creator._id == userId
-                if (a.state === "requested" && a.creator._id === userId)
-                  return -1;
-                if (b.state === "requested" && b.creator._id === userId)
-                  return 1;
+      client.on("message", (event) => {
+        var events = JSON.parse(event);
 
-                // 1) state == "open" && creator._id == userId
-                if (a.state === "open" && a.creator?._id === userId) return -1;
-                if (b.state === "open" && b.creator?._id === userId) return 1;
-
-                // 1) state == "open" && creator._id == userId
-                if (
-                  a.state === "requested" &&
-                  a.player === userId &&
-                  a.creator === userId
-                )
-                  return -1;
-                if (
-                  b.state === "requested" &&
-                  b.player === userId &&
-                  b.creator === userId
-                )
-                  return 1;
-                if (
-                  a.state === "open" &&
-                  a.creator._id !== userId &&
-                  a.player !== userId
-                )
-                  return -1;
-                if (
-                  b.state === "open" &&
-                  b.creator._id !== userId &&
-                  b.player !== userId
-                )
-                  return 1;
-                if (
-                  a.creator?._id != userId &&
-                  a.player?._id != userId &&
-                  a.state == "playing"
-                )
-                  return -1;
-                if (
-                  b.creator?._id != userId &&
-                  b.player?._id != userId &&
-                  b.state == "playing"
-                )
-                  return 1;
-                // 1) state == "open" && creator._id == userId
-                // Default sorting
-                return 0;
-              });
-            }
-            if (event.filter) {
-              let tempData = event.filter(
-                (item) =>
-                  !(
-                    item.state == "requested" &&
-                    item.player._id != userId &&
-                    item.creator?._id != userId
-                  )
-              );
-              event.forEach((element) => {
-                if (
-                  element.state == "playing" &&
-                  element.player._id == userId &&
-                  element.firstTime
-                ) {
-                  viewGame(element._id);
-                }
-                if (
-                  element.state == "requested" &&
-                  element.creator._id == userId
-                ) {
-                  playAudio();
-                }
-              });
-
-              setChallenges(tempData);
-            }
-          };
-          client.onerror = (error) => {
-            console.error("WebSocket error:", error);
-            reconnect();
-          };
-          client.onclose = () => {
-            console.log("WebSocket connection closed33");
-            // window.location.reload();
-            if (client) {
-              client.close();
-            }
-
-            setWs();
-
-            reconnect();
-          };
+        if (events.type === "heartbeat") {
+          client.send(JSON.stringify({ type: "ack" }));
         }
-      }
-    };
-    const reconnect = () => {
-      if (!reconnectTimeout) {
-        console.log("WebSocket connection lost, attempting to reconnect...");
-        reconnectTimeout = setTimeout(() => {
-          clientRef.current = null;
-          connect();
-          reconnectTimeout = null;
-        }, 1000);
-      }
-    };
-    connect();
 
-    return () => {
-      console.log("Cleaning up WebSocket...");
-      clientRef.current = null;
-      clearTimeout(reconnectTimeout);
-      clearInterval(heartbeatInterval);
-      // ws.close();
-      setMessages();
-      setPlaying();
-      setGameState();
-      setGameState();
-      setHoldChallenge();
-      setIsOpen();
-      setCreateChallengeLoading();
-      setHoldModal();
-      setAmount();
-      setSorting();
-      setChallenges();
-      setIsTabVisible();
-      setTabSwitch();
-      setWs();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+        if (events.challengeRedirect) {
+          navigate(`/game/${events.challengeId}`);
+          return;
+        }
+        if (events.status == 400) {
+          cogoToast.error(events.error);
+          return;
+        }
+        if (events.sort) {
+          events.sort((a, b) => {
+            if (
+              a.state === "playing" &&
+              (a.player === userId || a.creator._id === userId)
+            ) {
+              return -1;
+            }
+            if (
+              b.state === "playing" &&
+              (b.player === userId || b.creator._id === userId)
+            )
+              return 1;
+
+            if (a.state === "requested" && a.player._id === userId) return -1;
+            if (b.state === "requested" && b.player._id === userId) return 1;
+
+            // 1) state == "open" && creator._id == userId
+            if (a.state === "requested" && a.creator._id === userId) return -1;
+            if (b.state === "requested" && b.creator._id === userId) return 1;
+
+            // 1) state == "open" && creator._id == userId
+            if (a.state === "open" && a.creator?._id === userId) return -1;
+            if (b.state === "open" && b.creator?._id === userId) return 1;
+
+            // 1) state == "open" && creator._id == userId
+            if (
+              a.state === "requested" &&
+              a.player === userId &&
+              a.creator === userId
+            )
+              return -1;
+            if (
+              b.state === "requested" &&
+              b.player === userId &&
+              b.creator === userId
+            )
+              return 1;
+            if (
+              a.state === "open" &&
+              a.creator._id !== userId &&
+              a.player !== userId
+            )
+              return -1;
+            if (
+              b.state === "open" &&
+              b.creator._id !== userId &&
+              b.player !== userId
+            )
+              return 1;
+            if (
+              a.creator?._id != userId &&
+              a.player?._id != userId &&
+              a.state == "playing"
+            )
+              return -1;
+            if (
+              b.creator?._id != userId &&
+              b.player?._id != userId &&
+              b.state == "playing"
+            )
+              return 1;
+            // 1) state == "open" && creator._id == userId
+            // Default sorting
+            return 0;
+          });
+        }
+        if (events.filter) {
+          let tempData = events.filter(
+            (item) =>
+              !(
+                item.state == "requested" &&
+                item.player._id != userId &&
+                item.creator?._id != userId
+              )
+          );
+          events.forEach((element) => {
+            if (
+              element.state == "playing" &&
+              element.player._id == userId &&
+              element.firstTime
+            ) {
+              viewGame(element._id);
+            }
+            if (element.state == "requested" && element.creator._id == userId) {
+              playAudio();
+            }
+          });
+
+          setChallenges(tempData);
+        }
+      });
+      // client.onerror = (error) => {
+      //   console.error("WebSocket error:", error);
+      //   reconnect();
+      // };
+      // client.onclose = () => {
+      //   console.log("WebSocket connection closed33");
+      //   // window.location.reload();
+      //   if (client) {
+      //     client.close();
+      //   }
+
+      //   setWs();
+
+      //   reconnect();
+      // };
+      // }
+      // }
+      // };
+      // const reconnect = () => {
+      //   if (!reconnectTimeout) {
+      //     console.log("WebSocket connection lost, attempting to reconnect...");
+      //     reconnectTimeout = setTimeout(() => {
+      //       clientRef.current = null;
+      //       connect();
+      //       reconnectTimeout = null;
+      //     }, 1000);
+      //   }
+      // };
+      // connect();
+
+      // return () => {
+      //   console.log("Cleaning up WebSocket...");
+      //   clientRef.current = null;
+      //   clearTimeout(reconnectTimeout);
+      //   clearInterval(heartbeatInterval);
+      //   // ws.close();
+      //   setMessages();
+      //   setPlaying();
+      //   setGameState();
+      //   setGameState();
+      //   setHoldChallenge();
+      //   setIsOpen();
+      //   setCreateChallengeLoading();
+      //   setHoldModal();
+      //   setAmount();
+      //   setSorting();
+      //   setChallenges();
+      //   setIsTabVisible();
+      //   setTabSwitch();
+      //   setWs();
+      //   document.removeEventListener(
+      //     "visibilitychange",
+      //     handleVisibilityChange
+      //   );
+      // };
+    }
   }, []);
 
   // useEffect(() => {
@@ -546,48 +595,20 @@ export default function Play() {
                 <div className="text-start card-body">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
-                      <div style={{ height: "50px", width: "60px" }}>
-                        <div
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            backgroundSize: "contain",
-                            backgroundImage: `url(${CDN_URL}/avatar/${item?.creator?.profileImage}`,
-                          }}
-                          className="bg-success rounded-circle position-relative"
-                        >
-                          {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
-
-                                </div> */}
-                        </div>
-                      </div>
+                      <div style={{ height: "50px", width: "60px" }}></div>
                       <span className="fw-semibold " style={{ width: "80px" }}>
                         {item?.creator?.username.slice(0, 5)}...{" "}
                       </span>
                     </div>
-                    <div>
+                    {/* <div>
                       <img
                         src="https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
                         height="40"
                         alt="vs"
                       />
-                    </div>
+                    </div> */}
                     <div className="d-flex flex-row-reverse align-items-center">
-                      <div style={{ height: "50px", width: "60px" }}>
-                        <div
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            backgroundSize: "contain",
-                            backgroundImage: `url(${CDN_URL}/avatar/${item?.player?.profileImage}`,
-                          }}
-                          className="bg-success rounded-circle position-relative"
-                        >
-                          {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
-
-                                </div> */}
-                        </div>
-                      </div>
+                      <div style={{ height: "50px", width: "60px" }}></div>
                       <span className=" fw-semibold" style={{ width: "80px" }}>
                         {item?.player?.username.slice(0, 5)}...{" "}
                       </span>
@@ -849,6 +870,7 @@ export default function Play() {
               disabled={createChallengeLoading}
               onClick={() => {
                 createChallenge();
+                // socketNew.disconnect();
               }}
               className="btn btn-primary w-25"
             >

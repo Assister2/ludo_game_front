@@ -9,6 +9,7 @@ import { getWalletReq } from "../../../redux/actions/wallet"
 export default function Wallet() {
     const dispatch = useDispatch()
     useEffect(()=>{
+        
         dispatch(getWalletReq())
     },[])
     // const navigation = useNavigation()

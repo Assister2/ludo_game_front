@@ -10,9 +10,9 @@ import { getUserProfileApi, updateUserProfileApi } from "../../apis/user";
 function* getUserProfile(param) {
     yield put(getUserProfileLoading(true));
     const data = yield getUserProfileApi();
-    console.log("datass",data)
+   
     if (data.status == 200) {
-        console.log("data",data)
+        
       yield put(getUserProfileSuccess(data.data));
     } else if (data.status == 400) {
       cogoToast.error(data.error);
@@ -29,7 +29,7 @@ function* getUserProfile(param) {
     const data = yield updateUserProfileApi(param);
     if (data.status == 200) {
         cogoToast.success("Profile updated")
-        console.log("data",data)
+        
       yield put(updateUserProfileSuccess(data.data));
     } else if (data.status == 400) {
       cogoToast.error(data.error);

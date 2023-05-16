@@ -81,7 +81,8 @@ export default function Header(props) {
               <img src={`${CDN_URL}/avatar/logo.png`} alt="logo" height="50" />
             </Link>
             <div style={{ marginLeft: "auto", marginRight: "10px" }}>
-              {getOptions(false)}
+              {/* {getOptions(false)} */}
+              <Guide></Guide>
             </div>
           </Toolbar>
         </AppBar>

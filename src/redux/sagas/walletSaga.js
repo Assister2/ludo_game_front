@@ -2,93 +2,108 @@ import Cookies from "js-cookie";
 import cogoToast from "cogo-toast";
 // Import the redux-saga/effects
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
-import { WALLET } from "../contstants"
-import { getUserProfileSuccess, getUserProfileError, getUserProfileLoading, updateUserProfileLoading, updateUserProfileSuccess, updateUserProfileError } from "../actions/user"
+import { WALLET } from "../contstants";
+import {
+  getUserProfileSuccess,
+  getUserProfileError,
+  getUserProfileLoading,
+  updateUserProfileLoading,
+  updateUserProfileSuccess,
+  updateUserProfileError,
+} from "../actions/user";
 import { getUserProfileApi, updateUserProfileApi } from "../../apis/user";
-import { getWalletError, getWalletLoading, getWalletSuccess, updateWalletError, updateWalletLoading, updateWalletSuccess, userBuyChipsError, userBuyChipsLoading, userBuyChipsSuccess, userSellChipsError, userSellChipsLoading, userSellChipsSuccess } from "../actions/wallet";
-import { buyWalletApi, getWalletApi, sellWalletApi,getUPILink } from "../../apis/wallet";
+import {
+  getWalletError,
+  getWalletLoading,
+  getWalletSuccess,
+  updateWalletError,
+  updateWalletLoading,
+  updateWalletSuccess,
+  userBuyChipsError,
+  userBuyChipsLoading,
+  userBuyChipsSuccess,
+  userSellChipsError,
+  userSellChipsLoading,
+  userSellChipsSuccess,
+} from "../actions/wallet";
+import {
+  buyWalletApi,
+  getWalletApi,
+  sellWalletApi,
+  getUPILink,
+} from "../../apis/wallet";
 
 // Sign up
 function* getWallet(param) {
-    yield put(getWalletLoading(true));
-    console.log('yeild',param);
-    const data = yield getUPILink();
-    console.log("datass", data)
-    if (data.status == 200) {
-        console.log("data", data)
-        yield put(getWalletSuccess(data.data));
-    } else if (data.status == 400) {
-        cogoToast.error(data.error);
-        yield put(getWalletError(data.error));
-    } else {
-        yield put(getWalletError(data.error));
-        cogoToast.error(data.error);
-    }
-}
+  yield put(getWalletLoading(true));
+ 
+  const data = yield getUPILink();
 
+  if (!!data) {
+    if (data?.status == 200) {
+    
+      yield put(getWalletSuccess(data?.data));
+    } else if (data?.status == 400) {
+      cogoToast.error(data?.error);
+      yield put(getWalletError(data?.error));
+    } else {
+      yield put(getWalletError(data?.error));
+      cogoToast.error(data?.error);
+    }
+  }
+}
 
 function* updateWallet(param) {
-    yield put(updateWalletLoading(true));
-    const data = yield updateUserProfileApi(param);
-    if (data.status == 200) {
-        cogoToast.success("Profile updated")
-        console.log("data", data)
-        yield put(updateWalletSuccess(data.data));
-    } else if (data.status == 400) {
-        cogoToast.error(data.error);
-        yield put(updateWalletError(data.error));
-    } else {
-        yield put(updateWalletError(data.error));
-        cogoToast.error(data.error);
-    }
+  yield put(updateWalletLoading(true));
+  const data = yield updateUserProfileApi(param);
+  if (data.status == 200) {
+    cogoToast.success("Profile updated");
+    
+    yield put(updateWalletSuccess(data.data));
+  } else if (data.status == 400) {
+    cogoToast.error(data.error);
+    yield put(updateWalletError(data.error));
+  } else {
+    yield put(updateWalletError(data.error));
+    cogoToast.error(data.error);
+  }
 }
-
 
 function* userBuySaga(param) {
-    yield put(userBuyChipsLoading(true));
-    const data = yield buyWalletApi(param);
-    if (data.status == 200) {
-        cogoToast.success("Chips added successfully")
-        console.log("data", data)
-        yield put(userBuyChipsSuccess(data.data));
-    } else if (data.status == 400) {
-        cogoToast.error(data.error);
-        yield put(userBuyChipsError(data));
-    } else {
-        yield put(userBuyChipsError(data));
-        cogoToast.error(data.error);
-    }
+  yield put(userBuyChipsLoading(true));
+  const data = yield buyWalletApi(param);
+  if (data.status == 200) {
+    cogoToast.success("Chips added successfully");
+    
+    yield put(userBuyChipsSuccess(data.data));
+  } else if (data.status == 400) {
+    cogoToast.error(data.error);
+    yield put(userBuyChipsError(data));
+  } else {
+    yield put(userBuyChipsError(data));
+    cogoToast.error(data.error);
+  }
 }
-
-
-
 
 function* userSellSaga(param) {
-    yield put(userSellChipsLoading(true));
-    const data = yield sellWalletApi(param);
-    if (data.status == 200) {
-        cogoToast.success("Withdraw successfull")
-        console.log("data", data)
-        yield put(userSellChipsSuccess(data.data));
-    } else if (data.status == 400) {
-        cogoToast.error(data.error);
-        yield put(userSellChipsError(data));
-    } else {
-        yield put(userSellChipsError(data));
-        cogoToast.error(data.error);
-    }
+  yield put(userSellChipsLoading(true));
+  const data = yield sellWalletApi(param);
+  if (data.status == 200) {
+    cogoToast.success("Withdraw successfull");
+   
+    yield put(userSellChipsSuccess(data.data));
+  } else if (data.status == 400) {
+    cogoToast.error(data.error);
+    yield put(userSellChipsError(data));
+  } else {
+    yield put(userSellChipsError(data));
+    cogoToast.error(data.error);
+  }
 }
 
-
-
-
-
-
-
-
 export default function* userSaga() {
-    yield takeLatest(WALLET.GET_WALLET_REQUEST, getWallet)
-    yield takeLatest(WALLET.UPDATE_WALLET_REQUEST, updateWallet)
-    yield takeLatest(WALLET.USER_BUY_CHIPS_REQUEST, userBuySaga)
-    yield takeLatest(WALLET.USER_SELL_CHIPS_REQUEST, userSellSaga)
+  yield takeLatest(WALLET.GET_WALLET_REQUEST, getWallet);
+  yield takeLatest(WALLET.UPDATE_WALLET_REQUEST, updateWallet);
+  yield takeLatest(WALLET.USER_BUY_CHIPS_REQUEST, userBuySaga);
+  yield takeLatest(WALLET.USER_SELL_CHIPS_REQUEST, userSellSaga);
 }

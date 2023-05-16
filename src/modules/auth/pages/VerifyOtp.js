@@ -11,18 +11,17 @@ import { loginRequest } from "../../../redux/actions/auth";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
 export default function VeridyOtp({ route }) {
-
   const location = useLocation();
-  const history = useNavigate()
-  const dispatch = useDispatch()
+  const history = useNavigate();
+  const dispatch = useDispatch();
   const { state: data } = location;
   const navigate = useNavigateSearch(true);
-  const { data :loginData} = useSelector((state) => state.loginReducer)
-  
+  const { data: loginData } = useSelector((state) => state.loginReducer);
+
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
-    isPaste: false
+    isPaste: false,
   });
   const [timer, setTimer] = useState(60);
 
@@ -33,12 +32,8 @@ export default function VeridyOtp({ route }) {
     toast.error(msg);
   };
 
-
-
-
-
   const handleChange = (evt) => {
-    if(state.isPaste===false){
+    if (state.isPaste === false) {
       const resIdx = Number(evt.target.id);
       const arr = [...state.digits];
 
@@ -52,11 +47,14 @@ export default function VeridyOtp({ route }) {
         digits: [...arr],
       });
 
-      if (evt.target.value?.length > 0 && evt.target?.nextSibling && resIdx < 5) {
+      if (
+        evt.target.value?.length > 0 &&
+        evt.target?.nextSibling &&
+        resIdx < 5
+      ) {
         evt.target.nextSibling.focus();
       }
     }
-
   };
   const handleKeyDown = (evt) => {
     const resIdx = Number(evt.target.id);
@@ -78,20 +76,19 @@ export default function VeridyOtp({ route }) {
     const clipboardData = evt.clipboardData || window.clipboardData;
     const pastedData = clipboardData.getData("text/plain");
     const digits = pastedData.split("");
-  
+
     // remove non-digit characters
     const filteredDigits = digits.filter((digit) => /^\d+$/.test(digit));
-  
+
     // take only the first 6 digits
     const otpDigits = filteredDigits.slice(0, 6);
-  
+
     // update the state
     setState({
       ...state,
       digits: otpDigits.map((digit) => parseInt(digit)),
     });
   };
-  
 
   // setLoading(false);
 
@@ -100,10 +97,13 @@ export default function VeridyOtp({ route }) {
       setValidationMsg("All 6 digits Required!");
       return;
     }
-    setLoading(true)
-    
+    setLoading(true);
+
     // let verifyOTPData = await verifyOTP()
-    dispatch(loginRequest({ phone: phone, otp: state.digits?.join("") },history))
+    dispatch(
+      loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
+    );
+
     // console.log("verifyOTPData", verifyOTPData)
     // if (verifyOTPData.status !== 200) {
     //   setLoading(false)
@@ -134,22 +134,16 @@ export default function VeridyOtp({ route }) {
   const resend = async () => {
     try {
       setRLoading(true);
-      let res = await resendOTP({phone:phone})
+      let res = await resendOTP({ phone: phone });
       if (res.status == 200) {
-        cogoToast.success("OTP Sent")
-      }
-      else {
-        cogoToast.error(res.error)
+        cogoToast.success("OTP Sent");
+      } else {
+        cogoToast.error(res.error);
       }
       setRLoading(false);
-
     } catch (error) {
       setRLoading(false);
-
     }
-
-
-
   };
 
   useEffect(() => {
@@ -165,7 +159,7 @@ export default function VeridyOtp({ route }) {
       <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
         <div className="card">
           <div className="bg-light text-dark text-capitalize card-header">
-            Verify Otp
+            Verify Otp34
           </div>
           <div className="card-body">
             <div className="d-flex align-items-center justify-content-start py-3">
@@ -300,8 +294,9 @@ export default function VeridyOtp({ route }) {
               </div>
             </div>
             <div
-              className={`d-flex align-items-center ${timer > 0 ? "justify-content-between" : "justify-content-end"
-                } mt-3`}
+              className={`d-flex align-items-center ${
+                timer > 0 ? "justify-content-between" : "justify-content-end"
+              } mt-3`}
             >
               {timer > 0 && (
                 <span style={{ fontSize: "0.8rem" }}>

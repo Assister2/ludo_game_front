@@ -18,15 +18,12 @@ import UserProfile from "../modules/common/pages/UserProfile";
 import Wallet from "../modules/common/pages/Wallet";
 import Home from "../modules/playground/pages/Home";
 
-const isLoggedIn = Cookies.get("isLoggedIn")
-console.log("islogged in", isLoggedIn)
+const isLoggedIn = Cookies.get("isLoggedIn");
+
 const Routes = (props) => {
+  const { data } = useSelector((state) => state.loginReducer);
 
-  const { data } = useSelector((state) => state.loginReducer)
-
-
-  const [isLoggedIn, setIsloggedIn] = useState(Cookies.get("isLoggedIn"))
-
+  const [isLoggedIn, setIsloggedIn] = useState(Cookies.get("isLoggedIn"));
 
   // useEffect(()=>{
   //   console.log("isLoggedIn",isLoggedIn)
@@ -43,8 +40,8 @@ const Routes = (props) => {
       <Route path="/register" element={<Register />} />
       <Route path="/verify-otp" element={<VeridyOtp />} />
 
-      {
-        data.isLoggedIn ? <>
+      {data.isLoggedIn ? (
+        <>
           <Route path="/profile" element={<UserProfile />} />
 
           {/* <Route path="/verify-otp" element={<VeridyOtp />} /> */}
@@ -52,15 +49,13 @@ const Routes = (props) => {
           <Route path="/buy" element={<Buy />} />
           <Route path="/sell" element={<Sell />} />
           <Route path="/referal" element={<ReferAndEarning />} />
-          <Route  path="/play" element={<Play />} />
+          <Route path="/play" element={<Play />} />
           <Route path="/game/:id" element={<Game />} />
           <Route path="/history" element={<History />} />
-
-        </> :
-          <>
-          </>
-      }
-
+        </>
+      ) : (
+        <></>
+      )}
     </Switch>
   );
 };

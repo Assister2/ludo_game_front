@@ -18,14 +18,14 @@ export const getUPILink = async () => {
     },
     data: data,
   };
-  axiosConfig
-    .get("https://merchant.upigateway.com/api/create_order", config)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  // axiosConfig
+  //   .get("https://merchant.upigateway.com/api/create_order", config)
+  //   .then((response) => {
+  //     console.log(response.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
 };
 
 export const buyWalletApi = async (data) => {

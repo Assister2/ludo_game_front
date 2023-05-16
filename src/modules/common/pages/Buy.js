@@ -12,20 +12,30 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CDN_URL } from "../../../config";
+import socketNew2 from "../../../socker";
 import { userBuyChipsRequest } from "../../../redux/actions/wallet";
+
 export default function Buy() {
   const dispatch = useDispatch();
+  const socket2 = useSelector((state) => state.socketReducer);
+  if (!socket2.instance) {
+    console.log("working232");
+    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
+  }
+  const { instance } = socket2;
+  var socketNew = instance;
+
   const [amount, setAmount] = useState(0);
   const { isLoading } = useSelector((state) => state.wallet);
   let userId = Cookies.get("userId");
-  const [ws, setWs] = useState();
+  const [ws, setWs] = useState(socketNew.connect());
   const [wallet, setWallet] = useState({});
+  console.log("sockett", socketNew);
   useEffect(() => {
-    const wss = new WebSocket(
-      `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`
-    );
+    const wss = socketNew.connect();
+    console.log("34343dssss", wss);
     setWs(wss);
-    wss.onopen = (e) => {
+    wss.on("connect", (e) => {
       wss.send(
         JSON.stringify({
           type: "getUserWallet",
@@ -34,10 +44,10 @@ export default function Buy() {
           },
         })
       );
-    };
+    });
     wss.onclose = () => {
       console.log("WebSocket connection closed233");
-      wss.close();
+      // wss.close();
       // window.location.reload();
     };
   }, []);
@@ -50,43 +60,30 @@ export default function Buy() {
       dispatch(
         userBuyChipsRequest({ amount: Number(amount), createdAt: new Date() })
       );
-      const data = buyWalletApi({
-        amount: Number(amount),
-        createdAt: new Date(),
-      })
-        .then((response) => {
-          console.log("checkreee", response);
-        })
-        .catch((error) => {
-          console.Console.error("fdfaff", error);
-        });
 
-      setTimeout(() => {
-        if (ws) {
-          ws.send(
-            JSON.stringify({
-              type: "getUserWallet",
-              payload: {
-                userId,
-              },
-            })
-          );
-        }
-      }, 500);
+      console.log("paying", ws);
+      ws.send(
+        JSON.stringify({
+          type: "getUserWallet",
+          payload: {
+            userId,
+          },
+        })
+      );
     }
   };
-  if (ws) {
-    ws.onmessage = (event) => {
-      console.log("event", event);
-      event = JSON.parse(event.data);
-      if (event.status == 200) {
-        localStorage.setItem("wallet", event.data.wallet);
-        // setWallet(event.data)
-        console.log("event", event);
-      }
-      // setChallenges(event)
-    };
-  }
+  
+  ws.on("getUserWallet", (event) => {
+    // console.log("event", event);
+    event = JSON.parse(event);
+    if (event.status == 200) {
+      localStorage.setItem("wallet", event.data.wallet);
+      // setWallet(event.data)
+      // console.log("event", event);
+    }
+    // setChallenges(event)
+  });
+
   return (
     <>
       <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">

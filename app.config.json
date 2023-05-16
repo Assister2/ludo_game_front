@@ -1,0 +1,10 @@
+{
+    apps : [
+        {
+        name      : "FRONTEND_LUDO",
+        script    : "npx",
+        interpreter: "none",
+        args: "serve -s build -p 3000"
+        }
+    ]
+}

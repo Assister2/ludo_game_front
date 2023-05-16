@@ -4,47 +4,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpRequest } from "../../../redux/actions/auth";
 
-
-
 export default function Register(props) {
   const dispatch = useDispatch();
-  const history = useNavigate()
-  const { isLoading } = useSelector((state) => state.signUpReducer)
-  console.log("is loading user",isLoading)
+  const history = useNavigate();
+  const { isLoading } = useSelector((state) => state.signUpReducer);
+  console.log("is loading user", isLoading);
 
   const inititalState = {
     name: "",
     phoneNumber: "",
-    referalCode: ""
-  }
-  const [state, setState] = useState(inititalState)
+    referalCode: "",
+  };
+  const [state, setState] = useState(inititalState);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState((prev) => ({ ...prev, [name]: value }));
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    const referParam = queryParams.get('refer');
+    const referParam = queryParams.get("refer");
     console.log(referParam);
     if (referParam) {
       setState((prev) => ({ ...prev, referalCode: referParam }));
     }
-  },[])
-
+  }, []);
 
   const onSubmit = () => {
     let signupData = {
       fullName: state.name,
-      phone: state.phoneNumber
-    }
+      phone: state.phoneNumber,
+    };
     if (state.referalCode != "") {
-      signupData.referelCode = state.referalCode
+      signupData.referelCode = state.referalCode;
     }
-    dispatch(signUpRequest(signupData, history))
-  }
-
+    dispatch(signUpRequest(signupData, history));
+  };
 
   return (
     <div>
@@ -54,12 +49,13 @@ export default function Register(props) {
             register
           </div>
           <div className="card-body">
-            <form onSubmit={(e) => {
-
-              e.preventDefault()
-              onSubmit()
-            }}
-              style={{ marginBottom: "1rem" }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSubmit();
+              }}
+              style={{ marginBottom: "1rem" }}
+            >
               <div className="vstack gap-4 minBreakpoint-xs">
                 <div className="d-flex flex-column align-items-start">
                   <label className="text-capitalize form-label">
@@ -98,7 +94,7 @@ export default function Register(props) {
                     refer code (optional)
                   </label>
                   <input
-                    disabled={isLoading || state.referalCode!=""}
+                    disabled={isLoading || state.referalCode != ""}
                     required=""
                     name="referalCode"
                     type="text"
@@ -117,19 +113,10 @@ export default function Register(props) {
                 <button
                   style={{ fontSize: "0.8rem", width: "100%" }}
                   type="submit"
-                  disabled={isLoading}
-
+                  disabled={false}
                   className="text-capitalize btn btn-primary"
-                >{isLoading ? <CircularProgress
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    verticalAlign: "middle",
-                  }}
-                  color="white"
-                ></CircularProgress> : "submit"}
-
-
+                >
+                  {"submit"}
                 </button>
               </div>
             </form>
