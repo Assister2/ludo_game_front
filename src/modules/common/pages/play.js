@@ -18,14 +18,6 @@ import moment from "moment";
 // const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
 export default function Play() {
-  // const avatarURLs = [
-  //   "https://example.com/avatar1.jpg",
-  //   "https://example.com/avatar2.jpg",
-  //   "https://example.com/avatar3.jpg",
-  //   // Add more avatar URLs as needed
-  // ];
-  // const socket2 = useSelector((state) => state.socketReducer);
-  // console.log("newconnecitonss33434", socket2);
   const dispatch = useDispatch();
   const isLoggedIn = Cookies.get("isLoggedIn");
   const userId = Cookies.get("userId");

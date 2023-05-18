@@ -39,7 +39,7 @@ export default function Header(props) {
   const [f_open_menu, setOpenMenu] = useState(false);
   const [show_comm, setShowComm] = useState(false);
   const path = useHref(window?.location);
-
+  const { data } = useSelector((state) => state.loginReducer);
   function showCommission() {
     return ["/"].includes(window.location.pathname);
   }
@@ -84,7 +84,7 @@ export default function Header(props) {
               <img src={`${CDN_URL}/avatar/logo.png`} alt="logo" height="50" />
             </Link>
             <div style={{ marginLeft: "auto", marginRight: "10px" }}>
-              {getOptions(false)}
+              {data?.isLoggedIn && <Guide></Guide>}
             </div>
           </Toolbar>
         </AppBar>

@@ -4,35 +4,20 @@ import { CDN_URL } from "../../../../../config";
 import { BsWalletFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
-import socketNew2 from "../../../../../socker";
+import { Link } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
-
+import socketNew2 from "../../../../../socker";
 // let URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`;
 
 function Guide(props) {
-  const navigate = useNavigate();
-  const socket2 = useSelector((state) => state.socketReducer);
-
-  // console.log("workinggg");
   const dispatch = useDispatch();
-  if (!socket2.instance) {
-    console.log("working232");
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
-  }
-  const { instance } = socket2;
-  var socketNew = instance;
-  // console.log("newconnecitonss343", instance);
   const [f_open, setOpen] = useState(false);
-  const [ws, setWs] = useState();
   const walletData = useSelector((state) => state.wallet);
-
   const { data } = useSelector((state) => state.loginReducer);
   const { data: userData } = useSelector((state) => state.user);
 
   const [wallet, setWallet] = useState({});
-
   // useEffect(() => {
   //   setWallet(walletData.data)
   // }, [walletData])
@@ -40,127 +25,26 @@ function Guide(props) {
   const [userId, setUserId] = useState(Cookies.get("userId"));
   let isLoggedIn = Cookies.get("isLoggedIn");
   useEffect(() => {
-    console.log("checkuseridd");
-    console.log("checkuseridd33343", instance);
-    if (!!userId || data.isLoggedIn) {
-      if (socketNew) {
-        console.log("now1dafa");
-
-        socketNew.connect();
-
-        console.log("chekckguide");
-        let client = null;
-        let reconnectTimeout = null;
-        socketNew.on("connect", () => {
-          console.log("connecteeeee", socketNew.connected);
-        });
-
-        console.log("websocket starting");
-        // if (!clientRef.current) {
-        // client = new WebSocket(URL);
-        client = socketNew;
-        clientRef.current = client;
-        // window.client = client;
-        console.log("testtt", client);
-
-        setWs(client);
-        client.on("connect", () => {
-          client.emit(
-            "getUserWallet",
-            JSON.stringify({
-              type: "getUserWallet",
-              payload: {
-                userId: userId,
-              },
-            })
-          );
-
-          setIsOpen(true);
-
-          client.on("getUserWallet", (message) => {
-            var data = JSON.parse(message);
-            console.log("money", data);
-
-            if (data.error) {
-            } else if (data.data !== null || data.data !== undefined) {
-              // if (isMounted) {
-              // Only update state if the component is still mounted
-
-              if (data?.data) {
-                console.log("moneeeee", data);
-                setWallet(data.data);
-              }
-            }
-            // }
-          });
-        });
-        // client.onerror = (error) => {
-        //   console.error("WebSocket error:", error);
-        //   reconnect();
-        // };
-        // client.onclose = () => {
-        //   console.log("WebSocket connection closed23");
-        //   client.close();
-
-        //   // window.location.reload();
-        //   reconnect();
-        // };
-        // }
-
-        const reconnect = () => {
-          //   clearInterval(interval);
-          //   if (!reconnectTimeout) {
-          //     reconnectTimeout = setTimeout(() => {
-          //       clientRef.current = null;
-          //       connect();
-          //       reconnectTimeout = null;
-          //     }, 1000);
-          //   }
-          // };
-          // connect();
-          // return () => {
-          //   isMounted = false;
-          //   console.log("Cleaning up WebSocket...");
-          //   clearInterval(interval);
-          //   clearTimeout(reconnectTimeout);
-          //   // if (client) {
-          //   //   client.close();
-          //   //   clientRef.current = null;
-          //   // }
-          // };
-        };
+    if (!userData._id) {
+      if (data.isLoggedIn && Cookies.get("token")) {
+        let route = window.location.pathname;
+        if (route === "/login" || route === "/register") {
+          window.location.href = "/play";
+          return null;
+        }
+        console.log("working", data);
+        console.log("tokenwa", Cookies.get("token"));
+        dispatch(getUserProfileReq());
+        dispatch(getWalletReq());
+      } else {
+        let route = window.location.pathname;
+        if (route !== "/login" && route !== "/register" && route !== "/") {
+          window.location.href = "/login";
+          return null;
+        }
       }
-    } else {
-      navigate("/");
     }
-  }, []);
-  // useEffect(() => {
-  //   console.log("fdsafadf");
-  //   if (userId === undefined || userId === null) {
-  //     socketNew.disconnect();
-  //   }
-
-  //   console.log("tessst", userId);
-  //   if (!userData._id) {
-  //     if (data.isLoggedIn && Cookies.get("token")) {
-  //       let route = window.location.pathname;
-  //       if (route === "/login" || route === "/register") {
-  //         window.location.href = "/play";
-  //         return null;
-  //       }
-  //       // console.log("working", data);
-  //       console.log("tokenwa", Cookies.get("token"));
-  //       dispatch(getUserProfileReq());
-  //       dispatch(getWalletReq());
-  //     } else {
-  //       let route = window.location.pathname;
-  //       if (route !== "/login" && route !== "/register" && route !== "/") {
-  //         window.location.href = "/login";
-  //         return null;
-  //       }
-  //     }
-  //   }
-  // }, [data.isLoggedIn]);
+  }, [data.isLoggedIn]);
 
   const clientRef = useRef(null);
   const [waitingToReconnect, setWaitingToReconnect] = useState(null);
@@ -168,12 +52,85 @@ function Guide(props) {
   const [isOpen, setIsOpen] = useState(false);
   let interval;
   let isMounted = true; // Add a variable to track if the component is mounted
-  // console.log("checkuseridsdsdd453");
+  const socket2 = useSelector((state) => state.socketReducer);
+  if (!socket2.instance) {
+    console.log("working232");
+    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
+  }
+  const { instance } = socket2;
+  var socketNew = instance;
+  useEffect(() => {
+    let client = null;
+    let reconnectTimeout = null;
+    const connect = () => {
+      if (!clientRef.current) {
+        client = socketNew.connect();
+        clientRef.current = client;
+        window.client = client;
+        if (client) {
+          client.on("connect", () => {
+            interval = setInterval(() => {
+              client.emit(
+                "getUserWallet",
+                JSON.stringify({
+                  type: "getUserWallet",
+                  payload: {
+                    userId: userId,
+                  },
+                })
+              );
+            }, 1000);
+            setIsOpen(true);
+          });
+          client.on("getUserWallet", (message) => {
+            const data = JSON.parse(message);
 
-  const closeconn = () => {
-    ws.close();
-  };
-  useEffect(() => {}, [wallet]);
+            if (data.error) {
+              // Handle error
+            } else if (data.data !== null || data.data !== undefined) {
+              // Only update state if the component is still mounted
+
+              setWallet(data.data);
+            }
+          });
+          client.on("error", (error) => {
+            console.error("WebSocket error:", error);
+            reconnect();
+          });
+
+          client.on("disconnect", () => {
+            console.log("WebSocket connection closed");
+            reconnect();
+          });
+        }
+      }
+    };
+
+    const reconnect = () => {
+      clearInterval(interval);
+      if (!reconnectTimeout) {
+        reconnectTimeout = setTimeout(() => {
+          clientRef.current = null;
+          connect();
+          reconnectTimeout = null;
+        }, 1000);
+      }
+    };
+
+    connect();
+
+    return () => {
+      isMounted = false;
+      console.log("Cleaning up WebSocket...");
+      clearInterval(interval);
+      clearTimeout(reconnectTimeout);
+      if (client) {
+        client.close();
+        clientRef.current = null;
+      }
+    };
+  }, []);
+
   // Render your component here...
 
   // useEffect(() => {
@@ -303,10 +260,8 @@ function Guide(props) {
   //     }
   //   }
   // },[data.isLoggedIn])
-  console.log("checkvalue", wallet, userId);
-  console.log("checkvalue23", walletData, Cookies.get("userId"));
+  console.log("walllet", walletData.data.wallet, wallet);
   const handleClose = () => setOpen(false);
-  // console.log("ch343eckkk", wallet);
   return (
     <div>
       <div className="partials">
@@ -336,22 +291,14 @@ function Guide(props) {
           </div>
         </SwipeableDrawer>
       </div>
-      {/* <button
-        // disabled={createChallengeLoading}
-        onClick={() => {
-          closeconn();
-        }}
-        className="btn btn-primary w-25"
-      >
-        close
-      </button> */}
       {data.isLoggedIn ? (
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="red" />
             <strong className="ml-2">
-              {walletData && walletData.data.wallet}
-              {wallet?.wallet ? wallet.wallet : walletData.data.wallet}
+              {walletData.data.wallet == 0
+                ? wallet.wallet
+                : walletData.data.wallet}
             </strong>
           </div>
         </Link>

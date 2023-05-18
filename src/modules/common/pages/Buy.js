@@ -62,7 +62,8 @@ export default function Buy() {
       );
 
       console.log("paying", ws);
-      ws.send(
+      ws.emit(
+        "getUserWallet",
         JSON.stringify({
           type: "getUserWallet",
           payload: {
@@ -72,7 +73,7 @@ export default function Buy() {
       );
     }
   };
-  
+
   ws.on("getUserWallet", (event) => {
     // console.log("event", event);
     event = JSON.parse(event);
