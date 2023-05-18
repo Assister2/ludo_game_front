@@ -44,6 +44,7 @@ export default function Play() {
   const location = useLocation();
 
   const [holdChallenge, setHoldChallenge] = useState({});
+  const [RequestedChallenge, setRequestedChallenge] = useState();
   const [holdModal, setHoldModal] = useState(false);
   const [gameState, setGameState] = useState(true);
 
@@ -362,6 +363,14 @@ export default function Play() {
   }, [location, ws]);
   if (ws) {
     if (!isTabVisible) {
+      if (RequestedChallenge) {
+        ws.send(
+          JSON.stringify({
+            type: "cancel",
+            payload: { challengeId: RequestedChallenge, userId },
+          })
+        );
+      }
       if (noOfChallenges) {
         ws.send(
           JSON.stringify({
@@ -613,6 +622,7 @@ export default function Play() {
                               className="btn btn-primary playChallange btn-sm"
                               onClick={() => {
                                 playChallenge(item._id);
+                                setRequestedChallenge(item._id);
                               }}
                             >
                               Play

@@ -260,7 +260,7 @@ function Guide(props) {
   //     }
   //   }
   // },[data.isLoggedIn])
-  console.log("walllet", walletData.data.wallet, wallet);
+
   const handleClose = () => setOpen(false);
   return (
     <div>
