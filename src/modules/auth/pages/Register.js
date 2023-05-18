@@ -94,7 +94,7 @@ export default function Register(props) {
                     refer code (optional)
                   </label>
                   <input
-                    disabled={isLoading || state.referalCode != ""}
+                    // disabled={isLoading || state.referalCode != ""}
                     required=""
                     name="referalCode"
                     type="text"

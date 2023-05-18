@@ -1,0 +1,39 @@
+@keyframes leftToRight {
+  0% {
+    -webkit-transform: translateX(-500px);
+    transform: translateX(-500px);
+  }
+  to {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+.appear-from-left {
+  -webkit-animation: leftToRight 0.7s linear;
+  animation: leftToRight 0.7s linear;
+}
+
+.separator {
+  align-items: center;
+  color: gray;
+  display: flex;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.separator:after,
+.separator:before {
+  border-bottom: 2px solid #000;
+  content: "";
+  flex: 1 1;
+}
+
+.separator:not(:empty):before {
+  margin-right: 0.25em;
+}
+
+.separator:not(:empty):after {
+  margin-left: 0.25em;
+}

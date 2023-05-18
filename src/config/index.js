@@ -1,1 +1,1 @@
-export const CDN_URL = `http://139.59.88.222:80/`;
+export const CDN_URL = `http://localhost:3000/`;

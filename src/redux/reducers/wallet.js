@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export const wallet = (state = initialState, action) => {
-  
   switch (action.type) {
     case WALLET.GET_WALLET_LOADING: {
       const { payload } = action;
@@ -17,7 +16,7 @@ export const wallet = (state = initialState, action) => {
 
     case WALLET.GET_WALLET_SUCCESS: {
       const { payload } = action;
-     
+
       return { ...state, data: payload, error: "", isLoading: false };
     }
 
@@ -32,7 +31,7 @@ export const wallet = (state = initialState, action) => {
 
     case WALLET.UPDATE_WALLET_SUCCESS: {
       const { payload } = action;
-     
+
       return { ...state, data: payload, error: "", isLoading: false };
     }
 
@@ -47,7 +46,7 @@ export const wallet = (state = initialState, action) => {
 
     case WALLET.USER_SELL_CHIPS_SUCCESS: {
       const { payload } = action;
-    
+
       return { ...state, data: payload, error: "", isLoading: false };
     }
 
@@ -67,7 +66,7 @@ export const wallet = (state = initialState, action) => {
 
     case WALLET.USER_BUY_CHIPS_SUCCESS: {
       const { payload } = action;
-      
+
       return { ...state, data: payload, error: "", isLoading: false };
     }
 

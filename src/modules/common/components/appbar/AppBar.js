@@ -3,15 +3,17 @@ import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { BsWalletFill } from "react-icons/bs";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { CDN_URL } from "../../../../config";
 import { Guide } from "./components/Guide";
+
 import SideBar from "./components/SideBar";
 import { Link, useHref } from "react-router-dom";
 import Cookies from "js-cookie";
 import { withRouter } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
 function HideOnScroll(props) {
   const { children, window } = props;
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
@@ -33,6 +35,7 @@ HideOnScroll.propTypes = {
 };
 
 export default function Header(props) {
+  // const userId = Cookies.get("userId");
   const [f_open_menu, setOpenMenu] = useState(false);
   const [show_comm, setShowComm] = useState(false);
   const path = useHref(window?.location);
@@ -81,8 +84,7 @@ export default function Header(props) {
               <img src={`${CDN_URL}/avatar/logo.png`} alt="logo" height="50" />
             </Link>
             <div style={{ marginLeft: "auto", marginRight: "10px" }}>
-              {/* {getOptions(false)} */}
-              <Guide></Guide>
+              {getOptions(false)}
             </div>
           </Toolbar>
         </AppBar>

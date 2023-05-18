@@ -5,7 +5,7 @@ import { axiosConfig } from "./axiosConfig";
 
 export const getUPILink = async () => {
   let data = JSON.stringify({
-    key: process.env.PAY_ON_UPI_SECRET,
+    key: "process.env.PAY_ON_UPI_SECRET",
     client_txn_id: "1234567890",
     amount: "100",
     p_info: "Product Name",

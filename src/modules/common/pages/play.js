@@ -1,8 +1,10 @@
 import cogoToast from "cogo-toast";
-import Avatar from "react-avatar";
+import "./animation.css";
+// import Avatar from "react-avatar";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { BsSortUp } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
 import socketNew2 from "../../../socker";
@@ -46,7 +48,7 @@ export default function Play() {
   }
   const { instance } = socket2;
   var socketNew = instance;
-  // console.log("newconnecitonss343", instance);
+
   const location = useLocation();
 
   const [holdChallenge, setHoldChallenge] = useState({});
@@ -60,17 +62,7 @@ export default function Play() {
   function playAudio() {
     // audioPlayer.current.play();
   }
-  const avatarURLs = [
-    "https://example.com/avatar1.jpg",
-    "https://example.com/avatar2.jpg",
-    "https://example.com/avatar3.jpg",
-    // Add more avatar URLs as needed
-  ];
-  function getRandomAvatarIndex() {
-    return Math.floor(Math.random() * avatarURLs.length);
-  }
-  const randomAvatarIndex = getRandomAvatarIndex();
-  const randomAvatarURL = avatarURLs[randomAvatarIndex];
+
   const clientRef = useRef(null);
   const [waitingToReconnect, setWaitingToReconnect] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -83,7 +75,7 @@ export default function Play() {
   useEffect(() => {
     if (userId) {
       if (userId) {
-        console.log("now1");
+        
         socketNew.connect();
       }
 
@@ -94,19 +86,8 @@ export default function Play() {
       let heartbeatInterval = null;
 
       document.addEventListener("visibilitychange", handleVisibilityChange);
-      // socketNew.on("connect", () => {
-      //   console.log("connecteeeee", socketNew.connected);
-      // });
-      // const connect = () => {
-      // if (!clientRef.current) {
-      // client = new WebSocket(URL);
 
       client = socketNew.connect();
-
-      // if (!socketNew.connected) {
-      //   console.log("checkkkdfd", !socketNew.connected);
-      //   client = io("http://localhost:4002");
-      // }
 
       clientRef.current = client;
       window.client = client;
@@ -222,20 +203,24 @@ export default function Play() {
           let tempData = events.filter(
             (item) =>
               !(
-                item.state == "requested" &&
-                item.player._id != userId &&
-                item.creator?._id != userId
+                item.state === "requested" &&
+                item.player._id !== userId &&
+                item.creator?._id !== userId
               )
           );
+
           events.forEach((element) => {
             if (
-              element.state == "playing" &&
-              element.player._id == userId &&
+              element.state === "playing" &&
+              element.player._id === userId &&
               element.firstTime
             ) {
               viewGame(element._id);
             }
-            if (element.state == "requested" && element.creator._id == userId) {
+            if (
+              element.state === "requested" &&
+              element.creator._id === userId
+            ) {
               playAudio();
             }
           });
@@ -243,87 +228,8 @@ export default function Play() {
           setChallenges(tempData);
         }
       });
-      // client.onerror = (error) => {
-      //   console.error("WebSocket error:", error);
-      //   reconnect();
-      // };
-      // client.onclose = () => {
-      //   console.log("WebSocket connection closed33");
-      //   // window.location.reload();
-      //   if (client) {
-      //     client.close();
-      //   }
-
-      //   setWs();
-
-      //   reconnect();
-      // };
-      // }
-      // }
-      // };
-      // const reconnect = () => {
-      //   if (!reconnectTimeout) {
-      //     console.log("WebSocket connection lost, attempting to reconnect...");
-      //     reconnectTimeout = setTimeout(() => {
-      //       clientRef.current = null;
-      //       connect();
-      //       reconnectTimeout = null;
-      //     }, 1000);
-      //   }
-      // };
-      // connect();
-
-      // return () => {
-      //   console.log("Cleaning up WebSocket...");
-      //   clientRef.current = null;
-      //   clearTimeout(reconnectTimeout);
-      //   clearInterval(heartbeatInterval);
-      //   // ws.close();
-      //   setMessages();
-      //   setPlaying();
-      //   setGameState();
-      //   setGameState();
-      //   setHoldChallenge();
-      //   setIsOpen();
-      //   setCreateChallengeLoading();
-      //   setHoldModal();
-      //   setAmount();
-      //   setSorting();
-      //   setChallenges();
-      //   setIsTabVisible();
-      //   setTabSwitch();
-      //   setWs();
-      //   document.removeEventListener(
-      //     "visibilitychange",
-      //     handleVisibilityChange
-      //   );
-      // };
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (isTabVisible) {
-  //     if (isTabSwitch) {
-  //       // window.location.reload();
-  //       // if (ws) {
-  //       //     switch (ws.readyState) {
-  //       //       case WebSocket.CLOSING:
-  //       //         window.location.reload();
-  //       //         break;
-  //       //       case WebSocket.CLOSED:
-  //       //         window.location.reload();
-  //       //         break;
-  //       //       default:
-  //       //         {}
-  //       //     }
-  //       // }
-  //       setTabSwitch(false);
-  //     }
-  //   } else {
-  //     setTabSwitch(true);
-  //     setIsTabVisibleTime(moment().toISOString());
-  //   }
-  // }, [isTabVisible]);
 
   useEffect(() => {
     let challegesData = [...challenges];
@@ -405,6 +311,7 @@ export default function Play() {
       // Default sorting
       return 0;
     });
+
     setChallenges(challegesData);
   }, [sorting]);
 
@@ -424,7 +331,29 @@ export default function Play() {
 
   //     }
   // }, [ws])
+
+  const noOfChallenges = useMemo(() => {
+    var challenge = 0;
+    challenges.map((item) => {
+      if (item.creator?._id == userId) {
+        challenge++;
+      }
+      return challenge;
+    });
+    return challenge;
+  }, [challenges]);
+
   useEffect(() => {
+    if (ws) {
+      if (isTabVisible) {
+        ws.send(
+          JSON.stringify({
+            type: "deleteOpenChallengesOfCreator",
+            payload: { userId },
+          })
+        );
+      }
+    }
     return () => {
       // This function will be executed when the component is unmounted
 
@@ -440,68 +369,20 @@ export default function Play() {
       }
     };
   }, [location, ws]);
-  // useEffect(() => {
-  //   // This function will be executed whenever the location changes
-  //   console.log("checkkchanglegschanged:", location.pathname);
-  //   console.log("checkkchanglegs", challenges);
-  //   console.log("checkkchanglegs33", window.location);
-
-  //   const beforeUnloadCallback = (event) => {
-  //     event.preventDefault();
-  //     console.log("beforeUnloadCallbackffff");
-  //   };
-
-  //   window.addEventListener("beforeunload", beforeUnloadCallback);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", beforeUnloadCallback);
-  //   };
-  // }, [location]);
-
-  // setInterval(() => {
-  // if (challenges.length > 0) {
-  //   challenges.forEach((item) => {
-  //     if (
-  //       item.state == "open" &&
-  //       item.status == 1 &&
-  //       item.creator._id == userId
-  //     ) {
-  //       const date1 = moment(item.createdAt);
-  //       const date2 = moment();
-  //       // Calculate the difference in minutes between the two dates
-  //       const diffMinutes = date2.diff(date1, "minutes");
-  //       if (diffMinutes >= 3) {
-  //         console.log("mindutess", diffMinutes);
-  //         ws.send(
-  //           JSON.stringify({
-  //             type: "deleteOpenChallengesOfCreator",
-  //             payload: { userId },
-  //           })
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
-  // }, 3000);
-  // window.onbeforeunload = () => {
-  //   console.log("onbeforeunloaddd");
-  //   // if (ws) {
-  //   //     console.log('---------------------------------------');
-  //   //     ws.send(JSON.stringify({
-  //   //         type: "cancelRequestedOnPageChange",
-  //   //         payload: { userId }
-  //   //     }))
-  //   //     ws.send(JSON.stringify({
-  //   //         type: "deleteOpenChallengesOfCreator",
-  //   //         payload: { userId }
-  //   //     }))
-  //   // }
-  // };
-  const closeconn = () => {
-    console.log("checkkk", client);
-    if (ws) {
-      ws.close();
+  if (ws) {
+    if (!isTabVisible) {
+      if (noOfChallenges) {
+        ws.send(
+          JSON.stringify({
+            type: "deleteOpenChallengesOfCreator",
+            payload: { userId },
+          })
+        );
+      }
     }
-  };
+  }
+
+  
   const createChallenge = () => {
     if (amount <= 0) {
       cogoToast.error("amount should be greater that 0 and multiples of 50");
@@ -587,219 +468,113 @@ export default function Play() {
         // console.log("item", item)
         // console.log("userId", item.creator._id !== userId && item.player._id !== userId && item.state == "playing")
         return (
-          <li className="p-0 overflow-hidden">
-            {item.creator?._id != userId &&
-            item.player?._id != userId &&
-            item.state == "playing" ? (
-              <div className="my-2 card">
-                <div className="text-start card-body">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center">
-                      <div style={{ height: "50px", width: "60px" }}></div>
-                      <span className="fw-semibold " style={{ width: "80px" }}>
-                        {item?.creator?.username.slice(0, 5)}...{" "}
-                      </span>
-                    </div>
-                    {/* <div>
+          <CSSTransition
+            key={item._id}
+            timeout={500}
+            classNames={{
+              enter: true ? "card-animation-enter" : "",
+              enterActive: true ? "card-animation-enter-active" : "",
+            }}
+          >
+            <li className="p-0 overflow-hidden appear-from-left ">
+              {item.creator?._id != userId &&
+              item.player?._id != userId &&
+              item.state == "playing" ? (
+                <div className="my-2 card">
+                  <div className="text-start card-body">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex align-items-center">
+                        <div style={{ height: "50px", width: "60px" }}></div>
+                        <span
+                          className="fw-semibold "
+                          style={{ width: "80px" }}
+                        >
+                          {item?.creator?.username.slice(0, 5)}...{" "}
+                        </span>
+                      </div>
+                      {/* <div>
                       <img
                         src="https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
                         height="40"
                         alt="vs"
                       />
                     </div> */}
-                    <div className="d-flex flex-row-reverse align-items-center">
-                      <div style={{ height: "50px", width: "60px" }}></div>
-                      <span className=" fw-semibold" style={{ width: "80px" }}>
-                        {item?.player?.username.slice(0, 5)}...{" "}
+                      <div className="d-flex flex-row-reverse align-items-center">
+                        <div style={{ height: "50px", width: "60px" }}></div>
+                        <span
+                          className=" fw-semibold"
+                          style={{ width: "80px" }}
+                        >
+                          {item?.player?.username.slice(0, 5)}...{" "}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-center pt-3">
+                      <span className="text-success fw-bold">
+                        Rs
+                        {item.amount}
                       </span>
                     </div>
                   </div>
-                  <div className="d-flex align-items-center justify-content-center pt-3">
+                </div>
+              ) : item.state == "open" ||
+                item.state == "requested" ||
+                item.state == "playing" ? (
+                <div className="my-2 card">
+                  <div className="d-flex align-items-center justify-content-between card-header">
+                    {item.state == "requested" && item.creator._id == userId ? (
+                      <span>Challenge requested by</span>
+                    ) : item.state == "playing" ? (
+                      <span>In a challenge with</span>
+                    ) : (
+                      <span>Challenge set by2</span>
+                    )}
+
                     <span className="text-success fw-bold">
-                      Rs
-                      {item.amount}
+                      Rs {item.amount}
                     </span>
                   </div>
-                </div>
-              </div>
-            ) : item.state == "open" ||
-              item.state == "requested" ||
-              item.state == "playing" ? (
-              <div className="my-2 card">
-                <div className="d-flex align-items-center justify-content-between card-header">
-                  {item.state == "requested" && item.creator._id == userId ? (
-                    <span>Challenge requested by</span>
-                  ) : item.state == "playing" ? (
-                    <span>In a challenge with</span>
-                  ) : (
-                    <span>Challenge set by</span>
-                  )}
-
-                  <span className="text-success fw-bold">Rs {item.amount}</span>
-                </div>
-                <div className="d-flex align-items-center justify-content-between card-body">
-                  <div className="d-flex align-items-center flex-grow-1">
-                    {/* <div className="bg-dark rounded-circle me-2" style={{ height: "24px", width: "24px" }}> */}
-                    {/* <img src={`${CDN_URL}/avatar/${item.creator.profileImage}`}></img> */}
-                    <div style={{ height: "50px", width: "60px" }}>
-                      <div
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          backgroundSize: "contain",
-                          backgroundImage: `url(${CDN_URL}/avatar/${item.creator.profileImage}`,
-                        }}
-                        className="bg-success rounded-circle position-relative"
-                      >
-                        {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
-
-                                </div> */}
-                      </div>
-                    </div>
-                    {/* </div> */}
-                    {item.creator._id == userId && item.state == "open" ? (
-                      <div className="d-flex align-items-center justify-content-start">
-                        <div role="status" className="me-2 spinner-border">
-                          <span className="visually-hidden">
-                            {item.creator._id == userId && item.state == "hold"
-                              ? "waiting for player to start"
-                              : "finding player..."}
-                          </span>
-                        </div>
-                        <span className="text-capitalize">finding player</span>
-                      </div>
-                    ) : (
-                      <>
-                        <div>
-                          <span
-                            className="fw-semibold text-truncate text-start"
-                            style={{ width: "100px" }}
-                          >
-                            {item.state == "open"
-                              ? `${item?.creator?.username.slice(0, 5)}...`
-                              : item.creator._id == userId
-                              ? `${item?.player?.username.slice(0, 5)}...`
-                              : `${item?.creator?.username.slice(0, 5)}...`}
-                          </span>
-                          {/* {item.state == "hold" && item.creator._id == userId ?
-                                                    <div role="status" className="me-2 spinner-border">
-                                                        <span className="visually-hidden"></span>
-                                                    </div> :
-                                                } */}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <div className="hstack gap-2 minBreakpoint-xs">
-                      {item.creator?._id == userId && item.state == "open" && (
-                        <button
-                          className="btn btn-danger playChallange btn-sm"
-                          onClick={() => {
-                            deleteChallenge(item._id);
+                  <div className="d-flex align-items-center justify-content-between card-body">
+                    <div className="d-flex align-items-center flex-grow-1">
+                      {/* <div className="bg-dark rounded-circle me-2" style={{ height: "24px", width: "24px" }}> */}
+                      {/* <img src={`${CDN_URL}/avatar/${item.creator.profileImage}`}></img> */}
+                      <div style={{ height: "24px", width: "24px" }}>
+                        <div
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
                           }}
+                          className="bg-success rounded-circle position-relative"
                         >
-                          delete
-                        </button>
-                      )}
-                      {item.state == "open" && item.creator?._id != userId && (
-                        <button
-                          className="btn btn-primary playChallange btn-sm"
-                          onClick={() => {
-                            playChallenge(item._id);
-                          }}
-                        >
-                          Play
-                        </button>
-                      )}
-                      {item.player?._id == userId &&
-                        item.state == "requested" && (
-                          <button
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => {
-                              cancelChallenge(item._id);
-                            }}
-                          >
-                            Requested
-                          </button>
-                        )}
-
-                      {item.creator?._id == userId &&
-                      item.state == "requested" ? (
-                        <div className="hstack gap-2 minBreakpoint-xs">
-                          <button
-                            className="checkCancelRequest btn btn-success viewChallange btn-sm"
-                            onClick={() => {
-                              startGame(item._id);
-                            }}
-                          >
-                            Play
-                          </button>
-                          <button
-                            className="btn btn-danger cancelRequest btn-sm"
-                            onClick={() => {
-                              cancelChallenge(item._id);
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      ) : null}
-                      {item.player?._id == userId &&
-                        item.state == "playing" && (
-                          <button
-                            className="btn btn-success btn-sm"
-                            onClick={() => {
-                              viewGame(item._id);
-                            }}
-                          >
-                            view
-                          </button>
-                        )}
-                      {item.creator?._id == userId &&
-                        item.state == "playing" && (
-                          <button
-                            onClick={() => {
-                              viewGame(item._id);
-                            }}
-                            className="btn btn-success btn-sm"
-                          >
-                            view
-                          </button>
-                        )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <>
-                {(item.creator?._id == userId || item.player?._id == userId) &&
-                item.state == "hold" ? (
-                  <div className="my-2 card">
-                    <div className="d-flex align-items-center justify-content-between card-header">
-                      <span>Challenge set by</span>
-                      <span className="text-success fw-bold">
-                        Rs {item.amount}
-                      </span>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between card-body">
-                      <div className="d-flex align-items-center flex-grow-1">
-                        <div style={{ height: "50px", width: "60px" }}>
-                          <div
+                          <img
+                            src={`${CDN_URL}/avatar/${item.creator.profileImage}`}
                             style={{
-                              width: "50px",
-                              height: "50px",
-                              backgroundSize: "contain",
-                              backgroundImage: `url(${CDN_URL}/avatar/${item?.player?.profileImage}`,
+                              width: "100%",
+                              height: "100%",
+                              borderRadius: "50%",
+                              objectFit: "contain",
                             }}
-                            className="bg-success rounded-circle position-relative"
-                          >
-                            {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
-
-                                </div> */}
-                          </div>
+                          />
                         </div>
-                        {
+                      </div>
+                      {/* </div> */}
+                      {item.creator._id == userId && item.state == "open" ? (
+                        <div className="d-flex align-items-center justify-content-start">
+                          <div role="status" className="me-2 spinner-border">
+                            <span className="visually-hidden">
+                              {item.creator._id == userId &&
+                              item.state == "hold"
+                                ? "waiting for player to start"
+                                : "finding player..."}
+                            </span>
+                          </div>
+                          <span className="text-capitalize">
+                            finding player
+                          </span>
+                        </div>
+                      ) : (
+                        <>
                           <div>
                             <span
                               className="fw-semibold text-truncate text-start"
@@ -817,30 +592,164 @@ export default function Play() {
                                                     </div> :
                                                 } */}
                           </div>
-                        }
-                      </div>
-                      <div className="d-flex align-items-center">
-                        <div className="hstack gap-2 minBreakpoint-xs">
-                          {
+                        </>
+                      )}
+                    </div>
+                    <div className="d-flex align-items-center">
+                      <div className="hstack gap-2 minBreakpoint-xs">
+                        {item.creator?._id == userId &&
+                          item.state == "open" && (
+                            <button
+                              className="btn btn-danger playChallange btn-sm"
+                              onClick={() => {
+                                deleteChallenge(item._id);
+                              }}
+                            >
+                              delete
+                            </button>
+                          )}
+                        {item.state == "open" &&
+                          item.creator?._id != userId && (
+                            <button
+                              className="btn btn-primary playChallange btn-sm"
+                              onClick={() => {
+                                playChallenge(item._id);
+                              }}
+                            >
+                              Play
+                            </button>
+                          )}
+                        {item.player?._id == userId &&
+                          item.state == "requested" && (
+                            <button
+                              className="btn btn-secondary btn-sm"
+                              onClick={() => {
+                                cancelChallenge(item._id);
+                              }}
+                            >
+                              Requested
+                            </button>
+                          )}
+
+                        {item.creator?._id == userId &&
+                        item.state == "requested" ? (
+                          <div className="hstack gap-2 minBreakpoint-xs">
+                            <button
+                              className="checkCancelRequest btn btn-success viewChallange btn-sm"
+                              onClick={() => {
+                                startGame(item._id);
+                              }}
+                            >
+                              Play
+                            </button>
+                            <button
+                              className="btn btn-danger cancelRequest btn-sm"
+                              onClick={() => {
+                                cancelChallenge(item._id);
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : null}
+                        {item.player?._id == userId &&
+                          item.state == "playing" && (
                             <button
                               className="btn btn-success btn-sm"
                               onClick={() => {
-                                viewHold(item);
+                                viewGame(item._id);
                               }}
                             >
                               view
                             </button>
-                          }
-                        </div>
+                          )}
+                        {item.creator?._id == userId &&
+                          item.state == "playing" && (
+                            <button
+                              onClick={() => {
+                                viewGame(item._id);
+                              }}
+                              className="btn btn-success btn-sm"
+                            >
+                              view
+                            </button>
+                          )}
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <></>
-                )}
-              </>
-            )}
-          </li>
+                </div>
+              ) : (
+                <>
+                  {(item.creator?._id == userId ||
+                    item.player?._id == userId) &&
+                  item.state == "hold" ? (
+                    <div className="my-2 card">
+                      <div className="d-flex align-items-center justify-content-between card-header">
+                        <span>Challenge set by</span>
+                        <span className="text-success fw-bold">
+                          Rs {item.amount}
+                        </span>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between card-body">
+                        <div className="d-flex align-items-center flex-grow-1">
+                          <div style={{ height: "50px", width: "60px" }}>
+                            <div
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                backgroundSize: "contain",
+                                backgroundImage: `url(${CDN_URL}/avatar/${item?.player?.profileImage}`,
+                              }}
+                              className="bg-success rounded-circle position-relative"
+                            >
+                              {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
+
+                                </div> */}
+                            </div>
+                          </div>
+                          {
+                            <div>
+                              <span
+                                className="fw-semibold text-truncate text-start"
+                                style={{ width: "100px" }}
+                              >
+                                {item.state == "open"
+                                  ? `${item?.creator?.username.slice(0, 5)}...`
+                                  : item.creator._id == userId
+                                  ? `${item?.player?.username.slice(0, 5)}...`
+                                  : `${item?.creator?.username.slice(0, 5)}...`}
+                              </span>
+                              {/* {item.state == "hold" && item.creator._id == userId ?
+                                                    <div role="status" className="me-2 spinner-border">
+                                                        <span className="visually-hidden"></span>
+                                                    </div> :
+                                                } */}
+                            </div>
+                          }
+                        </div>
+                        <div className="d-flex align-items-center">
+                          <div className="hstack gap-2 minBreakpoint-xs">
+                            {
+                              <button
+                                className="btn btn-success btn-sm"
+                                onClick={() => {
+                                  viewHold(item);
+                                }}
+                              >
+                                view
+                              </button>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
+            </li>
+          </CSSTransition>
         );
       }),
     [challenges]
@@ -877,29 +786,8 @@ export default function Play() {
               Set
             </button>
             <br></br>
-            {/* <button
-              // disabled={createChallengeLoading}
-              onClick={() => {
-                closeconn();
-              }}
-              className="btn btn-primary w-25"
-            >
-              close
-            </button> */}
           </div>
-          {/* <div className="show dropdown">
-                        <button type="button" aria-expanded="false" id="dropdownMenuButton" className="dropdown-toggle btn btn-outline-primary" data-toggle ="dropdown">
-                            <BsSortUp />
-                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#">Action</a>
-                                <a className="dropdown-item" href="#">Another action</a>
-                                <a className="dropdown-item" href="#">Something else here</a>
-                            </div> </button>
-                        <div x-placement="bottom-start">
 
-                        </div>
-
-                    </div> */}
           <Dropdown>
             <Dropdown.Toggle id="dropdown-basic">
               <BsSortUp />

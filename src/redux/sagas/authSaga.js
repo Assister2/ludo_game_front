@@ -64,6 +64,12 @@ function* login(param) {
   var data = yield verifyOTP(param.payload);
 
   if (data.status == 200) {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.localStorage.clear();
+    localStorage.removeItem("wallet");
+    Cookies.remove();
+
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
     Cookies.set("userId", data.data?._id, { expires: 30 });
