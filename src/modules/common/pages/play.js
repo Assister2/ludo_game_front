@@ -75,7 +75,6 @@ export default function Play() {
   useEffect(() => {
     if (userId) {
       if (userId) {
-        
         socketNew.connect();
       }
 
@@ -382,7 +381,6 @@ export default function Play() {
     }
   }
 
-  
   const createChallenge = () => {
     if (amount <= 0) {
       cogoToast.error("amount should be greater that 0 and multiples of 50");
@@ -472,11 +470,20 @@ export default function Play() {
             key={item._id}
             timeout={500}
             classNames={{
-              enter: true ? "card-animation-enter" : "",
-              enterActive: true ? "card-animation-enter-active" : "",
+              enter: false ? "card-animation-enter" : "",
+              enterActive:
+                item.creator?._id != userId
+                  ? "card-animation-enter-active"
+                  : "",
             }}
           >
-            <li className="p-0 overflow-hidden appear-from-left ">
+            <li
+              className={
+                item.creator?._id !== userId
+                  ? "p-0 overflow-hidden appear-from-left"
+                  : "p-0 overflow-hidden"
+              }
+            >
               {item.creator?._id != userId &&
               item.player?._id != userId &&
               item.state == "playing" ? (
