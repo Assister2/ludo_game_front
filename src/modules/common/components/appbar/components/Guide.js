@@ -111,7 +111,7 @@ function Guide(props) {
             },
           })
         );
-      }, 1000);
+      }, 2000);
       setIsOpen(true);
 
       client.on("getUserWallet", (message) => {

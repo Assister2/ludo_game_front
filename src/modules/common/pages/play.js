@@ -22,7 +22,7 @@ export default function Play() {
   const isLoggedIn = Cookies.get("isLoggedIn");
   const userId = Cookies.get("userId");
   const token = Cookies.get("token");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
@@ -393,6 +393,7 @@ export default function Play() {
         payload: { amount: amount, userId },
       })
     );
+    setAmount("");
     setTimeout(() => {
       setCreateChallengeLoading(false);
     }, 1000);
@@ -778,6 +779,7 @@ export default function Play() {
             <input
               type="number"
               onChange={handleChange}
+              value={amount}
               className="form-control"
               min={50}
               max={10000}

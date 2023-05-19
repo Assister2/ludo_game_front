@@ -48,7 +48,7 @@ export default function Game(props) {
   const [postResultLoading, setPostResultLoading] = useState(false);
   const [socket, setSocket] = useState(null);
   const webSocketRef = useRef(null);
-
+  
   const showToast = () => {
     cogoToast.success("Text copied!");
   };
@@ -60,76 +60,39 @@ export default function Game(props) {
   const { instance } = socket2;
   var socketNew = instance;
   useEffect(() => {
-    dispatch(getWalletReq());
-    const handleVisibilityChange = () => {
-      setIsTabVisible(!document.hidden);
-    };
-    let heartbeatInterval = null;
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    const connect = () => {
-      const wss = socketNew.connect();
-      webSocketRef.current = wss;
-      setWs(wss);
-      wss.on("connect", (e) => {
-        heartbeatInterval = setInterval(() => {
-          wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
-        }, 30000);
-
-        wss.emit(
-          "ludogame",
-          JSON.stringify({
-            type: "getChallengeByChallengeId",
-            payload: {
-              challengeId: params.id,
-              userId,
-            },
-          })
-        );
-      });
-      wss.on("disconnect", () => {
-        console.log("WebSocket connection closed");
-        // Attempt to reconnect in 5 seconds
-        setTimeout(() => {
-          console.log("Attempting to reconnect...");
-          connect();
-        }, 500);
-      });
-      wss.on("error", (error) => {
-        console.log(`WebSocket error: ${error}`);
-        // Attempt to reconnect in 5 seconds
-        setTimeout(() => {
-          console.log("Attempting to reconnect...");
-          connect();
-        }, 500);
-      });
-    };
-
-    connect();
-    return () => {
-      clearInterval(heartbeatInterval);
-      if (ws) {
-        webSocketRef.current = null;
-        ws.close();
+    if (userId) {
+      if (userId) {
+        socketNew.connect();
       }
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+      dispatch(getWalletReq());
+      const handleVisibilityChange = () => {
+        setIsTabVisible(!document.hidden);
+      };
+
+      let heartbeatInterval = null;
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      const wss = socketNew.connect();
+
+      setWs(wss);
+
+      heartbeatInterval = setInterval(() => {
+        wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
+      }, 30000);
+
+      wss.emit(
+        "ludogame",
+        JSON.stringify({
+          type: "getChallengeByChallengeId",
+          payload: {
+            challengeId: params.id,
+            userId,
+          },
+        })
+      );
+    }
   }, []);
 
-  useEffect(() => {
-    if (isTabVisible) {
-      if (isTabSwitch) {
-        if (isTabSwitch) {
-          // window.location.reload();
-          setTabSwitch(false);
-        }
-        setTabSwitch(false);
-      }
-    } else {
-      setTabSwitch(true);
-      setIsTabVisibleTime(moment().toISOString());
-    }
-  }, [isTabVisible]);
   if (ws) {
     ws.on("ludogame", (event) => {
       event = JSON.parse(event);

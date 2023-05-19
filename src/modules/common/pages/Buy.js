@@ -25,7 +25,7 @@ export default function Buy() {
   const { instance } = socket2;
   var socketNew = instance;
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const { isLoading } = useSelector((state) => state.wallet);
   let userId = Cookies.get("userId");
   const [ws, setWs] = useState(socketNew.connect());
@@ -71,6 +71,7 @@ export default function Buy() {
           },
         })
       );
+      setAmount("");
     }
   };
 
@@ -121,6 +122,7 @@ export default function Buy() {
               <span className="input-group-text bg-light text-dark">₹</span>
               <input
                 onChange={(e) => setAmount(e.target.value)}
+                value={amount}
                 className="form-control"
                 type="number"
                 placeholder="Amount"
