@@ -73,7 +73,7 @@ function* login(param) {
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
     Cookies.set("userId", data.data?._id, { expires: 30 });
-    cogoToast.success(`loged in successfully`);
+    // cogoToast.success(`loged in successfully`);
 
     yield put(getWalletSuccess(data));
     const socket = yield call(connectSocket);

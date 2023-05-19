@@ -566,8 +566,8 @@ export default function Game(props) {
               />
               {screenshoot !== "" && (
                 <img
-                  width={300}
-                  height={300}
+                  width={100}
+                  height={100}
                   src={screenshoot}
                   alt="Selected Image"
                 />

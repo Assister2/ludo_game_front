@@ -121,7 +121,6 @@ function Guide(props) {
           // Handle error
         } else if (data.data !== null || data.data !== undefined) {
           // Only update state if the component is still mounted
-          console.log("checkdatauserdata", data);
 
           setWallet(data.data);
         }

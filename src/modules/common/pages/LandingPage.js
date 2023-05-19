@@ -28,45 +28,8 @@ export function LandingPage() {
   console.log("token3434", userId);
 
   useEffect(() => {
-    if (userId) {
-      // console.log("34wwewe", socketNew);
-
-      // console.log("now13434");
-      socketNew.connect();
-
-      // console.log("34yyyyy", socketNew);
-      socketNew.on(
-        "connect",
-        socketNew.emit(
-          "getUserWallet",
-          JSON.stringify({
-            type: "getUserWallet",
-            payload: {
-              userId: userId,
-            },
-          })
-        )
-      );
-      // if (data.isLoggedIn) {
-      //   const socketNew1 = io("http://localhost:4002");
-      // }
-      // console.log("logged");
-      // if (isLoggedIn) {
-      //   // console.log("logged 343in", data);
-      //   dispatch(getWalletReq());
-      // }
-      if (socketNew) {
-        window.client = socketNew;
-        console.log("Connect 3434 ", socketNew);
-        setInterval(() => {
-          socketNew.send(JSON.stringify({ type: "heartbeat" }));
-        }, 3000);
-      }
-      // return () => {
-      //   socketNew.disconnect();
-      // };
-
-      console.log("windowwww", window, window.process);
+    if (isLoggedIn) {
+      dispatch(getWalletReq());
     }
   }, []);
 

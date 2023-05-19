@@ -159,7 +159,7 @@ export default function VeridyOtp({ route }) {
       <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
         <div className="card">
           <div className="bg-light text-dark text-capitalize card-header">
-            Verify Otp34
+            Verify Otp
           </div>
           <div className="card-body">
             <div className="d-flex align-items-center justify-content-start py-3">

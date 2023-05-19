@@ -482,37 +482,46 @@ export default function Play() {
                 <div className="my-2 card">
                   <div className="text-start card-body">
                     <div className="d-flex align-items-center justify-content-between">
-                      <div className="d-flex align-items-center">
-                        <div style={{ height: "50px", width: "60px" }}></div>
-                        <span
-                          className="fw-semibold "
-                          style={{ width: "80px" }}
+                      <div className="d-flex flex-column align-items-start vstack gap-2 minBreakpoint-xs">
+                        <div
+                          className="bg-dark rounded-circle me-2"
+                          style={{ height: "24px", width: "24px" }}
                         >
-                          {item?.creator?.username.slice(0, 5)}...{" "}
+                          <img
+                            src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
+                            alt="avatar"
+                          ></img>
+                        </div>
+                        <span className=" fw-semibold text-truncate text-end">
+                          {item?.creator?.username.slice(0, 5)}...
                         </span>
                       </div>
-                      {/* <div>
-                      <img
-                        src="https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
-                        height="40"
-                        alt="vs"
-                      />
-                    </div> */}
-                      <div className="d-flex flex-row-reverse align-items-center">
-                        <div style={{ height: "50px", width: "60px" }}></div>
-                        <span
-                          className=" fw-semibold"
-                          style={{ width: "80px" }}
-                        >
-                          {item?.player?.username.slice(0, 5)}...{" "}
+                      <div className="d-flex flex-column align-items-center vstack gap-2 minBreakpoint-xs">
+                        <span>
+                          <em>
+                            <img
+                              src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
+                              alt="verses-icon"
+                              width="24"
+                            />
+                          </em>
+                        </span>
+                        <span className="text-success fw-bold text-center">
+                          Rs
+                          {item.amount}
                         </span>
                       </div>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center pt-3">
-                      <span className="text-success fw-bold">
-                        Rs
-                        {item.amount}
-                      </span>
+                      <div className="d-flex flex-column align-items-end vstack gap-2 minBreakpoint-xs">
+                        <div
+                          className="bg-dark rounded-circle"
+                          style={{ height: "24px", width: "24px" }}
+                        >
+                          <img src="https://ludoplayers.com/static/media/avatar-m-2.f630f4eeffb6e2e929909f66cfd814a2.svg"></img>
+                        </div>
+                        <span className=" fw-semibold text-truncate text-end">
+                          {item.player.username.slice(0, 5)}...
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -560,7 +569,11 @@ export default function Play() {
                       {/* </div> */}
                       {item.creator._id == userId && item.state == "open" ? (
                         <div className="d-flex align-items-center justify-content-start">
-                          <div role="status" className="me-2 spinner-border">
+                          <div
+                            role="status"
+                            className="me-2 spinner-border"
+                            style={{ marginLeft: "5px" }}
+                          >
                             <span className="visually-hidden">
                               {item.creator._id == userId &&
                               item.state == "hold"
@@ -574,7 +587,7 @@ export default function Play() {
                         </div>
                       ) : (
                         <>
-                          <div>
+                          <div style={{ marginLeft: "5px" }}>
                             <span
                               className="fw-semibold text-truncate text-start"
                               style={{ width: "100px" }}
