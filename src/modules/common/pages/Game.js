@@ -3,7 +3,7 @@ import cogoToast from "cogo-toast";
 import Cookies from "js-cookie";
 import React, { useEffect, useState, useRef } from "react";
 import { BsArrowLeftShort, BsInfoCircle, BsClipboard } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   cancelChallengeApi,
@@ -15,7 +15,7 @@ import { getWalletReq } from "../../../redux/actions/wallet";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Moment from "react-moment";
 import moment from "moment";
-
+import socketNew2 from "../../../socker";
 export default function Game(props) {
   const params = useParams();
   const navigate = useNavigate();
@@ -52,7 +52,13 @@ export default function Game(props) {
   const showToast = () => {
     cogoToast.success("Text copied!");
   };
-
+  const socket2 = useSelector((state) => state.socketReducer);
+  if (!socket2.instance) {
+    console.log("working232");
+    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
+  }
+  const { instance } = socket2;
+  var socketNew = instance;
   useEffect(() => {
     dispatch(getWalletReq());
     const handleVisibilityChange = () => {
@@ -62,17 +68,16 @@ export default function Game(props) {
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const connect = () => {
-      const wss = new WebSocket(
-        `${process.env.REACT_APP_CLIENT_BASEURL_WS}/game`
-      );
+      const wss = socketNew.connect();
       webSocketRef.current = wss;
       setWs(wss);
-      wss.onopen = (e) => {
+      wss.on("connect", (e) => {
         heartbeatInterval = setInterval(() => {
-          wss.send(JSON.stringify({ type: "heartbeat" }));
+          wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
         }, 30000);
 
-        wss.send(
+        wss.emit(
+          "ludogame",
           JSON.stringify({
             type: "getChallengeByChallengeId",
             payload: {
@@ -81,25 +86,23 @@ export default function Game(props) {
             },
           })
         );
-      };
-      wss.onclose = () => {
-        console.log("WebSocket connection closeddsd");
-        wss.close();
-        // window.location.reload();
+      });
+      wss.on("disconnect", () => {
+        console.log("WebSocket connection closed");
         // Attempt to reconnect in 5 seconds
         setTimeout(() => {
           console.log("Attempting to reconnect...");
           connect();
         }, 500);
-      };
-      wss.onerror = (error) => {
+      });
+      wss.on("error", (error) => {
         console.log(`WebSocket error: ${error}`);
         // Attempt to reconnect in 5 seconds
         setTimeout(() => {
           console.log("Attempting to reconnect...");
           connect();
         }, 500);
-      };
+      });
     };
 
     connect();
@@ -117,7 +120,7 @@ export default function Game(props) {
     if (isTabVisible) {
       if (isTabSwitch) {
         if (isTabSwitch) {
-          //   window.location.reload();
+          // window.location.reload();
           setTabSwitch(false);
         }
         setTabSwitch(false);
@@ -128,11 +131,11 @@ export default function Game(props) {
     }
   }, [isTabVisible]);
   if (ws) {
-    ws.onmessage = (event) => {
-      event = JSON.parse(event.data);
+    ws.on("ludogame", (event) => {
+      event = JSON.parse(event);
 
       if (event.type === "heartbeat") {
-        ws.send(JSON.stringify({ type: "ack" }));
+        ws.emit("ludogame", JSON.stringify({ type: "ack" }));
       }
 
       if (event.status == 200) {
@@ -169,7 +172,7 @@ export default function Game(props) {
         return;
       }
       // setChallenges(event)
-    };
+    });
   }
 
   const dialogs = document.querySelectorAll("dialog");
@@ -231,7 +234,8 @@ export default function Game(props) {
 
         if (challenge) {
           setPostResultLoading(false);
-          ws.send(
+          ws.emit(
+            "ludogame",
             JSON.stringify({
               type: "getChallengeByChallengeId",
               payload: {
@@ -240,19 +244,6 @@ export default function Game(props) {
               },
             })
           );
-
-          // const message = {
-          //     type: "updatePlayersWallet",
-          //     payload: {
-          //         challengeId: challenge.challengeId,
-          //         creatorId: challenge.creatorId,
-          //         playerId: challenge.playerId,
-          //     },
-          // };
-          // if(socket){
-
-          //     socket.send(JSON.stringify(message));
-          // }
         }
         cogoToast.success("result submitted");
         navigate("/play");
@@ -271,7 +262,8 @@ export default function Game(props) {
       console.log("challenge", challenge);
       if (challenge.status == 200) {
         dispatch(getWalletReq());
-        ws.send(
+        ws.emit(
+          "ludogame",
           JSON.stringify({
             type: "getChallengeByChallengeId",
             payload: {
@@ -296,7 +288,8 @@ export default function Game(props) {
       setDisableCancelButton(true);
       let challenge = await cancelChallengeApi(challengeObject);
       if (challenge) {
-        ws.send(
+        ws.emit(
+          "ludogame",
           JSON.stringify({
             type: "getChallengeByChallengeId",
             payload: {

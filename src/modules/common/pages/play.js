@@ -99,15 +99,6 @@ export default function Play() {
           payload: { userId },
         })
       );
-      client.emit(
-        "getUserWallet",
-        JSON.stringify({
-          type: "getUserWallet",
-          payload: {
-            userId: userId,
-          },
-        })
-      );
 
       client.on("message", (event) => {
         var events = JSON.parse(event);
