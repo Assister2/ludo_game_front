@@ -9,7 +9,7 @@ import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
 import socketNew2 from "../../../../../socker";
 // let URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`;
-const socketURL = "http://localhost:4002";
+
 function Guide(props) {
   const dispatch = useDispatch();
   console.log("guideee");
@@ -27,33 +27,7 @@ function Guide(props) {
   const { data: userData } = useSelector((state) => state.user);
 
   const [wallet, setWallet] = useState({});
-  // useEffect(() => {
-  //   setWallet(walletData.data)
-  // }, [walletData])
-  // const [socket, setSocket] = useState(null);
-  // const [userId, setUserId] = useState(Cookies.get("userId"));
-  // let isLoggedIn = Cookies.get("isLoggedIn");
-  // useEffect(() => {
-  //   if (!userData._id) {
-  //     if (data.isLoggedIn && Cookies.get("token")) {
-  //       let route = window.location.pathname;
-  //       if (route === "/login" || route === "/register") {
-  //         window.location.href = "/play";
-  //         return null;
-  //       }
-  //       console.log("working", data);
-  //       console.log("tokenwa", Cookies.get("token"));
-  //       dispatch(getUserProfileReq());
-  //       dispatch(getWalletReq());
-  //     } else {
-  //       let route = window.location.pathname;
-  //       if (route !== "/login" && route !== "/register" && route !== "/") {
-  //         window.location.href = "/login";
-  //         return null;
-  //       }
-  //     }
-  //   }
-  // }, [data.isLoggedIn]);
+
 
   const socket = useRef(null);
   const [userId, setUserId] = useState(Cookies.get("userId"));
@@ -89,6 +63,7 @@ function Guide(props) {
   let isMounted = true; // Add a variable to track if the component is mounted
 
   useEffect(() => {
+    console.log("testt", socket2);
     if (userId) {
       if (userId) {
         socketNew.connect();

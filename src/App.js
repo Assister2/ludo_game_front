@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 //setting up all the  css
 import "./App.css";
 import socketNew from "./socker";

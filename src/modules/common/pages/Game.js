@@ -48,13 +48,13 @@ export default function Game(props) {
   const [postResultLoading, setPostResultLoading] = useState(false);
   const [socket, setSocket] = useState(null);
   const webSocketRef = useRef(null);
-  
+
   const showToast = () => {
     cogoToast.success("Text copied!");
   };
   const socket2 = useSelector((state) => state.socketReducer);
+  console.log("socket2game", socket2);
   if (!socket2.instance) {
-    console.log("working232");
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
   const { instance } = socket2;

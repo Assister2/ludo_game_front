@@ -18,6 +18,7 @@ import { userBuyChipsRequest } from "../../../redux/actions/wallet";
 export default function Buy() {
   const dispatch = useDispatch();
   const socket2 = useSelector((state) => state.socketReducer);
+  console.log("socket2buy", socket2);
   if (!socket2.instance) {
     console.log("working232");
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { CDN_URL } from "../../../config";
 import { getWalletReq } from "../../../redux/actions/wallet";
-import socketNew2 from "../../../socker";
+
 export function LandingPage() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(Cookies.get("userId"));
@@ -15,14 +15,6 @@ export function LandingPage() {
   const isLoggedIn = Cookies.get("userId");
   const { data } = useSelector((state) => state.loginReducer);
 
-  const socket2 = useSelector((state) => state.socketReducer);
-  if (!socket2.instance) {
-    console.log("working232");
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
-  }
-  const { instance } = socket2;
-  var socketNew = instance;
-  // console.log("newconnecitonss343", instance);
   const token = Cookies.get("token");
   const [f_open, setOpen] = useState(false);
   console.log("token3434", userId);
@@ -70,7 +62,7 @@ export function LandingPage() {
             <img
               style={{ maxWidth: "450px", maxHeight: "450px" }}
               className="w-100"
-              src={`${CDN_URL}/final.gif`}
+              src="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
               // src="https://ckstroat.sirv.com/lp/illustrations/landingPage.webp"
               alt="landing"
             />
@@ -108,14 +100,14 @@ export function LandingPage() {
                     <picture>
                       <source
                         media="(min-width:1024px)"
-                        srcset={`${CDN_URL}/playimages/ludo1.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
                       ></source>
                       <source
                         media="(min-width:768px)"
-                        srcset={`${CDN_URL}/playimages/ludo1.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
                       />
                       <img
-                        src={`${CDN_URL}/playimages/ludo1.webp`}
+                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
                         className="rounded-3"
                         style={{
                           width: "100%",
@@ -147,14 +139,14 @@ export function LandingPage() {
                     <picture>
                       <source
                         media="(min-width:1024px)"
-                        srcset={`${CDN_URL}/playimages/ludo2.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
                       />
                       <source
                         media="(min-width:768px)"
-                        srcset={`${CDN_URL}/playimages/ludo2.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
                       />
                       <img
-                        src={`${CDN_URL}/playimages/ludo2.webp`}
+                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
                         alt="ludo classic"
                         className="rounded-3"
                         style={{
@@ -193,14 +185,14 @@ export function LandingPage() {
                     <picture>
                       <source
                         media="(min-width:1024px)"
-                        srcset={`${CDN_URL}/playimages/ludo3.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
                       />
                       <source
                         media="(min-width:768px)"
-                        srcset={`${CDN_URL}/playimages/ludo3.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
                       />
                       <img
-                        src={`${CDN_URL}/playimages/ludo3.webp`}
+                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
                         alt="ludo classic"
                         className="rounded-3"
                         style={{
@@ -238,14 +230,14 @@ export function LandingPage() {
                     <picture>
                       <source
                         media="(min-width:1024px)"
-                        srcset={`${CDN_URL}/playimages/ludo4.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
                       />
                       <source
                         media="(min-width:768px)"
-                        srcset={`${CDN_URL}/playimages/ludo4.webp`}
+                        srcset="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
                       />
                       <img
-                        src={`${CDN_URL}/playimages/ludo4.jpg`}
+                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
                         alt="ludo classic"
                         className="rounded-3"
                         style={{

@@ -34,6 +34,7 @@ export default function Play() {
     setAmount(e.target.value);
   };
   const socket2 = useSelector((state) => state.socketReducer);
+  console.log("socket2pla", socket2);
   if (!socket2.instance) {
     console.log("working232");
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });

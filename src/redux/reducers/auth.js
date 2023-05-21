@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import { LOGIN_AUTH, USER_AUTH, LOGOUT_AUTH } from "../contstants";
 import io from "socket.io-client";
 // ============SIGN UP REDUCER==================
+
 const initialState = {
   isLoading: false,
   data: {},

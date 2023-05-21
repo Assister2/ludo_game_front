@@ -81,7 +81,11 @@ export default function Header(props) {
               <img src={`${CDN_URL}svgs/ham.svg`} alt="Menu" />
             </button>
             <Link to="/">
-              <img src={`${CDN_URL}/avatar/logo.png`} alt="logo" height="50" />
+              <img
+                src="https://ludo3.s3.ap-south-1.amazonaws.com/logo.webp"
+                alt="logo"
+                height="50"
+              />
             </Link>
             <div style={{ marginLeft: "auto", marginRight: "10px" }}>
               {data?.isLoggedIn && <Guide></Guide>}

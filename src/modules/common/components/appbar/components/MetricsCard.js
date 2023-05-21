@@ -15,6 +15,7 @@ export default function Metrics() {
   const dispatch = useDispatch();
   const socket2 = useSelector((state) => state.socketReducer);
   const { instance } = socket2;
+  console.log("checkinstallcee", instance);
 
   console.log();
 
@@ -28,7 +29,7 @@ export default function Metrics() {
     localStorage.clear();
     sessionStorage.clear();
     window.localStorage.clear();
-    Cookies.remove()
+    Cookies.remove();
     Cookies.set(null);
     console.log("localstorage3", localStorage);
     console.log("localstorage4", window.localStorage);
