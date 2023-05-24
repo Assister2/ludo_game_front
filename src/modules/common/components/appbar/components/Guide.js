@@ -18,8 +18,6 @@ function Guide(props) {
     console.log("working232");
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
-  const { instance } = socket2;
-  var socketNew = instance;
 
   const [f_open, setOpen] = useState(false);
   const walletData = useSelector((state) => state.wallet);
@@ -27,7 +25,6 @@ function Guide(props) {
   const { data: userData } = useSelector((state) => state.user);
 
   const [wallet, setWallet] = useState({});
-
 
   const socket = useRef(null);
   const [userId, setUserId] = useState(Cookies.get("userId"));
@@ -63,11 +60,16 @@ function Guide(props) {
   let isMounted = true; // Add a variable to track if the component is mounted
 
   useEffect(() => {
-    console.log("testt", socket2);
-    if (userId) {
-      if (userId) {
-        socketNew.connect();
-      }
+    var socketNew = null;
+    console.log("socket22", socket2);
+    if (socket2) {
+      const { instance } = socket2;
+      socketNew = instance;
+    }
+
+    console.log("testt", socket2, userId);
+    if (userId && socketNew) {
+      socketNew.connect();
 
       let client = null;
       let reconnectTimeout = null;
@@ -101,7 +103,7 @@ function Guide(props) {
         }
       });
     }
-  }, []);
+  }, [socket2, userId]);
 
   const handleClose = () => setOpen(false);
   return (

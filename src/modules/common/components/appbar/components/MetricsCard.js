@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import cogoToast from "cogo-toast";
 import { logoutRequest } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socker";
+import { BsWindowDesktop } from "react-icons/bs";
 
 export default function Metrics() {
   const history = useNavigate();
@@ -33,6 +34,7 @@ export default function Metrics() {
     Cookies.set(null);
     console.log("localstorage3", localStorage);
     console.log("localstorage4", window.localStorage);
+    window.location.reload();
 
     // Cookies.remove("isLoggedIn")
     // Cookies.remove("token")

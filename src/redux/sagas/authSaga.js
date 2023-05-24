@@ -43,7 +43,7 @@ function* signUp(param) {
   }
 }
 const connectSocket = () => {
-  const socket = io("http://localhost:4002"); // Replace with your server URL
+  const socket = io("http://139.59.30.151:4002"); // Replace with your server URL
 
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {
