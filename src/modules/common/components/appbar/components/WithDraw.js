@@ -7,20 +7,20 @@ export default function WithDraw() {
   const [disableWithdraw, setDisableWithdraw] = useState(false);
   const walletData = useSelector((state) => state.wallet);
   const [wallet, setWallet] = useState({});
-
+  const walletData1 = useSelector((state) => state.wallet1);
   const showToast = () => {
     toast.error("Complete or cancel active challenges to withdraw!");
   };
   useEffect(() => {
     (async () => {
       let userdata = await getUserProfileApi();
-      console.log(userdata);
+      
       setDisableWithdraw(userdata?.data?.data?.hasActiveChallenge);
     })();
   }, []);
   useEffect(() => {
-    setWallet(walletData.data);
-  }, [walletData]);
+    setWallet(walletData1.data);
+  }, [walletData1]);
   return (
     <>
       {/* <div className="fade d-flex align-items-center justify-content-between alert alert-danger show">

@@ -34,9 +34,9 @@ export default function Play() {
     setAmount(e.target.value);
   };
   const socket2 = useSelector((state) => state.socketReducer);
-  console.log("socket2pla", socket2);
+  
   if (!socket2.instance) {
-    console.log("working232");
+   
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
   const { instance } = socket2;
@@ -299,22 +299,6 @@ export default function Play() {
     setChallenges(challegesData);
   }, [sorting]);
 
-  // useEffect(() => {
-  //     return () => {
-  //         console.log("unmout socket working",userId)
-  //         if (ws) {
-  // ws.send(JSON.stringify({
-  //     type: "cancelRequestedOnPageChange",
-  //     payload: { userId }
-  // }))
-  // ws.send(JSON.stringify({
-  //     type: "deleteOpenChallengesOfCreator",
-  //     payload: { userId }
-  // }))
-  //         }
-
-  //     }
-  // }, [ws])
 
   const noOfChallenges = useMemo(() => {
     var challenge = 0;
@@ -537,7 +521,7 @@ export default function Play() {
                     ) : item.state == "playing" ? (
                       <span>In a challenge with</span>
                     ) : (
-                      <span>Challenge set by2</span>
+                      <span>Challenge set by</span>
                     )}
 
                     <span className="text-success fw-bold">
@@ -707,11 +691,12 @@ export default function Play() {
                       </div>
                       <div className="d-flex align-items-center justify-content-between card-body">
                         <div className="d-flex align-items-center flex-grow-1">
-                          <div style={{ height: "50px", width: "60px" }}>
+                          <div style={{ height: "24px", width: "24px" }}>
                             <div
                               style={{
-                                width: "50px",
-                                height: "50px",
+                                width: "24px",
+                                height: "24px",
+                                marginLeft: "-5px",
                                 backgroundSize: "contain",
                                 backgroundImage: `url(${CDN_URL}/avatar/${item?.player?.profileImage}`,
                               }}

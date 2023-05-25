@@ -43,7 +43,7 @@ function* signUp(param) {
   }
 }
 const connectSocket = () => {
-  const socket = io("http://139.59.30.151:4002"); // Replace with your server URL
+  const socket = io("wss://apibackend.gotiking.com"); // Replace with your server URL
 
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {
@@ -85,7 +85,6 @@ function* login(param) {
 
     param.navigation(`/`);
     // window.location.reload();
-    console.log("checkvvv", data);
   } else if (data.status == 400) {
     cogoToast.error(data.error);
     yield put(loginError(data.error));

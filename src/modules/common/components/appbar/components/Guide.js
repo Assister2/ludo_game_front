@@ -8,14 +8,19 @@ import { Link } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
 import socketNew2 from "../../../../../socker";
+import {
+  getWalletError,
+  getWalletLoading,
+  getWalletSuccess,
+} from "../../../../../redux/actions/wallet";
 // let URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`;
 
 function Guide(props) {
   const dispatch = useDispatch();
-  console.log("guideee");
+  
   const socket2 = useSelector((state) => state.socketReducer);
   if (!socket2.instance) {
-    console.log("working232");
+    
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
 
@@ -38,8 +43,7 @@ function Guide(props) {
           window.location.href = "/play";
           return null;
         }
-        console.log("working", data);
-        console.log("tokenwa", Cookies.get("token"));
+        
         dispatch(getUserProfileReq());
         dispatch(getWalletReq());
       } else {
@@ -61,13 +65,13 @@ function Guide(props) {
 
   useEffect(() => {
     var socketNew = null;
-    console.log("socket22", socket2);
+    
     if (socket2) {
       const { instance } = socket2;
       socketNew = instance;
     }
 
-    console.log("testt", socket2, userId);
+    
     if (userId && socketNew) {
       socketNew.connect();
 
@@ -75,9 +79,7 @@ function Guide(props) {
       let reconnectTimeout = null;
 
       client = socketNew.connect();
-      console.log("check11", client);
-
-      console.log("check112222");
+      
       interval = setInterval(() => {
         client.emit(
           "getUserWallet",
@@ -98,13 +100,16 @@ function Guide(props) {
           // Handle error
         } else if (data.data !== null || data.data !== undefined) {
           // Only update state if the component is still mounted
-
+          
           setWallet(data.data);
+
+          dispatch({ type: "GET_WALLET_REQUEST1", payload: data.data });
         }
       });
     }
   }, [socket2, userId]);
-
+  useEffect(() => {}, [wallet]);
+  
   const handleClose = () => setOpen(false);
   return (
     <div>
@@ -143,7 +148,7 @@ function Guide(props) {
               {/* {walletData.data.wallet == 0
                 ? wallet.wallet
                 : walletData.data.wallet} */}
-              {wallet.wallet ? wallet.wallet : walletData.data.wallet}
+              {wallet.wallet}
             </strong>
           </div>
         </Link>

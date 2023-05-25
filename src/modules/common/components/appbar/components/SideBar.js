@@ -8,10 +8,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function SideBar({ f_open, handleClose }) {
-
-  const { data } = useSelector((state) => state.loginReducer)
-  let isLoggedIn = Cookies.get("isLoggedIn")
-  let fullName = Cookies.get("fullName")
+  const { data } = useSelector((state) => state.loginReducer);
+  let isLoggedIn = Cookies.get("isLoggedIn");
+  let fullName = Cookies.get("fullName");
 
   return (
     <SwipeableDrawer
@@ -24,9 +23,7 @@ export default function SideBar({ f_open, handleClose }) {
     >
       <div>
         <div style={{ padding: "1rem" }} className="bg-dark offcanvas-header">
-          <div className="text-white fw-bold offcanvas-title h5">
-            Ludo Players
-          </div>
+          <div className="text-white fw-bold offcanvas-title h5">Goti King</div>
           <button
             onClick={handleClose}
             type="button"
@@ -39,7 +36,6 @@ export default function SideBar({ f_open, handleClose }) {
             <div className="fs-1 fw-bold text-start d-flex align-items-center justify-content-start">
               <div className="hstack gap-2 minBreakpoint-xs">
                 <div className="m-0 me-1 d-flex align-items-center justify-content-start">
-                  
                   <p className="m-0">Hey, {data.isLoggedIn ? fullName : ""}</p>
                   <p
                     className="text-truncate m-0 me-2"
@@ -57,12 +53,12 @@ export default function SideBar({ f_open, handleClose }) {
             </div>
           </div>
           <div className=" d-flex flex-column align-items-stretch justify-content-start">
-            {data.isLoggedIn ?
+            {data.isLoggedIn ? (
               <>
                 <Link
                   className="text-start text-decoration-none bg-light p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to={`/${data.isLoggedIn ? "play" : "login"}`}
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -84,7 +80,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none bg-white p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/wallet"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -108,7 +104,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none bg-light p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/history"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -126,7 +122,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none bg-white p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/profile"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -144,7 +140,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none bg-light p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/referal"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -162,7 +158,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none bg-white p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/support"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -185,7 +181,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none  bg-light p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/legal"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -206,11 +202,12 @@ export default function SideBar({ f_open, handleClose }) {
                   />
                 </Link>
               </>
-              : <>
-                              <Link
+            ) : (
+              <>
+                <Link
                   className="text-start text-decoration-none bg-light p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to={`/${data.isLoggedIn ? "play" : "login"}`}
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -232,7 +229,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none bg-white p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/register"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -251,11 +248,11 @@ export default function SideBar({ f_open, handleClose }) {
                     alt="arrow"
                   />
                 </Link>
-                
+
                 <Link
                   className="text-start text-decoration-none bg-white p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/support"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -278,7 +275,7 @@ export default function SideBar({ f_open, handleClose }) {
                 <Link
                   className="text-start text-decoration-none  bg-light p-4 text-dark fs-2 text-capitalize d-flex align-items-center justify-content-between"
                   to="/legal"
-                  onClick={()=>handleClose()}
+                  onClick={() => handleClose()}
                 >
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
@@ -298,13 +295,8 @@ export default function SideBar({ f_open, handleClose }) {
                     alt="arrow"
                   />
                 </Link>
-                </>
-            }
-
-
-
-
-
+              </>
+            )}
           </div>
         </div>
       </div>

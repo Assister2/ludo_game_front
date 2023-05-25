@@ -17,7 +17,7 @@ export function LandingPage() {
 
   const token = Cookies.get("token");
   const [f_open, setOpen] = useState(false);
-  console.log("token3434", userId);
+  
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -56,11 +56,11 @@ export function LandingPage() {
           </div>
         </SwipeableDrawer>
       </div>
-      <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
         {!data.isLoggedIn ? (
           <div>
             <img
-              style={{ maxWidth: "450px", maxHeight: "450px" }}
+              style={{ maxWidth: "auto", maxHeight: "auto" }}
               className="w-100"
               src="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
               // src="https://ckstroat.sirv.com/lp/illustrations/landingPage.webp"
@@ -112,25 +112,13 @@ export function LandingPage() {
                         style={{
                           width: "100%",
                           cursor: "pointer",
-                          height: "205px",
+                          height: "auto",
                         }}
                       ></img>
                     </picture>
                   </Link>
                 </div>
-                {/* <div className="col">
-                  <div className="text-decoration-none text-black" >
-                          <picture>
-                              <source media="(min-width:1024px)" srcset={`${CDN_URL}/playimages/ludo2.webp`}></source>
-                              <source media="(min-width:768px)" srcset={`${CDN_URL}/playimages/ludo2.webp`}/>
-                              <img  src={`${CDN_URL}/playimages/ludo2.webp`}className="rounded-3" style={{width:"100%",cursor:"not-allowed"}}></img>
-                          </picture>
-                          <span className="text-dark fw-bold text-capitalize bg-warning px-3"
-                          style={{fontSize:"0.8rem",transform:" rotate(30deg) translateX(35px) translateY(0px)",width:"200px"}}
-                           >coming soon</span>
-                    
-                      </div>
-                  </div> */}
+
                 <div class="col">
                   <div
                     class="position-relative"
@@ -152,7 +140,7 @@ export function LandingPage() {
                         style={{
                           width: "100%",
                           cursor: "not-allowed",
-                          height: "205px",
+                          height: "auto",
                         }}
                       />
                     </picture>
@@ -198,7 +186,7 @@ export function LandingPage() {
                         style={{
                           width: "100%",
                           cursor: "not-allowed",
-                          height: "205px",
+                          height: "auto",
                         }}
                       />
                     </picture>
@@ -243,7 +231,7 @@ export function LandingPage() {
                         style={{
                           width: "100%",
                           cursor: "not-allowed",
-                          height: "205px",
+                          height: "auto",
                         }}
                       />
                     </picture>

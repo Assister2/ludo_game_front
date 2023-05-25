@@ -716,7 +716,7 @@ export default function LegalTerms(props) {
               <p>
                 Thanks for being connected with
                 <span style={{ color: "rgb(226,80,65)" }}>
-                  <strong> Ludo Official Kings</strong>
+                  <strong> Goti King</strong>
                 </span>
                 . If you are not entirely satisfied with your subscription, we
                 are here to help.
@@ -737,7 +737,7 @@ export default function LegalTerms(props) {
               <p>
                 In case of unforeseen technical glitch,{" "}
                 <span style={{ color: "rgb(226,80,65)" }}>
-                  Ludo Official Kings
+                  Goti King
                 </span>{" "}
                 would refund subscription upon reviewing the complaint. Final
                 decision lies with the company.
@@ -754,7 +754,7 @@ export default function LegalTerms(props) {
                 <p>
                   This document explains how{" "}
                   <span style={{ color: "rgb(235,107,86)" }}>
-                    Ludo Official Kings
+                    Goti King
                   </span>{" "}
                   (https://gotiking.com) collects, processes, stores and/or
                   shares any personal data and/or information from users
@@ -776,7 +776,7 @@ export default function LegalTerms(props) {
                 </p>
                 <p>
                   <span style={{ color: "rgb(235,107,86)" }}>
-                    <strong>Ludo Official Kings</strong>
+                    <strong>Goti King</strong>
                   </span>{" "}
                   and/or third parties, including but not limited to business
                   partners, advertising networks, analytics or search
@@ -785,7 +785,7 @@ export default function LegalTerms(props) {
                   forms when accessing and/or using the Services, or when you
                   create an account within the Services; details of your use of
                   the Services and the resources that you access; the
-                  correspondence between you and Ludo Official Kings and any
+                  correspondence between you and Goti King and any
                   interactions, or with other users on the Service, the channels
                   and/or any social media related; from third parties who hold
                   data about you and who agree to share this data with us; and
@@ -856,7 +856,7 @@ export default function LegalTerms(props) {
                   </span>
                 </p>
                 <p>
-                  I. Cookies: <strong>Ludo Official Kings</strong> uses cookies
+                  I. Cookies: <strong>Goti King</strong> uses cookies
                   and other similar technologies in the Services. These
                   technologies operate either by placing a small file which
                   stores some information on your computer or mobile device;
@@ -866,7 +866,7 @@ export default function LegalTerms(props) {
                   to allow the Services to interact with a third party social
                   network or platform where you have chosen to allow such
                   interaction; to allow payment processes when you submit
-                  payment instructions; to enable Ludo Official Kings and third
+                  payment instructions; to enable Goti King and third
                   parties to provide you with more customized services; and to
                   collect data such as your device’s model, operating system and
                   screen size, other applications installed on your device, and
@@ -892,15 +892,15 @@ export default function LegalTerms(props) {
                 </p>
                 <p>
                   III. Location Information: You may choose to publish your
-                  location in your Ludo Official Kings profile. You may also
+                  location in your Goti King profile. You may also
                   tell your location when you enable your device to send such
-                  location information. Ludo Official Kings and/or third parties
+                  location information. Goti King and/or third parties
                   may use and store information about your location to provide
                   special features, to deliver ads that relate your interests
                   and/or to improve and customize the Services.
                 </p>
                 <p>
-                  IV. Links: Ludo Official Kings may keep track of how you
+                  IV. Links: Goti King may keep track of how you
                   interact with links across the Services, including email
                   notifications, third-party services, and client applications,
                   by redirecting clicks or through other means.
@@ -917,14 +917,14 @@ export default function LegalTerms(props) {
                 </p>
                 <p>
                   VI. Payment information: If you make a purchase in the
-                  Services, Ludo Official Kings may collect the billing and
+                  Services, Goti King may collect the billing and
                   financial information necessary to process the charges; and/or
                   do so on behalf of the relevant payment service providers.
                   Purchases of third party services are subject to the policies
                   applicable to such provider.
                 </p>
                 <p>
-                  VII. Third-party services: Ludo Official Kings uses a variety
+                  VII. Third-party services: Goti King uses a variety
                   of third-party services to help its provision of the Services,
                   such as hosting and other services. These third-party service
                   providers may collect information sent by your browser as part
@@ -936,21 +936,21 @@ export default function LegalTerms(props) {
                 </p>
                 <p>
                   VIII. Customer Support Correspondence: When you ask for
-                  assistance from Ludo Official Kings customer support, the
+                  assistance from Goti King customer support, the
                   contact information you provide will be collected, as well as
                   information about your game play or activity on the Service,
                   your user ID number, and the correspondence and any
                   information contained within. If available through the
-                  Services, you may provide Ludo Official Kings with profile
+                  Services, you may provide Goti King with profile
                   information to make public, such as a short biography,
                   location, website, cell phone, a picture, information to
                   customize your account, etc. Such contact information may be
                   used to send you information about the Services or related
                   information. You may use your account settings to unsubscribe
-                  from notifications from Ludo Official Kings and/or from other
+                  from notifications from Goti King and/or from other
                   users and find users you know. You may also unsubscribe by
                   following the instructions contained within the notification
-                  or the instructions on the Service. Also Ludo Official Kings
+                  or the instructions on the Service. Also Goti King
                   may use your contact information to help others find your
                   account, including through third-party services and client
                   applications. Providing any additional information described
@@ -966,7 +966,7 @@ export default function LegalTerms(props) {
                   required time to time. Some of this information, for example,
                   your name and/or username, may be listed publicly on the
                   Services, including on your profile page and in search
-                  results. You agree that Ludo Official Kings and/or third
+                  results. You agree that Goti King and/or third
                   parties on its behalf and/or its partners may use the
                   Information for the purposes of contacting you as part of
                   customer support; to send you updates or information about the
@@ -984,10 +984,10 @@ export default function LegalTerms(props) {
                   <strong>Information sharing and disclosure</strong>
                 </p>
                 <p>
-                  Ludo Official Kings will only share your data with third
+                  Goti King will only share your data with third
                   parties according to the Privacy Policy, as reasonably
                   necessary in order to provide the Services, for example, by
-                  providing Information to suppliers that Ludo Official Kings
+                  providing Information to suppliers that Goti King
                   may use to fulfill the Services; where it is necessary to
                   carry out your instructions, for example, to process a payment
                   instruction your Information has to be provided to the payment
@@ -1001,8 +1001,8 @@ export default function LegalTerms(props) {
                   regulation; in order to comply with any legal obligation, or
                   in order to enforce or apply the Terms, this Privacy Policy
                   and/or any other agreement with you; or to protect the rights
-                  and/or property of Ludo Official Kings or third-party´s rights
-                  and/or property. Ludo Official Kings may share or disclose
+                  and/or property of Goti King or third-party´s rights
+                  and/or property. Goti King may share or disclose
                   your non-private information, such as public user profile
                   information, public messages, e-mail, etc., or share or
                   disclose your information in an anonymous or aggregated basis
@@ -1017,12 +1017,12 @@ export default function LegalTerms(props) {
                   You may allow the Services to interact with any third party
                   social network and/or platforms, such as Facebook, twitter,
                   whatsApp and any other networks/platforms which will provide
-                  data about you to Ludo Official Kings. Since any other
+                  data about you to Goti King. Since any other
                   applications or websites different than the Services are owned
                   by a third party, you must ensure that you read their terms of
                   service and the applicable privacy policies. You understand
                   that when you allow the Services to interact with any third
-                  party social network and/or platform, Ludo Official Kings may
+                  party social network and/or platform, Goti King may
                   share data about you with your contacts and other users of the
                   Services and vice versa. This Data may include your name,
                   profile picture, activity status, and information related to
@@ -1030,12 +1030,12 @@ export default function LegalTerms(props) {
                   your settings with that third party provider.
                 </p>
                 <p>
-                  Ludo Official Kings has certain links embedded to third party
+                  Goti King has certain links embedded to third party
                   services including but not limited to YouTube. Your
                   interaction with such third party platform/s are governed by
                   their policies, and we urge you to review their policies
                   before you proceed with availing such services via the
-                  offerings of Ludo Official Kings. The YouTute terms are
+                  offerings of Goti King. The YouTute terms are
                   available at{" "}
                   <a href="https://www.youtube.com/t/terms" target="_self">
                     https://www.youtube.com/t/terms
@@ -1050,7 +1050,7 @@ export default function LegalTerms(props) {
                   <strong>Term</strong>
                 </p>
                 <p>
-                  Ludo Official Kings may retain the Information for as long as
+                  Goti King may retain the Information for as long as
                   is necessary to fulfill the purposes for which it was
                   collected or as needed to provide the Services, even after you
                   have discontinued or deleted any account, or after the end of
@@ -1063,7 +1063,7 @@ export default function LegalTerms(props) {
                   <strong>Protection of Information</strong>
                 </p>
                 <p>
-                  Ludo Official Kings maintains appropriate technical and
+                  Goti King maintains appropriate technical and
                   physical safeguards to protect Information against accidental
                   or unlawful destruction or loss, alteration, unauthorized
                   disclosures or access, and any other unlawful forms of
@@ -1074,7 +1074,7 @@ export default function LegalTerms(props) {
                   to and/or stored at worldwide destinations. Ludo Official
                   Kings takes all steps reasonably necessary to ensure that
                   Information is treated securely and in accordance with this
-                  Privacy Policy. In the event that Ludo Official Kings is
+                  Privacy Policy. In the event that Goti King is
                   involved in a bankruptcy, merger, acquisition, reorganization
                   or sale of assets, your information may be sold or transferred
                   as part of that transaction. The undertakings in this Privacy
@@ -1086,7 +1086,7 @@ export default function LegalTerms(props) {
                   You understand that when you click on these links any data
                   which you provide afterwards is subject to that third party's
                   privacy policy and not to Ludo Official Kings’s. Consequently,
-                  Ludo Official Kings takes no responsibility for the content,
+                  Goti King takes no responsibility for the content,
                   safety or security of any third party website. The Services
                   are not directed to persons under legal age. Ludo Official
                   Kings does not knowingly collect any Information from children
@@ -1100,24 +1100,24 @@ export default function LegalTerms(props) {
                     <strong>support@gotiking.com</strong>
                   </span>
                   . Irrespective of which country you reside in or supply
-                  information from, you authorize Ludo Official Kings to store
+                  information from, you authorize Goti King to store
                   and/or use the Information according to this Privacy Policy in
-                  any country where Ludo Official Kings may operate.
+                  any country where Goti King may operate.
                 </p>
                 <p>
                   Not with standing anything to the contrary in this Policy,{" "}
-                  <strong>Ludo Official Kings</strong> may preserve or disclose
+                  <strong>Goti King</strong> may preserve or disclose
                   your information to the extent reasonably necessary to comply
                   with a law, regulation or legal request; to protect the safety
                   of any person; to address fraud, security or technical issues;
-                  or to protect Ludo Official Kings's rights or property.
+                  or to protect Goti King's rights or property.
                   However, nothing in this Privacy Policy is intended to limit
                   any legal defenses or objections that you may have to a third
                   party’s, including a government’s request to disclose your
                   information. We wants to make sure that your Information is
                   accurate and up to date. You may ask to modify, correct or
                   remove information with the tools and account settings of the
-                  Service, or otherwise by contacting Ludo Official Kings at
+                  Service, or otherwise by contacting Goti King at
                   support@gotiking.com.
                 </p>
                 <p>
@@ -1131,7 +1131,7 @@ export default function LegalTerms(props) {
                   exclusive jurisdiction of the courts located in the city of
                   Jaipur/Rajasthan – India. You consent the jurisdiction and
                   venue in such courts and waive any objection as to
-                  inconvenient forum Ludo Official Kings may revise or amend
+                  inconvenient forum Goti King may revise or amend
                   this Privacy Policy from time to time.
                 </p>
               </div>
@@ -1141,7 +1141,7 @@ export default function LegalTerms(props) {
             <Accordion.Header>About Us</Accordion.Header>
             <Accordion.Body>
               <p>
-                <strong>Ludo Official Kings</strong> ("or We") is a real-money
+                <strong>Goti King</strong> ("or We") is a real-money
                 online gaming product owned and operated by Allinone Hax.
               </p>
               <p>
@@ -1150,12 +1150,12 @@ export default function LegalTerms(props) {
                 app-installs.
               </p>
               <p>
-                Ludo Official Kings is a skill-based real-money gaming platform
+                Goti King is a skill-based real-money gaming platform
                 accessible only for our users in India. It is accessible on{" "}
                 <span style={{ color: "rgb(209,72,65)" }}>
                   https://gotiking.com
                 </span>
-                . On Ludo Official Kings, users can compete for real cash in
+                . On Goti King, users can compete for real cash in
                 Tournaments and Battles. They can encash their winnings via
                 popular options such as Paytm Wallet, UPI or Phonepe.
               </p>

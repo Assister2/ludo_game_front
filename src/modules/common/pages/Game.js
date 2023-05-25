@@ -52,6 +52,17 @@ export default function Game(props) {
   const showToast = () => {
     cogoToast.success("Text copied!");
   };
+  const handleRedirect = () => {
+    const userAgent = window.navigator.userAgent;
+
+    if (/iPad|iPhone|iPod/.test(userAgent)) {
+      window.location.href =
+        "https://itunes.apple.com/in/app/ludo-king/id993090598";
+    } else if (/Android/.test(userAgent)) {
+      window.location.href =
+        "https://play.google.com/store/apps/details?id=com.ludo.king";
+    }
+  };
   const socket2 = useSelector((state) => state.socketReducer);
   console.log("socket2game", socket2);
   if (!socket2.instance) {
@@ -378,6 +389,20 @@ export default function Game(props) {
                   copy code
                 </button>
               </CopyToClipboard>
+
+              <button
+                style={{ marginTop: "5px" }}
+                className="btn btn-success btn-lg  mb-3"
+                onClick={handleRedirect}
+              >
+                {" "}
+                <img
+                  style={{ height: "24px", width: "24px" }}
+                  src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
+                  alt="avatar"
+                ></img>
+                Open Ludo King
+              </button>
             </div>
           </div>
         </div>

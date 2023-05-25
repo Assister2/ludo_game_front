@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 import { signUpReducer, loginReducer,socketReducer } from "./auth";
 import { user } from "./user";
 import { wallet } from "./wallet";
+import { wallet1 } from "./buychips";
 
 export default combineReducers({
   socketReducer,
@@ -12,6 +13,7 @@ export default combineReducers({
   loginReducer,
   user,
   wallet,
+  wallet1,
 
   // Here you can registering another reducers.
 });

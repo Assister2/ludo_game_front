@@ -7,6 +7,7 @@ const initialState = {
   error: "",
 };
 
+
 export const wallet = (state = initialState, action) => {
   switch (action.type) {
     case WALLET.GET_WALLET_LOADING: {
@@ -19,7 +20,6 @@ export const wallet = (state = initialState, action) => {
 
       return { ...state, data: payload, error: "", isLoading: false };
     }
-
     case WALLET.GET_WALLET_ERROR: {
       const { payload } = action;
       return { ...state, data: null, error: payload, isLoading: false };
