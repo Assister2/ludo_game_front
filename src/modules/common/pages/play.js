@@ -435,7 +435,7 @@ export default function Play() {
       setHoldModal(true);
     }
   };
-  console.log("challengee", challenges);
+
   const memoizedChallenges = React.useMemo(
     () =>
       challenges.map((item) => {
@@ -752,6 +752,31 @@ export default function Play() {
       }),
     [challenges]
   );
+  setInterval(() => {
+    if (challenges.length > 0) {
+      challenges.forEach((item) => {
+        if (
+          item.state == "open" &&
+          item.status == 1 &&
+          item.creator._id == userId
+        ) {
+          const date1 = moment(item.createdAt);
+          const date2 = moment();
+          // Calculate the difference in minutes between the two dates
+          const diffMinutes = date2.diff(date1, "minutes");
+          if (diffMinutes >= 5) {
+            console.log("checkcond", diffMinutes);
+            ws.send(
+              JSON.stringify({
+                type: "deleteOpenChallengesOfCreator",
+                payload: { userId },
+              })
+            );
+          }
+        }
+      });
+    }
+  }, 3000);
 
   return (
     <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-4 g-0">

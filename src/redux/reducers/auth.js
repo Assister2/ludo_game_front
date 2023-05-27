@@ -18,7 +18,6 @@ const initialState2 = {
   signUpPage: null,
 };
 export const socketReducer = (state = initialState1, action) => {
-  console.log("checkkkd", action);
   switch (action.type) {
     case "SOCKET_CONNECTED":
       return {
@@ -37,7 +36,6 @@ export const socketReducer = (state = initialState1, action) => {
   }
 };
 export const signupPage1 = (state = initialState2, action) => {
-
   switch (action.type) {
     case "ON_SIGNUPPAGE":
       return {

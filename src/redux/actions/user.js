@@ -9,7 +9,7 @@ export const getUserProfileReq = (data) =>{
   
   
   export const getUserProfileSuccess = (data) =>{
-    console.log("data profile",data.data)
+    
     return {
       type: USER_PROFILE.USER_GET_PROFILE_SUCCESS,
       payload: data.data,
