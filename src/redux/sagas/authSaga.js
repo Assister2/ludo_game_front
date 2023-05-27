@@ -28,10 +28,14 @@ function* signUp(param) {
 
   if (data.status == 200) {
     cogoToast.success(`OTP has sent to your number`, { hideAfter: 5 });
+    var dataall = { ...param.payload, signUp: true };
+
+    yield put({ type: "ON_SIGNUPPAGE", payload: true });
+
     param.navigation(`/verify-otp?p=${param.payload.phone}`, {
-      state: { ...param.payload },
+      state: { ...param.payload, isVerified: true },
     });
-    // console.log("data",data)
+
     yield put(signUpSuccess(data));
   } else if (data.status == 400) {
     cogoToast.error(data.error);
@@ -60,9 +64,15 @@ const connectSocket = () => {
 
 // Sign up
 function* login(param) {
-  yield put(loginLoading(true));
-  var data = yield verifyOTP(param.payload);
+  var data = null;
+  if (param?.payload?.register) {
+    data = param?.payload?.data;
+  } else {
+    data = yield verifyOTP(param.payload);
+  }
 
+  console.log("check", data);
+  yield put(loginLoading(true));
   if (data.status == 200) {
     localStorage.clear();
     sessionStorage.clear();

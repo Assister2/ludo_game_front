@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { resendOTP, verifyOTP } from "../../../apis/auth";
+import { resendOTP, verifyOTP, verifyOTP2 } from "../../../apis/auth";
 import { loginRequest } from "../../../redux/actions/auth";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
@@ -17,12 +17,15 @@ export default function VeridyOtp({ route }) {
   const { state: data } = location;
   const navigate = useNavigateSearch(true);
   const { data: loginData } = useSelector((state) => state.loginReducer);
-
+  const { signUpPage } = useSelector((state) => state.signupPage1);
+  console.log("chekcvaluee", signUpPage);
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
     isPaste: false,
+    isVerified: false,
   });
+
   const [timer, setTimer] = useState(60);
 
   const [loading, setLoading] = useState(false);
@@ -100,35 +103,24 @@ export default function VeridyOtp({ route }) {
     setLoading(true);
 
     // let verifyOTPData = await verifyOTP()
-    dispatch(
-      loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
-    );
+    if (signUpPage) {
+      console.log("ifworking");  var data = await verifyOTP2({
+        phone: phone,
+        otp: state.digits?.join(""),
+      });
+    
+      if (data) {
+      
+        dispatch(loginRequest({ data: data, register: true }, history));
+      }
 
-    // console.log("verifyOTPData", verifyOTPData)
-    // if (verifyOTPData.status !== 200) {
-    //   setLoading(false)
-    //   toast.error(verifyOTPData.error);
-    // }
-    // else {
-    //   setLoading(false)
-    //   Cookies.set("token", verifyOTPData?.data?.jwtToken?.jwtToken)
-    //   Cookies.set("fullName", verifyOTPData?.data?.fullName)
-    //   Cookies.set("userId", verifyOTPData?.data?._id)
-    //   Cookies.set("isLoggedIn", true)
-    //   cogoToast.success("Logged in successfully")
-    //   // window.location.pathname = "/play"
-    //   // // setTimeout(()=>{
-    //   // //   history("/play")
-    //   // // },1000)
-
-    //   navigate("/play/home");
-    // }
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   toast.success("[DEBUG]: OTP is " + state.digits?.join(""));
-    //   navigate("/play/home");
-    // }, 1500);
+      
+    } else {
+   
+      dispatch(
+        loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
+      );
+    }
   };
 
   const resend = async () => {
@@ -153,6 +145,7 @@ export default function VeridyOtp({ route }) {
       }, 1000);
     }
   }, [timer]);
+
 
   return (
     <div>

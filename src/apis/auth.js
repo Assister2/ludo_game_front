@@ -16,11 +16,11 @@ import { axiosConfig } from "./axiosConfig";
 //     const firebaseApp = initializeApp(firebaseConfig);
 //     const messaging = getMessaging(firebaseApp);
 //     let token = await getToken(messaging);
-   
+
 //     if (token) return token;
 //     return "";
 //   } catch (err) {
-    
+
 //     return "";
 //   }
 // };
@@ -42,9 +42,23 @@ export const userSignUp = async (param) => {
 export const verifyOTP = async (param) => {
   // let token = await initFB();
   param = { ...param };
-  console.log("param", param);
+
   const data = await axiosConfig
     .post("/auth/confirmOTP", param)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return err.response.data;
+    });
+  return data;
+};
+export const verifyOTP2 = async (param) => {
+  // let token = await initFB();
+  param = { ...param };
+  
+  const data = await axiosConfig
+    .post("/auth/OTP", param)
     .then((res) => {
       return res.data;
     })

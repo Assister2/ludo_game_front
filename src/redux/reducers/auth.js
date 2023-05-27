@@ -14,6 +14,9 @@ const initialState1 = {
   isConnected: false,
   error: null,
 };
+const initialState2 = {
+  signUpPage: null,
+};
 export const socketReducer = (state = initialState1, action) => {
   console.log("checkkkd", action);
   switch (action.type) {
@@ -28,6 +31,20 @@ export const socketReducer = (state = initialState1, action) => {
         ...state,
         error: action.payload,
       };
+    // other cases...
+    default:
+      return state;
+  }
+};
+export const signupPage1 = (state = initialState2, action) => {
+
+  switch (action.type) {
+    case "ON_SIGNUPPAGE":
+      return {
+        ...state,
+        signUpPage: action.payload,
+      };
+
     // other cases...
     default:
       return state;
