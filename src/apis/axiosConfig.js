@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosConfig = axios.create({
-  baseURL: "https://apibackend.gotiking.com/api",
+  baseURL: "http://localhost:4001/api",
   headers: { "Content-Type": "application/json" },
 });
 

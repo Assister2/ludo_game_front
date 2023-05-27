@@ -34,9 +34,8 @@ export default function Play() {
     setAmount(e.target.value);
   };
   const socket2 = useSelector((state) => state.socketReducer);
-  
+
   if (!socket2.instance) {
-   
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
   const { instance } = socket2;
@@ -299,11 +298,10 @@ export default function Play() {
     setChallenges(challegesData);
   }, [sorting]);
 
-
   const noOfChallenges = useMemo(() => {
     var challenge = 0;
     challenges.map((item) => {
-      if (item.creator?._id == userId) {
+      if (item.creator?._id == userId && item.state === "open") {
         challenge++;
       }
       return challenge;
@@ -437,7 +435,7 @@ export default function Play() {
       setHoldModal(true);
     }
   };
-
+  console.log("challengee", challenges);
   const memoizedChallenges = React.useMemo(
     () =>
       challenges.map((item) => {
