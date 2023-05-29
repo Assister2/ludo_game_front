@@ -6,7 +6,7 @@ import { AiFillWarning } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
 import { logoutRequest } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socker";
 import { BsWindowDesktop } from "react-icons/bs";

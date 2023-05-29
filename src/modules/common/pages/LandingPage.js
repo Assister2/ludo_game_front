@@ -1,5 +1,5 @@
 import { SwipeableDrawer } from "@material-ui/core";
-import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
 import React, { useEffect, useState } from "react";

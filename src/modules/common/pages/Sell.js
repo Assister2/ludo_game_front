@@ -1,5 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
-import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import { Redirect } from "react-router/cjs/react-router.min";
 import { CDN_URL } from "../../../config";
 import { userSellChipsRequest } from "../../../redux/actions/wallet";
 import { getUserProfileApi } from "../../../apis/user";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 
 export default function Sell() {
   const walletData1 = useSelector((state) => state.wallet1);
@@ -51,12 +51,12 @@ export default function Sell() {
   const sell = () => {
     try {
       if (state.upiId !== state.confirmUpiId) {
-        cogoToast.error("Please enter same upi id");
+        toast.error("Please enter same upi id");
       } else {
         if (state.amount < 95) {
-          cogoToast.error("Amount should be greater than 95");
+          toast.error("Amount should be greater than 95");
         } else if (state.amount > 10000) {
-          cogoToast.error("Amount should be lesser than 10000");
+          toast.error("Amount should be lesser than 10000");
         } else {
           dispatch(
             userSellChipsRequest({
@@ -76,7 +76,7 @@ export default function Sell() {
         }
       }
     } catch (error) {
-      cogoToast.error("something went wrong");
+      toast.error("something went wrong");
     }
   };
 

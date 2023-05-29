@@ -7,7 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routing/Routes";
 import Header from "./modules/common/components/appbar/AppBar";
-import { Toaster } from "react-hot-toast";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import store from "./redux";
 
 import Cookies from "js-cookie";
@@ -20,14 +22,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Toaster
-          gutter={1}
-          position="bottom-center"
-          containerStyle={{
-            bottom: "10%",
-          }}
-          toastOptions={{ duration: 3000 }}
-        />
+        <ToastContainer position="bottom-right" autoClose={5000} />
         <Router>
           <Header />
           <Fragment>

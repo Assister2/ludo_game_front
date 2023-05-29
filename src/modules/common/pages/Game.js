@@ -1,5 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
-import cogoToast from "cogo-toast";
+// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import React, { useEffect, useState, useRef } from "react";
 import { BsArrowLeftShort, BsInfoCircle, BsClipboard } from "react-icons/bs";
@@ -50,7 +52,7 @@ export default function Game(props) {
   const webSocketRef = useRef(null);
 
   const showToast = () => {
-    cogoToast.success("Text copied!");
+    toast.success("Text copied!");
   };
   const handleRedirect = () => {
     const userAgent = window.navigator.userAgent;
@@ -128,7 +130,7 @@ export default function Game(props) {
         event.data?.creator?._id == userId &&
         event.data?.results?.creator !== ""
       ) {
-        // cogoToast.error("You have already submitted result")
+        // toast.error("You have already submitted result")
         navigate("/play");
         return;
       }
@@ -136,12 +138,12 @@ export default function Game(props) {
         event.data?.player._id == userId &&
         event.data?.results?.player !== ""
       ) {
-        // cogoToast.error("You have already submitted result")
+        // toast.error("You have already submitted result")
         navigate("/play");
         return;
       }
       if (event.status == 400) {
-        // cogoToast.error(event.error)
+        // toast.error(event.error)
         navigate("/play");
         return;
       }
@@ -219,10 +221,10 @@ export default function Game(props) {
             })
           );
         }
-        cogoToast.success("result submitted");
+        toast.success("result submitted");
         navigate("/play");
       } else {
-        cogoToast.error("please upload result");
+        toast.error("please upload result");
       }
     } catch (error) {
       console.log("error", error);
@@ -248,7 +250,7 @@ export default function Game(props) {
         );
       }
       if (challenge.status == 400) {
-        cogoToast.error(challenge.error);
+        toast.error(challenge.error);
         navigate("/play");
       }
     } catch (error) {

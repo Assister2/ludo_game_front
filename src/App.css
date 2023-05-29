@@ -1,4 +1,32 @@
+/* .Toastify__toast-container {
+    box-sizing: border-box;
+    color: #000000 !important;
+    padding: 4px;
+    position: fixed;
+    -webkit-transform: translate3d(0,0,9999 px);
+    -webkit-transform: translate3d(0,0,var(--toastify-z-index) px);
+    width: 320px;
+    width: var(--toastify-toast-width);
+    z-index: 9999;
+    z-index: var(--toastify-z-index);
+}
+.Toastify__toast--error {
+    background: #ffffff !important;
+}
+.Toastify__toast-container--bottom-right {
+    bottom: 1em;
+    right: 1em;
+}
 
+
+
+.Toastify__toast-theme--light {
+    background: #fff !important;
+   
+    color: #757575;
+    color: var(--toastify-text-color-light);
+}
+   */
 .formSub{
 	display: none;
 }

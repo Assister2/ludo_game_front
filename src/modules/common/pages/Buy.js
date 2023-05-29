@@ -1,5 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
-import cogoToast from "cogo-toast";
+// import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import {
   buyWalletApi,
@@ -54,9 +56,9 @@ export default function Buy() {
   }, []);
   const pay = () => {
     if (amount <= 0) {
-      cogoToast.error("amount should be greater than 0");
+      toast.error("amount should be greater than 0");
     } else if (amount > 20000) {
-      cogoToast.error("Maximum amount limit is 20000");
+      toast.error("Maximum amount limit is 20000");
     } else {
       dispatch(
         userBuyChipsRequest({ amount: Number(amount), createdAt: new Date() })

@@ -1,9 +1,11 @@
 import { CircularProgress } from "@material-ui/core";
 import { PanoramaRounded } from "@material-ui/icons";
-import cogoToast from "cogo-toast";
+// import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { resendOTP, verifyOTP, verifyOTP2 } from "../../../apis/auth";
@@ -104,19 +106,16 @@ export default function VeridyOtp({ route }) {
 
     // let verifyOTPData = await verifyOTP()
     if (signUpPage) {
-      console.log("ifworking");  var data = await verifyOTP2({
+      console.log("ifworking");
+      var data = await verifyOTP2({
         phone: phone,
         otp: state.digits?.join(""),
       });
-    
+
       if (data) {
-      
         dispatch(loginRequest({ data: data, register: true }, history));
       }
-
-      
     } else {
-   
       dispatch(
         loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
       );
@@ -128,9 +127,9 @@ export default function VeridyOtp({ route }) {
       setRLoading(true);
       let res = await resendOTP({ phone: phone });
       if (res.status == 200) {
-        cogoToast.success("OTP Sent");
+        toast.success("OTP Sent");
       } else {
-        cogoToast.error(res.error);
+        toast.error(res.error);
       }
       setRLoading(false);
     } catch (error) {
@@ -145,7 +144,6 @@ export default function VeridyOtp({ route }) {
       }, 1000);
     }
   }, [timer]);
-
 
   return (
     <div>

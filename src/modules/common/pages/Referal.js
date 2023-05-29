@@ -3,12 +3,12 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { CDN_URL } from "../../../config";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
 import { TelegramShareButton, WhatsappShareButton } from "react-share";
 export default function ReferAndEarning() {
   let userData = useSelector((state) => state.user);
   const showToast = () => {
-    cogoToast.success("Text copied!");
+    toast.success("Text copied!");
   };
   
   const shareMessage =

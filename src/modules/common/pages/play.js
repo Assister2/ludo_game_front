@@ -1,4 +1,7 @@
-import cogoToast from "cogo-toast";
+// import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import Dash from "./dash";
 import "./animation.css";
 // import Avatar from "react-avatar";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -112,7 +115,8 @@ export default function Play() {
           return;
         }
         if (events.status == 400) {
-          cogoToast.error(events.error);
+          // cogoToast.error(events.error);
+          toast.error(events.error);
           return;
         }
         if (events.sort) {
@@ -128,17 +132,25 @@ export default function Play() {
               (b.player === userId || b.creator._id === userId)
             )
               return 1;
-
-            if (a.state === "requested" && a.player._id === userId) return -1;
-            if (b.state === "requested" && b.player._id === userId) return 1;
+            if (a.state === "open" && a.creator?._id === userId) return -1;
+            if (b.state === "open" && b.creator?._id === userId) return 1;
+            if (a.state === "requested" && a.player?._id === userId) return -1;
+            if (b.state === "requested" && b.player?._id === userId) return 1;
 
             // 1) state == "open" && creator._id == userId
             if (a.state === "requested" && a.creator._id === userId) return -1;
             if (b.state === "requested" && b.creator._id === userId) return 1;
+            if (a.state === "playing" && a.creator?._id === userId) return -1;
+            if (b.state === "playing" && b.creator?._id === userId) return 1;
+            if (a.state === "playing" && a.player?._id === userId) return -1;
+            if (b.state === "playing" && b.player?._id === userId) return 1;
+
+            if (a.state === "hold" && a.creator?._id === userId) return -1;
+            if (b.state === "hold" && b.creator?._id === userId) return 1;
+            if (a.state === "hold" && a.player?._id === userId) return -1;
+            if (b.state === "hold" && b.player?._id === userId) return 1;
 
             // 1) state == "open" && creator._id == userId
-            if (a.state === "open" && a.creator?._id === userId) return -1;
-            if (b.state === "open" && b.creator?._id === userId) return 1;
 
             // 1) state == "open" && creator._id == userId
             if (
@@ -186,16 +198,19 @@ export default function Play() {
           let tempData = events.filter(
             (item) =>
               !(
-                item.state === "requested" &&
-                item.player._id !== userId &&
-                item.creator?._id !== userId
+                (item.state === "requested" &&
+                  item.player?._id !== userId &&
+                  item.creator?._id !== userId) ||
+                (item.state === "hold" &&
+                  item.player?._id !== userId &&
+                  item.creator?._id !== userId)
               )
           );
 
           events.forEach((element) => {
             if (
               element.state === "playing" &&
-              element.player._id === userId &&
+              element.player?._id === userId &&
               element.firstTime
             ) {
               viewGame(element._id);
@@ -232,8 +247,8 @@ export default function Play() {
       if (a.state === "requested" && a.creator._id === userId) return -1;
       if (b.state === "requested" && b.creator._id === userId) return 1;
       // 1) state == "open" && creator._id == userId
-      if (a.state === "requested" && a.player._id === userId) return -1;
-      if (b.state === "requested" && b.player._id === userId) return 1;
+      if (a.state === "requested" && a.player?._id === userId) return -1;
+      if (b.state === "requested" && b.player?._id === userId) return 1;
 
       // 1) state == "open" && creator._id == userId
       if (a.state === "open" && a.creator._id === userId) return -1;
@@ -311,7 +326,7 @@ export default function Play() {
 
   useEffect(() => {
     if (ws) {
-      if (isTabVisible) {
+      if (isTabVisible && noOfChallenges > 0) {
         ws.send(
           JSON.stringify({
             type: "deleteOpenChallengesOfCreator",
@@ -325,7 +340,7 @@ export default function Play() {
 
       // Calculate the difference in minutes between the two dates
 
-      if (ws) {
+      if (ws && noOfChallenges > 0) {
         ws.send(
           JSON.stringify({
             type: "deleteOpenChallengesOfCreator",
@@ -337,7 +352,7 @@ export default function Play() {
   }, [location, ws]);
   if (ws) {
     if (!isTabVisible) {
-      if (RequestedChallenge) {
+      if (RequestedChallenge && noOfChallenges > 0) {
         ws.send(
           JSON.stringify({
             type: "cancel",
@@ -345,7 +360,7 @@ export default function Play() {
           })
         );
       }
-      if (noOfChallenges) {
+      if (noOfChallenges && noOfChallenges > 0) {
         ws.send(
           JSON.stringify({
             type: "deleteOpenChallengesOfCreator",
@@ -358,15 +373,15 @@ export default function Play() {
 
   const createChallenge = () => {
     if (amount <= 0) {
-      cogoToast.error("amount should be greater that 0 and multiples of 50");
+      toast.error("amount should be greater that 0 and multiples of 50");
       return;
     }
     if (amount > 10000) {
-      cogoToast.error("amount should lesser than or equals to 10000");
+      toast.error("amount should lesser than or equals to 10000");
       return;
     }
     if (amount % 50 !== 0) {
-      cogoToast.error("amount should be multiple of 50");
+      toast.error("amount should be multiple of 50");
       return;
     }
     setCreateChallengeLoading(true);
@@ -427,7 +442,7 @@ export default function Play() {
     if (challenge.creator._id == userId && challenge.results.creator == "") {
       viewGame(challenge._id);
     } else if (
-      challenge.player._id == userId &&
+      challenge.player?._id == userId &&
       challenge.results.player == ""
     ) {
       viewGame(challenge._id);
@@ -435,12 +450,12 @@ export default function Play() {
       setHoldModal(true);
     }
   };
-
+  console.log("checkchallenges", challenges);
   const memoizedChallenges = React.useMemo(
     () =>
       challenges.map((item) => {
         // console.log("item", item)
-        // console.log("userId", item.creator._id !== userId && item.player._id !== userId && item.state == "playing")
+        // console.log("userId", item.creator._id !== userId && item.player?._id !== userId && item.state == "playing")
         return (
           <CSSTransition
             key={item._id}
@@ -503,7 +518,7 @@ export default function Play() {
                           <img src="https://ludoplayers.com/static/media/avatar-m-2.f630f4eeffb6e2e929909f66cfd814a2.svg"></img>
                         </div>
                         <span className=" fw-semibold text-truncate text-end">
-                          {item.player.username.slice(0, 5)}...
+                          {item.player?.username.slice(0, 5)}...
                         </span>
                       </div>
                     </div>
@@ -752,31 +767,31 @@ export default function Play() {
       }),
     [challenges]
   );
-  setInterval(() => {
-    if (challenges.length > 0) {
-      challenges.forEach((item) => {
-        if (
-          item.state == "open" &&
-          item.status == 1 &&
-          item.creator._id == userId
-        ) {
-          const date1 = moment(item.createdAt);
-          const date2 = moment();
-          // Calculate the difference in minutes between the two dates
-          const diffMinutes = date2.diff(date1, "minutes");
-          if (diffMinutes >= 5) {
-            console.log("checkcond", diffMinutes);
-            ws.send(
-              JSON.stringify({
-                type: "deleteOpenChallengesOfCreator",
-                payload: { userId },
-              })
-            );
-          }
-        }
-      });
-    }
-  }, 3000);
+  // setInterval(() => {
+  //   if (challenges.length > 0) {
+  //     challenges.forEach((item) => {
+  //       if (
+  //         item.state == "open" &&
+  //         item.status == 1 &&
+  //         item.creator._id == userId
+  //       ) {
+  //         const date1 = moment(item.createdAt);
+  //         const date2 = moment();
+  //         // Calculate the difference in minutes between the two dates
+  //         const diffMinutes = date2.diff(date1, "minutes");
+  //         if (diffMinutes >= 5) {
+  //           console.log("checkcond", diffMinutes);
+  //           ws.send(
+  //             JSON.stringify({
+  //               type: "deleteOpenChallengesOfCreator",
+  //               payload: { userId },
+  //             })
+  //           );
+  //         }
+  //       }
+  //     });
+  //   }
+  // }, 3000);
 
   return (
     <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-4 g-0">

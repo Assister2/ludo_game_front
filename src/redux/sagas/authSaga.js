@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
 import io from "socket.io-client";
 // Import the redux-saga/effects
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
@@ -27,7 +27,7 @@ function* signUp(param) {
   const data = yield userSignUp(param.payload);
 
   if (data.status == 200) {
-    cogoToast.success(`OTP has sent to your number`, { hideAfter: 5 });
+    toast.success(`OTP has sent to your number`, { hideAfter: 5 });
     var dataall = { ...param.payload, signUp: true };
 
     yield put({ type: "ON_SIGNUPPAGE", payload: true });
@@ -38,12 +38,12 @@ function* signUp(param) {
 
     yield put(signUpSuccess(data));
   } else if (data.status == 400) {
-    cogoToast.error(data.error);
+    toast.error(data.error);
     yield put(signUpError(data.error));
   } else {
     yield put(signUpError(data.error));
 
-    cogoToast.error(data.error);
+    toast.error(data.error);
   }
 }
 const connectSocket = () => {
@@ -83,7 +83,7 @@ function* login(param) {
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
     Cookies.set("userId", data.data?._id, { expires: 30 });
-    // cogoToast.success(`loged in successfully`);
+    // toast.success(`loged in successfully`);
 
     yield put(getWalletSuccess(data));
     const socket = yield call(connectSocket);
@@ -96,11 +96,11 @@ function* login(param) {
     param.navigation(`/`);
     // window.location.reload();
   } else if (data.status == 400) {
-    cogoToast.error(data.error);
+    toast.error(data.error);
     yield put(loginError(data.error));
   } else {
     yield put(loginError(data.error));
-    cogoToast.error(data.error);
+    toast.error(data.error);
   }
 }
 
@@ -111,10 +111,10 @@ function* logout(param) {
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");
-    cogoToast.success("Logged out successfully");
+    toast.success("Logged out successfully");
     param.navigation("/");
   } catch (error) {
-    cogoToast.error(error);
+    toast.error(error);
   }
 
   // yield put(logoutLo(true));
@@ -122,18 +122,18 @@ function* logout(param) {
   // console.log("param",param.payload)
   // console.log("data",data)
   // if (data.status == 200) {
-  //   cogoToast.success(`OTP has sent to your number`, { hideAfter: 5 });
+  //   toast.success(`OTP has sent to your number`, { hideAfter: 5 });
 
   // // console.log("data",data)
   //   yield put(loginSuccess(data));
   //   param.navigation(`/play`);
 
   // } else if (data.status == 400) {
-  //   cogoToast.error(data.error);
+  //   toast.error(data.error);
   //   yield put(loginError(data.error));
   // } else {
   //   yield put(loginError(data.error));
-  //   cogoToast.error(data.error);
+  //   toast.error(data.error);
   // }
 }
 

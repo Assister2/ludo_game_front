@@ -37,3 +37,10 @@
 .separator:not(:empty):after {
   margin-left: 0.25em;
 }
+.toast-message {
+  background: darkblue;
+  color: #fff;
+  font-size: 20px;
+  width: 34vw;
+  padding: 30px 20px;
+}

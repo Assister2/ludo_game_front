@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import cogoToast from "cogo-toast";
+import { toast } from "react-toastify";
 // Import the redux-saga/effects
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import { WALLET } from "../contstants";
@@ -44,11 +44,11 @@ function* getWallet(param) {
     
       yield put(getWalletSuccess(data?.data));
     } else if (data?.status == 400) {
-      cogoToast.error(data?.error);
+      toast.error(data?.error);
       yield put(getWalletError(data?.error));
     } else {
       yield put(getWalletError(data?.error));
-      cogoToast.error(data?.error);
+      toast.error(data?.error);
     }
   }
 }
@@ -57,15 +57,15 @@ function* updateWallet(param) {
   yield put(updateWalletLoading(true));
   const data = yield updateUserProfileApi(param);
   if (data.status == 200) {
-    cogoToast.success("Profile updated");
+    toast.success("Profile updated");
     
     yield put(updateWalletSuccess(data.data));
   } else if (data.status == 400) {
-    cogoToast.error(data.error);
+    toast.error(data.error);
     yield put(updateWalletError(data.error));
   } else {
     yield put(updateWalletError(data.error));
-    cogoToast.error(data.error);
+    toast.error(data.error);
   }
 }
 
@@ -73,15 +73,15 @@ function* userBuySaga(param) {
   yield put(userBuyChipsLoading(true));
   const data = yield buyWalletApi(param);
   if (data.status == 200) {
-    cogoToast.success("Chips added successfully");
+    toast.success("Chips added successfully");
     
     yield put(userBuyChipsSuccess(data.data));
   } else if (data.status == 400) {
-    cogoToast.error(data.error);
+    toast.error(data.error);
     yield put(userBuyChipsError(data));
   } else {
     yield put(userBuyChipsError(data));
-    cogoToast.error(data.error);
+    toast.error(data.error);
   }
 }
 
@@ -89,15 +89,15 @@ function* userSellSaga(param) {
   yield put(userSellChipsLoading(true));
   const data = yield sellWalletApi(param);
   if (data.status == 200) {
-    cogoToast.success("Withdraw successfull");
+    toast.success("Withdraw successfull");
    
     yield put(userSellChipsSuccess(data.data));
   } else if (data.status == 400) {
-    cogoToast.error(data.error);
+    toast.error(data.error);
     yield put(userSellChipsError(data));
   } else {
     yield put(userSellChipsError(data));
-    cogoToast.error(data.error);
+    toast.error(data.error);
   }
 }
 
