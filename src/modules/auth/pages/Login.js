@@ -31,7 +31,7 @@ export default function Login(props) {
   };
 
   const login = async () => {
-    console.log("workingwa");
+   
     try {
       if (state.phone?.length < 10) {
         setValidationMsg("Atleast 10 Digits!");

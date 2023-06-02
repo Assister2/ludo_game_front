@@ -19,8 +19,10 @@ export default function VeridyOtp({ route }) {
   const { state: data } = location;
   const navigate = useNavigateSearch(true);
   const { data: loginData } = useSelector((state) => state.loginReducer);
+  const newsoc = useSelector((state) => state);
   const { signUpPage } = useSelector((state) => state.signupPage1);
-  console.log("chekcvaluee", signUpPage);
+  const Loading = useSelector((state) => state.loginReducer);
+
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
@@ -323,7 +325,7 @@ export default function VeridyOtp({ route }) {
                 onClick={verify}
                 className="btn btn-primary text-uppercase"
               >
-                {loginData.isLoading ? (
+                {Loading.isLoading ? (
                   <CircularProgress
                     style={{
                       width: "1.5rem",

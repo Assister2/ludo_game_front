@@ -21,6 +21,7 @@ import moment from "moment";
 // const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
 export default function Play() {
+  let errorDisplayed = false;
   const dispatch = useDispatch();
   const isLoggedIn = Cookies.get("isLoggedIn");
   const userId = Cookies.get("userId");
@@ -30,7 +31,9 @@ export default function Play() {
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [tabVisibleTime, setIsTabVisibleTime] = useState(true);
+  const [errorShown, setErrorShown] = useState(false);
   const [isTabSwitch, setTabSwitch] = useState(false);
+  const [firstErrorDisplayed, setFirstErrorDisplayed] = useState(false);
   const [ws, setWs] = useState();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -90,8 +93,11 @@ export default function Play() {
       // if (client) {
       setIsOpen(true);
       console.log("ws opened");
-      setWs(client);
+      if (!!client) {
+        setWs(client);
+      }
 
+      console.log("chckss", ws, client);
       heartbeatInterval = setInterval(() => {
         client.send(JSON.stringify({ type: "heartbeat" }));
       }, 3000);
@@ -115,8 +121,10 @@ export default function Play() {
           return;
         }
         if (events.status == 400) {
-          // cogoToast.error(events.error);
-          toast.error(events.error);
+          if (!firstErrorDisplayed) {
+            toast.error(events.error);
+            setFirstErrorDisplayed(true);
+          }
           return;
         }
         if (events.sort) {
@@ -450,7 +458,7 @@ export default function Play() {
       setHoldModal(true);
     }
   };
-  console.log("checkchallenges", challenges);
+
   const memoizedChallenges = React.useMemo(
     () =>
       challenges.map((item) => {
@@ -905,7 +913,8 @@ export default function Play() {
                     className="fw-semibold text-truncate"
                     style={{ width: "80px" }}
                   >
-                    pankaj819
+                    {/* pankaj819 */}
+                    {holdChallenge?.player?.username}
                   </span>
                 </div>
                 <div>
@@ -929,7 +938,7 @@ export default function Play() {
                     className=" fw-semibold text-truncate"
                     style={{ width: "80px" }}
                   >
-                    sukhad
+                    {holdChallenge?.creator?.username}
                   </span>
                 </div>
               </div>

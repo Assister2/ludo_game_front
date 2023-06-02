@@ -17,10 +17,9 @@ import {
 
 function Guide(props) {
   const dispatch = useDispatch();
-  
+
   const socket2 = useSelector((state) => state.socketReducer);
   if (!socket2.instance) {
-    
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
 
@@ -36,14 +35,14 @@ function Guide(props) {
   const isLoggedIn = Cookies.get("isLoggedIn");
 
   useEffect(() => {
-    if (!userData._id) {
+    if (!userData?._id) {
       if (data.isLoggedIn && Cookies.get("token")) {
         let route = window.location.pathname;
         if (route === "/login" || route === "/register") {
           window.location.href = "/play";
           return null;
         }
-        
+
         dispatch(getUserProfileReq());
         dispatch(getWalletReq());
       } else {
@@ -65,13 +64,12 @@ function Guide(props) {
 
   useEffect(() => {
     var socketNew = null;
-    
+
     if (socket2) {
       const { instance } = socket2;
       socketNew = instance;
     }
 
-    
     if (userId && socketNew) {
       socketNew.connect();
 
@@ -79,7 +77,7 @@ function Guide(props) {
       let reconnectTimeout = null;
 
       client = socketNew.connect();
-      
+
       interval = setInterval(() => {
         client.emit(
           "getUserWallet",
@@ -100,7 +98,7 @@ function Guide(props) {
           // Handle error
         } else if (data.data !== null || data.data !== undefined) {
           // Only update state if the component is still mounted
-          
+
           setWallet(data.data);
 
           dispatch({ type: "GET_WALLET_REQUEST1", payload: data.data });
@@ -109,7 +107,7 @@ function Guide(props) {
     }
   }, [socket2, userId]);
   useEffect(() => {}, [wallet]);
-  
+
   const handleClose = () => setOpen(false);
   return (
     <div>

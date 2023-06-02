@@ -10,7 +10,8 @@ export default function ReferAndEarning() {
   const showToast = () => {
     toast.success("Text copied!");
   };
-  
+  console.log("noofreferals", userData);
+
   const shareMessage =
     "Play Ludo and earn Rs10000 daily.\nCommission Charge - 3% Only\nReferral - 1% On All Games\n24x7 Live Chat Support\nInstant Withdrawal Via UPI/Bank\nRegister Now, My refer code is " +
     userData.data.referelCode +
@@ -53,7 +54,9 @@ export default function ReferAndEarning() {
                 <span className="text-capitalize fw-bold">
                   referred players
                 </span>
-                <span>₹0</span>
+                <span>
+                  {userData?.data?.totalRefer ? userData?.data?.totalRefer : 0}
+                </span>
               </div>
               <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
                 <span className="text-capitalize fw-bold">

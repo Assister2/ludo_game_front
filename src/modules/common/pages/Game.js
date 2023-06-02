@@ -3,6 +3,7 @@ import { CircularProgress } from "@material-ui/core";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+import { CDN_URL } from "../../../config";
 import React, { useEffect, useState, useRef } from "react";
 import { BsArrowLeftShort, BsInfoCircle, BsClipboard } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -394,15 +395,22 @@ export default function Game(props) {
 
               <button
                 style={{ marginTop: "5px" }}
-                className="btn btn-success btn-lg  mb-3"
+                className="btn btn-secondary text-capitalize d-flex align-items-center justify-content-center"
                 onClick={handleRedirect}
               >
                 {" "}
                 <img
+                  style={{ width: "1.4rem", marginRight: "5px" }}
+                  ssrc={`${CDN_URL}/ludoking.jpg`}
+                  // src={`${CDN_URL}/ludoking.jpg`}
+
+                  alt="avatar"
+                />
+                {/* <img
                   style={{ height: "24px", width: "24px" }}
                   src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
                   alt="avatar"
-                ></img>
+                ></img> */}
                 Open Ludo King
               </button>
             </div>
@@ -697,7 +705,7 @@ export default function Game(props) {
           <div className="d-flex flex-column align-items-stretch pb-3">
             <button
               type="button"
-              disabled={cancellationReason === "" || disableCancelButton}
+              // disabled={cancellationReason === "" || disableCancelButton}
               className="text-capitalize btn btn-primary btn-lg"
               onClick={() => {
                 cancelChallenge({

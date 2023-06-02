@@ -113,10 +113,21 @@ export default function Register(props) {
                 <button
                   style={{ fontSize: "0.8rem", width: "100%" }}
                   type="submit"
-                  disabled={false}
+                  disabled={isLoading}
                   className="text-capitalize btn btn-primary"
                 >
-                  {"submit"}
+                  {isLoading ? (
+                    <CircularProgress
+                      style={{
+                        width: "1.5rem",
+                        height: "1.5rem",
+                        verticalAlign: "middle",
+                      }}
+                      color="white"
+                    ></CircularProgress>
+                  ) : (
+                    "submit"
+                  )}
                 </button>
               </div>
             </form>
