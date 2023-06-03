@@ -13,11 +13,14 @@ import "react-toastify/dist/ReactToastify.css";
 import store from "./redux";
 
 import Cookies from "js-cookie";
+import { requestForToken2,requestForToken } from "./firebase";
 
 function App() {
   if (Cookies.get("userId") === undefined) {
     socketNew.disconnect();
   }
+  requestForToken2();
+  requestForToken();
 
   return (
     <Provider store={store}>
