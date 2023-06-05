@@ -35,13 +35,12 @@ import {
 
 // Sign up
 function* getWallet(param) {
-  yield put(getWalletLoading(true));
- 
+  yield put(getWalletLoading(false));
+
   const data = yield getUPILink();
 
   if (!!data) {
     if (data?.status == 200) {
-    
       yield put(getWalletSuccess(data?.data));
     } else if (data?.status == 400) {
       toast.error(data?.error);
@@ -58,7 +57,7 @@ function* updateWallet(param) {
   const data = yield updateUserProfileApi(param);
   if (data.status == 200) {
     toast.success("Profile updated");
-    
+
     yield put(updateWalletSuccess(data.data));
   } else if (data.status == 400) {
     toast.error(data.error);
@@ -74,7 +73,7 @@ function* userBuySaga(param) {
   const data = yield buyWalletApi(param);
   if (data.status == 200) {
     toast.success("Chips added successfully");
-    
+
     yield put(userBuyChipsSuccess(data.data));
   } else if (data.status == 400) {
     toast.error(data.error);
@@ -90,7 +89,7 @@ function* userSellSaga(param) {
   const data = yield sellWalletApi(param);
   if (data.status == 200) {
     toast.success("Withdraw successfull");
-   
+
     yield put(userSellChipsSuccess(data.data));
   } else if (data.status == 400) {
     toast.error(data.error);
