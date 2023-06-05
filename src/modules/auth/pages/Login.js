@@ -1,6 +1,6 @@
 import { CircularProgress } from "@material-ui/core";
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { loginAPI } from "../../../apis/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,6 @@ export default function Login(props) {
   };
 
   const login = async () => {
-   
     try {
       if (state.phone?.length < 10) {
         setValidationMsg("Atleast 10 Digits!");
@@ -40,7 +39,7 @@ export default function Login(props) {
 
       setLoading(true);
       let userLogin = await loginAPI({ phone: state.phone });
-      
+
       if (userLogin.status == 200) {
         setLoading(false);
         toast.success("OTP sent successfully!");

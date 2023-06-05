@@ -47,7 +47,7 @@ function* signUp(param) {
   }
 }
 const connectSocket = () => {
-  const socket = io("wss://apibackend.gotiking.com"); // Replace with your server URL
+  const socket = io("ws://localhost:4001"); // Replace with your server URL
 
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import store from "./redux";
 
 import Cookies from "js-cookie";
-import { requestForToken2,requestForToken } from "./firebase";
+import { requestForToken2, requestForToken } from "./firebase";
 
 function App() {
   if (Cookies.get("userId") === undefined) {
@@ -25,7 +25,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <ToastContainer position="bottom-right" autoClose={5000} />
+        <ToastContainer position="bottom-right" autoClose={3000} />
         <Router>
           <Header />
           <Fragment>

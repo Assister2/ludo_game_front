@@ -105,6 +105,19 @@ export default function Game(props) {
         })
       );
     }
+    // return () => {
+    //   if (socketNew) {
+    //     socketNew.close();
+    //     console.log("game WebSocket connection closed.");
+    //   }
+    //   // if (heartbeatInterval) {
+    //   //   clearInterval(heartbeatInterval);
+    //   // }
+    //   // document.removeEventListener(
+    //   //   "visibilitychange",
+    //   //   handleVisibilityChange
+    //   // );
+    // };
   }, []);
 
   if (ws) {
@@ -401,9 +414,8 @@ export default function Game(props) {
                 {" "}
                 <img
                   style={{ width: "1.4rem", marginRight: "5px" }}
-                  ssrc={`${CDN_URL}/ludoking.jpg`}
+                  src={`${CDN_URL}/images/ludoking.jpg`}
                   // src={`${CDN_URL}/ludoking.jpg`}
-
                   alt="avatar"
                 />
                 {/* <img
@@ -633,6 +645,7 @@ export default function Game(props) {
           <div className="row row-cols-auto g-2 py-3 container-fluid">
             <div className="col">
               <span
+                style={{ cursor: "pointer" }}
                 className="py-2 px-3 badge rounded-pill bg-secondary"
                 onClick={() => {
                   handleCancellationReason("No Room Code");
@@ -644,6 +657,7 @@ export default function Game(props) {
             <div className="col">
               <span
                 className="py-2 px-3 badge rounded-pill bg-secondary"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   handleCancellationReason("Not Joined");
                 }}
@@ -653,6 +667,7 @@ export default function Game(props) {
             </div>
             <div className="col">
               <span
+                style={{ cursor: "pointer" }}
                 className="py-2 px-3 badge rounded-pill bg-secondary"
                 onClick={() => {
                   handleCancellationReason("Not Playing");
@@ -663,6 +678,7 @@ export default function Game(props) {
             </div>
             <div className="col">
               <span
+                style={{ cursor: "pointer" }}
                 className="py-2 px-3 badge rounded-pill bg-secondary"
                 onClick={() => {
                   handleCancellationReason("Don't want to Play");
@@ -673,6 +689,7 @@ export default function Game(props) {
             </div>
             <div className="col">
               <span
+                style={{ cursor: "pointer" }}
                 className="py-2 px-3 badge rounded-pill bg-secondary"
                 onClick={() => {
                   handleCancellationReason("Opponent Abusing");
@@ -683,6 +700,7 @@ export default function Game(props) {
             </div>
             <div className="col">
               <span
+                style={{ cursor: "pointer" }}
                 className="py-2 px-3 badge rounded-pill bg-secondary"
                 onClick={() => {
                   handleCancellationReason("Game Not Start");
@@ -693,6 +711,7 @@ export default function Game(props) {
             </div>
             <div className="col">
               <span
+                style={{ cursor: "pointer" }}
                 className="py-2 px-3 badge rounded-pill bg-secondary"
                 onClick={() => {
                   handleCancellationReason("Other");
@@ -705,7 +724,7 @@ export default function Game(props) {
           <div className="d-flex flex-column align-items-stretch pb-3">
             <button
               type="button"
-              // disabled={cancellationReason === "" || disableCancelButton}
+              disabled={cancellationReason === "" || disableCancelButton}
               className="text-capitalize btn btn-primary btn-lg"
               onClick={() => {
                 cancelChallenge({

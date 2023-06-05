@@ -34,6 +34,7 @@ export default function Play() {
   const [errorShown, setErrorShown] = useState(false);
   const [isTabSwitch, setTabSwitch] = useState(false);
   const [firstErrorDisplayed, setFirstErrorDisplayed] = useState(false);
+  const [lastError, setLastError] = useState(false);
   const [ws, setWs] = useState();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -70,7 +71,13 @@ export default function Play() {
   function addMessage(message) {
     setMessages([...messages, message]);
   }
+  const handleVisibilityChange = () => {
+    setIsTabVisible(!document.hidden);
+  };
+  let heartbeatInterval = null;
 
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  console.log(challenges);
   useEffect(() => {
     if (userId) {
       if (userId) {
@@ -121,10 +128,8 @@ export default function Play() {
           return;
         }
         if (events.status == 400) {
-          if (!firstErrorDisplayed) {
-            toast.error(events.error);
-            setFirstErrorDisplayed(true);
-          }
+          toast.error(events.error);
+
           return;
         }
         if (events.sort) {
@@ -234,7 +239,38 @@ export default function Play() {
           setChallenges(tempData);
         }
       });
+      console.log("errorr");
+      client.on("error", (events) => {
+        console.log("ccc", events);
+      });
     }
+    //refresh
+    // client.send(
+    //   JSON.stringify({
+    //     type: "deleteOpenChallengesOfCreator",
+    //     payload: { userId },
+    //   })
+    // );
+    return () => {
+      setLastError(true);
+      if (client) {
+        client.send(
+          JSON.stringify({
+            type: "deleteOpenChallengesOfCreator",
+            payload: { userId },
+          })
+        );
+        client.send(
+          JSON.stringify({
+            type: "cancel",
+            payload: { challengeId: RequestedChallenge, userId },
+          })
+        );
+
+        client.close();
+        console.log("WebSocket connection closed.");
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -324,7 +360,10 @@ export default function Play() {
   const noOfChallenges = useMemo(() => {
     var challenge = 0;
     challenges.map((item) => {
-      if (item.creator?._id == userId && item.state === "open") {
+      if (
+        (item.creator?._id == userId && item.state === "open") ||
+        item.state === "requested"
+      ) {
         challenge++;
       }
       return challenge;
@@ -333,6 +372,7 @@ export default function Play() {
   }, [challenges]);
 
   useEffect(() => {
+    console.log("consoleee1", RequestedChallenge);
     if (ws) {
       if (isTabVisible && noOfChallenges > 0) {
         ws.send(
