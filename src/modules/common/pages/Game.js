@@ -531,7 +531,18 @@ export default function Game(props) {
                 }}
                 className="text-capitalize btn btn-danger btn-lg"
               >
-                Yes, i lost
+                {isIlostClicked ? (
+                  <CircularProgress
+                    style={{
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      verticalAlign: "middle",
+                    }}
+                    color="white"
+                  />
+                ) : (
+                  "Yes, i lost"
+                )}
               </button>
               <button type="button" className="btn btn-outline-danger btn-lg">
                 No
@@ -733,7 +744,18 @@ export default function Game(props) {
                 });
               }}
             >
-              Confirm
+              {disableCancelButton ? (
+                <CircularProgress
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    verticalAlign: "middle",
+                  }}
+                  color="white"
+                />
+              ) : (
+                "Confirm"
+              )}
             </button>
           </div>
         </div>

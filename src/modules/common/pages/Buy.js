@@ -133,7 +133,7 @@ export default function Buy() {
             </div>
             <div className="d-grid">
               <button className="btn btn-primary" onClick={pay}>
-                {false ? (
+                {isLoading ? (
                   <CircularProgress
                     style={{
                       width: "1.5rem",

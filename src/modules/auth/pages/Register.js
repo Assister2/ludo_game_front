@@ -1,5 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpRequest } from "../../../redux/actions/auth";
@@ -10,12 +12,12 @@ export default function Register(props) {
   const { isLoading } = useSelector((state) => state.signUpReducer);
   console.log("is loading user", isLoading);
 
-  const inititalState = {
+  const initialState = {
     name: "",
     phoneNumber: "",
     referalCode: "",
   };
-  const [state, setState] = useState(inititalState);
+  const [state, setState] = useState(initialState);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState((prev) => ({ ...prev, [name]: value }));
@@ -43,7 +45,7 @@ export default function Register(props) {
 
   return (
     <div>
-      <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
         <div className="card">
           <div className="bg-light text-dark text-capitalize card-header">
             register
@@ -59,10 +61,10 @@ export default function Register(props) {
               <div className="vstack gap-4 minBreakpoint-xs">
                 <div className="d-flex flex-column align-items-start">
                   <label className="text-capitalize form-label">
-                    Name (as per aadhaar card)
+                    Name (as per Aadhaar card)
                   </label>
                   <input
-                    required=""
+                    required
                     name="name"
                     type="text"
                     className="form-control"
@@ -75,14 +77,22 @@ export default function Register(props) {
                   className="d-flex flex-column align-items-start"
                 >
                   <label className="text-capitalize form-label">
-                    phone number
+                    Phone Number
                   </label>
                   <input
-                    required=""
+                    required
                     name="phoneNumber"
                     type="text"
                     className="form-control"
-                    onChange={handleChange}
+                    onChange={(event) => {
+                      const phoneNumber = event.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
+                      setState((prevState) => ({
+                        ...prevState,
+                        phoneNumber,
+                      }));
+                    }}
                     value={state.phoneNumber}
                   />
                 </div>
@@ -91,10 +101,9 @@ export default function Register(props) {
                   className="d-flex flex-column align-items-start"
                 >
                   <label className="text-capitalize form-label">
-                    refer code (optional)
+                    Refer Code (optional)
                   </label>
                   <input
-                    // disabled={isLoading || state.referalCode != ""}
                     required=""
                     name="referalCode"
                     type="text"
@@ -105,7 +114,7 @@ export default function Register(props) {
                 </div>
                 <div style={{ marginTop: "1rem" }}>
                   <p style={{ fontSize: "0.8rem", textAlign: "start" }}>
-                    By Continuing, you agree to our{" "}
+                    By continuing, you agree to our{" "}
                     <a href="#/terms">Legal Terms</a> and you are 18 years or
                     older.
                   </p>
@@ -126,7 +135,7 @@ export default function Register(props) {
                       color="white"
                     ></CircularProgress>
                   ) : (
-                    "submit"
+                    "Submit"
                   )}
                 </button>
               </div>
