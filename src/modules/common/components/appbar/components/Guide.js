@@ -78,17 +78,16 @@ function Guide(props) {
 
       client = socketNew.connect();
 
-      interval = setInterval(() => {
-        client.emit(
-          "getUserWallet",
-          JSON.stringify({
-            type: "getUserWallet",
-            payload: {
-              userId: userId,
-            },
-          })
-        );
-      }, 2000);
+      client.emit(
+        "getUserWallet",
+        JSON.stringify({
+          type: "getUserWallet",
+          payload: {
+            userId: userId,
+          },
+        })
+      );
+
       setIsOpen(true);
 
       client.on("getUserWallet", (message) => {
@@ -106,7 +105,17 @@ function Guide(props) {
       });
     }
   }, [socket2, userId]);
-  useEffect(() => {}, [wallet]);
+  // useEffect(() => {
+  //   client.emit(
+  //     "getUserWallet",
+  //     JSON.stringify({
+  //       type: "getUserWallet",
+  //       payload: {
+  //         userId: userId,
+  //       },
+  //     })
+  //   );
+  // }, []);
 
   const handleClose = () => setOpen(false);
   return (

@@ -12,6 +12,12 @@ import { BsSortUp } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
 import socketNew2 from "../../../socker";
 import Dropdown from "react-bootstrap/Dropdown";
+import {
+  sortEvents,
+  filterEvents,
+  challengesSort,
+} from "../functions/functions";
+
 import { useDispatch } from "react-redux";
 import { CDN_URL } from "../../../config";
 import { useSelector } from "react-redux";
@@ -26,14 +32,12 @@ export default function Play() {
   const isLoggedIn = Cookies.get("isLoggedIn");
   const userId = Cookies.get("userId");
   const token = Cookies.get("token");
+
   const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
-  const [tabVisibleTime, setIsTabVisibleTime] = useState(true);
-  const [errorShown, setErrorShown] = useState(false);
-  const [isTabSwitch, setTabSwitch] = useState(false);
-  const [firstErrorDisplayed, setFirstErrorDisplayed] = useState(false);
+
   const [lastError, setLastError] = useState(false);
   const [ws, setWs] = useState();
   const navigate = useNavigate();
@@ -41,6 +45,8 @@ export default function Play() {
     setAmount(e.target.value);
   };
   const socket2 = useSelector((state) => state.socketReducer);
+  const { data } = useSelector((state) => state.wallet);
+  console.log("wallett", data);
 
   if (!socket2.instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
@@ -48,35 +54,18 @@ export default function Play() {
   const { instance } = socket2;
   var socketNew = instance;
 
-  const location = useLocation();
-
   const [holdChallenge, setHoldChallenge] = useState({});
-  const [RequestedChallenge, setRequestedChallenge] = useState();
+
   const [holdModal, setHoldModal] = useState(false);
-  const [gameState, setGameState] = useState(true);
 
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
-  const [playing, setPlaying] = useState(false);
+
   const audioPlayer = useRef(null);
   let client = null;
   function playAudio() {
     // audioPlayer.current.play();
   }
 
-  const clientRef = useRef(null);
-  const [waitingToReconnect, setWaitingToReconnect] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-
-  function addMessage(message) {
-    setMessages([...messages, message]);
-  }
-  const handleVisibilityChange = () => {
-    setIsTabVisible(!document.hidden);
-  };
-  let heartbeatInterval = null;
-
-  document.addEventListener("visibilitychange", handleVisibilityChange);
   console.log(challenges);
   useEffect(() => {
     if (userId) {
@@ -84,30 +73,25 @@ export default function Play() {
         socketNew.connect();
       }
 
-      let reconnectTimeout = null;
       const handleVisibilityChange = () => {
         setIsTabVisible(!document.hidden);
       };
-      let heartbeatInterval = null;
 
       document.addEventListener("visibilitychange", handleVisibilityChange);
 
       client = socketNew.connect();
 
-      clientRef.current = client;
-      window.client = client;
-      console.log("Connecting to WebSocket...");
       // if (client) {
-      setIsOpen(true);
+
       console.log("ws opened");
       if (!!client) {
         setWs(client);
       }
 
       console.log("chckss", ws, client);
-      heartbeatInterval = setInterval(() => {
+      setInterval(() => {
         client.send(JSON.stringify({ type: "heartbeat" }));
-      }, 3000);
+      }, 1000);
 
       client.send(
         JSON.stringify({
@@ -124,117 +108,21 @@ export default function Play() {
         }
 
         if (events.challengeRedirect) {
+          console.log("events.challengeRedirect", events.challengeRedirect);
           navigate(`/game/${events.challengeId}`);
           return;
         }
         if (events.status == 400) {
+          console.log("eventsss", events);
           toast.error(events.error);
 
           return;
         }
         if (events.sort) {
-          events.sort((a, b) => {
-            if (
-              a.state === "playing" &&
-              (a.player === userId || a.creator._id === userId)
-            ) {
-              return -1;
-            }
-            if (
-              b.state === "playing" &&
-              (b.player === userId || b.creator._id === userId)
-            )
-              return 1;
-            if (a.state === "open" && a.creator?._id === userId) return -1;
-            if (b.state === "open" && b.creator?._id === userId) return 1;
-            if (a.state === "requested" && a.player?._id === userId) return -1;
-            if (b.state === "requested" && b.player?._id === userId) return 1;
-
-            // 1) state == "open" && creator._id == userId
-            if (a.state === "requested" && a.creator._id === userId) return -1;
-            if (b.state === "requested" && b.creator._id === userId) return 1;
-            if (a.state === "playing" && a.creator?._id === userId) return -1;
-            if (b.state === "playing" && b.creator?._id === userId) return 1;
-            if (a.state === "playing" && a.player?._id === userId) return -1;
-            if (b.state === "playing" && b.player?._id === userId) return 1;
-
-            if (a.state === "hold" && a.creator?._id === userId) return -1;
-            if (b.state === "hold" && b.creator?._id === userId) return 1;
-            if (a.state === "hold" && a.player?._id === userId) return -1;
-            if (b.state === "hold" && b.player?._id === userId) return 1;
-
-            // 1) state == "open" && creator._id == userId
-
-            // 1) state == "open" && creator._id == userId
-            if (
-              a.state === "requested" &&
-              a.player === userId &&
-              a.creator === userId
-            )
-              return -1;
-            if (
-              b.state === "requested" &&
-              b.player === userId &&
-              b.creator === userId
-            )
-              return 1;
-            if (
-              a.state === "open" &&
-              a.creator._id !== userId &&
-              a.player !== userId
-            )
-              return -1;
-            if (
-              b.state === "open" &&
-              b.creator._id !== userId &&
-              b.player !== userId
-            )
-              return 1;
-            if (
-              a.creator?._id != userId &&
-              a.player?._id != userId &&
-              a.state == "playing"
-            )
-              return -1;
-            if (
-              b.creator?._id != userId &&
-              b.player?._id != userId &&
-              b.state == "playing"
-            )
-              return 1;
-            // 1) state == "open" && creator._id == userId
-            // Default sorting
-            return 0;
-          });
+          sortEvents(events, userId);
         }
         if (events.filter) {
-          let tempData = events.filter(
-            (item) =>
-              !(
-                (item.state === "requested" &&
-                  item.player?._id !== userId &&
-                  item.creator?._id !== userId) ||
-                (item.state === "hold" &&
-                  item.player?._id !== userId &&
-                  item.creator?._id !== userId)
-              )
-          );
-
-          events.forEach((element) => {
-            if (
-              element.state === "playing" &&
-              element.player?._id === userId &&
-              element.firstTime
-            ) {
-              viewGame(element._id);
-            }
-            if (
-              element.state === "requested" &&
-              element.creator._id === userId
-            ) {
-              playAudio();
-            }
-          });
+          const tempData = filterEvents(events, userId, viewGame, playAudio);
 
           setChallenges(tempData);
         }
@@ -260,154 +148,63 @@ export default function Play() {
             payload: { userId },
           })
         );
-        client.send(
-          JSON.stringify({
-            type: "cancel",
-            payload: { challengeId: RequestedChallenge, userId },
-          })
-        );
-
-        client.close();
-        console.log("WebSocket connection closed.");
       }
     };
   }, []);
 
   useEffect(() => {
     let challegesData = [...challenges];
-    challegesData.sort((a, b) => {
-      if (
-        a.state === "playing" &&
-        (a.player === userId || a.creator._id === userId)
-      )
-        return -1;
-      if (
-        b.state === "playing" &&
-        (b.player === userId || b.creator._id === userId)
-      )
-        return 1;
-
-      // 1) state == "open" && creator._id == userId
-      if (a.state === "requested" && a.creator._id === userId) return -1;
-      if (b.state === "requested" && b.creator._id === userId) return 1;
-      // 1) state == "open" && creator._id == userId
-      if (a.state === "requested" && a.player?._id === userId) return -1;
-      if (b.state === "requested" && b.player?._id === userId) return 1;
-
-      // 1) state == "open" && creator._id == userId
-      if (a.state === "open" && a.creator._id === userId) return -1;
-      if (b.state === "open" && b.creator._id === userId) return 1;
-
-      // 1) state == "open" && creator._id == userId
-      if (
-        a.state === "requested" &&
-        a.player === userId &&
-        a.creator === userId
-      )
-        return -1;
-      if (
-        b.state === "requested" &&
-        b.player === userId &&
-        b.creator === userId
-      )
-        return 1;
-
-      if (sorting == "lowToHigh") {
-        if (a.state === "open" && a.creator._id !== userId) {
-          if (b.state === "open" && b.creator._id !== userId) {
-            return a.amount - b.amount;
-          }
-          return -1;
-        }
-        if (b.state === "open" && b.creator._id !== userId) return 1;
-      } else if (sorting == "highToLow") {
-        if (a.state === "open" && a.creator._id !== userId) {
-          if (b.state === "open" && b.creator._id !== userId) {
-            return b.amount - a.amount;
-          }
-          return -1;
-        }
-        if (b.state === "open" && b.creator._id !== userId) return 1;
-      }
-
-      // 1) state == "open" && creator._id == userId
-
-      if (a.state === "open" && a.creator._id !== userId && a.player !== userId)
-        return -1;
-      if (b.state === "open" && b.creator._id !== userId && b.player !== userId)
-        return 1;
-
-      if (
-        a.creator?._id != userId &&
-        a.player?._id != userId &&
-        a.state == "playing"
-      )
-        return -1;
-      if (
-        b.creator?._id != userId &&
-        b.player?._id != userId &&
-        b.state == "playing"
-      )
-        return 1;
-
-      // Default sorting
-      return 0;
-    });
+    challengesSort(challegesData, userId, sorting);
 
     setChallenges(challegesData);
   }, [sorting]);
 
   const noOfChallenges = useMemo(() => {
     var challenge = 0;
+
     challenges.map((item) => {
-      if (
-        (item.creator?._id == userId && item.state === "open") ||
-        item.state === "requested"
-      ) {
-        challenge++;
+      if (item.creator?._id == userId) {
+        if (
+          (item.creator?._id == userId && item.state === "open") ||
+          item.state === "requested"
+        ) {
+          challenge++;
+        }
       }
-      return challenge;
+    });
+
+    return challenge;
+  }, [challenges]);
+
+  const noOfholdChallenges = useMemo(() => {
+    var challenge = 0;
+
+    challenges.map((item) => {
+      if (item.state === "hold") {
+        if (item.creator._id == userId || item.player._id == userId)
+          challenge++;
+      }
     });
     return challenge;
   }, [challenges]);
 
   useEffect(() => {
-    console.log("consoleee1", RequestedChallenge);
-    if (ws) {
-      if (isTabVisible && noOfChallenges > 0) {
-        ws.send(
-          JSON.stringify({
-            type: "deleteOpenChallengesOfCreator",
-            payload: { userId },
-          })
-        );
-      }
+    if (ws?.connected) {
+      console.log("emmm");
+      ws.emit(
+        "getUserWallet",
+        JSON.stringify({
+          type: "getUserWallet",
+          payload: {
+            userId: userId,
+          },
+        })
+      );
     }
-    return () => {
-      // This function will be executed when the component is unmounted
+  }, [noOfholdChallenges, client]);
 
-      // Calculate the difference in minutes between the two dates
-
-      if (ws && noOfChallenges > 0) {
-        ws.send(
-          JSON.stringify({
-            type: "deleteOpenChallengesOfCreator",
-            payload: { userId },
-          })
-        );
-      }
-    };
-  }, [location, ws]);
   if (ws) {
     if (!isTabVisible) {
-      if (RequestedChallenge && noOfChallenges > 0) {
-        ws.send(
-          JSON.stringify({
-            type: "cancel",
-            payload: { challengeId: RequestedChallenge, userId },
-          })
-        );
-      }
       if (noOfChallenges && noOfChallenges > 0) {
         ws.send(
           JSON.stringify({
@@ -453,13 +250,19 @@ export default function Play() {
     );
   };
 
-  const playChallenge = (challengeId) => {
-    ws.send(
-      JSON.stringify({
-        type: "play",
-        payload: { challengeId: challengeId, userId },
-      })
-    );
+  const playChallenge = (challenge) => {
+    if (data.wallet >= challenge.amount) {
+      console.log("challengeee", challenge);
+
+      ws.send(
+        JSON.stringify({
+          type: "play",
+          payload: { challengeId: challenge._id, userId },
+        })
+      );
+    } else {
+      toast.error("not enough chips");
+    }
   };
 
   const cancelChallenge = (challengeId) => {
@@ -472,7 +275,6 @@ export default function Play() {
   };
 
   const startGame = (challengeId) => {
-    setGameState(false);
     ws.send(
       JSON.stringify({
         type: "startGame",
@@ -507,7 +309,7 @@ export default function Play() {
         return (
           <CSSTransition
             key={item._id}
-            timeout={500}
+            timeout={100}
             classNames={{
               enter: false ? "card-animation-enter" : "",
               enterActive:
@@ -672,8 +474,7 @@ export default function Play() {
                             <button
                               className="btn btn-primary playChallange btn-sm"
                               onClick={() => {
-                                playChallenge(item._id);
-                                setRequestedChallenge(item._id);
+                                playChallenge(item);
                               }}
                             >
                               Play
@@ -815,31 +616,6 @@ export default function Play() {
       }),
     [challenges]
   );
-  // setInterval(() => {
-  //   if (challenges.length > 0) {
-  //     challenges.forEach((item) => {
-  //       if (
-  //         item.state == "open" &&
-  //         item.status == 1 &&
-  //         item.creator._id == userId
-  //       ) {
-  //         const date1 = moment(item.createdAt);
-  //         const date2 = moment();
-  //         // Calculate the difference in minutes between the two dates
-  //         const diffMinutes = date2.diff(date1, "minutes");
-  //         if (diffMinutes >= 5) {
-  //           console.log("checkcond", diffMinutes);
-  //           ws.send(
-  //             JSON.stringify({
-  //               type: "deleteOpenChallengesOfCreator",
-  //               payload: { userId },
-  //             })
-  //           );
-  //         }
-  //       }
-  //     });
-  //   }
-  // }, 3000);
 
   return (
     <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-4 g-0">

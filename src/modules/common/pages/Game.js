@@ -45,6 +45,7 @@ export default function Game(props) {
     challengeId: params.id,
   };
   const [isTabVisible, setIsTabVisible] = useState(true);
+  const [image, setImage] = useState(null);
   const [challenge, setChallenge] = useState(challengeInititalState);
   const [ws, setWs] = useState();
   const [walletWs, setWalletWs] = useState();
@@ -92,7 +93,16 @@ export default function Game(props) {
 
       heartbeatInterval = setInterval(() => {
         wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
-      }, 30000);
+      }, 1000);
+      wss.emit(
+        "getUserWallet",
+        JSON.stringify({
+          type: "getUserWallet",
+          payload: {
+            userId: userId,
+          },
+        })
+      );
 
       wss.emit(
         "ludogame",
@@ -279,6 +289,15 @@ export default function Game(props) {
       let challenge = await cancelChallengeApi(challengeObject);
       if (challenge) {
         ws.emit(
+          "getUserWallet",
+          JSON.stringify({
+            type: "getUserWallet",
+            payload: {
+              userId: userId,
+            },
+          })
+        );
+        ws.emit(
           "ludogame",
           JSON.stringify({
             type: "getChallengeByChallengeId",
@@ -296,12 +315,23 @@ export default function Game(props) {
   };
 
   const handleImageChange = (event) => {
+    console.log("cccc3434", event.target.files[0]);
     console.log("yes1");
     const reader = new FileReader();
     reader.onloadend = () => {
       console.log("yes2");
+      const base64Data = reader.result.replace(
+        /^data:([A-Za-z-+\/]+);base64,/,
+        ""
+      );
+      console.log("basseee", base64Data);
+      const imageBuffer = Buffer.from(base64Data, "base64");
 
-      setScreenshoot(reader.result);
+      console.log("imageBuffer: ", imageBuffer);
+
+      setScreenshoot(imageBuffer);
+      console.log("checkkk4545", reader.result);
+      setImage(reader.result);
       console.log("yes3", event);
       const file = document.getElementById("upload-btn").files[0];
       // const file = event.target.files[0]
@@ -589,7 +619,7 @@ export default function Game(props) {
                 <img
                   width={100}
                   height={100}
-                  src={screenshoot}
+                  src={image}
                   alt="Selected Image"
                 />
               )}

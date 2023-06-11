@@ -20,7 +20,8 @@ import { userBuyChipsRequest } from "../../../redux/actions/wallet";
 export default function Buy() {
   const dispatch = useDispatch();
   const socket2 = useSelector((state) => state.socketReducer);
-  console.log("socket2buy", socket2);
+  const socket3 = useSelector((state) => state.wallet);
+  console.log("socket2buy", socket3.data);
   if (!socket2.instance) {
     console.log("working232");
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
@@ -54,6 +55,18 @@ export default function Buy() {
       // window.location.reload();
     };
   }, []);
+  useEffect(() => {
+    ws.emit(
+      "getUserWallet",
+      JSON.stringify({
+        type: "getUserWallet",
+        payload: {
+          userId: userId,
+        },
+      })
+    );
+  }, [socket3.isLoading]);
+
   const pay = () => {
     if (amount <= 0) {
       toast.error("amount should be greater than 0");
@@ -82,6 +95,7 @@ export default function Buy() {
     // console.log("event", event);
     event = JSON.parse(event);
     if (event.status == 200) {
+      console.log("cehckwallet", event.data.wallet);
       localStorage.setItem("wallet", event.data.wallet);
       // setWallet(event.data)
       // console.log("event", event);
