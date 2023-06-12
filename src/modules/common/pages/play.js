@@ -289,11 +289,14 @@ export default function Play() {
 
   const viewHold = (challenge) => {
     setHoldChallenge(challenge);
-    if (challenge.creator._id == userId && challenge.results.creator == "") {
+    if (
+      challenge.creator._id == userId &&
+      challenge.results.creator?.result == ""
+    ) {
       viewGame(challenge._id);
     } else if (
       challenge.player?._id == userId &&
-      challenge.results.player == ""
+      challenge.results.player?.result == ""
     ) {
       viewGame(challenge._id);
     } else {
@@ -304,8 +307,6 @@ export default function Play() {
   const memoizedChallenges = React.useMemo(
     () =>
       challenges.map((item) => {
-        // console.log("item", item)
-        // console.log("userId", item.creator._id !== userId && item.player?._id !== userId && item.state == "playing")
         return (
           <CSSTransition
             key={item._id}
@@ -697,8 +698,8 @@ export default function Play() {
               <span>
                 I{" "}
                 {holdChallenge?.creator?._id == userId
-                  ? holdChallenge?.results?.creator
-                  : holdChallenge?.results?.player}
+                  ? holdChallenge?.results?.creator?.result
+                  : holdChallenge?.results?.player?.result}
               </span>
             </div>
           </div>

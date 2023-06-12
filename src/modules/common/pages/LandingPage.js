@@ -17,7 +17,6 @@ export function LandingPage() {
 
   const token = Cookies.get("token");
   const [f_open, setOpen] = useState(false);
-  
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -279,18 +278,36 @@ export function LandingPage() {
                 data.isLoggedIn ? navigate("/play") : navigate("/login")
               }
               style={{
-                padding: "12px 0px",
-                fontSize: "1.1rem",
+                padding: "14px 0px",
+                fontSize: "1.3rem",
               }}
               className="btn btn-dark btn-lg fw-semibold"
             >
               Play Now
             </button>
+
+            <Link
+              className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center position-fixed text-dark"
+              to="/support"
+              style={{
+                height: "60px",
+                width: "60px",
+                zIndex: 10,
+                bottom: "100px",
+                right: "30px",
+              }}
+            >
+              <img
+                src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/liveChat.webp"
+                height="36px"
+                alt="support icon"
+              />
+            </Link>
           </div>
           {data.isLoggedIn && (
             <a
-              href="whatsapp://send/?phone=918808344653&amp;text=I+have+an+issue.+Please+Help+Me+&amp;app_absent=0"
-              className="bg-success shadow-lg rounded-circle d-flex align-items-center justify-content-center text-white"
+              href="whatsapp://send/?phone=918808344653&amp;text=I+have+an+issue.+Please+Help+Me&amp;app_absent=0"
+              className="bg-success shadow-lg rounded-circle d-flex align-items-center justify-content-center text-white ml-auto"
               style={{ height: "60px", width: "60px" }}
             >
               <img src={`${CDN_URL}svgs/whatsapp.svg`} alt="whatsapp" />
@@ -302,25 +319,6 @@ export function LandingPage() {
         <img src="	https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/spinWheel.webp" height={"30px"} alt="spin wheel icon">
         </img>
       </Link> */}
-      {data.isLoggedIn && (
-        <Link
-          className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center position-fixed text-dark"
-          to="/support"
-          style={{
-            height: "60px",
-            width: "60px",
-            zIndex: 10,
-            bottom: "100px",
-            right: "30px",
-          }}
-        >
-          <img
-            src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/liveChat.webp"
-            height="36px"
-            alt="support icon"
-          />
-        </Link>
-      )}
     </div>
   );
 }

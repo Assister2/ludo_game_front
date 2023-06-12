@@ -67,7 +67,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.gamesPlayed}
+                  {userData?.data.gamesPlayed}
                 </div>
               </div>
             </div>

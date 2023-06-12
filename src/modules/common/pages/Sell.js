@@ -110,8 +110,7 @@ export default function Sell() {
           </div>
           <div className=" bg-secondary py-1">
             <span className="text-white" style={{ fontSize: "0. 8rem" }}>
-              Withdrawal Chips:{" "}
-              <span className="fs-4">{wallet?.winningCash}</span>
+              Withdrawal Chips: <span>{wallet?.winningCash}</span>
             </span>
           </div>
           <div className="card-body">

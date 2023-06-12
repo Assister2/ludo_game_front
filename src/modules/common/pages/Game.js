@@ -19,11 +19,13 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Moment from "react-moment";
 import moment from "moment";
 import socketNew2 from "../../../socker";
+import SwipeableContainer from "./Guidedrawer";
 export default function Game(props) {
   const params = useParams();
   const navigate = useNavigate();
   const userId = Cookies.get("userId");
   const [wonModal, setWonModal] = useState(false);
+  const [is_open, setOpen] = useState(false);
   const [lostModal, setLostModal] = useState(false);
   const [myResult, setMyResult] = useState("");
   const [isTabSwitch, setTabSwitch] = useState(false);
@@ -152,7 +154,7 @@ export default function Game(props) {
       console.log("event.data", event.data);
       if (
         event.data?.creator?._id == userId &&
-        event.data?.results?.creator !== ""
+        event.data?.results?.creator?.result !== ""
       ) {
         // toast.error("You have already submitted result")
         navigate("/play");
@@ -160,13 +162,15 @@ export default function Game(props) {
       }
       if (
         event.data?.player._id == userId &&
-        event.data?.results?.player !== ""
+        event.data?.results?.player?.result !== ""
       ) {
+
         // toast.error("You have already submitted result")
         navigate("/play");
         return;
       }
       if (event.status == 400) {
+
         // toast.error(event.error)
         navigate("/play");
         return;
@@ -174,6 +178,8 @@ export default function Game(props) {
       // setChallenges(event)
     });
   }
+  const handleGuide = () => setOpen(true);
+  const handleGuide2 = () => setOpen(false);
 
   const dialogs = document.querySelectorAll("dialog");
 
@@ -351,6 +357,12 @@ export default function Game(props) {
   return (
     <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
       <div>
+        <SwipeableContainer
+          is_open={is_open}
+          handleGuide2={handleGuide2}
+        ></SwipeableContainer>
+      </div>
+      <div>
         <div className="d-flex alig-items-center justify-content-between mt-2 mb-3">
           <Link to="/play">
             <button type="button" className="text-capitalize btn btn-primary">
@@ -361,10 +373,11 @@ export default function Game(props) {
           <div className="d-grid">
             <button
               type="button"
+              onClick={handleGuide}
               className="d-flex align-items-center justify-content-center btn btn-outline-danger"
             >
               <BsInfoCircle className="me-1" />
-              <span className="text-capitalize">Guide</span>
+              <span className="text-capitalize">Rules</span>
             </button>
           </div>
         </div>

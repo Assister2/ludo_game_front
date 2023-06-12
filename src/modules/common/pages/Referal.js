@@ -142,7 +142,7 @@ export default function ReferAndEarning() {
               </li>
               <li className="list-group-item">
                 Like if your player plays for <b>₹10000</b> and wins, You will
-                get <b style={{ color: "green" }}>₹400</b> as referral amount.
+                get <b style={{ color: "green" }}>₹200</b> as referral amount.
               </li>{" "}
             </ul>
           </div>
