@@ -1,8 +1,15 @@
+import Cookies from "js-cookie";
 import axios from "axios";
+const token =
+  Cookies.get("token") !== undefined || Cookies.get("token") !== null
+    ? Cookies.get("token")
+    : "";
 
 export const axiosConfig = axios.create({
   baseURL: process.env.REACT_APP_CLIENT_BASEURL,
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 export const axiosConfigWallet = axios.create({

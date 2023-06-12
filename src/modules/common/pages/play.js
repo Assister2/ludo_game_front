@@ -759,7 +759,9 @@ export default function Play() {
                 </div>
               </div>
               <div className="d-flex align-items-center justify-content-center pt-3">
-                <span className="text-success fw-bold">₹50</span>
+                <span className="text-success fw-bold">
+                  ₹{holdChallenge?.amount}
+                </span>
               </div>
             </div>
           </div>

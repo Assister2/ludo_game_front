@@ -48,7 +48,7 @@ function* signUp(param) {
 }
 const connectSocket = () => {
   // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
-  const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS ); // Replace with your server URL
+  const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS); // Replace with your server URL
 
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {
