@@ -132,13 +132,13 @@ export default function Play() {
         console.log("ccc", events);
       });
     }
-    //refresh
-    // client.send(
-    //   JSON.stringify({
-    //     type: "deleteOpenChallengesOfCreator",
-    //     payload: { userId },
-    //   })
-    // );
+
+    client.send(
+      JSON.stringify({
+        type: "deleteOpenChallengesOfCreator",
+        payload: { userId },
+      })
+    );
     return () => {
       setLastError(true);
       if (client) {
@@ -190,7 +190,6 @@ export default function Play() {
 
   useEffect(() => {
     if (ws?.connected) {
-      console.log("emmm");
       ws.emit(
         "getUserWallet",
         JSON.stringify({

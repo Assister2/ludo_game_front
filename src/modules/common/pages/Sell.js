@@ -8,20 +8,26 @@ import { Redirect } from "react-router/cjs/react-router.min";
 import { CDN_URL } from "../../../config";
 import { userSellChipsRequest } from "../../../redux/actions/wallet";
 import { getUserProfileApi } from "../../../apis/user";
+import Cookies from "js-cookie";
 // import { toast } from "react-hot-toast";
 
 export default function Sell() {
   const walletData1 = useSelector((state) => state.wallet1);
   const [wallet, setWallet] = useState({});
+  const [ws, setWs] = useState(null);
+  const userId = Cookies.get("userId");
   const { isLoading } = useSelector((state) => state.wallet);
+  const { instance } = useSelector((state) => state.socketReducer);
+  console.log("isLoading33", isLoading);
   const userData = useSelector((state) => state.user);
   const [disableWithdraw, setDisableWithdraw] = useState(false);
-
+  console.log("sss", instance);
   const initialState = {
     upiId: "",
     confirmUpiId: "",
     amount: 0,
   };
+  console.log("disablee", disableWithdraw);
   const [state, setState] = useState(initialState);
   const dispatch = useDispatch();
 
@@ -31,7 +37,23 @@ export default function Sell() {
       [e.target.name]: e.target.value,
     });
   };
-
+  // useEffect(() => {
+  //   const client = instance.connect();
+  //   setWs(client);
+  //   client.emit(
+  //     "getUserWallet",
+  //     JSON.stringify({
+  //       type: "getUserWallet",
+  //       payload: {
+  //         userId: userId,
+  //       },
+  //     })
+  //   );
+  //   return () => {
+  //     // Disconnect the client or perform any necessary cleanup actions
+  //     client.disconnect();
+  //   };
+  // }, []);
   const showToast = () => {
     toast.error("Complete or cancel active challenges to withdraw!");
   };
@@ -70,9 +92,9 @@ export default function Sell() {
               state.amount
             )}&tn=ludo%20pay`
           );
-          window.location.href = `upi://pay?pa=8233622253@paytm&pn=${
-            userData.data.user
-          }&am=${Number(state.amount)}&tn=ludo%20pay`;
+          // window.location.href = `upi://pay?pa=8233622253@paytm&pn=${
+          //   userData.data.user
+          // }&am=${Number(state.amount)}&tn=ludo%20pay`;
         }
       }
     } catch (error) {
@@ -168,26 +190,25 @@ export default function Sell() {
                 By Continuing, you agree to our{" "}
                 <a href="#/terms">Legal Terms</a> and you are 18 years or older.
               </p>
-              {disableWithdraw ? (
-                <button className="btn btn-primary" onClick={() => showToast()}>
-                  Sell
-                </button>
-              ) : (
-                <button className="btn btn-primary" onClick={sell}>
-                  {disableWithdraw ? (
-                    <CircularProgress
-                      style={{
-                        width: "1.5rem",
-                        height: "1.5rem",
-                        verticalAlign: "middle",
-                      }}
-                      color="white"
-                    />
-                  ) : (
-                    "Sell"
-                  )}
-                </button>
-              )}
+
+              <button
+                disabled={isLoading}
+                className="btn btn-primary"
+                onClick={sell}
+              >
+                {isLoading ? (
+                  <CircularProgress
+                    style={{
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      verticalAlign: "middle",
+                    }}
+                    color="white"
+                  />
+                ) : (
+                  "Sell"
+                )}
+              </button>
             </div>
           </div>
         </div>

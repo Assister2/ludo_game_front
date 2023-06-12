@@ -8,6 +8,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { BsArrowLeftShort, BsInfoCircle, BsClipboard } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import S3 from "react-aws-s3";
 import {
   cancelChallengeApi,
   getChallengeByIdApi,
@@ -25,6 +26,7 @@ export default function Game(props) {
   const navigate = useNavigate();
   const userId = Cookies.get("userId");
   const [wonModal, setWonModal] = useState(false);
+  const [IsLoading, setIsLoading] = useState(false);
   const [is_open, setOpen] = useState(false);
   const [lostModal, setLostModal] = useState(false);
   const [myResult, setMyResult] = useState("");
@@ -54,7 +56,12 @@ export default function Game(props) {
   const [postResultLoading, setPostResultLoading] = useState(false);
   const [socket, setSocket] = useState(null);
   const webSocketRef = useRef(null);
-
+  const config = {
+    bucketName: process.env.REACT_APP_BUCKET_NAME,
+    region: process.env.REACT_APP_REGION,
+    accessKeyId: process.env.REACT_APP_ACCESS,
+    secretAccessKey: process.env.REACT_APP_SECRET,
+  };
   const showToast = () => {
     toast.success("Text copied!");
   };
@@ -164,13 +171,11 @@ export default function Game(props) {
         event.data?.player._id == userId &&
         event.data?.results?.player?.result !== ""
       ) {
-
         // toast.error("You have already submitted result")
         navigate("/play");
         return;
       }
       if (event.status == 400) {
-
         // toast.error(event.error)
         navigate("/play");
         return;
@@ -232,9 +237,30 @@ export default function Game(props) {
   }, [canceLLationModal]);
 
   const winChallenge = async (challengeObject) => {
-    // console.log("win challenge working")
     try {
       if (screenshoot !== "") {
+        const uploadFile = async (file) => {
+          const ReactS3Client = new S3(config);
+          const newFileName = `${Date.now()}_${file.name}_id_${
+            challengeObject.id
+          }`;
+
+          try {
+            setIsLoading(true); // Set loading state to true before starting the upload
+            const { location } = await ReactS3Client.uploadFile(
+              file,
+              newFileName
+            );
+            setIsLoading(false); // Set loading state to false after upload is complete
+            return location;
+          } catch (error) {
+            setIsLoading(false); // Set loading state to false in case of error
+            // Handle the error appropriately
+          }
+        };
+        const Url = await uploadFile(screenshoot);
+
+        challengeObject.image = Url;
         setPostResultLoading(true);
         let challenge = await winChallengeApi(challengeObject);
 
@@ -321,32 +347,11 @@ export default function Game(props) {
   };
 
   const handleImageChange = (event) => {
-    console.log("cccc3434", event.target.files[0]);
-    console.log("yes1");
+    setScreenshoot(event.target.files[0]);
+
     const reader = new FileReader();
     reader.onloadend = () => {
-      console.log("yes2");
-      const base64Data = reader.result.replace(
-        /^data:([A-Za-z-+\/]+);base64,/,
-        ""
-      );
-      console.log("basseee", base64Data);
-      const imageBuffer = Buffer.from(base64Data, "base64");
-
-      console.log("imageBuffer: ", imageBuffer);
-
-      setScreenshoot(imageBuffer);
-      console.log("checkkk4545", reader.result);
       setImage(reader.result);
-      console.log("yes3", event);
-      const file = document.getElementById("upload-btn").files[0];
-      // const file = event.target.files[0]
-      const getFileExtension = file?.name?.split(".").pop();
-      console.log("yes3.5", getFileExtension);
-      setFileType(getFileExtension);
-      console.log("yes4");
-
-      console.log("file", file);
     };
     reader.readAsDataURL(event.target.files[0]);
   };
@@ -654,7 +659,7 @@ export default function Game(props) {
                 }}
               >
                 {" "}
-                {postResultLoading ? (
+                {postResultLoading || IsLoading ? (
                   <CircularProgress
                     style={{
                       width: "1.5rem",
