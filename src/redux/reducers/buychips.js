@@ -6,6 +6,9 @@ const initialState = {
   data: {},
   error: "",
 };
+const initialStatetimer = {
+  displayTimer: false,
+};
 
 export const wallet1 = (state = initialState, action) => {
   switch (action.type) {
@@ -13,6 +16,19 @@ export const wallet1 = (state = initialState, action) => {
       const { payload } = action;
 
       return { ...state, data: payload, error: "", isLoading: false };
+    }
+
+    default:
+      return state;
+  }
+};
+export const displaytimer = (state = initialStatetimer, action) => {
+  switch (action.type) {
+    case "display_timer": {
+      const { payload } = action;
+      console.log("tesst", payload);
+
+      return { ...state, displayTimer: payload };
     }
 
     default:

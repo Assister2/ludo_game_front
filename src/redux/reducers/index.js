@@ -10,7 +10,7 @@ import {
 } from "./auth";
 import { user } from "./user";
 import { wallet } from "./wallet";
-import { wallet1 } from "./buychips";
+import { wallet1, displaytimer } from "./buychips";
 
 export default combineReducers({
   signupPage1,
@@ -20,6 +20,7 @@ export default combineReducers({
   user,
   wallet,
   wallet1,
+  displaytimer,
 
   // Here you can registering another reducers.
 });

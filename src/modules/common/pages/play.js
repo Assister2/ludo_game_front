@@ -17,13 +17,12 @@ import {
   filterEvents,
   challengesSort,
 } from "../functions/functions";
-
+import { CircularProgress } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { CDN_URL } from "../../../config";
 import { useSelector } from "react-redux";
 import NotificationSound from "./notification.mp3";
-import Moment from "react-moment";
-import moment from "moment";
+
 // const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
 export default function Play() {
@@ -45,8 +44,8 @@ export default function Play() {
     setAmount(e.target.value);
   };
   const socket2 = useSelector((state) => state.socketReducer);
-  const { data } = useSelector((state) => state.wallet);
-  console.log("wallett", data);
+  const { data } = useSelector((state) => state.wallet1);
+  
 
   if (!socket2.instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
@@ -66,7 +65,7 @@ export default function Play() {
     // audioPlayer.current.play();
   }
 
-  console.log(challenges);
+  
   useEffect(() => {
     if (userId) {
       if (userId) {
@@ -83,12 +82,12 @@ export default function Play() {
 
       // if (client) {
 
-      console.log("ws opened");
+      
       if (!!client) {
         setWs(client);
       }
 
-      console.log("chckss", ws, client);
+      
       setInterval(() => {
         client.send(JSON.stringify({ type: "heartbeat" }));
       }, 1000);
@@ -106,14 +105,17 @@ export default function Play() {
         if (events.type === "heartbeat") {
           client.send(JSON.stringify({ type: "ack" }));
         }
+        if (events.status == 2) {
+          setCreateChallengeLoading(false);
+        }
 
         if (events.challengeRedirect) {
-          console.log("events.challengeRedirect", events.challengeRedirect);
+          
           navigate(`/game/${events.challengeId}`);
           return;
         }
         if (events.status == 400) {
-          console.log("eventsss", events);
+          setCreateChallengeLoading(false);
           toast.error(events.error);
 
           return;
@@ -163,7 +165,25 @@ export default function Play() {
     var challenge = 0;
 
     challenges.map((item) => {
-      if (item.creator?._id == userId) {
+      if (item.creator?._id == userId || item.player?._id == userId) {
+        if (item.state == "playing") {
+          if (
+            item.creator?._id == userId &&
+            item.results.player.result != "" &&
+            item.results.creator.result == ""
+          ) {
+            dispatch({ type: "display_timer", payload: true });
+          } else if (
+            item.player?._id == userId &&
+            item.results.player.result == "" &&
+            item.results.creator.result != ""
+          ) {
+            dispatch({ type: "display_timer", payload: true });
+          } else {
+            dispatch({ type: "display_timer", payload: false });
+          }
+        }
+
         if (
           (item.creator?._id == userId && item.state === "open") ||
           item.state === "requested"
@@ -236,9 +256,6 @@ export default function Play() {
       })
     );
     setAmount("");
-    setTimeout(() => {
-      setCreateChallengeLoading(false);
-    }, 1000);
   };
   const deleteChallenge = (challengeId) => {
     ws.send(
@@ -251,7 +268,7 @@ export default function Play() {
 
   const playChallenge = (challenge) => {
     if (data.wallet >= challenge.amount) {
-      console.log("challengeee", challenge);
+      
 
       ws.send(
         JSON.stringify({
@@ -514,7 +531,8 @@ export default function Play() {
                           </div>
                         ) : null}
                         {item.player?._id == userId &&
-                          item.state == "playing" && (
+                          item.state == "playing" &&
+                          item.results.player.result == "" && (
                             <button
                               className="btn btn-success btn-sm"
                               onClick={() => {
@@ -525,10 +543,35 @@ export default function Play() {
                             </button>
                           )}
                         {item.creator?._id == userId &&
-                          item.state == "playing" && (
+                          item.state == "playing" &&
+                          item.results.creator.result == "" && (
                             <button
                               onClick={() => {
                                 viewGame(item._id);
+                              }}
+                              className="btn btn-success btn-sm"
+                            >
+                              view3
+                            </button>
+                          )}
+                        {item.creator?._id == userId &&
+                          item.state == "playing" &&
+                          item.results.creator.result != "" && (
+                            <button
+                              onClick={() => {
+                                viewHold(item);
+                              }}
+                              className="btn btn-success btn-sm"
+                            >
+                              view
+                            </button>
+                          )}
+                        {item.player?._id == userId &&
+                          item.state == "playing" &&
+                          item.results.player.result != "" && (
+                            <button
+                              onClick={() => {
+                                viewHold(item);
                               }}
                               className="btn btn-success btn-sm"
                             >
@@ -646,7 +689,18 @@ export default function Play() {
               }}
               className="btn btn-primary w-25"
             >
-              Set
+              {createChallengeLoading ? (
+                <CircularProgress
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    verticalAlign: "middle",
+                  }}
+                  color="white"
+                />
+              ) : (
+                "Set"
+              )}
             </button>
             <br></br>
           </div>

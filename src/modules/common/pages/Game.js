@@ -15,6 +15,7 @@ import {
   looseChallengeApi,
   winChallengeApi,
 } from "../../../apis/challenge";
+import { ClockTimer } from "./timer";
 import { getWalletReq } from "../../../redux/actions/wallet";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Moment from "react-moment";
@@ -38,6 +39,7 @@ export default function Game(props) {
   const [fileType, setFileType] = useState("");
   const [tabVisibleTime, setIsTabVisibleTime] = useState(true);
   const [isIlostClicked, setisIlostClicked] = useState(false);
+
   const dispatch = useDispatch();
   let challengeInititalState = {
     playerUserName: "",
@@ -51,6 +53,8 @@ export default function Game(props) {
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [image, setImage] = useState(null);
   const [challenge, setChallenge] = useState(challengeInititalState);
+  const [showTimer, setShowTimer] = useState(false);
+  const [userIs, setuserIs] = useState(null);
   const [ws, setWs] = useState();
   const [walletWs, setWalletWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
@@ -77,6 +81,8 @@ export default function Game(props) {
     }
   };
   const socket2 = useSelector((state) => state.socketReducer);
+  const { displayTimer } = useSelector((state) => state.displaytimer);
+  console.log("timerrr", displayTimer);
   console.log("socket2game", socket2);
   if (!socket2.instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
@@ -140,6 +146,10 @@ export default function Game(props) {
   }, []);
 
   if (ws) {
+    ws.on("showTimer", (data) => {
+      setShowTimer(data.showTimer);
+      // localStorage.setItem("showTimer", data.showTimer);
+    });
     ws.on("ludogame", (event) => {
       event = JSON.parse(event);
 
@@ -148,6 +158,12 @@ export default function Game(props) {
       }
 
       if (event.status == 200) {
+        const userIss = userId == event.data.creator._id ? "creator" : "player";
+        const otherUseree =
+          userId != event.data.creator._id ? "creator" : "player";
+        setuserIs(userIss);
+
+        // let looser = user.id != challenge.creator._id ? "creator" : "player";
         setChallenge({
           ...challenge,
           creatorUserName: event.data.creator.username,
@@ -157,8 +173,14 @@ export default function Game(props) {
           creatorId: event.data.creator._id,
           playerId: event.data.player._id,
         });
+        if (
+          event.data.results[userIss]?.result == "" &&
+          event.data.results[otherUseree]?.result != ""
+        ) {
+          setShowTimer(true);
+        }
       }
-      console.log("event.data", event.data);
+      // console.log("event.data22", event.data.results);
       if (
         event.data?.creator?._id == userId &&
         event.data?.results?.creator?.result !== ""
@@ -375,6 +397,21 @@ export default function Game(props) {
               <span className="text-capitalize">back</span>
             </button>
           </Link>
+          <div>
+            {" "}
+            {showTimer ? (
+              <ClockTimer
+                startingTime={2}
+                challengeObj={{
+                  challengeId: challenge.challengeId,
+                  userId: userId,
+                }}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+
           <div className="d-grid">
             <button
               type="button"
