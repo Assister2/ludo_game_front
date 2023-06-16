@@ -13,7 +13,7 @@ const ClockTimer = ({ startingTime, challengeObj }) => {
     const storedRemainingTime = localStorage.getItem("remainingTime");
     return storedRemainingTime
       ? parseInt(storedRemainingTime, 10)
-      : startingTime * 60;
+      : startingTime * 30;
   });
   const dispatch = useDispatch();
 
@@ -25,6 +25,7 @@ const ClockTimer = ({ startingTime, challengeObj }) => {
           timerApiHoldReq(challengeObj);
           dispatch({ type: "display_timer", payload: false });
           setReqSent(true);
+          localStorage.removeItem("remainingTime");
           navigate("/play");
           return 0;
         }
@@ -40,6 +41,7 @@ const ClockTimer = ({ startingTime, challengeObj }) => {
 
     return () => {
       clearInterval(timer);
+      localStorage.removeItem("remainingTime");
     };
   }, []);
 

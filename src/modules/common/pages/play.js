@@ -45,7 +45,6 @@ export default function Play() {
   };
   const socket2 = useSelector((state) => state.socketReducer);
   const { data } = useSelector((state) => state.wallet1);
-  
 
   if (!socket2.instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
@@ -65,7 +64,6 @@ export default function Play() {
     // audioPlayer.current.play();
   }
 
-  
   useEffect(() => {
     if (userId) {
       if (userId) {
@@ -82,12 +80,10 @@ export default function Play() {
 
       // if (client) {
 
-      
       if (!!client) {
         setWs(client);
       }
 
-      
       setInterval(() => {
         client.send(JSON.stringify({ type: "heartbeat" }));
       }, 1000);
@@ -110,7 +106,6 @@ export default function Play() {
         }
 
         if (events.challengeRedirect) {
-          
           navigate(`/game/${events.challengeId}`);
           return;
         }
@@ -188,6 +183,7 @@ export default function Play() {
           (item.creator?._id == userId && item.state === "open") ||
           item.state === "requested"
         ) {
+          
           challenge++;
         }
       }
@@ -231,10 +227,16 @@ export default function Play() {
             payload: { userId },
           })
         );
+        // ws.send(
+        //   JSON.stringify({
+        //     type: "cancel",
+        //     payload: { challengeId: challengeId, userId },
+        //   })
+        // );
       }
     }
   }
-
+  console.log("challen", challenges);
   const createChallenge = () => {
     if (amount <= 0) {
       toast.error("amount should be greater that 0 and multiples of 50");
@@ -268,8 +270,6 @@ export default function Play() {
 
   const playChallenge = (challenge) => {
     if (data.wallet >= challenge.amount) {
-      
-
       ws.send(
         JSON.stringify({
           type: "play",

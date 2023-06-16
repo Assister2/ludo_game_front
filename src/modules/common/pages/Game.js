@@ -401,7 +401,7 @@ export default function Game(props) {
             {" "}
             {showTimer ? (
               <ClockTimer
-                startingTime={2}
+                startingTime={1}
                 challengeObj={{
                   challengeId: challenge.challengeId,
                   userId: userId,
