@@ -111,12 +111,18 @@ export default function Header(props) {
                 </div>
               </SwipeableDrawer>
             </div>{" "}
-            <Link to="/">
-              <img
-                src="https://ludo3.s3.ap-south-1.amazonaws.com/logo.webp"
-                alt="logo"
-                height="50"
-              />
+            <Link
+              className="text-decoration-none text-white fw-semibold fs-4"
+              to="/"
+            >
+              <span className="text-white">
+                <img
+                  src="https://ludo3.s3.ap-south-1.amazonaws.com/logo.webp"
+                  alt="logo"
+                  height="40"
+                  width="40"
+                />
+              </span>
             </Link>
             <div style={{ marginLeft: "auto", marginRight: "10px" }}>
               {data?.isLoggedIn ? (

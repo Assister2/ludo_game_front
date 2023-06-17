@@ -18,10 +18,15 @@ import {
   challengesSort,
 } from "../functions/functions";
 import { CircularProgress } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
 import { useDispatch } from "react-redux";
 import { CDN_URL } from "../../../config";
 import { useSelector } from "react-redux";
 import NotificationSound from "./notification.mp3";
+import DialogContent from "@material-ui/core/DialogContent";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
 
 // const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
@@ -31,12 +36,25 @@ export default function Play() {
   const isLoggedIn = Cookies.get("isLoggedIn");
   const userId = Cookies.get("userId");
   const token = Cookies.get("token");
-
+  const useStyles = makeStyles((theme) => ({
+    paperContainer: {
+      padding: theme.spacing(2),
+      border: "1px solid #000",
+    },
+  }));
   const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+  const classes = useStyles();
+  const handleClose = () => {
+    setIsOpen(false);
+  };
   const [lastError, setLastError] = useState(false);
   const [ws, setWs] = useState();
   const navigate = useNavigate();
@@ -183,7 +201,6 @@ export default function Play() {
           (item.creator?._id == userId && item.state === "open") ||
           item.state === "requested"
         ) {
-          
           challenge++;
         }
       }
@@ -382,7 +399,7 @@ export default function Play() {
                           className="bg-dark rounded-circle"
                           style={{ height: "24px", width: "24px" }}
                         >
-                          <img src="https://ludoplayers.com/static/media/avatar-m-2.f630f4eeffb6e2e929909f66cfd814a2.svg"></img>
+                          <img src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"></img>
                         </div>
                         <span className=" fw-semibold text-truncate text-end">
                           {item.player?.username.slice(0, 5)}...
@@ -551,7 +568,7 @@ export default function Play() {
                               }}
                               className="btn btn-success btn-sm"
                             >
-                              view3
+                              view
                             </button>
                           )}
                         {item.creator?._id == userId &&
@@ -632,6 +649,51 @@ export default function Play() {
                             </div>
                           }
                         </div>
+                        {item.creator?._id === userId &&
+                        item.results.creator?.timeover &&
+                        item.state === "hold" ? (
+                          <div className="d-flex align-items-center">
+                            <div className="hstack gap-2 minBreakpoint-xs">
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={handleOpen}
+                              >
+                                Hold
+                              </button>
+                            </div>
+                          </div>
+                        ) : item.player?._id === userId &&
+                          item.results.player?.timeover &&
+                          item.state === "hold" ? (
+                          <div className="d-flex align-items-center">
+                            <div className="hstack gap-2 minBreakpoint-xs">
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={handleOpen}
+                              >
+                                Hold
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="d-flex align-items-center">
+                            <div className="hstack gap-2 minBreakpoint-xs">
+                              <button
+                                className="btn btn-success btn-sm"
+                                onClick={() => {
+                                  viewHold(item);
+                                }}
+                              >
+                                View
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {
                         <div className="d-flex align-items-center">
                           <div className="hstack gap-2 minBreakpoint-xs">
                             {
@@ -641,15 +703,13 @@ export default function Play() {
                                   viewHold(item);
                                 }}
                               >
-                                view
+                                View
                               </button>
                             }
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <></>
+                      }
+                    </>
                   )}
                 </>
               )}
@@ -661,11 +721,14 @@ export default function Play() {
   );
 
   return (
-    <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-4 g-0">
+    <div
+      className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
+      style={{ padding: "1rem", important: "true" }}
+    >
       <audio ref={audioPlayer} src={NotificationSound} />
 
       <div className="d-flex flex-column">
-        <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 minBreakpoint-xs">
+        <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 ">
           <div className="input-group flex-1 flex-nowrap">
             <input
               type="number"
@@ -688,12 +751,16 @@ export default function Play() {
                 // socketNew.disconnect();
               }}
               className="btn btn-primary w-25"
+              style={{
+                borderTopRightRadius: "6px",
+                borderBottomRightRadius: "6px",
+              }}
             >
               {createChallengeLoading ? (
                 <CircularProgress
                   style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
+                    width: "1.0rem",
+                    height: "1.0rem",
                     verticalAlign: "middle",
                   }}
                   color="white"
@@ -702,10 +769,11 @@ export default function Play() {
                 "Set"
               )}
             </button>
+
             <br></br>
           </div>
 
-          <Dropdown>
+          {/* <Dropdown>
             <Dropdown.Toggle id="dropdown-basic">
               <BsSortUp />
             </Dropdown.Toggle>
@@ -726,10 +794,19 @@ export default function Play() {
                 High-slow
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
         </div>
         <ul className="m-0 px-2">{memoizedChallenges}</ul>
       </div>
+      <Dialog open={isOpen} onClose={handleClose}>
+        <DialogContent style={{ paddingTop: "13px" }}>
+          {/* <Paper className={classes.paperContainer}> */}
+          <Typography variant="body1">
+            <b>Admin Will Update Result</b>
+          </Typography>
+          {/* </Paper> */}
+        </DialogContent>
+      </Dialog>
       <div
         role="dialog"
         aria-modal="true"

@@ -55,7 +55,10 @@ export function LandingPage() {
           </div>
         </SwipeableDrawer>
       </div>
-      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+      <div
+        style={{ filter: "brightness(1.1)" }}
+        className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
+      >
         {!data.isLoggedIn ? (
           <div>
             <img

@@ -130,19 +130,6 @@ export default function Game(props) {
         })
       );
     }
-    // return () => {
-    //   if (socketNew) {
-    //     socketNew.close();
-    //     console.log("game WebSocket connection closed.");
-    //   }
-    //   // if (heartbeatInterval) {
-    //   //   clearInterval(heartbeatInterval);
-    //   // }
-    //   // document.removeEventListener(
-    //   //   "visibilitychange",
-    //   //   handleVisibilityChange
-    //   // );
-    // };
   }, []);
 
   if (ws) {
@@ -459,7 +446,7 @@ export default function Game(props) {
                   className="bg-dark rounded-circle"
                   style={{ height: "24px", width: "24px" }}
                 >
-                  <img src="https://ludoplayers.com/static/media/avatar-m-2.f630f4eeffb6e2e929909f66cfd814a2.svg"></img>
+                  <img src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"></img>
                 </div>
                 <span className=" fw-semibold text-truncate text-end">
                   {challenge.playerUserName.slice(0, 5)}...
@@ -629,7 +616,13 @@ export default function Game(props) {
                   "Yes, i lost"
                 )}
               </button>
-              <button type="button" className="btn btn-outline-danger btn-lg">
+              <button
+                onClick={() => {
+                  setLostModal(false);
+                }}
+                type="button"
+                className="btn btn-outline-danger btn-lg"
+              >
                 No
               </button>
             </div>

@@ -38,11 +38,6 @@ const ClockTimer = ({ startingTime, challengeObj }) => {
         }
       });
     }, 1000);
-
-    return () => {
-      clearInterval(timer);
-      localStorage.removeItem("remainingTime");
-    };
   }, []);
 
   useEffect(() => {

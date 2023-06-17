@@ -127,6 +127,7 @@ export default function VeridyOtp({ route }) {
   const resend = async () => {
     try {
       setRLoading(true);
+      setTimer(60);
       let res = await resendOTP({ phone: phone });
       if (res.status == 200) {
         toast.success("OTP Sent");
@@ -157,7 +158,7 @@ export default function VeridyOtp({ route }) {
           <div className="card-body">
             <div className="d-flex align-items-center justify-content-start py-3">
               <button
-                onClick={() => navigate("/login", { p: phone || "" })}
+                onClick={() => navigate("/register", { p: phone || "" })}
                 className="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
               >
                 <svg

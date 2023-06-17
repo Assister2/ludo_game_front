@@ -72,13 +72,21 @@ export default function Sell() {
 
   const sell = () => {
     try {
-      if (state.upiId !== state.confirmUpiId) {
-        toast.error("Please enter same upi id");
+      const regexPattern = /@/;
+
+      if (!state.upiId || state.upiId.trim() === "") {
+        toast.error("UPI ID is required");
+      } else if (!regexPattern.test(state.upiId)) {
+        toast.error("UPI ID is not correct");
+      } else if (state.upiId !== state.confirmUpiId) {
+        toast.error("Please enter the same UPI ID");
+      } else if (wallet?.winningCash < state.amount) {
+        toast.error("Insufficient funds in wallet");
       } else {
         if (state.amount < 95) {
           toast.error("Amount should be greater than 95");
         } else if (state.amount > 10000) {
-          toast.error("Amount should be lesser than 10000");
+          toast.error("Amount should be less than 10000");
         } else {
           dispatch(
             userSellChipsRequest({
@@ -98,7 +106,7 @@ export default function Sell() {
         }
       }
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     }
   };
 

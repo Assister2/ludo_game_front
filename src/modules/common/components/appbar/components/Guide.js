@@ -150,12 +150,12 @@ function Guide(props) {
       {data.isLoggedIn ? (
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
-            <BsWalletFill className="me-2" color="red" />
+            <BsWalletFill className="me-2" color="green" />
             <strong className="ml-2">
               {/* {walletData.data.wallet == 0
                 ? wallet.wallet
                 : walletData.data.wallet} */}
-              {wallet.wallet}
+              {wallet.wallet}.00
             </strong>
           </div>
         </Link>

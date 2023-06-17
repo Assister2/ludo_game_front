@@ -106,7 +106,7 @@ export const optionsDrawerStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
   },
   pin: {
-    width: "1.5rem",
+    width: "1.0rem",
     height: "1.8rem",
     display: "flex",
     justifyContent: "center",
