@@ -22,6 +22,7 @@ import Moment from "react-moment";
 import moment from "moment";
 import socketNew2 from "../../../socker";
 import SwipeableContainer from "./Guidedrawer";
+import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 export default function Game(props) {
   const params = useParams();
   const navigate = useNavigate();
@@ -145,9 +146,10 @@ export default function Game(props) {
       }
 
       if (event.status == 200) {
-        const userIss = userId == event.data.creator._id ? "creator" : "player";
+        const userIss =
+          userId == event.data?.creator._id ? "creator" : "player";
         const otherUseree =
-          userId != event.data.creator._id ? "creator" : "player";
+          userId != event.data?.creator._id ? "creator" : "player";
         setuserIs(userIss);
 
         // let looser = user.id != challenge.creator._id ? "creator" : "player";
@@ -387,8 +389,7 @@ export default function Game(props) {
           <div>
             {" "}
             {showTimer ? (
-              <ClockTimer
-                startingTime={1}
+              <TwentyMinuteCountdown
                 challengeObj={{
                   challengeId: challenge.challengeId,
                   userId: userId,

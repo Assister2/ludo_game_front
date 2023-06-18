@@ -796,7 +796,22 @@ export default function Play() {
             </Dropdown.Menu>
           </Dropdown> */}
         </div>
-        <ul className="m-0 px-2">{memoizedChallenges}</ul>
+        <ul className="m-0 px-2">
+          <div className="separator mt-3 mb-3">
+            <img
+              src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/winner-cup-icon-png-19.png"
+              alt="WinCupImg"
+              style={{ width: "20px", height: "20px" }}
+            />
+            &nbsp;Open Battles&nbsp;
+            <img
+              src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/winner-cup-icon-png-19.png"
+              alt="WinCupImg"
+              style={{ width: "20px", height: "20px" }}
+            />
+          </div>
+          {memoizedChallenges}
+        </ul>
       </div>
       <Dialog open={isOpen} onClose={handleClose}>
         <DialogContent style={{ paddingTop: "13px" }}>

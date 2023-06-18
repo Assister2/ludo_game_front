@@ -21,15 +21,17 @@ export default function VeridyOtp({ route }) {
   const { data: loginData } = useSelector((state) => state.loginReducer);
   const newsoc = useSelector((state) => state);
   const { signUpPage } = useSelector((state) => state.signupPage1);
-  const Loading = useSelector((state) => state.loginReducer);
-
+  const { isLoading, data: userdata } = useSelector(
+    (state) => state.loginReducer
+  );
+  console.log("checkkk,", userdata);
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
     isPaste: false,
     isVerified: false,
   });
-
+  const isLoggedIn = Cookies.get("isLoggedIn");
   const [timer, setTimer] = useState(60);
 
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,9 @@ export default function VeridyOtp({ route }) {
   const setValidationMsg = (msg) => {
     toast.error(msg);
   };
+  if (userdata?.isLoggedIn) {
+    navigate("/play");
+  }
 
   const handleChange = (evt) => {
     if (state.isPaste === false) {
@@ -326,7 +331,7 @@ export default function VeridyOtp({ route }) {
                 onClick={verify}
                 className="btn btn-primary text-uppercase"
               >
-                {Loading.isLoading ? (
+                {isLoading ? (
                   <CircularProgress
                     style={{
                       width: "1.5rem",

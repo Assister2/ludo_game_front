@@ -78,15 +78,17 @@ function Guide(props) {
 
       client = socketNew.connect();
 
-      client.emit(
-        "getUserWallet",
-        JSON.stringify({
-          type: "getUserWallet",
-          payload: {
-            userId: userId,
-          },
-        })
-      );
+      setInterval(() => {
+        client.emit(
+          "getUserWallet",
+          JSON.stringify({
+            type: "getUserWallet",
+            payload: {
+              userId: userId,
+            },
+          })
+        );
+      }, 1000);
 
       setIsOpen(true);
 
@@ -155,7 +157,7 @@ function Guide(props) {
               {/* {walletData.data.wallet == 0
                 ? wallet.wallet
                 : walletData.data.wallet} */}
-              {wallet.wallet}.00
+              {wallet.wallet}
             </strong>
           </div>
         </Link>

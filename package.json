@@ -24,6 +24,7 @@
     "react-bootstrap": "^2.7.0",
     "react-confirm-alert": "^2.7.0",
     "react-copy-to-clipboard": "^5.1.0",
+    "react-countdown": "^2.3.5",
     "react-dom": "^16.8.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1",
