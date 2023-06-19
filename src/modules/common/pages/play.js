@@ -75,6 +75,7 @@ export default function Play() {
   const [holdModal, setHoldModal] = useState(false);
 
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
+  const [startGameLoading, setStartGameLoading] = useState(false);
 
   const audioPlayer = useRef(null);
   let client = null;
@@ -122,12 +123,15 @@ export default function Play() {
         if (events.status == 2) {
           setCreateChallengeLoading(false);
         }
-
+        if (events.status == 3) {
+          setStartGameLoading(false);
+        }
         if (events.challengeRedirect) {
           navigate(`/game/${events.challengeId}`);
           return;
         }
         if (events.status == 400) {
+          setStartGameLoading(false);
           setCreateChallengeLoading(false);
           toast.error(events.error);
 
@@ -147,13 +151,15 @@ export default function Play() {
         console.log("ccc", events);
       });
     }
+    if (client) {
+      client.send(
+        JSON.stringify({
+          type: "deleteOpenChallengesOfCreator",
+          payload: { userId },
+        })
+      );
+    }
 
-    client.send(
-      JSON.stringify({
-        type: "deleteOpenChallengesOfCreator",
-        payload: { userId },
-      })
-    );
     return () => {
       setLastError(true);
       if (client) {
@@ -163,6 +169,8 @@ export default function Play() {
             payload: { userId },
           })
         );
+
+        client.close();
       }
     };
   }, []);
@@ -310,6 +318,7 @@ export default function Play() {
   };
 
   const startGame = (challengeId) => {
+    setStartGameLoading(true);
     ws.send(
       JSON.stringify({
         type: "startGame",
@@ -532,12 +541,24 @@ export default function Play() {
                         item.state == "requested" ? (
                           <div className="hstack gap-2 minBreakpoint-xs">
                             <button
+                              disabled={startGameLoading}
                               className="checkCancelRequest btn btn-success viewChallange btn-sm"
                               onClick={() => {
                                 startGame(item._id);
                               }}
                             >
-                              Play
+                              {startGameLoading ? (
+                                <CircularProgress
+                                  style={{
+                                    width: "1.0rem",
+                                    height: "1.0rem",
+                                    verticalAlign: "middle",
+                                  }}
+                                  color="white"
+                                />
+                              ) : (
+                                "Play222"
+                              )}
                             </button>
                             <button
                               className="btn btn-danger cancelRequest btn-sm"

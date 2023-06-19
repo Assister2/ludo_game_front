@@ -131,6 +131,9 @@ export default function Game(props) {
         })
       );
     }
+    return () => {
+      socketNew.close();
+    };
   }, []);
 
   if (ws) {

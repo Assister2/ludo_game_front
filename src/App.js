@@ -17,7 +17,9 @@ import { requestForToken2, requestForToken } from "./firebase";
 
 function App() {
   if (Cookies.get("userId") === undefined) {
+    
     socketNew.disconnect();
+
   }
   requestForToken2();
   requestForToken();

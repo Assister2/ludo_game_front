@@ -40,9 +40,9 @@ export default function VeridyOtp({ route }) {
   const setValidationMsg = (msg) => {
     toast.error(msg);
   };
-  if (userdata?.isLoggedIn) {
-    navigate("/play");
-  }
+  // if (userdata?.isLoggedIn) {
+  //   navigate("/play");
+  // }
 
   const handleChange = (evt) => {
     if (state.isPaste === false) {
