@@ -135,6 +135,14 @@ export default function Game(props) {
 
   if (ws) {
     ws.on("showTimer", (data) => {
+      // ws.emit(
+      //   "showTimer",
+      //   JSON.stringify({
+      //     showTimer: "started",
+      //     challengeId: challenge.challengeId,
+      //     userId: userId,
+      //   })
+      // );
       setShowTimer(data.showTimer);
       // localStorage.setItem("showTimer", data.showTimer);
     });
@@ -276,6 +284,7 @@ export default function Game(props) {
         let challenge = await winChallengeApi(challengeObject);
 
         if (challenge) {
+          localStorage.removeItem("countdownEndTime");
           setPostResultLoading(false);
           ws.emit(
             "ludogame",
@@ -304,6 +313,7 @@ export default function Game(props) {
       let challenge = await looseChallengeApi(challengeId);
       console.log("challenge", challenge);
       if (challenge.status == 200) {
+        localStorage.removeItem("countdownEndTime");
         dispatch(getWalletReq());
         ws.emit(
           "ludogame",
@@ -331,6 +341,7 @@ export default function Game(props) {
       setDisableCancelButton(true);
       let challenge = await cancelChallengeApi(challengeObject);
       if (challenge) {
+        localStorage.removeItem("countdownEndTime");
         ws.emit(
           "getUserWallet",
           JSON.stringify({

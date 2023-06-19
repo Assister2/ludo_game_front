@@ -253,7 +253,7 @@ export default function Play() {
       }
     }
   }
-  console.log("challen", challenges);
+
   const createChallenge = () => {
     if (amount <= 0) {
       toast.error("amount should be greater that 0 and multiples of 50");
@@ -299,12 +299,14 @@ export default function Play() {
   };
 
   const cancelChallenge = (challengeId) => {
-    ws.send(
-      JSON.stringify({
-        type: "cancel",
-        payload: { challengeId: challengeId, userId },
-      })
-    );
+    setTimeout(() => {
+      ws.send(
+        JSON.stringify({
+          type: "cancel",
+          payload: { challengeId: challengeId, userId },
+        })
+      );
+    }, 1000);
   };
 
   const startGame = (challengeId) => {

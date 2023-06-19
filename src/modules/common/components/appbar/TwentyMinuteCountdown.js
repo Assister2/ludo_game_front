@@ -11,12 +11,13 @@ const TwentyMinuteCountdown = ({ challengeObj }) => {
     timerApiHoldReq(challengeObj);
     dispatch({ type: "display_timer", payload: false });
     navigate("/play");
+    localStorage.removeItem("countdownEndTime");
     // Perform any actions you want to take after the countdown completes
     console.log("Countdown complete!");
   };
 
   const storedEndTime = localStorage.getItem("countdownEndTime");
-  const initialEndTime = Date.now() + 1 * 60 * 1000; // 20 minutes in milliseconds
+  const initialEndTime = Date.now() + 1 * 30 * 1000; // 20 minutes in milliseconds
   const [endTime, setEndTime] = useState(storedEndTime || initialEndTime);
 
   useEffect(() => {
