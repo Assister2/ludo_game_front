@@ -1,1 +1,26 @@
+name: Deploy to DigitalOcean Droplet
+on:
+  push:
+    branches:
+      - main
 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Build React App
+        run: npm ci && npm run build
+      
+      - name: Deploy to Droplet
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            scp -r -o StrictHostKeyChecking=no ./build/* ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }}:/var/www/html
+            ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }} "sudo systemctl restart nginx"
