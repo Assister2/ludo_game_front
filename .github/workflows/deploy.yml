@@ -1,4 +1,5 @@
 name: Build & Deploy
+
 on:
   push:
     branches: [main]
@@ -6,18 +7,28 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Deploy NodeJS app
         uses: appleboy/ssh-action@v0.1.2
         with:
-          host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh
-          key: ${{secrets.SSH_KEY}} # Private or public key of the serve
-          username: ${{secrets.SSH_USERNAME}}
+          host: ${{ secrets.SSH_HOST }} # IP address of the server you wish to SSH
+          key: ${{ secrets.SSH_KEY }} # Private or public key of the server
+          username: ${{ secrets.SSH_USERNAME }}
           
-
           script: |
             git clone git@github.com:practice5610/frontend_ludo.git
             cd frontend_ludo
             npm install
             npm run build
+            
+            # Copy build folder to destination directory
+            sudo cp -R build /var/www/your_domain/html
+            
+            # Restart Nginx service
+            sudo service nginx restart
+            
+            # Reload Nginx configuration
+            sudo systemctl reload nginx
+            
             echo 'Deployment successful to DigitalOcean'
