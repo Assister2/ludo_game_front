@@ -83,8 +83,7 @@ export default function Game(props) {
   };
   const socket2 = useSelector((state) => state.socketReducer);
   const { displayTimer } = useSelector((state) => state.displaytimer);
-  console.log("timerrr", displayTimer);
-  console.log("socket2game", socket2);
+
   if (!socket2.instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
   }
