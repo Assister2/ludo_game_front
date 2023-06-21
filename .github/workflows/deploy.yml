@@ -17,6 +17,7 @@ jobs:
 
           script: |
             git clone git@github.com:practice5610/frontend_ludo.git
+            cd frontend_ludo
             npm install
             npm run build
             echo 'Deployment successful to DigitalOcean'
