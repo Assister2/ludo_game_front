@@ -1,13 +1,11 @@
-name: Deploy to DigitalOcean Droplet
+name: Build & Deploy
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -20,15 +18,19 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       
+      - name: Load Environment Variables
+        run: npm install dotenv --global
+      
       - name: Build React App
-        run: npm run build
+        run: |
+          source .env
+          npm run build
       
       - name: Deploy to Droplet
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            scp -r -o StrictHostKeyChecking=no ./build/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/html
-            ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "sudo systemctl restart nginx"
+            # Your deployment script here
