@@ -8,7 +8,7 @@ const TwentyMinuteCountdown = ({ challengeObj }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleCountdownComplete = () => {
-    timerApiHoldReq(challengeObj);
+    // timerApiHoldReq(challengeObj);
     dispatch({ type: "display_timer", payload: false });
     navigate("/play");
     localStorage.removeItem("countdownEndTime");

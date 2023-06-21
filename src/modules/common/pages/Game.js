@@ -137,7 +137,10 @@ export default function Game(props) {
   }, []);
 
   if (ws) {
-    ws.on("showTimer", (data) => {
+    ws.on("showTimer", (datas) => {
+      localStorage.removeItem("countdownEndTime");
+
+      var data = JSON.parse(datas);
       // ws.emit(
       //   "showTimer",
       //   JSON.stringify({
