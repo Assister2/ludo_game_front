@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Set up Node.js 16.17.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.17.0
+      
       - name: Deploy NodeJS app
         uses: appleboy/ssh-action@v0.1.2
         with:
@@ -21,6 +26,9 @@ jobs:
             cd frontend_ludo
             npm install
             npm run build
+            
+            # Remove old build folder
+            sudo rm -rf /var/www/your_domain/html
             
             # Copy build folder to destination directory
             sudo cp -R build /var/www/your_domain/html
