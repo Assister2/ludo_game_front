@@ -16,7 +16,7 @@ jobs:
           node-version: '16.17.0'
       
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
       
       - name: Load Environment Variables
         run: npm install dotenv --global
