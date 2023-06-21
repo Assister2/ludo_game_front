@@ -26,9 +26,9 @@ jobs:
       - name: Deploy to Droplet
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: ${{ secrets.DROPLET_USERNAME }}
-          key: ${{ secrets.DROPLET_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            scp -r -o StrictHostKeyChecking=no ./build/* ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }}:/var/www/html
-            ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_IP }} "sudo systemctl restart nginx"
+            scp -r -o StrictHostKeyChecking=no ./build/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/html
+            ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "sudo systemctl restart nginx"
