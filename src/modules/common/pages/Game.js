@@ -317,7 +317,7 @@ export default function Game(props) {
     try {
       setisIlostClicked(true);
       let challenge = await looseChallengeApi(challengeId);
-      console.log("challenge", challenge);
+
       if (challenge.status == 200) {
         localStorage.removeItem("countdownEndTime");
         dispatch(getWalletReq());
