@@ -35,6 +35,8 @@ jobs:
             mkdir new
             cd new
             git clone git@github.com:practice5610/frontend_ludo.git
+            npm ci
+            npm run build
             cd
             rm -rf /var/www/your_domain/html/* # Remove existing files in the deployment directory (optional)
             cp -r build/* /var/www/your_domain/html/
