@@ -35,4 +35,4 @@ jobs:
           script: |
             cd /var/www/html/
             rm -rf ./*
-            scp -r ${{ github.workspace }}/build/* ./
+            rsync -avz --delete ${{ github.workspace }}/build/ ./
