@@ -32,7 +32,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }} # Private or public key of the server
           username: ${{ secrets.SSH_USERNAME }}
           script: |
-            cd /var/www/your_domain/html
-            rm -rf * # Remove existing files in the deployment directory (optional)
-            cp -r $GITHUB_WORKSPACE/build/* .
+            rm -rf /var/www/your_domain/html/* # Remove existing files in the deployment directory (optional)
+            cp -r ${{ github.workspace }}/build/* /var/www/your_domain/html/
             echo 'Deployment successful to your server'
