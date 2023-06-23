@@ -31,7 +31,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          username: root
+          username: ${{ secrets.SSH_USERNAME }}
             cd /var/www/html/
             rm -rf ./*
             mkdir -p ./frontend_ludo
