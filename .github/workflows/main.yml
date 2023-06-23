@@ -1,21 +1,38 @@
 name: Build & Deploy
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy NodeJS app
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.17.0
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build the React app
+        env:
+          CI: false
+        run: npm run build --if-present
+
+      - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.2
         with:
-          host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh
-          key: ${{secrets.SSH_KEY}} # Private or public key of the server
-          username: ${{secrets.SSH_USERNAME}}
+          host: ${{ secrets.SSH_HOST }} # IP address of the server you wish to ssh
+          key: ${{ secrets.SSH_KEY }} # Private or public key of the server
+          username: ${{ secrets.SSH_USERNAME }}
           script: |
             git clone git@github.com:practice5610/frontend_ludo.git
-            cd frontend_ludo
-            npm install
-            npm run build
-            echo 'Deployment successful to DigitalOcean'
+            rm -rf /var/www/your_domain/html/* # Remove existing files in the deployment directory (optional)
+            cp -r build/* /var/www/your_domain/html/
+            echo 'Deployment successful to your server'
