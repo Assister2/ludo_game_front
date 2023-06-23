@@ -32,7 +32,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
-          script: |
             cd /var/www/html/
             rm -rf ./*
-            rsync -avz --delete ${{ github.workspace }}/build/ ./
+            mkdir -p ./frontend_ludo
+            cp -R ${{ github.workspace }}/* ./frontend_ludo/
