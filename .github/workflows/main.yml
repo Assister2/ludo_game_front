@@ -11,7 +11,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh
-          key: ${{secrets.SSH_KEY}} # Private or public key of the serv
+          key: ${{secrets.SSH_KEY}} # Private or public key of the ser
           username: ${{secrets.SSH_USERNAME}}
           
 
