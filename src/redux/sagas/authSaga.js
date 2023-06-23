@@ -81,9 +81,9 @@ function* login(param) {
     localStorage.removeItem("wallet");
     Cookies.remove();
 
-    Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
-    Cookies.set("fullName", data.data?.fullName, { expires: 30 });
-    Cookies.set("userId", data.data?._id, { expires: 30 });
+    Cookies.set("token", data.data?.jwtToken?.jwtToken);
+    Cookies.set("fullName", data.data?.fullName);
+    Cookies.set("userId", data.data?._id);
     // toast.success(`loged in successfully`);
 
     yield put(getWalletSuccess(data));

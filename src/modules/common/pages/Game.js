@@ -82,7 +82,6 @@ export default function Game(props) {
     }
   };
   const socket2 = useSelector((state) => state.socketReducer);
-  const { displayTimer } = useSelector((state) => state.displaytimer);
 
   if (!socket2.instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
@@ -140,14 +139,6 @@ export default function Game(props) {
       localStorage.removeItem("countdownEndTime");
 
       var data = JSON.parse(datas);
-      // ws.emit(
-      //   "showTimer",
-      //   JSON.stringify({
-      //     showTimer: "started",
-      //     challengeId: challenge.challengeId,
-      //     userId: userId,
-      //   })
-      // );
       setShowTimer(data.showTimer);
       // localStorage.setItem("showTimer", data.showTimer);
     });
@@ -159,12 +150,6 @@ export default function Game(props) {
       }
 
       if (event.status == 200) {
-        const userIss =
-          userId == event.data?.creator._id ? "creator" : "player";
-        const otherUseree =
-          userId != event.data?.creator._id ? "creator" : "player";
-        setuserIs(userIss);
-
         // let looser = user.id != challenge.creator._id ? "creator" : "player";
         setChallenge({
           ...challenge,
@@ -175,6 +160,11 @@ export default function Game(props) {
           creatorId: event.data.creator._id,
           playerId: event.data.player._id,
         });
+        const userIss =
+          userId == event.data?.creator._id ? "creator" : "player";
+        const otherUseree =
+          userId != event.data?.creator._id ? "creator" : "player";
+        setuserIs(userIss);
         if (
           event.data.results[userIss]?.result == "" &&
           event.data.results[otherUseree]?.result != ""
