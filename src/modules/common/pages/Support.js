@@ -33,7 +33,7 @@ export default function Support() {
         </div>
         <div className="d-flex flex-column align-items-stretch mb-3">
           <a
-            href="instagram://user?username=ludo__players"
+            href="https://instagram.com/gotiking_official?igshid=NTc4MTIwNjQ2YQ=="
             className="text-decoration-none text-white w-100"
             target="blank"
           >
@@ -61,7 +61,7 @@ export default function Support() {
         </div>
         <div className="d-flex flex-column align-items-stretch">
           <a
-            href="mailto:support@ludoplayers.com"
+            href="mailto:gotiking.com@gmail.com"
             className="text-decoration-none text-white w-100"
             target="blank"
           >
