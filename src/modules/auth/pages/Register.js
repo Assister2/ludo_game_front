@@ -5,8 +5,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpRequest } from "../../../redux/actions/auth";
+import Cookies from "js-cookie";
 
 export default function Register(props) {
+  localStorage.clear();
+  sessionStorage.clear();
+  window.localStorage.clear();
+  localStorage.removeItem("wallet");
+  Cookies.remove("token");
+  Cookies.remove("fullName");
+  Cookies.remove("userId");
   const dispatch = useDispatch();
   const history = useNavigate();
   const { isLoading } = useSelector((state) => state.signUpReducer);
@@ -51,8 +59,8 @@ export default function Register(props) {
     if (state.referalCode != "") {
       if (state.referalCode.length < 10) {
         toast.error("referal code must be at least 10 digits");
-        return; 
-      } else if ((state.referalCode.length = 10)) {
+        return;
+      } else {
         signupData.referelCode = state.referalCode;
       }
     }
