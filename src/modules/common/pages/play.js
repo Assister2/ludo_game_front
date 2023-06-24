@@ -170,7 +170,7 @@ export default function Play() {
           })
         );
 
-        client.close();
+        // client.close();
       }
     };
   }, []);
