@@ -129,9 +129,9 @@ export default function Game(props) {
         })
       );
     }
-    return () => {
-      socketNew.close();
-    };
+    // return () => {
+    //   socketNew.close();
+    // };
   }, []);
 
   if (ws) {
@@ -151,6 +151,7 @@ export default function Game(props) {
 
       if (event.status == 200) {
         // let looser = user.id != challenge.creator._id ? "creator" : "player";
+        console.log("chekck11", event.data);
         setChallenge({
           ...challenge,
           creatorUserName: event.data.creator.username,
