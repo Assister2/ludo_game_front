@@ -11,7 +11,7 @@ import { logoutSuccess } from "../../.././redux/actions/auth";
 export default function Wallet() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  if (Cookies.get("userId")) {
+  if (Cookies.get("userId") === undefined) {
     dispatch(logoutSuccess());
     navigate("/login");
   }
