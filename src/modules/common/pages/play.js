@@ -12,6 +12,7 @@ import { BsSortUp } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
 import socketNew2 from "../../../socker";
 import Dropdown from "react-bootstrap/Dropdown";
+import { logoutSuccess } from "../../.././redux/actions/auth";
 import {
   sortEvents,
   filterEvents,
@@ -151,6 +152,11 @@ export default function Play() {
         console.log("ccc", events);
       });
     }
+    if (!userId) {
+      dispatch(logoutSuccess());
+      navigate("/login");
+    }
+    console.log("cehckk", userId);
     if (client) {
       client.send(
         JSON.stringify({

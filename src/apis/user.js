@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { useSelector } from "react-redux";
+
 import { axiosConfig } from "./axiosConfig";
 export const getUserProfileApi = async (payload) => {
   try {

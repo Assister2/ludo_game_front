@@ -11,6 +11,7 @@ import {
   updateUserProfileSuccess,
   updateUserProfileError,
 } from "../actions/user";
+import { loginError } from "../actions/auth";
 import { getUserProfileApi, updateUserProfileApi } from "../../apis/user";
 
 // Sign up
@@ -21,6 +22,17 @@ function* getUserProfile(param) {
   if (data.status == 200) {
     yield put(getUserProfileSuccess(data.data));
   } else if (data.status == 400) {
+    console.log("");
+    localStorage.clear();
+    sessionStorage.clear();
+    window.localStorage.clear();
+    localStorage.removeItem("wallet");
+    Cookies.remove("token");
+    Cookies.remove("fullName");
+    Cookies.remove("userId");
+    param.navigation(`/login`);
+    toast.error(data.error);
+    yield put(loginError(data.error));
     toast.error(data.error);
     yield put(getUserProfileError(data.error));
   } else {

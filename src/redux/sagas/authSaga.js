@@ -79,11 +79,14 @@ function* login(param) {
     sessionStorage.clear();
     window.localStorage.clear();
     localStorage.removeItem("wallet");
-    Cookies.remove();
+    Cookies.remove("token");
+    Cookies.remove("fullName");
+    Cookies.remove("userId");
 
-    Cookies.set("token", data.data?.jwtToken?.jwtToken);
-    Cookies.set("fullName", data.data?.fullName);
-    Cookies.set("userId", data.data?._id);
+    Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
+    Cookies.set("fullName", data.data?.fullName, { expires: 30 });
+    Cookies.set("userId", data.data?._id, { expires: 30 });
+
     // toast.success(`loged in successfully`);
 
     yield put(getWalletSuccess(data));
@@ -97,6 +100,15 @@ function* login(param) {
     param.navigation(`/`);
     // window.location.reload();
   } else if (data.status == 400) {
+    console.log("");
+    localStorage.clear();
+    sessionStorage.clear();
+    window.localStorage.clear();
+    localStorage.removeItem("wallet");
+    Cookies.remove("token");
+    Cookies.remove("fullName");
+    Cookies.remove("userId");
+    param.navigation(`/login`);
     toast.error(data.error);
     yield put(loginError(data.error));
   } else {
@@ -109,6 +121,10 @@ function* logout(param) {
   console.log("param", param);
   try {
     yield put(logoutSuccess());
+    localStorage.clear();
+    sessionStorage.clear();
+    window.localStorage.clear();
+    localStorage.removeItem("wallet");
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");

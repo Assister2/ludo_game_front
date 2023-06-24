@@ -13,10 +13,13 @@ import {
   getWalletLoading,
   getWalletSuccess,
 } from "../../../../../redux/actions/wallet";
+import { useNavigate, useLocation } from "react-router-dom";
+import { logoutSuccess } from "../../../../../redux/actions/auth";
 // let URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`;
 
 function Guide(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const socket2 = useSelector((state) => state.socketReducer);
   if (!socket2.instance) {
@@ -64,6 +67,10 @@ function Guide(props) {
 
   useEffect(() => {
     var socketNew = null;
+    if (!userId) {
+      dispatch(logoutSuccess());
+      navigate("/login");
+    }
 
     if (socket2) {
       const { instance } = socket2;
