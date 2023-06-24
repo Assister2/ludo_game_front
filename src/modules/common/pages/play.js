@@ -557,7 +557,7 @@ export default function Play() {
                                   color="white"
                                 />
                               ) : (
-                                "Play222"
+                                "Play"
                               )}
                             </button>
                             <button

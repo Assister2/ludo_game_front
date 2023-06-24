@@ -20,7 +20,18 @@ export default function Register(props) {
   const [state, setState] = useState(initialState);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setState((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "referalCode") {
+      // Remove any non-digit characters from the input
+      const numericValue = value.replace(/\D/g, "");
+
+      // Limit the input to a maximum of 10 digits
+      const truncatedValue = numericValue.slice(0, 10);
+
+      setState((prev) => ({ ...prev, [name]: truncatedValue }));
+    } else {
+      setState((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   useEffect(() => {
@@ -38,9 +49,17 @@ export default function Register(props) {
       phone: state.phoneNumber,
     };
     if (state.referalCode != "") {
-      signupData.referelCode = state.referalCode;
+      if (state.referalCode.length < 10) {
+        toast.error("referal code must be at least 10 digits");
+      } else {
+        signupData.referelCode = state.referalCode;
+      }
     }
-    dispatch(signUpRequest(signupData, history));
+    if (state.phoneNumber.length < 10) {
+      toast.error("Phone number must be at least 10 digits");
+    } else {
+      dispatch(signUpRequest(signupData, history));
+    }
   };
 
   return (
@@ -88,6 +107,7 @@ export default function Register(props) {
                       const phoneNumber = event.target.value
                         .replace(/\D/g, "")
                         .slice(0, 10);
+
                       setState((prevState) => ({
                         ...prevState,
                         phoneNumber,
