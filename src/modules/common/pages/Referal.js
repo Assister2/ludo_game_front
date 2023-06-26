@@ -1,6 +1,8 @@
 import React from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { FaTelegram } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { CDN_URL } from "../../../config";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
@@ -106,6 +108,11 @@ export default function ReferAndEarning() {
                   style={{ backgroundColor: "green" }}
                 >
                   <WhatsappShareButton url={shareMessage} quote={shareMessage}>
+                    <FaWhatsapp
+                      style={{ paddingRight: "5px" }}
+                      size={32}
+                      round
+                    />
                     <span className="text-capitalize">Share to Whatsapp</span>
                   </WhatsappShareButton>
                 </button>
@@ -113,6 +120,11 @@ export default function ReferAndEarning() {
               <div className="d-grid mt-2">
                 <button className="btn btn-primary btn-md w-100">
                   <TelegramShareButton url={shareMessage} quote={shareMessage}>
+                    <FaTelegram
+                      style={{ paddingRight: "8px" }}
+                      size={32}
+                      round
+                    />
                     <span className="text-capitalize">Share to Telegram</span>
                   </TelegramShareButton>
                 </button>

@@ -951,7 +951,7 @@ export default function Play() {
           <p style={{ fontSize: "0.8rem" }}>
             Your Game Result is Successfully Posted. Please allow us 2-5 minutes
             to review &amp; update your game. If you have Posted Wrong Result or
-            Screenshot, kindly&nbsp;<a href="#/support">Contact Support</a>
+            Screenshot, kindly&nbsp;<a href="/support">Contact Support</a>
           </p>
         </div>
       </div>

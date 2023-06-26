@@ -144,7 +144,7 @@ export default function Register(props) {
                 <div style={{ marginTop: "1rem" }}>
                   <p style={{ fontSize: "0.8rem", textAlign: "start" }}>
                     By continuing, you agree to our{" "}
-                    <a href="#/terms">Legal Terms</a> and you are 18 years or
+                    <a href="/legal">Legal Terms</a> and you are 18 years or
                     older.
                   </p>
                 </div>

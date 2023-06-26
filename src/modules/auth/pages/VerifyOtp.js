@@ -324,8 +324,8 @@ export default function VeridyOtp({ route }) {
             </div>
             <div className="d-grid py-3">
               <p style={{ fontSize: "0.8rem" }}>
-                By Continuing, you agree to our{" "}
-                <a href="#/terms">Legal Terms</a> and you are 18 years or older.
+                By Continuing, you agree to our <a href="/legal">Legal Terms</a>{" "}
+                and you are 18 years or older.
               </p>
               <button
                 onClick={verify}

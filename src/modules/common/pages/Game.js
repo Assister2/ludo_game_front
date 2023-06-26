@@ -178,6 +178,7 @@ export default function Game(props) {
         event.data?.creator?._id == userId &&
         event.data?.results?.creator?.result !== ""
       ) {
+        console.log("creatoor", event.data?.results);
         // toast.error("You have already submitted result")
         navigate("/play");
         return;
@@ -186,6 +187,7 @@ export default function Game(props) {
         event.data?.player._id == userId &&
         event.data?.results?.player?.result !== ""
       ) {
+        console.log("playeeer", event.data?.results);
         // toast.error("You have already submitted result")
         navigate("/play");
         return;
@@ -255,22 +257,31 @@ export default function Game(props) {
     try {
       if (screenshoot !== "") {
         const uploadFile = async (file) => {
-          const ReactS3Client = new S3(config);
-          const newFileName = `${Date.now()}_${file.name}_id_${
-            challengeObject.id
-          }`;
+          const maxFileSize = 10 * 1024 * 1024; // 10 MB (in bytes)
+          console.log("checkkfile", file);
+          console.log("checkkfile22", file.size);
+          const fileSize = file.size;
+          if (fileSize > maxFileSize) {
+            // File size exceeds the limit
+            return toast.error("File size exceeds the maximum limit.");
+          } else {
+            const ReactS3Client = new S3(config);
+            const newFileName = `${Date.now()}_${file.name}_id_${
+              challengeObject.id
+            }`;
 
-          try {
-            setIsLoading(true); // Set loading state to true before starting the upload
-            const { location } = await ReactS3Client.uploadFile(
-              file,
-              newFileName
-            );
-            setIsLoading(false); // Set loading state to false after upload is complete
-            return location;
-          } catch (error) {
-            setIsLoading(false); // Set loading state to false in case of error
-            // Handle the error appropriately
+            try {
+              setIsLoading(true); // Set loading state to true before starting the upload
+              const { location } = await ReactS3Client.uploadFile(
+                file,
+                newFileName
+              );
+              setIsLoading(false); // Set loading state to false after upload is complete
+              return location;
+            } catch (error) {
+              setIsLoading(false); // Set loading state to false in case of error
+              // Handle the error appropriately
+            }
           }
         };
         const Url = await uploadFile(screenshoot);
