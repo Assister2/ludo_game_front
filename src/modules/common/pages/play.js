@@ -45,6 +45,7 @@ export default function Play() {
   }));
   const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -77,6 +78,7 @@ export default function Play() {
 
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
   const [startGameLoading, setStartGameLoading] = useState(false);
+  const [playGameLoading, setplayGameLoading] = useState(false);
 
   const audioPlayer = useRef(null);
   let client = null;
@@ -127,12 +129,17 @@ export default function Play() {
         if (events.status == 3) {
           setStartGameLoading(false);
         }
+        if (events.status == 4) {
+          setplayGameLoading(false);
+        }
+
         if (events.challengeRedirect) {
           navigate(`/game/${events.challengeId}`);
           return;
         }
         if (events.status == 400) {
           setStartGameLoading(false);
+          setplayGameLoading(false);
           setCreateChallengeLoading(false);
           toast.error(events.error);
 
@@ -291,12 +298,16 @@ export default function Play() {
     setAmount("");
   };
   const deleteChallenge = (challengeId) => {
+    setIsButtonDisabled(true);
     ws.send(
       JSON.stringify({
         type: "delete",
         payload: { challengeId: challengeId, userId: userId },
       })
     );
+    setTimeout(() => {
+      setIsButtonDisabled(false); // Enable the button after 1 second
+    }, 1000);
   };
 
   const playChallenge = (challenge) => {
@@ -311,8 +322,9 @@ export default function Play() {
       toast.error("not enough chips");
     }
   };
-
+  console.log("challengess", challenges);
   const cancelChallenge = (challengeId) => {
+    setplayGameLoading(true);
     setTimeout(() => {
       ws.send(
         JSON.stringify({
@@ -320,7 +332,8 @@ export default function Play() {
           payload: { challengeId: challengeId, userId },
         })
       );
-    }, 1000);
+      setplayGameLoading(false);
+    }, 2000);
   };
 
   const startGame = (challengeId) => {
@@ -435,7 +448,7 @@ export default function Play() {
                     ) : item.state == "playing" ? (
                       <span>In a challenge with</span>
                     ) : (
-                      <span>Challenge set by</span>
+                      <span>running challenge with</span>
                     )}
 
                     <span className="text-success fw-bold">
@@ -512,6 +525,7 @@ export default function Play() {
                         {item.creator?._id == userId &&
                           item.state == "open" && (
                             <button
+                              disabled={isButtonDisabled}
                               className="btn btn-danger playChallange btn-sm"
                               onClick={() => {
                                 deleteChallenge(item._id);
@@ -527,8 +541,20 @@ export default function Play() {
                               onClick={() => {
                                 playChallenge(item);
                               }}
+                              disabled={playGameLoading}
                             >
-                              Play
+                              {playGameLoading ? (
+                                <CircularProgress
+                                  style={{
+                                    width: "1.0rem",
+                                    height: "1.0rem",
+                                    verticalAlign: "middle",
+                                  }}
+                                  color="white"
+                                />
+                              ) : (
+                                "Play"
+                              )}
                             </button>
                           )}
                         {item.player?._id == userId &&
