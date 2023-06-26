@@ -129,17 +129,12 @@ export default function Play() {
         if (events.status == 3) {
           setStartGameLoading(false);
         }
-        if (events.status == 4) {
-          setplayGameLoading(false);
-        }
-
         if (events.challengeRedirect) {
           navigate(`/game/${events.challengeId}`);
           return;
         }
         if (events.status == 400) {
           setStartGameLoading(false);
-          setplayGameLoading(false);
           setCreateChallengeLoading(false);
           toast.error(events.error);
 
@@ -307,24 +302,27 @@ export default function Play() {
     );
     setTimeout(() => {
       setIsButtonDisabled(false); // Enable the button after 1 second
-    }, 1000);
+    }, 3000);
   };
 
   const playChallenge = (challenge) => {
     if (data.wallet >= challenge.amount) {
+      setplayGameLoading(true);
       ws.send(
         JSON.stringify({
           type: "play",
           payload: { challengeId: challenge._id, userId },
         })
       );
+      setTimeout(() => {
+        setplayGameLoading(false); // Enable the button after 1 second
+      }, 2000);
     } else {
       toast.error("not enough chips");
     }
   };
-  console.log("challengess", challenges);
+
   const cancelChallenge = (challengeId) => {
-    setplayGameLoading(true);
     setTimeout(() => {
       ws.send(
         JSON.stringify({
@@ -332,8 +330,7 @@ export default function Play() {
           payload: { challengeId: challengeId, userId },
         })
       );
-      setplayGameLoading(false);
-    }, 2000);
+    }, 1000);
   };
 
   const startGame = (challengeId) => {
@@ -446,9 +443,9 @@ export default function Play() {
                     {item.state == "requested" && item.creator._id == userId ? (
                       <span>Challenge requested by</span>
                     ) : item.state == "playing" ? (
-                      <span>In a challenge with</span>
+                      <span>Challenge running with</span>
                     ) : (
-                      <span>running challenge with</span>
+                      <span>Challenge set by</span>
                     )}
 
                     <span className="text-success fw-bold">
@@ -531,7 +528,18 @@ export default function Play() {
                                 deleteChallenge(item._id);
                               }}
                             >
-                              delete
+                              {isButtonDisabled ? (
+                                <CircularProgress
+                                  style={{
+                                    width: "1.0rem",
+                                    height: "1.0rem",
+                                    verticalAlign: "middle",
+                                  }}
+                                  color="white"
+                                />
+                              ) : (
+                                "Delete"
+                              )}
                             </button>
                           )}
                         {item.state == "open" &&
@@ -661,7 +669,7 @@ export default function Play() {
                   item.state == "hold" ? (
                     <div className="my-2 card">
                       <div className="d-flex align-items-center justify-content-between card-header">
-                        <span>Challenge set by</span>
+                        <span>Challenge running with</span>
                         <span className="text-success fw-bold">
                           Rs {item.amount}
                         </span>
