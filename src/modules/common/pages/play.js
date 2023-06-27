@@ -79,6 +79,7 @@ export default function Play() {
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
   const [startGameLoading, setStartGameLoading] = useState(false);
   const [playGameLoading, setplayGameLoading] = useState(false);
+  const [RequestedLoading, setRequestedLoading] = useState(false);
 
   const audioPlayer = useRef(null);
   let client = null;
@@ -145,7 +146,6 @@ export default function Play() {
         }
         if (events.filter) {
           const tempData = filterEvents(events, userId, viewGame, playAudio);
-
           setChallenges(tempData);
         }
       });
@@ -323,24 +323,33 @@ export default function Play() {
   };
 
   const cancelChallenge = (challengeId) => {
-    setTimeout(() => {
+    if (!RequestedLoading) {
       ws.send(
         JSON.stringify({
           type: "cancel",
           payload: { challengeId: challengeId, userId },
         })
       );
-    }, 1000);
+    }
+    setRequestedLoading(true);
+    setTimeout(() => {
+      setRequestedLoading(false); // Enable the button after 1 second
+    }, 2000);
   };
 
   const startGame = (challengeId) => {
+    if (!startGameLoading) {
+      ws.send(
+        JSON.stringify({
+          type: "startGame",
+          payload: { challengeId, userId },
+        })
+      );
+    }
     setStartGameLoading(true);
-    ws.send(
-      JSON.stringify({
-        type: "startGame",
-        payload: { challengeId, userId },
-      })
-    );
+    setTimeout(() => {
+      setStartGameLoading(false); // Enable the button after 1 second
+    }, 2000);
   };
 
   const viewGame = (challengeId) => {
@@ -441,7 +450,9 @@ export default function Play() {
                 <div className="my-2 card">
                   <div className="d-flex align-items-center justify-content-between card-header">
                     {item.state == "requested" && item.creator._id == userId ? (
-                      <span>Challenge requested by</span>
+                      <span>
+                        <b>Requested Challenge By</b>
+                      </span>
                     ) : item.state == "playing" ? (
                       <span>Challenge running with</span>
                     ) : (
@@ -568,6 +579,7 @@ export default function Play() {
                         {item.player?._id == userId &&
                           item.state == "requested" && (
                             <button
+                              disabled={RequestedLoading}
                               className="btn btn-secondary btn-sm"
                               onClick={() => {
                                 cancelChallenge(item._id);
