@@ -127,16 +127,21 @@ export default function Play() {
         if (events.status == 2) {
           setCreateChallengeLoading(false);
         }
-        if (events.status == 3) {
+        if (events.status == 22) {
           setStartGameLoading(false);
         }
+        if (events.status == 21) {
+          setRequestedLoading(false);
+        }
+
         if (events.challengeRedirect) {
           navigate(`/game/${events.challengeId}`);
           return;
         }
         if (events.status == 400) {
-          setStartGameLoading(false);
           setCreateChallengeLoading(false);
+          setStartGameLoading(false);
+          setRequestedLoading(false);
           toast.error(events.error);
 
           return;
@@ -260,12 +265,6 @@ export default function Play() {
             payload: { userId },
           })
         );
-        // ws.send(
-        //   JSON.stringify({
-        //     type: "cancel",
-        //     payload: { challengeId: challengeId, userId },
-        //   })
-        // );
       }
     }
   }
@@ -307,23 +306,24 @@ export default function Play() {
 
   const playChallenge = (challenge) => {
     if (data.wallet >= challenge.amount) {
-      setplayGameLoading(true);
+      // setplayGameLoading(true);
       ws.send(
         JSON.stringify({
           type: "play",
           payload: { challengeId: challenge._id, userId },
         })
       );
-      setTimeout(() => {
-        setplayGameLoading(false); // Enable the button after 1 second
-      }, 2000);
+      // setTimeout(() => {
+      //   setplayGameLoading(false); // Enable the button after 1 second
+      // }, 2000);
     } else {
       toast.error("not enough chips");
     }
   };
-
+  console.log("ccdaf", challenges);
   const cancelChallenge = (challengeId) => {
     if (!RequestedLoading) {
+      console.log("ttes");
       ws.send(
         JSON.stringify({
           type: "cancel",
@@ -332,9 +332,6 @@ export default function Play() {
       );
     }
     setRequestedLoading(true);
-    setTimeout(() => {
-      setRequestedLoading(false); // Enable the button after 1 second
-    }, 2000);
   };
 
   const startGame = (challengeId) => {
@@ -347,9 +344,6 @@ export default function Play() {
       );
     }
     setStartGameLoading(true);
-    setTimeout(() => {
-      setStartGameLoading(false); // Enable the button after 1 second
-    }, 2000);
   };
 
   const viewGame = (challengeId) => {
