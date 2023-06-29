@@ -61,9 +61,9 @@ export default function Sell() {
   useEffect(() => {
     (async () => {
       let userdata = await getUserProfileApi();
-      if (userdata.data.data) {
-        setDisableWithdraw(userdata.data.data);
-      }
+      // if (userdata.data.data) {
+      //   setDisableWithdraw(userdata.data.data);
+      // }
     })();
   }, []);
   useEffect(() => {

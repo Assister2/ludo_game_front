@@ -11,13 +11,13 @@ export default function WithDraw() {
   const showToast = () => {
     toast.error("Complete or cancel active challenges to withdraw!");
   };
-  useEffect(() => {
-    (async () => {
-      let userdata = await getUserProfileApi();
+  // useEffect(() => {
+  //   (async () => {
+  //     let userdata = await getUserProfileApi();
       
-      setDisableWithdraw(userdata?.data?.data);
-    })();
-  }, []);
+  //     setDisableWithdraw(userdata?.data?.data);
+  //   })();
+  // }, []);
   useEffect(() => {
     setWallet(walletData1.data);
   }, [walletData1]);
