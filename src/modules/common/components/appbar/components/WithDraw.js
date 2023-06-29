@@ -15,7 +15,7 @@ export default function WithDraw() {
     (async () => {
       let userdata = await getUserProfileApi();
       
-      setDisableWithdraw(userdata?.data?.data?.hasActiveChallenge);
+      setDisableWithdraw(userdata?.data?.data);
     })();
   }, []);
   useEffect(() => {

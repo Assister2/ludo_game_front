@@ -306,13 +306,13 @@ export default function Play() {
 
   const playChallenge = (challenge) => {
     if (data.wallet >= challenge.amount) {
-      // setplayGameLoading(true);
       ws.send(
         JSON.stringify({
           type: "play",
           payload: { challengeId: challenge._id, userId },
         })
       );
+      // setplayGameLoading(true);
       // setTimeout(() => {
       //   setplayGameLoading(false); // Enable the button after 1 second
       // }, 2000);
@@ -324,26 +324,33 @@ export default function Play() {
   const cancelChallenge = (challengeId) => {
     if (!RequestedLoading) {
       console.log("ttes");
-      ws.send(
-        JSON.stringify({
-          type: "cancel",
-          payload: { challengeId: challengeId, userId },
-        })
-      );
+      setTimeout(() => {
+        ws.send(
+          JSON.stringify({
+            type: "cancel",
+            payload: { challengeId: challengeId, userId },
+          })
+        );
+      }, 2000);
     }
     setRequestedLoading(true);
   };
 
-  const startGame = (challengeId) => {
+  const startGame = async (challengeId) => {
     if (!startGameLoading) {
-      ws.send(
-        JSON.stringify({
-          type: "startGame",
-          payload: { challengeId, userId },
-        })
-      );
+      setStartGameLoading(true); // Set the loading state to indicate a request is in progress
+      try {
+        await ws.send(
+          JSON.stringify({
+            type: "startGame",
+            payload: { challengeId, userId },
+          })
+        );
+        console.log("StartGame");
+      } catch (error) {
+        // Handle errors, if any
+      }
     }
-    setStartGameLoading(true);
   };
 
   const viewGame = (challengeId) => {
