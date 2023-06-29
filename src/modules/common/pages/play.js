@@ -454,9 +454,7 @@ export default function Play() {
                 <div className="my-2 card">
                   <div className="d-flex align-items-center justify-content-between card-header">
                     {item.state == "requested" && item.creator._id == userId ? (
-                      <span>
-                        <b>Requested Challenge By</b>
-                      </span>
+                      <span>Requested Challenge By</span>
                     ) : item.state == "playing" ? (
                       <span>Challenge running with</span>
                     ) : (
@@ -608,7 +606,13 @@ export default function Play() {
                             <button
                               className="btn btn-danger cancelRequest btn-sm"
                               onClick={() => {
-                                cancelChallenge(item._id);
+                                // cancelChallenge(item._id);
+                                ws.send(
+                                  JSON.stringify({
+                                    type: "cancel",
+                                    payload: { challengeId: item._id, userId },
+                                  })
+                                );
                               }}
                             >
                               Cancel
