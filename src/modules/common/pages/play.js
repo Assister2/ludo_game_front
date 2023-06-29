@@ -332,6 +332,9 @@ export default function Play() {
           })
         );
       }, 2000);
+      setTimeout(() => {
+        setRequestedLoading(false);
+      }, 2000);
     }
     setRequestedLoading(true);
   };
@@ -534,24 +537,13 @@ export default function Play() {
                         {item.creator?._id == userId &&
                           item.state == "open" && (
                             <button
-                              disabled={isButtonDisabled}
+                              // disabled={isButtonDisabled}
                               className="btn btn-danger playChallange btn-sm"
                               onClick={() => {
                                 deleteChallenge(item._id);
                               }}
                             >
-                              {isButtonDisabled ? (
-                                <CircularProgress
-                                  style={{
-                                    width: "1.0rem",
-                                    height: "1.0rem",
-                                    verticalAlign: "middle",
-                                  }}
-                                  color="white"
-                                />
-                              ) : (
-                                "Delete"
-                              )}
+                              Delete
                             </button>
                           )}
                         {item.state == "open" &&
