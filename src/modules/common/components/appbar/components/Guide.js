@@ -67,7 +67,7 @@ function Guide(props) {
 
   useEffect(() => {
     var socketNew = null;
-    if (!userId) {
+    if (!userId || userData.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
     }
@@ -105,6 +105,15 @@ function Guide(props) {
         if (data.error) {
           // Handle error
         } else if (data.data !== null || data.data !== undefined) {
+          if (data.data.isBlocked) {
+            Cookies.remove("token");
+            Cookies.remove("fullName");
+            Cookies.remove("userId");
+            client.disconnect();
+
+            dispatch(logoutSuccess());
+            navigate("/login");
+          }
           // Only update state if the component is still mounted
 
           setWallet(data.data);
