@@ -61,7 +61,7 @@ export default function Register(props) {
         toast.error("referal code must be at least 10 digits");
         return;
       } else {
-        signupData.referelCode = state.referalCode;
+        signupData.referCode = state.referalCode;
       }
     }
     if (state.phoneNumber.length < 10) {

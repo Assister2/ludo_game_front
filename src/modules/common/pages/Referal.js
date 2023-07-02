@@ -16,11 +16,11 @@ export default function ReferAndEarning() {
 
   const shareMessage =
     "Play Ludo and earn Rs10000 daily.\nCommission Charge - 3% Only\nReferral - 2% On All Games\n24x7 Live Chat Support\nInstant Withdrawal Via UPI/Bank\nRegister Now, My refer code is " +
-    userData.data.referelCode +
+    userData.data.referCode +
     "\n👇👇\n" +
     window.location.origin +
     "/register?refer=" +
-    userData.data.referelCode;
+    userData.data.referCode;
   const share = async () => {
     try {
       await navigator.share({
@@ -90,7 +90,7 @@ export default function ReferAndEarning() {
                       type="text"
                       className="form-control p-2"
                       disabled
-                      value={userData.data.referelCode}
+                      value={userData.data.referCode}
                     />
                     <CopyToClipboard text={shareMessage} onCopy={showToast}>
                       <button className="btn btn-primary text-uppercase">
