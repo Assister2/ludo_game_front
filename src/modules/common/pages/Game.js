@@ -40,6 +40,7 @@ export default function Game(props) {
   const [fileType, setFileType] = useState("");
   const [tabVisibleTime, setIsTabVisibleTime] = useState(true);
   const [isIlostClicked, setisIlostClicked] = useState(false);
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   const dispatch = useDispatch();
   let challengeInititalState = {
@@ -383,6 +384,11 @@ export default function Game(props) {
       setImage(reader.result);
     };
     reader.readAsDataURL(event.target.files[0]);
+    if (event.target.files[0]) {
+      setIsImageUploaded(true);
+    }
+
+    // Set isImageUploaded to true when an image is selected
   };
   const handleCancellationReason = async (text) => {
     setCancellation(text);
@@ -680,6 +686,7 @@ export default function Game(props) {
                 id="upload-btn"
                 className="btn btn-primary btn-lg"
                 type="file"
+                disabled={isImageUploaded}
                 onChange={handleImageChange}
               />
               {screenshoot !== "" && (

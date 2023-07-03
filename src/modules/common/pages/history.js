@@ -376,7 +376,8 @@ export default function History() {
                                   </span>
                                 )}
                                 {item.type == "buy" ||
-                                  (item.type == "won" && (
+                                  item.type == "won" ||
+                                  (item.type == "cancelled" && (
                                     <span
                                       className="text-success text-end fw-bold my-1"
                                       style={{ fontSize: "0.8rem" }}
