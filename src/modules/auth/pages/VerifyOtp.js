@@ -124,8 +124,7 @@ export default function VeridyOtp({ route }) {
         dispatch(loginRequest({ data: data, register: true }, history));
         setTimeout(() => {
           setLoading(false);
-        }, 2000);
-        setLoading(false);
+        }, 3000);
       }
     } else {
       dispatch(
@@ -133,8 +132,7 @@ export default function VeridyOtp({ route }) {
       );
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
-      setLoading(false);
+      }, 3000);
     }
   };
 

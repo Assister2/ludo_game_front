@@ -7,6 +7,7 @@ import { CDN_URL } from "../../../config";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import { TelegramShareButton, WhatsappShareButton } from "react-share";
+import { BorderColor } from "@material-ui/icons";
 export default function ReferAndEarning() {
   let userData = useSelector((state) => state.user);
   const showToast = () => {
@@ -105,7 +106,7 @@ export default function ReferAndEarning() {
               <div className="d-grid">
                 <button
                   className="btn btn-primary btn-md w-100"
-                  style={{ backgroundColor: "green" }}
+                  style={{ backgroundColor: "green", borderColor: "green" }}
                 >
                   <WhatsappShareButton url={shareMessage} quote={shareMessage}>
                     <FaWhatsapp
@@ -118,11 +119,14 @@ export default function ReferAndEarning() {
                 </button>
               </div>
               <div className="d-grid mt-2">
-                <button className="btn btn-primary btn-md w-100">
+                <button
+                  className="btn btn-primary btn-md w-100"
+                  style={{ height: "38px" }}
+                >
                   <TelegramShareButton url={shareMessage} quote={shareMessage}>
                     <FaTelegram
                       style={{ paddingRight: "8px" }}
-                      size={27}
+                      size={25}
                       round
                     />
                     <span className="text-capitalize">Share to Telegram</span>
