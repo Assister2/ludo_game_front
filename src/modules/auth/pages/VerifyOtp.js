@@ -122,11 +122,13 @@ export default function VeridyOtp({ route }) {
 
       if (data) {
         dispatch(loginRequest({ data: data, register: true }, history));
+        setLoading(false);
       }
     } else {
       dispatch(
         loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
       );
+      setLoading(false);
     }
   };
 
@@ -330,10 +332,10 @@ export default function VeridyOtp({ route }) {
               </p>
               <button
                 onClick={verify}
-                disabled={isLoading}
+                disabled={loading}
                 className="btn btn-primary text-uppercase"
               >
-                {isLoading ? (
+                {loading ? (
                   <CircularProgress
                     style={{
                       width: "1.5rem",
