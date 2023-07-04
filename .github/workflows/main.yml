@@ -23,4 +23,5 @@ jobs:
             cp -R build /var/www/your_domain/html
             sudo service nginx restart
             sudo systemctl reload nginx
+            rm -rf frontend_ludo
             echo 'Deployment successful to DigitalOcean'

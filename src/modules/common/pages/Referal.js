@@ -110,7 +110,7 @@ export default function ReferAndEarning() {
                   <WhatsappShareButton url={shareMessage} quote={shareMessage}>
                     <FaWhatsapp
                       style={{ paddingRight: "5px" }}
-                      size={32}
+                      size={25}
                       round
                     />
                     <span className="text-capitalize">Share to Whatsapp</span>
@@ -122,7 +122,7 @@ export default function ReferAndEarning() {
                   <TelegramShareButton url={shareMessage} quote={shareMessage}>
                     <FaTelegram
                       style={{ paddingRight: "8px" }}
-                      size={32}
+                      size={27}
                       round
                     />
                     <span className="text-capitalize">Share to Telegram</span>

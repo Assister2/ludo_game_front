@@ -40,6 +40,7 @@ export default function VeridyOtp({ route }) {
   const setValidationMsg = (msg) => {
     toast.error(msg);
   };
+
   // if (userdata?.isLoggedIn) {
   //   navigate("/play");
   // }
@@ -329,6 +330,7 @@ export default function VeridyOtp({ route }) {
               </p>
               <button
                 onClick={verify}
+                disabled={isLoading}
                 className="btn btn-primary text-uppercase"
               >
                 {isLoading ? (
