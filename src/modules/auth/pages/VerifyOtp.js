@@ -122,12 +122,18 @@ export default function VeridyOtp({ route }) {
 
       if (data) {
         dispatch(loginRequest({ data: data, register: true }, history));
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         setLoading(false);
       }
     } else {
       dispatch(
         loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
       );
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
       setLoading(false);
     }
   };
