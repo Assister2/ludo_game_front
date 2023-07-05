@@ -1,6 +1,6 @@
 import { CircularProgress } from "@material-ui/core";
 import Cookies from "js-cookie";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { loginAPI } from "../../../apis/auth";
@@ -8,23 +8,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { CDN_URL } from "../../../config";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
-import { useNavigate } from "react-router-dom";
+
 export default function Login(props) {
-  const navigate = useNavigate();
-  console.log("checkk2323", Cookies.getItem("fullName"));
-  const { data } = useSelector((state) => state.loginReducer);
-  if (!data.isLoggedIn) {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.localStorage.clear();
-    localStorage.removeItem("wallet");
-    Cookies.remove("token");
-    Cookies.remove("fullName");
-    Cookies.remove("userId");
-  }
+  localStorage.clear();
+  sessionStorage.clear();
+  window.localStorage.clear();
+  localStorage.removeItem("wallet");
+  Cookies.remove("token");
+  Cookies.remove("fullName");
+  Cookies.remove("userId");
 
   const dispatch = useDispatch();
-  const navigate1 = useNavigateSearch(false);
+  const navigate = useNavigateSearch(false);
   const [loading, setLoading] = useState(false);
   const phone = useCustumSearchParams()?.p;
   dispatch({ type: "ON_SIGNUPPAGE", payload: false });
@@ -57,7 +52,7 @@ export default function Login(props) {
       if (userLogin.status == 200) {
         setLoading(false);
         toast.success("OTP sent successfully!");
-        navigate1("/verify-otp", { p: state.phone });
+        navigate("/verify-otp", { p: state.phone });
       } else {
         setLoading(false);
         toast.error(userLogin.error);
