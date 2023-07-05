@@ -28,6 +28,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
+import audio1 from "./notification.mp3";
 
 // const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
@@ -46,10 +47,13 @@ export default function Play() {
   const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [audio, setAudio] = useState(false);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-
+  const playAudio2 = () => {
+    new Audio(audio1).play();
+  };
   const handleOpen = () => {
     setIsOpen(true);
   };
@@ -84,7 +88,7 @@ export default function Play() {
   const audioPlayer = useRef(null);
   let client = null;
   function playAudio() {
-    // audioPlayer.current.play();
+    audioPlayer.current.play();
   }
 
   useEffect(() => {
@@ -150,7 +154,7 @@ export default function Play() {
           sortEvents(events, userId);
         }
         if (events.filter) {
-          const tempData = filterEvents(events, userId, viewGame, playAudio);
+          const tempData = filterEvents(events, userId, viewGame, playAudio2);
           setChallenges(tempData);
         }
       });

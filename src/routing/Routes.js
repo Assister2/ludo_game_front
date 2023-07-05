@@ -32,14 +32,6 @@ const Routes = (props) => {
 
   return (
     <Switch>
-      <Route path="/legal" element={<LegalTerms />} />
-      <Route path="/support" element={<Support />} />
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Login />} />
-
-      <Route path="/register" element={<Register />} />
-      <Route path="/verify-otp" element={<VeridyOtp />} />
-
       {data.isLoggedIn ? (
         <>
           <Route path="/profile" element={<UserProfile />} />
@@ -48,13 +40,22 @@ const Routes = (props) => {
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/buy" element={<Buy />} />
           <Route path="/sell" element={<Sell />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/referal" element={<ReferAndEarning />} />
           <Route path="/play" element={<Play />} />
           <Route path="/game/:id" element={<Game />} />
           <Route path="/history" element={<History />} />
         </>
       ) : (
-        <></>
+        <>
+          {" "}
+          <Route path="/legal" element={<LegalTerms />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-otp" element={<VeridyOtp />} />
+        </>
       )}
     </Switch>
   );

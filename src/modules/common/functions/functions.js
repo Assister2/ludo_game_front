@@ -108,7 +108,7 @@ export function sortEvents(events, userId) {
   return events;
 }
 
-export function filterEvents(events, userId, viewGame, playAudio) {
+export function filterEvents(events, userId, viewGame, playAudio2) {
   let tempData = events.filter(
     (item) =>
       !(
@@ -130,7 +130,8 @@ export function filterEvents(events, userId, viewGame, playAudio) {
       viewGame(element._id);
     }
     if (element.state === "requested" && element.creator._id === userId) {
-      playAudio();
+      console.log("checkuser");
+      // playAudio2();
     }
   });
 

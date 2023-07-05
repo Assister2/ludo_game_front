@@ -8,15 +8,23 @@ import { signUpRequest } from "../../../redux/actions/auth";
 import Cookies from "js-cookie";
 
 export default function Register(props) {
-  localStorage.clear();
-  sessionStorage.clear();
-  window.localStorage.clear();
-  localStorage.removeItem("wallet");
-  Cookies.remove("token");
-  Cookies.remove("fullName");
-  Cookies.remove("userId");
+  const { data } = useSelector((state) => state.loginReducer);
   const dispatch = useDispatch();
   const history = useNavigate();
+  const navigate = useNavigate();
+
+  if (data.isLoggedIn) {
+    navigate("/");
+  } else {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.localStorage.clear();
+    localStorage.removeItem("wallet");
+    Cookies.remove("token");
+    Cookies.remove("fullName");
+    Cookies.remove("userId");
+  }
+
   const { isLoading } = useSelector((state) => state.signUpReducer);
   console.log("is loading user", isLoading);
 
