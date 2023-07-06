@@ -46,7 +46,11 @@ export default function Play() {
   }));
   const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(null);
+  const [isButtonType, setIsButtonType] = useState(false);
+
+  const [isCancelButtonDisabled, setIsCancelButtonDisabled] = useState(null);
+
   const [audio, setAudio] = useState(false);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
@@ -92,6 +96,7 @@ export default function Play() {
   }
 
   useEffect(() => {
+    console.log("test");
     if (userId) {
       if (userId) {
         socketNew.connect();
@@ -295,17 +300,36 @@ export default function Play() {
     );
     setAmount("");
   };
+
+  useEffect(() => {
+    console.log("delete", isButtonDisabled);
+
+    if (isButtonDisabled && isButtonType === "delete") {
+      deleteChallenge(isButtonDisabled);
+    } else if (isButtonDisabled && isButtonType === "cancel") {
+      ws.send(
+        JSON.stringify({
+          type: "cancel",
+          payload: { challengeId: isButtonDisabled, userId },
+        })
+      );
+    } else if (isButtonDisabled && isButtonType === "requested") {
+      cancelChallenge(isButtonDisabled);
+    } else if (isButtonDisabled && isButtonType === "playChallange") {
+      playChallenge(isButtonDisabled);
+    } else if (isButtonDisabled && isButtonType === "viewChallange") {
+      startGame(isButtonDisabled);
+    }
+  }, [isButtonDisabled]);
+
   const deleteChallenge = (challengeId) => {
-    setIsButtonDisabled(true);
     ws.send(
       JSON.stringify({
         type: "delete",
         payload: { challengeId: challengeId, userId: userId },
       })
     );
-    setTimeout(() => {
-      setIsButtonDisabled(false); // Enable the button after 1 second
-    }, 3000);
+    setIsButtonDisabled(null);
   };
 
   const playChallenge = (challenge) => {
@@ -323,8 +347,10 @@ export default function Play() {
     } else {
       toast.error("not enough chips");
     }
+    setIsButtonDisabled(null);
   };
-  console.log("ccdaf", challenges);
+  // console.log("ccdaf", challenges);
+
   const cancelChallenge = (challengeId) => {
     if (!RequestedLoading) {
       console.log("ttes");
@@ -341,6 +367,7 @@ export default function Play() {
       }, 2000);
     }
     setRequestedLoading(true);
+    setIsButtonDisabled(null);
   };
 
   const startGame = async (challengeId) => {
@@ -539,10 +566,13 @@ export default function Play() {
                         {item.creator?._id == userId &&
                           item.state == "open" && (
                             <button
-                              // disabled={isButtonDisabled}
+                              disabled={
+                                item._id === isButtonDisabled ? true : false
+                              }
                               className="btn btn-danger playChallange btn-sm"
                               onClick={() => {
-                                deleteChallenge(item._id);
+                                setIsButtonDisabled(item._id);
+                                setIsButtonType("delete");
                               }}
                             >
                               Delete
@@ -553,7 +583,8 @@ export default function Play() {
                             <button
                               className="btn btn-primary playChallange btn-sm"
                               onClick={() => {
-                                playChallenge(item);
+                                setIsButtonDisabled(item);
+                                setIsButtonType("playChallange");
                               }}
                               disabled={playGameLoading}
                             >
@@ -577,7 +608,8 @@ export default function Play() {
                               disabled={RequestedLoading}
                               className="btn btn-secondary btn-sm"
                               onClick={() => {
-                                cancelChallenge(item._id);
+                                setIsButtonDisabled(item._id);
+                                setIsButtonType("requested");
                               }}
                             >
                               Requested
@@ -591,7 +623,8 @@ export default function Play() {
                               disabled={startGameLoading}
                               className="checkCancelRequest btn btn-success viewChallange btn-sm"
                               onClick={() => {
-                                startGame(item._id);
+                                setIsButtonDisabled(item._id);
+                                setIsButtonType("viewChallange");
                               }}
                             >
                               {startGameLoading ? (
@@ -608,15 +641,13 @@ export default function Play() {
                               )}
                             </button>
                             <button
+                              disabled={
+                                item._id === isButtonDisabled ? true : false
+                              }
                               className="btn btn-danger cancelRequest btn-sm"
                               onClick={() => {
-                                // cancelChallenge(item._id);
-                                ws.send(
-                                  JSON.stringify({
-                                    type: "cancel",
-                                    payload: { challengeId: item._id, userId },
-                                  })
-                                );
+                                setIsButtonDisabled(item._id);
+                                setIsButtonType("cancel");
                               }}
                             >
                               Cancel
