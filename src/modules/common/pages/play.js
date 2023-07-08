@@ -155,7 +155,7 @@ export default function Play() {
           setChallenges(tempData);
         }
       });
-      console.log("errorr");
+
       client.on("error", (events) => {
         console.log("ccc", events);
       });
