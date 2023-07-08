@@ -88,7 +88,7 @@ export default function Play() {
 
   useEffect(() => {
     let heartbeatInterval;
-
+    let deleteOpenChallengesOfCreator = true;
     if (userId) {
       if (userId) {
         socketNew.connect();
@@ -164,6 +164,14 @@ export default function Play() {
       dispatch(logoutSuccess());
       navigate("/login");
     }
+    if (client) {
+      client.send(
+        JSON.stringify({
+          type: "deleteOpenChallengesOfCreator",
+          payload: { userId },
+        })
+      );
+    }
 
     return () => {
       clearInterval(heartbeatInterval);
@@ -191,7 +199,7 @@ export default function Play() {
     var challenge = 0;
 
     challenges.map((item) => {
-      if (item.creator?._id == userId || item.player?._id == userId) {
+      if (item.creator?._id === userId || item.player?._id === userId) {
         if (item.state == "playing") {
           if (
             item.creator?._id == userId &&
@@ -211,8 +219,8 @@ export default function Play() {
         }
 
         if (
-          (item.creator?._id == userId && item.state === "open") ||
-          item.state === "requested"
+          (item.creator?._id === userId && item.state === "open") ||
+          (item.creator?._id === userId && item.state === "requested")
         ) {
           challenge++;
         }
@@ -237,6 +245,7 @@ export default function Play() {
   useEffect(() => {
     if (ws?.connected) {
       if (ws) {
+        console.log("!isTabVisible", !isTabVisible);
         if (!isTabVisible) {
           if (noOfChallenges && noOfChallenges > 0) {
             ws.send(
@@ -475,7 +484,7 @@ export default function Play() {
                           className="bg-success rounded-circle position-relative"
                         >
                           <img
-                            src={`${CDN_URL}/avatar/${item.creator.profileImage}`}
+                            src={`${CDN_URL}avatar/${item.creator.profileImage}`}
                             style={{
                               width: "100%",
                               height: "100%",
@@ -692,7 +701,7 @@ export default function Play() {
                                 height: "24px",
                                 marginLeft: "-5px",
                                 backgroundSize: "contain",
-                                backgroundImage: `url(${CDN_URL}/avatar/${item?.player?.profileImage}`,
+                                backgroundImage: `url(${CDN_URL}avatar/${item?.player?.profileImage}`,
                               }}
                               className="bg-success rounded-circle position-relative"
                             >
