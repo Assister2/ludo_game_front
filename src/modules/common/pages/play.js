@@ -285,7 +285,6 @@ export default function Play() {
   useEffect(() => {
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
-      setIsButtonDisabled(null);
     } else if (isButtonDisabled && isButtonType === "cancel") {
       ws.send(
         JSON.stringify({
@@ -293,7 +292,6 @@ export default function Play() {
           payload: { challengeId: isButtonDisabled, userId },
         })
       );
-      setIsButtonDisabled(null);
     } else if (isButtonDisabled && isButtonType === "requested") {
       cancelChallenge(isButtonDisabled);
     } else if (isButtonDisabled && isButtonType === "playChallange") {
@@ -596,6 +594,7 @@ export default function Play() {
                               }
                               className="checkCancelRequest btn btn-success viewChallange btn-sm"
                               onClick={() => {
+                                playAudio2();
                                 setIsButtonDisabled(item._id);
                                 setIsButtonType("viewChallange");
                               }}
@@ -622,6 +621,7 @@ export default function Play() {
                               }
                               className="btn btn-danger cancelRequest btn-sm"
                               onClick={() => {
+                                playAudio2();
                                 setIsButtonDisabled(item._id);
                                 setIsButtonType("cancel");
                               }}
@@ -909,7 +909,7 @@ export default function Play() {
         role="dialog"
         aria-modal="true"
         className={`h-50 offcanvas offcanvas-bottom ${holdModal ? "show" : ""}`}
-        tabindex="-1"
+        tabIndex="-1"
         style={{ visibility: "visible" }}
       >
         <div className="offcanvas-header">
