@@ -235,7 +235,6 @@ export default function Play() {
   }, [challenges]);
 
   useEffect(() => {
-    console.log("cehckuser");
     if (ws?.connected) {
       if (ws) {
         if (!isTabVisible) {
