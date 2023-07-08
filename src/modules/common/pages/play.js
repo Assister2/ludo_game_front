@@ -283,11 +283,8 @@ export default function Play() {
   };
 
   useEffect(() => {
-    console.log("delete", isButtonDisabled);
-
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
-      setIsButtonDisabled(null);
     } else if (isButtonDisabled && isButtonType === "cancel") {
       ws.send(
         JSON.stringify({
@@ -295,7 +292,6 @@ export default function Play() {
           payload: { challengeId: isButtonDisabled, userId },
         })
       );
-      setIsButtonDisabled(null);
     } else if (isButtonDisabled && isButtonType === "requested") {
       cancelChallenge(isButtonDisabled);
     } else if (isButtonDisabled && isButtonType === "playChallange") {
@@ -303,7 +299,7 @@ export default function Play() {
     } else if (isButtonDisabled && isButtonType === "viewChallange") {
       startGame(isButtonDisabled);
     }
-  }, [isButtonDisabled]);
+  }, [isButtonDisabled, isButtonType]);
 
   const deleteChallenge = (challengeId) => {
     ws.send(
@@ -312,7 +308,6 @@ export default function Play() {
         payload: { challengeId: challengeId, userId: userId },
       })
     );
-    // setIsButtonDisabled(null);
   };
 
   const playChallenge = (challenge) => {
@@ -326,7 +321,6 @@ export default function Play() {
     } else {
       toast.error("not enough chips");
     }
-    setIsButtonDisabled(null);
   };
   // console.log("ccdaf", challenges);
 
@@ -341,8 +335,6 @@ export default function Play() {
 
       setRequestedLoading(false);
     }
-    setRequestedLoading(true);
-    setIsButtonDisabled(null);
   };
 
   const startGame = (challengeId) => {
@@ -540,7 +532,8 @@ export default function Play() {
                           item.state == "open" && (
                             <button
                               disabled={
-                                item._id === isButtonDisabled ? true : false
+                                item._id === isButtonDisabled &&
+                                isButtonType === "delete"
                               }
                               className="btn btn-danger playChallange btn-sm"
                               onClick={() => {
@@ -593,9 +586,15 @@ export default function Play() {
                         item.state == "requested" ? (
                           <div className="hstack gap-2 minBreakpoint-xs">
                             <button
-                              disabled={startGameLoading}
+                              disabled={
+                                item._id === isButtonDisabled &&
+                                isButtonType === "viewChallange"
+                                  ? true
+                                  : false
+                              }
                               className="checkCancelRequest btn btn-success viewChallange btn-sm"
                               onClick={() => {
+                                playAudio2();
                                 setIsButtonDisabled(item._id);
                                 setIsButtonType("viewChallange");
                               }}
@@ -615,10 +614,14 @@ export default function Play() {
                             </button>
                             <button
                               disabled={
-                                item._id === isButtonDisabled ? true : false
+                                item._id === isButtonDisabled &&
+                                isButtonType === "cancel"
+                                  ? true
+                                  : false
                               }
                               className="btn btn-danger cancelRequest btn-sm"
                               onClick={() => {
+                                playAudio2();
                                 setIsButtonDisabled(item._id);
                                 setIsButtonType("cancel");
                               }}
@@ -906,7 +909,7 @@ export default function Play() {
         role="dialog"
         aria-modal="true"
         className={`h-50 offcanvas offcanvas-bottom ${holdModal ? "show" : ""}`}
-        tabindex="-1"
+        tabIndex="-1"
         style={{ visibility: "visible" }}
       >
         <div className="offcanvas-header">

@@ -42,7 +42,7 @@ function Guide(props) {
       if (data.isLoggedIn && Cookies.get("token")) {
         let route = window.location.pathname;
         if (route === "/login" || route === "/register") {
-          window.location.href = "/play";
+          window.location.href = "/";
           return null;
         }
 
