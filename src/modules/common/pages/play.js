@@ -245,7 +245,6 @@ export default function Play() {
   useEffect(() => {
     if (ws?.connected) {
       if (ws) {
-        console.log("!isTabVisible", !isTabVisible);
         if (!isTabVisible) {
           if (noOfChallenges && noOfChallenges > 0) {
             ws.send(
