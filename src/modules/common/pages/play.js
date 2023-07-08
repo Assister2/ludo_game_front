@@ -283,8 +283,6 @@ export default function Play() {
   };
 
   useEffect(() => {
-    console.log("delete", isButtonDisabled);
-
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
     } else if (isButtonDisabled && isButtonType === "cancel") {
@@ -301,7 +299,7 @@ export default function Play() {
     } else if (isButtonDisabled && isButtonType === "viewChallange") {
       startGame(isButtonDisabled);
     }
-  }, [isButtonDisabled]);
+  }, [isButtonDisabled, isButtonType]);
 
   const deleteChallenge = (challengeId) => {
     ws.send(
@@ -310,7 +308,6 @@ export default function Play() {
         payload: { challengeId: challengeId, userId: userId },
       })
     );
-    setIsButtonDisabled(null);
   };
 
   const playChallenge = (challenge) => {
@@ -324,7 +321,6 @@ export default function Play() {
     } else {
       toast.error("not enough chips");
     }
-    setIsButtonDisabled(null);
   };
   // console.log("ccdaf", challenges);
 
@@ -339,8 +335,6 @@ export default function Play() {
 
       setRequestedLoading(false);
     }
-    setRequestedLoading(true);
-    setIsButtonDisabled(null);
   };
 
   const startGame = async (challengeId) => {
@@ -540,7 +534,8 @@ export default function Play() {
                           item.state == "open" && (
                             <button
                               disabled={
-                                item._id === isButtonDisabled ? true : false
+                                item._id === isButtonDisabled &&
+                                isButtonType === "delete"
                               }
                               className="btn btn-danger playChallange btn-sm"
                               onClick={() => {
@@ -593,7 +588,12 @@ export default function Play() {
                         item.state == "requested" ? (
                           <div className="hstack gap-2 minBreakpoint-xs">
                             <button
-                              disabled={startGameLoading}
+                              disabled={
+                                item._id === isButtonDisabled &&
+                                isButtonType === "viewChallange"
+                                  ? true
+                                  : false
+                              }
                               className="checkCancelRequest btn btn-success viewChallange btn-sm"
                               onClick={() => {
                                 setIsButtonDisabled(item._id);
@@ -615,7 +615,10 @@ export default function Play() {
                             </button>
                             <button
                               disabled={
-                                item._id === isButtonDisabled ? true : false
+                                item._id === isButtonDisabled &&
+                                isButtonType === "cancel"
+                                  ? true
+                                  : false
                               }
                               className="btn btn-danger cancelRequest btn-sm"
                               onClick={() => {
