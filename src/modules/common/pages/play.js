@@ -26,24 +26,16 @@ import { useSelector } from "react-redux";
 import NotificationSound from "./notification.mp3";
 import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
+
 import audio1 from "./notification.mp3";
 
 // const URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/playpage`;
 
 export default function Play() {
-  let errorDisplayed = false;
   const dispatch = useDispatch();
-  const isLoggedIn = Cookies.get("isLoggedIn");
+
   const userId = Cookies.get("userId");
-  const token = Cookies.get("token");
-  const useStyles = makeStyles((theme) => ({
-    paperContainer: {
-      padding: theme.spacing(2),
-      border: "1px solid #000",
-    },
-  }));
+
   const [amount, setAmount] = useState("");
   const [challenges, setChallenges] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(null);
@@ -61,11 +53,10 @@ export default function Play() {
   const handleOpen = () => {
     setIsOpen(true);
   };
-  const classes = useStyles();
+
   const handleClose = () => {
     setIsOpen(false);
   };
-  const [lastError, setLastError] = useState(false);
   const [ws, setWs] = useState();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -96,7 +87,8 @@ export default function Play() {
   }
 
   useEffect(() => {
-    console.log("test");
+    let heartbeatInterval;
+
     if (userId) {
       if (userId) {
         socketNew.connect();
@@ -116,9 +108,9 @@ export default function Play() {
         setWs(client);
       }
 
-      setInterval(() => {
+      heartbeatInterval = setInterval(() => {
         client.send(JSON.stringify({ type: "heartbeat" }));
-      }, 1000);
+      }, 2000);
 
       client.send(
         JSON.stringify({
@@ -172,18 +164,9 @@ export default function Play() {
       dispatch(logoutSuccess());
       navigate("/login");
     }
-    console.log("cehckk", userId);
-    if (client) {
-      client.send(
-        JSON.stringify({
-          type: "deleteOpenChallengesOfCreator",
-          payload: { userId },
-        })
-      );
-    }
 
     return () => {
-      setLastError(true);
+      clearInterval(heartbeatInterval);
       if (client) {
         client.send(
           JSON.stringify({
@@ -252,31 +235,22 @@ export default function Play() {
   }, [challenges]);
 
   useEffect(() => {
+    console.log("cehckuser");
     if (ws?.connected) {
-      ws.emit(
-        "getUserWallet",
-        JSON.stringify({
-          type: "getUserWallet",
-          payload: {
-            userId: userId,
-          },
-        })
-      );
-    }
-  }, [noOfholdChallenges, client]);
-
-  if (ws) {
-    if (!isTabVisible) {
-      if (noOfChallenges && noOfChallenges > 0) {
-        ws.send(
-          JSON.stringify({
-            type: "deleteOpenChallengesOfCreator",
-            payload: { userId },
-          })
-        );
+      if (ws) {
+        if (!isTabVisible) {
+          if (noOfChallenges && noOfChallenges > 0) {
+            ws.send(
+              JSON.stringify({
+                type: "deleteOpenChallengesOfCreator",
+                payload: { userId },
+              })
+            );
+          }
+        }
       }
     }
-  }
+  }, [noOfholdChallenges, isTabVisible]);
 
   const createChallenge = () => {
     if (amount <= 0) {
@@ -340,10 +314,6 @@ export default function Play() {
           payload: { challengeId: challenge._id, userId },
         })
       );
-      // setplayGameLoading(true);
-      // setTimeout(() => {
-      //   setplayGameLoading(false); // Enable the button after 1 second
-      // }, 2000);
     } else {
       toast.error("not enough chips");
     }
@@ -353,18 +323,14 @@ export default function Play() {
 
   const cancelChallenge = (challengeId) => {
     if (!RequestedLoading) {
-      console.log("ttes");
-      setTimeout(() => {
-        ws.send(
-          JSON.stringify({
-            type: "cancel",
-            payload: { challengeId: challengeId, userId },
-          })
-        );
-      }, 2000);
-      setTimeout(() => {
-        setRequestedLoading(false);
-      }, 2000);
+      ws.send(
+        JSON.stringify({
+          type: "cancel",
+          payload: { challengeId: challengeId, userId },
+        })
+      );
+
+      setRequestedLoading(false);
     }
     setRequestedLoading(true);
     setIsButtonDisabled(null);
