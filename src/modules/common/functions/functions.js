@@ -130,7 +130,6 @@ export function filterEvents(events, userId, viewGame, playAudio2) {
       viewGame(element._id);
     }
     if (element.state === "requested" && element.creator._id === userId) {
-      console.log("checkuser");
       // playAudio2();
     }
   });

@@ -287,6 +287,7 @@ export default function Play() {
 
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
+      setIsButtonDisabled(null);
     } else if (isButtonDisabled && isButtonType === "cancel") {
       ws.send(
         JSON.stringify({
@@ -294,6 +295,7 @@ export default function Play() {
           payload: { challengeId: isButtonDisabled, userId },
         })
       );
+      setIsButtonDisabled(null);
     } else if (isButtonDisabled && isButtonType === "requested") {
       cancelChallenge(isButtonDisabled);
     } else if (isButtonDisabled && isButtonType === "playChallange") {
@@ -310,7 +312,7 @@ export default function Play() {
         payload: { challengeId: challengeId, userId: userId },
       })
     );
-    setIsButtonDisabled(null);
+    // setIsButtonDisabled(null);
   };
 
   const playChallenge = (challenge) => {
@@ -343,20 +345,18 @@ export default function Play() {
     setIsButtonDisabled(null);
   };
 
-  const startGame = async (challengeId) => {
+  const startGame = (challengeId) => {
     if (!startGameLoading) {
       setStartGameLoading(true); // Set the loading state to indicate a request is in progress
-      try {
-        await ws.send(
-          JSON.stringify({
-            type: "startGame",
-            payload: { challengeId, userId },
-          })
-        );
-        console.log("StartGame");
-      } catch (error) {
-        // Handle errors, if any
-      }
+
+      ws.send(
+        JSON.stringify({
+          type: "startGame",
+          payload: { challengeId, userId },
+        })
+      );
+      setIsButtonDisabled(null);
+      console.log("StartGame");
     }
   };
 
