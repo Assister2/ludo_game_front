@@ -95,7 +95,7 @@ function Guide(props) {
             },
           })
         );
-      }, 1000);
+      }, 3000);
 
       setIsOpen(true);
 
