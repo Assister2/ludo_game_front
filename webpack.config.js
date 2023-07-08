@@ -1,12 +1,15 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: ["./src/index.js"],
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "js/bundle.js",
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -54,13 +57,29 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
       favicon: "./public/favicon.ico",
-      filename: "index.html",
       manifest: "./public/manifest.json",
     }),
     new Dotenv(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "./public/manifest.json",
+          to: path.resolve(__dirname, "build"),
+        },
+        {
+          from: "./public/svgs",
+          to: path.resolve(__dirname, "build/svgs"),
+        },
+        {
+          from: "./public/avatar",
+          to: path.resolve(__dirname, "build/avatar"),
+        },
+      ],
+    }),
   ],
   devServer: {
     static: {
@@ -70,7 +89,7 @@ module.exports = {
     port: 3000,
     hot: true,
     open: true,
-    historyApiFallback: true, // Add this line
+    historyApiFallback: true,
   },
   devtool: false,
 };

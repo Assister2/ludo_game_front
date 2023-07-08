@@ -21,7 +21,7 @@ function* getUserProfile(param) {
 
   if (data.status == 200) {
     yield put(getUserProfileSuccess(data.data));
-  } else if (data.status == 400) {
+  } else if (data.status === 400) {
     console.log("");
     localStorage.clear();
     sessionStorage.clear();

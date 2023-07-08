@@ -40,7 +40,7 @@ export default function ProfileDetails() {
                 <div className="card-body">
                     <div className="d-flex align-items-center justify-content-center" >
                         <div style={{ height: "80px", width: "80px" }}>
-                            <div style={{ width: "60px", height: "60px", backgroundSize:"contain", backgroundImage: `url(${CDN_URL}/avatar/${userData?.data?.profileImage}` }} className="bg-success rounded-circle position-relative">
+                            <div style={{ width: "60px", height: "60px", backgroundSize:"contain", backgroundImage: `url(${CDN_URL}avatar/${userData?.data?.profileImage}` }} className="bg-success rounded-circle position-relative">
 
                                 {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
 
