@@ -45,7 +45,8 @@ function* updateUserProfile(param) {
   yield put(updateUserProfileLoading(true));
   const data = yield updateUserProfileApi(param);
   if (data.status == 200) {
-    toast.success("Profile updated");
+    // toast.success("Profile updated");
+    toast.success(data.data.error);
 
     yield put(updateUserProfileSuccess(data.data));
   } else if (data.status == 400) {
