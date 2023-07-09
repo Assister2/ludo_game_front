@@ -43,7 +43,7 @@ export default function Play() {
 
   const [isCancelButtonDisabled, setIsCancelButtonDisabled] = useState(null);
 
-  const [audio, setAudio] = useState(false);
+  const [audio, setAudio] = useState(true);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -238,7 +238,12 @@ export default function Play() {
         if (item.creator._id == userId || item.player._id == userId)
           challenge++;
       }
+      if (item.creator?._id == userId && item.state == "requested" && audio) {
+        playAudio2();
+        setAudio(false);
+      }
     });
+
     return challenge;
   }, [challenges]);
 
@@ -594,7 +599,6 @@ export default function Play() {
                               }
                               className="checkCancelRequest btn btn-success viewChallange btn-sm"
                               onClick={() => {
-                                playAudio2();
                                 setIsButtonDisabled(item._id);
                                 setIsButtonType("viewChallange");
                               }}
@@ -621,7 +625,6 @@ export default function Play() {
                               }
                               className="btn btn-danger cancelRequest btn-sm"
                               onClick={() => {
-                                playAudio2();
                                 setIsButtonDisabled(item._id);
                                 setIsButtonType("cancel");
                               }}

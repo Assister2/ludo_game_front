@@ -34,6 +34,8 @@ const Routes = (props) => {
           <Route path="/play" element={<Play />} />
           <Route path="/game/:id" element={<Game />} />
           <Route path="/history" element={<History />} />
+          <Route path="/legal" element={<LegalTerms />} />
+          <Route path="/support" element={<Support />} />
           <Route path="*" element={<Navigate to="/" />} />
         </>
       ) : (
