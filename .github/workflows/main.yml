@@ -1,7 +1,7 @@
 name: Build & Deploy
 on:
   push:
-    branches: [speedrefactor]
+    branches: [main]
 
 jobs:
   deploy:
