@@ -98,6 +98,7 @@ export default function Game(props) {
   const { instance } = socket2;
   var socketNew = instance;
   useEffect(() => {
+    let heartbeatInterval = null;
     if (userId) {
       if (userId) {
         socketNew.connect();
@@ -107,7 +108,6 @@ export default function Game(props) {
         setIsTabVisible(!document.hidden);
       };
 
-      let heartbeatInterval = null;
       document.addEventListener("visibilitychange", handleVisibilityChange);
 
       const wss = socketNew.connect();
@@ -138,9 +138,9 @@ export default function Game(props) {
         })
       );
     }
-    // return () => {
-    //   socketNew.close();
-    // };
+    return () => {
+      clearInterval(heartbeatInterval);
+    };
   }, []);
 
   if (ws) {
@@ -266,6 +266,10 @@ export default function Game(props) {
     try {
       if (screenshoot !== "") {
         const uploadFile = async (file) => {
+          setPostResultLoading(true);
+          if (!file) {
+            return;
+          }
           const maxFileSize = 10 * 1024 * 1024; // 10 MB (in bytes)
           const fileSize = file.size;
           if (fileSize > maxFileSize) {
@@ -276,9 +280,6 @@ export default function Game(props) {
             const newFileName = `${Date.now()}_${file.name}_id_${
               challengeObject.id
             }`;
-            if (!file) {
-              return;
-            }
             const params = {
               Bucket: "ludo3",
               Key: `${Date.now()}_${file.name}_id_${challengeObject.id}`,
@@ -287,32 +288,37 @@ export default function Game(props) {
               ContentType: file.type,
             };
             const { Location } = await s3.upload(params).promise();
-            console.log("uploading to s3", Location);
-            return Location;
+            if (Location) {
+              return Location;
+            } else {
+              return false;
+            }
           }
         };
         const Url = await uploadFile(screenshoot);
+        if (Url) {
+          challengeObject.image = Url;
 
-        challengeObject.image = Url;
-        setPostResultLoading(true);
-        let challenge = await winChallengeApi(challengeObject);
+          let challenge = await winChallengeApi(challengeObject);
 
-        if (challenge) {
-          localStorage.removeItem("countdownEndTime");
+          if (challenge) {
+            localStorage.removeItem("countdownEndTime");
+            setPostResultLoading(false);
+            ws.emit(
+              "ludogame",
+              JSON.stringify({
+                type: "getChallengeByChallengeId",
+                payload: {
+                  challengeId: params.id,
+                  userId,
+                },
+              })
+            );
+          }
           setPostResultLoading(false);
-          ws.emit(
-            "ludogame",
-            JSON.stringify({
-              type: "getChallengeByChallengeId",
-              payload: {
-                challengeId: params.id,
-                userId,
-              },
-            })
-          );
+          toast.success("result submitted");
+          navigate("/play");
         }
-        toast.success("result submitted");
-        navigate("/play");
       } else {
         toast.error("please upload result");
       }
