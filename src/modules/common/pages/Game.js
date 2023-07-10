@@ -331,7 +331,7 @@ export default function Game(props) {
     try {
       setisIlostClicked(true);
       let challenge = await looseChallengeApi(challengeId);
-
+      setisIlostClicked(false);
       if (challenge.status == 200) {
         localStorage.removeItem("countdownEndTime");
         dispatch(getWalletReq());
@@ -360,6 +360,7 @@ export default function Game(props) {
     try {
       setDisableCancelButton(true);
       let challenge = await cancelChallengeApi(challengeObject);
+      setDisableCancelButton(false);
       if (challenge) {
         localStorage.removeItem("countdownEndTime");
         ws.emit(
