@@ -30,10 +30,11 @@ export default function Buy() {
   var socketNew = instance;
 
   const [amount, setAmount] = useState("");
-  const { isLoading } = useSelector((state) => state.wallet);
+  const { isLoading } = useSelector((state) => state.logoutReducer);
   let userId = Cookies.get("userId");
   const [ws, setWs] = useState(socketNew.connect());
   const [wallet, setWallet] = useState({});
+  
   console.log("sockett", socketNew);
   useEffect(() => {
     const wss = socketNew.connect();

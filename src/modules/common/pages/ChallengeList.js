@@ -16,6 +16,7 @@ const ChallengeList = React.memo(
     RequestedLoading,
     viewGame,
     viewHold,
+    cancelChallengeCreator,
   }) => {
     const memoizedChallenges = React.useMemo(
       () =>
@@ -79,7 +80,10 @@ const ChallengeList = React.memo(
                             className="bg-dark rounded-circle"
                             style={{ height: "24px", width: "24px" }}
                           >
-                            <img src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"></img>
+                            <img
+                              src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"
+                              alt="Avatar"
+                            />
                           </div>
                           <span className=" fw-semibold text-truncate text-end">
                             {item.player?.username.slice(0, 5)}...
@@ -127,6 +131,7 @@ const ChallengeList = React.memo(
                                 borderRadius: "50%",
                                 objectFit: "contain",
                               }}
+                              alt="Avatar"
                             />
                           </div>
                         </div>
@@ -186,6 +191,17 @@ const ChallengeList = React.memo(
                                   setIsButtonType("delete");
                                 }}
                               >
+                                {item._id === isButtonDisabled &&
+                                  isButtonType === "delete" && (
+                                    <CircularProgress
+                                      style={{
+                                        width: "1.0rem",
+                                        height: "1.0rem",
+                                        verticalAlign: "middle",
+                                      }}
+                                      color="white"
+                                    />
+                                  )}{" "}
                                 Delete
                               </button>
                             )}
@@ -197,20 +213,23 @@ const ChallengeList = React.memo(
                                   setIsButtonDisabled(item);
                                   setIsButtonType("playChallange");
                                 }}
-                                disabled={playGameLoading}
+                                disabled={
+                                  item._id === isButtonDisabled &&
+                                  playGameLoading
+                                }
                               >
-                                {playGameLoading ? (
-                                  <CircularProgress
-                                    style={{
-                                      width: "1.0rem",
-                                      height: "1.0rem",
-                                      verticalAlign: "middle",
-                                    }}
-                                    color="white"
-                                  />
-                                ) : (
-                                  "Play"
-                                )}
+                                {item._id === isButtonDisabled &&
+                                  playGameLoading && (
+                                    <CircularProgress
+                                      style={{
+                                        width: "1.0rem",
+                                        height: "1.0rem",
+                                        verticalAlign: "middle",
+                                      }}
+                                      color="white"
+                                    />
+                                  )}{" "}
+                                Play
                               </button>
                             )}
                           {item.player?._id == userId &&
@@ -223,56 +242,66 @@ const ChallengeList = React.memo(
                                   setIsButtonType("requested");
                                 }}
                               >
+                                {item._id === isButtonDisabled &&
+                                  RequestedLoading && (
+                                    <CircularProgress
+                                      style={{
+                                        width: "1.0rem",
+                                        height: "1.0rem",
+                                        verticalAlign: "middle",
+                                      }}
+                                      color="white"
+                                    />
+                                  )}{" "}
                                 Requested
                               </button>
                             )}
 
                           {item.creator?._id == userId &&
-                          item.state == "requested" ? (
-                            <div className="hstack gap-2 minBreakpoint-xs">
-                              <button
-                                disabled={
-                                  item._id === isButtonDisabled &&
-                                  isButtonType === "viewChallange"
-                                    ? true
-                                    : false
-                                }
-                                className="checkCancelRequest btn btn-success viewChallange btn-sm"
-                                onClick={() => {
-                                  setIsButtonDisabled(item._id);
-                                  setIsButtonType("viewChallange");
-                                }}
-                              >
-                                {startGameLoading ? (
-                                  <CircularProgress
-                                    style={{
-                                      width: "1.0rem",
-                                      height: "1.0rem",
-                                      verticalAlign: "middle",
-                                    }}
-                                    color="white"
-                                  />
-                                ) : (
-                                  "Play"
-                                )}
-                              </button>
-                              <button
-                                disabled={
-                                  item._id === isButtonDisabled &&
-                                  isButtonType === "cancel"
-                                    ? true
-                                    : false
-                                }
-                                className="btn btn-danger cancelRequest btn-sm"
-                                onClick={() => {
-                                  setIsButtonDisabled(item._id);
-                                  setIsButtonType("cancel");
-                                }}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          ) : null}
+                            item.state == "requested" && (
+                              <div className="hstack gap-2 minBreakpoint-xs">
+                                <button
+                                  disabled={startGameLoading}
+                                  className="checkCancelRequest btn btn-success viewChallange btn-sm"
+                                  onClick={() => {
+                                    setIsButtonDisabled(item._id);
+                                    setIsButtonType("viewChallange");
+                                  }}
+                                >
+                                  {startGameLoading && (
+                                    <CircularProgress
+                                      style={{
+                                        width: "1.0rem",
+                                        height: "1.0rem",
+                                        verticalAlign: "middle",
+                                      }}
+                                      color="white"
+                                    />
+                                  )}{" "}
+                                  Play
+                                </button>
+                                <button
+                                  disabled={cancelChallengeCreator}
+                                  className="btn btn-danger cancelRequest btn-sm"
+                                  onClick={() => {
+                                    setIsButtonDisabled(item._id);
+                                    setIsButtonType("cancel");
+                                  }}
+                                >
+                                  {cancelChallengeCreator && (
+                                    <CircularProgress
+                                      style={{
+                                        width: "1.0rem",
+                                        height: "1.0rem",
+                                        verticalAlign: "middle",
+                                      }}
+                                      color="white"
+                                    />
+                                  )}{" "}
+                                  Cancel
+                                </button>
+                              </div>
+                            )}
                           {item.player?._id == userId &&
                             item.state == "playing" &&
                             item.results.player.result == "" && (
@@ -449,7 +478,21 @@ const ChallengeList = React.memo(
             </CSSTransition>
           );
         }),
-      [challenges]
+      [
+        challenges,
+        isButtonDisabled,
+        isButtonType,
+        setIsButtonDisabled,
+        setIsButtonType,
+        startGameLoading,
+        userId,
+        playGameLoading,
+        cancelChallengeCreator,
+        handleOpen,
+        viewGame,
+        viewHold,
+        RequestedLoading,
+      ]
     );
 
     return (

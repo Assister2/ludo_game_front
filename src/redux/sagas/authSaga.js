@@ -13,6 +13,7 @@ import {
   loginSuccess,
   loginLoading,
   logoutSuccess,
+  logoutLoading
 } from "../actions/auth";
 import {
   getWalletError,
@@ -119,6 +120,8 @@ function* login(param) {
 
 function* logout(param) {
   console.log("param", param);
+  yield put(logoutLoading(true));
+
   try {
     yield put(logoutSuccess());
     localStorage.clear();
