@@ -26,7 +26,7 @@ export default function ProfileDetails() {
   console.log("userdata", userData);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "userName" && value.length >= 2 && value.length <= 10) {
+    if (name === "userName" && value.length <= 10) {
       setUserName(value);
     }
   };
