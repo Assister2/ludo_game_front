@@ -300,6 +300,7 @@ export default function Game(props) {
           challengeObject.image = Url;
 
           let challenge = await winChallengeApi(challengeObject);
+          setPostResultLoading(false);
 
           if (challenge) {
             localStorage.removeItem("countdownEndTime");
