@@ -280,9 +280,10 @@ export default function Play() {
   };
 
   useEffect(() => {
+    console.log("isss", isButtonType);
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
-    } else if (isButtonDisabled && isButtonType === "cancel") {
+    } else if (isButtonType === "cancel") {
       ws.send(
         JSON.stringify({
           type: "cancel",
@@ -466,6 +467,7 @@ export default function Play() {
             isButtonDisabled={isButtonDisabled}
             isButtonType={isButtonType}
             setIsButtonDisabled={setIsButtonDisabled}
+            cancelChallenge={cancelChallenge}
             setIsButtonType={setIsButtonType}
             playGameLoading={playGameLoading}
             RequestedLoading={RequestedLoading}

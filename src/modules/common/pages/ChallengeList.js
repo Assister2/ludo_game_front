@@ -10,6 +10,7 @@ const ChallengeList = React.memo(
     setIsButtonDisabled,
     isButtonDisabled,
     playGameLoading,
+    cancelChallenge,
     startGameLoading,
     challenges,
     handleOpen,
@@ -211,8 +212,7 @@ const ChallengeList = React.memo(
                                 disabled={false}
                                 className="btn btn-danger cancelRequest btn-sm"
                                 onClick={() => {
-                                  setIsButtonDisabled(item._id);
-                                  setIsButtonType("cancel");
+                                  cancelChallenge(item._id);
                                 }}
                               >
                                 Cancel
