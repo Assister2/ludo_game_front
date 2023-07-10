@@ -1,5 +1,4 @@
 import React from "react";
-import style from "styled-components";
 import { CircularProgress } from "@material-ui/core";
 import { BiDollarCircle } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";

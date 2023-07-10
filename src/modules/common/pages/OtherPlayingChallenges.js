@@ -15,7 +15,7 @@ const OtherPlayingChallenges = ({ item }) => {
                 alt="avatar"
               ></img>
             </div>
-            <span className="fw-semibold text-truncate text-end">
+            <span className=" fw-semibold text-truncate text-end">
               {item?.creator?.username.slice(0, 5)}...
             </span>
           </div>
@@ -23,14 +23,15 @@ const OtherPlayingChallenges = ({ item }) => {
             <span>
               <em>
                 <img
-                  src="https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
+                  src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
                   alt="verses-icon"
                   width="24"
                 />
               </em>
             </span>
             <span className="text-success fw-bold text-center">
-              Rs{item.amount}
+              Rs
+              {item.amount}
             </span>
           </div>
           <div className="d-flex flex-column align-items-end vstack gap-2 minBreakpoint-xs">
@@ -38,9 +39,12 @@ const OtherPlayingChallenges = ({ item }) => {
               className="bg-dark rounded-circle"
               style={{ height: "24px", width: "24px" }}
             >
-              <img src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"></img>
+              <img
+                src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"
+                alt="Avatar"
+              />
             </div>
-            <span className="fw-semibold text-truncate text-end">
+            <span className=" fw-semibold text-truncate text-end">
               {item.player?.username.slice(0, 5)}...
             </span>
           </div>

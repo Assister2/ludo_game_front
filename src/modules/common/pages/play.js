@@ -228,13 +228,13 @@ export default function Play() {
 
     challenges.map((item) => {
       if (item.state === "hold") {
-        if (item.creator._id == userId || item.player._id == userId)
+        if (item.creator._id === userId || item.player._id === userId)
           challenge++;
       }
-      if (item.creator?._id == userId && item.state == "requested") {
+      if (item.creator?._id === userId && item.state === "requested") {
         // setCancelChallengeCreator(false);
       }
-      if (item.creator?._id == userId && item.state == "requested" && audio) {
+      if (item.creator?._id === userId && item.state === "requested" && audio) {
         playAudio2();
         setAudio(false);
       }

@@ -11,6 +11,10 @@ const ButtonChallenges = ({
   cancelChallenge,
   viewGame,
   viewHold,
+  isButtonDisabled,
+  isButtonType,
+  RequestedLoading,
+  cancelChallengeCreator,
 }) => {
   return (
     <div className="my-2 card">
@@ -43,6 +47,7 @@ const ButtonChallenges = ({
                   borderRadius: "50%",
                   objectFit: "contain",
                 }}
+                alt="Avatar"
               />
             </div>
           </div>
@@ -82,13 +87,25 @@ const ButtonChallenges = ({
           <div className="hstack gap-2 minBreakpoint-xs">
             {item.creator?._id === userId && item.state === "open" && (
               <button
-                disabled={false}
+                disabled={
+                  item._id === isButtonDisabled && isButtonType === "delete"
+                }
                 className="btn btn-danger playChallange btn-sm"
                 onClick={() => {
                   setIsButtonDisabled(item._id);
                   setIsButtonType("delete");
                 }}
               >
+                {item._id === isButtonDisabled && isButtonType === "delete" && (
+                  <CircularProgress
+                    style={{
+                      width: "1.0rem",
+                      height: "1.0rem",
+                      verticalAlign: "middle",
+                    }}
+                    color="white"
+                  />
+                )}{" "}
                 Delete
               </button>
             )}
@@ -99,9 +116,9 @@ const ButtonChallenges = ({
                   setIsButtonDisabled(item);
                   setIsButtonType("playChallange");
                 }}
-                disabled={false}
+                disabled={item._id === isButtonDisabled && playGameLoading}
               >
-                {playGameLoading ? (
+                {item._id === isButtonDisabled && playGameLoading && (
                   <CircularProgress
                     style={{
                       width: "1.0rem",
@@ -110,20 +127,29 @@ const ButtonChallenges = ({
                     }}
                     color="white"
                   />
-                ) : (
-                  "Play"
-                )}
+                )}{" "}
+                Play
               </button>
             )}
             {item.player?._id === userId && item.state === "requested" && (
               <button
-                disabled={false}
+                disabled={RequestedLoading}
                 className="btn btn-secondary btn-sm"
                 onClick={() => {
                   setIsButtonDisabled(item._id);
                   setIsButtonType("requested");
                 }}
               >
+                {item._id === isButtonDisabled && RequestedLoading && (
+                  <CircularProgress
+                    style={{
+                      width: "1.0rem",
+                      height: "1.0rem",
+                      verticalAlign: "middle",
+                    }}
+                    color="white"
+                  />
+                )}{" "}
                 Requested
               </button>
             )}
@@ -131,14 +157,14 @@ const ButtonChallenges = ({
             {item.creator?._id === userId && item.state === "requested" && (
               <div className="hstack gap-2 minBreakpoint-xs">
                 <button
-                  disabled={false}
+                  disabled={startGameLoading}
                   className="checkCancelRequest btn btn-success viewChallange btn-sm"
                   onClick={() => {
                     setIsButtonDisabled(item._id);
                     setIsButtonType("viewChallange");
                   }}
                 >
-                  {startGameLoading ? (
+                  {startGameLoading && (
                     <CircularProgress
                       style={{
                         width: "1.0rem",
@@ -147,17 +173,27 @@ const ButtonChallenges = ({
                       }}
                       color="white"
                     />
-                  ) : (
-                    "Play"
-                  )}
+                  )}{" "}
+                  Play
                 </button>
                 <button
-                  disabled={false}
+                  disabled={cancelChallengeCreator}
                   className="btn btn-danger cancelRequest btn-sm"
                   onClick={() => {
-                    cancelChallenge(item._id);
+                    setIsButtonDisabled(item._id);
+                    setIsButtonType("cancel");
                   }}
                 >
+                  {cancelChallengeCreator && (
+                    <CircularProgress
+                      style={{
+                        width: "1.0rem",
+                        height: "1.0rem",
+                        verticalAlign: "middle",
+                      }}
+                      color="white"
+                    />
+                  )}{" "}
                   Cancel
                 </button>
               </div>
