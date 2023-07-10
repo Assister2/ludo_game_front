@@ -117,13 +117,13 @@ export default function Play() {
         if (events.type === "heartbeat") {
           client.send(JSON.stringify({ type: "ack" }));
         }
-        if (events.status == 2) {
+        if (events.status === 2) {
           setCreateChallengeLoading(false);
         }
-        if (events.status == 22) {
+        if (events.status === 22) {
           setStartGameLoading(false);
         }
-        if (events.status == 21) {
+        if (events.status === 21) {
           setRequestedLoading(false);
         }
 
@@ -192,17 +192,17 @@ export default function Play() {
 
     challenges.map((item) => {
       if (item.creator?._id === userId || item.player?._id === userId) {
-        if (item.state == "playing") {
+        if (item.state === "playing") {
           if (
-            item.creator?._id == userId &&
-            item.results.player.result != "" &&
-            item.results.creator.result == ""
+            item.creator?._id === userId &&
+            item.results.player.result !== "" &&
+            item.results.creator.result === ""
           ) {
             dispatch({ type: "display_timer", payload: true });
           } else if (
-            item.player?._id == userId &&
-            item.results.player.result == "" &&
-            item.results.creator.result != ""
+            item.player?._id === userId &&
+            item.results.player.result === "" &&
+            item.results.creator.result !== ""
           ) {
             dispatch({ type: "display_timer", payload: true });
           } else {
@@ -357,13 +357,13 @@ export default function Play() {
   const viewHold = (challenge) => {
     setHoldChallenge(challenge);
     if (
-      challenge.creator._id == userId &&
-      challenge.results.creator?.result == ""
+      challenge.creator._id === userId &&
+      challenge.results.creator?.result === ""
     ) {
       viewGame(challenge._id);
     } else if (
-      challenge.player?._id == userId &&
-      challenge.results.player?.result == ""
+      challenge.player?._id === userId &&
+      challenge.results.player?.result === ""
     ) {
       viewGame(challenge._id);
     } else {

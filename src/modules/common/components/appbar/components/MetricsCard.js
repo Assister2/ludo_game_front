@@ -1,5 +1,5 @@
 import React from "react";
-import style from "styled-components";
+
 import { BiDollarCircle } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { AiFillWarning } from "react-icons/ai";

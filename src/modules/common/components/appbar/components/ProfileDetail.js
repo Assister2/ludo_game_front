@@ -1,7 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import style from "styled-components";
+
 import { CDN_URL } from "../../../../../config";
 import { updateUserProfileReq } from "../../../../../redux/actions/user";
 
