@@ -69,7 +69,8 @@ export default function Play() {
 
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
   const [startGameLoading, setStartGameLoading] = useState(false);
-  const [playGameLoading, setplayGameLoading] = useState(false);
+  const [playGameLoading, setPlayGameLoading] = useState(false);
+  const [cancelChallengeCreator, setCancelChallengeCreator] = useState(false);
   const [RequestedLoading, setRequestedLoading] = useState(false);
 
   const audioPlayer = useRef(null);
@@ -227,10 +228,13 @@ export default function Play() {
 
     challenges.map((item) => {
       if (item.state === "hold") {
-        if (item.creator._id == userId || item.player._id == userId)
+        if (item.creator._id === userId || item.player._id === userId)
           challenge++;
       }
-      if (item.creator?._id == userId && item.state == "requested" && audio) {
+      if (item.creator?._id === userId && item.state === "requested") {
+        // setCancelChallengeCreator(false);
+      }
+      if (item.creator?._id === userId && item.state === "requested" && audio) {
         playAudio2();
         setAudio(false);
       }
@@ -280,24 +284,47 @@ export default function Play() {
   };
 
   useEffect(() => {
-    console.log("isss", isButtonType);
+    console.log(isButtonDisabled, isButtonType);
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
-    } else if (isButtonType === "cancel") {
+    } else if (isButtonDisabled && isButtonType === "cancel") {
+      handleCancel(isButtonDisabled);
+    } else if (isButtonDisabled && isButtonType === "requested") {
+      cancelChallenge(isButtonDisabled);
+    } else if (
+      typeof isButtonDisabled !== "string" &&
+      isButtonType === "playChallange"
+    ) {
+      setIsButtonDisabled(isButtonDisabled._id);
+      playChallenge(isButtonDisabled);
+    } else if (isButtonDisabled && isButtonType === "viewChallange") {
+      startGame(isButtonDisabled);
+    }
+
+    // Reset isButtonDisabled when a new request is received
+    if (isButtonDisabled && isButtonType === "requested") {
+      setIsButtonDisabled(null);
+      setIsButtonType(null);
+    }
+  }, [isButtonDisabled, isButtonType]);
+
+  const handleCancel = async (isButtonDisabled) => {
+    if (!cancelChallengeCreator) {
+      setCancelChallengeCreator(true);
       ws.send(
         JSON.stringify({
           type: "cancel",
           payload: { challengeId: isButtonDisabled, userId },
         })
       );
-    } else if (isButtonDisabled && isButtonType === "requested") {
-      cancelChallenge(isButtonDisabled);
-    } else if (isButtonDisabled && isButtonType === "playChallange") {
-      playChallenge(isButtonDisabled);
-    } else if (isButtonDisabled && isButtonType === "viewChallange") {
-      startGame(isButtonDisabled);
+
+      
+
+      setTimeout(() => {
+        setCancelChallengeCreator(false);
+      }, 2000);
     }
-  }, [isButtonDisabled, isButtonType]);
+  };
 
   const deleteChallenge = (challengeId) => {
     ws.send(
@@ -310,12 +337,19 @@ export default function Play() {
 
   const playChallenge = (challenge) => {
     if (data.wallet >= challenge.amount) {
-      ws.send(
-        JSON.stringify({
-          type: "play",
-          payload: { challengeId: challenge._id, userId },
-        })
-      );
+      if (!playGameLoading) {
+        setPlayGameLoading(true);
+
+        ws.send(
+          JSON.stringify({
+            type: "play",
+            payload: { challengeId: challenge._id, userId },
+          })
+        );
+      }
+      setTimeout(() => {
+        setPlayGameLoading(false);
+      }, 2000);
     } else {
       toast.error("not enough chips");
     }
@@ -337,7 +371,7 @@ export default function Play() {
 
   const startGame = (challengeId) => {
     if (!startGameLoading) {
-      setStartGameLoading(true); // Set the loading state to indicate a request is in progress
+      setStartGameLoading(true);
 
       ws.send(
         JSON.stringify({
@@ -475,6 +509,7 @@ export default function Play() {
             viewHold={viewHold}
             startGameLoading={startGameLoading}
             handleOpen={handleOpen}
+            cancelChallengeCreator={cancelChallengeCreator}
           />
         </ul>
       </div>

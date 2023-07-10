@@ -1,7 +1,6 @@
 import React from "react";
 import { CDN_URL } from "../../../config";
 import { CSSTransition } from "react-transition-group";
-import { CircularProgress } from "@material-ui/core";
 import OtherPlayingChallenges from "./OtherPlayingChallenges";
 import ButtonChallenges from "./ButtonChallenges";
 const ChallengeList = React.memo(
@@ -19,6 +18,7 @@ const ChallengeList = React.memo(
     RequestedLoading,
     viewGame,
     viewHold,
+    cancelChallengeCreator,
   }) => {
     const memoizedChallenges = React.useMemo(
       () =>
@@ -42,17 +42,16 @@ const ChallengeList = React.memo(
                     : "p-0 overflow-hidden"
                 }
               >
-                {item.creator?._id !== userId &&
-                item.player?._id !== userId &&
-                item.state === "playing" ? (
+                {item.creator?._id != userId &&
+                item.player?._id != userId &&
+                item.state == "playing" ? (
                   <div>
                     <OtherPlayingChallenges item={item} />
                   </div>
-                ) : item.state === "open" ||
-                  item.state === "requested" ||
-                  item.state === "playing" ? (
+                ) : item.state == "open" ||
+                  item.state == "requested" ||
+                  item.state == "playing" ? (
                   <div>
-                    {" "}
                     <ButtonChallenges
                       item={item}
                       userId={userId}
@@ -64,6 +63,10 @@ const ChallengeList = React.memo(
                       cancelChallenge={cancelChallenge}
                       viewGame={viewGame}
                       viewHold={viewHold}
+                      isButtonDisabled={isButtonDisabled}
+                      isButtonType={isButtonType}
+                      RequestedLoading={RequestedLoading}
+                      cancelChallengeCreator={cancelChallengeCreator}
                     />
                   </div>
                 ) : (
@@ -114,11 +117,6 @@ const ChallengeList = React.memo(
                                         5
                                       )}...`}
                                 </span>
-                                {/* {item.state == "hold" && item.creator._id == userId ?
-                                                    <div role="status" className="me-2 spinner-border">
-                                                        <span className="visually-hidden"></span>
-                                                    </div> :
-                                                } */}
                               </div>
                             }
                           </div>
@@ -190,7 +188,22 @@ const ChallengeList = React.memo(
             </CSSTransition>
           );
         }),
-      [challenges]
+      [
+        challenges,
+        isButtonDisabled,
+        isButtonType,
+        setIsButtonDisabled,
+        setIsButtonType,
+        startGameLoading,
+        userId,
+        playGameLoading,
+        cancelChallengeCreator,
+        handleOpen,
+        viewGame,
+        viewHold,
+        RequestedLoading,
+        cancelChallenge,
+      ]
     );
 
     return (

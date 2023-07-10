@@ -82,3 +82,10 @@ export const logoutSuccess = (data) => {
     payload: data,
   };
 };
+
+export const logoutLoading = (load) => {
+  return {
+    type: LOGOUT_AUTH.LOGOUT_LOADING,
+    payload: load,
+  };
+};

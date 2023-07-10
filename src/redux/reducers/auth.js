@@ -113,6 +113,15 @@ export const loginReducer = (
         isLoading: false,
       };
     }
+    
+    case LOGOUT_AUTH.LOGOUT_LOADING: {
+      const { payload } = action;
+      return {
+        ...state,
+        data: { isLoggedIn: false, token: "" },
+        isLoading: payload,
+      };
+    }
 
     case LOGOUT_AUTH.LOGOUT_SUCCESS: {
       console.log("logout case");

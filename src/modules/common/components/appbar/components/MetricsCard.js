@@ -1,5 +1,5 @@
 import React from "react";
-
+import { CircularProgress } from "@material-ui/core";
 import { BiDollarCircle } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { AiFillWarning } from "react-icons/ai";
@@ -12,6 +12,7 @@ import socketNew from "../../../../../socker";
 import { BsWindowDesktop } from "react-icons/bs";
 
 export default function Metrics() {
+  const { isLoading } = useSelector((state) => state.wallet);
   const history = useNavigate();
   const dispatch = useDispatch();
   const socket2 = useSelector((state) => state.socketReducer);
@@ -131,7 +132,18 @@ export default function Metrics() {
           onClick={logout}
           className="text-capitalize btn btn-outline-danger"
         >
-          LOG OUT
+          {isLoading ? (
+            <CircularProgress
+              style={{
+                width: "1.5rem",
+                height: "1.5rem",
+                verticalAlign: "middle",
+              }}
+              color="white"
+            />
+          ) : (
+            "LOG OUT"
+          )}
         </button>
       </div>
     </div>

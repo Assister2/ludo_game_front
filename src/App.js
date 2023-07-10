@@ -4,7 +4,7 @@ import { Provider, useSelector } from "react-redux";
 import "./App.css";
 import socketNew from "./socker";
 
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routing/Routes";
 import Header from "./modules/common/components/appbar/AppBar";
