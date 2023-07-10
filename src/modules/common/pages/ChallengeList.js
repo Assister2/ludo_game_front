@@ -2,6 +2,7 @@ import React from "react";
 import { CDN_URL } from "../../../config";
 import { CSSTransition } from "react-transition-group";
 import { CircularProgress } from "@material-ui/core";
+import OtherPlayingChallenges from "./OtherPlayingChallenges";
 const ChallengeList = React.memo(
   ({
     isButtonType,
@@ -39,64 +40,21 @@ const ChallengeList = React.memo(
                     : "p-0 overflow-hidden"
                 }
               >
-                {item.creator?._id != userId &&
-                item.player?._id != userId &&
-                item.state == "playing" ? (
-                  <div className="my-2 card">
-                    <div className="text-start card-body">
-                      <div className="d-flex align-items-center justify-content-between">
-                        <div className="d-flex flex-column align-items-start vstack gap-2 minBreakpoint-xs">
-                          <div
-                            className="bg-dark rounded-circle me-2"
-                            style={{ height: "24px", width: "24px" }}
-                          >
-                            <img
-                              src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
-                              alt="avatar"
-                            ></img>
-                          </div>
-                          <span className=" fw-semibold text-truncate text-end">
-                            {item?.creator?.username.slice(0, 5)}...
-                          </span>
-                        </div>
-                        <div className="d-flex flex-column align-items-center vstack gap-2 minBreakpoint-xs">
-                          <span>
-                            <em>
-                              <img
-                                src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
-                                alt="verses-icon"
-                                width="24"
-                              />
-                            </em>
-                          </span>
-                          <span className="text-success fw-bold text-center">
-                            Rs
-                            {item.amount}
-                          </span>
-                        </div>
-                        <div className="d-flex flex-column align-items-end vstack gap-2 minBreakpoint-xs">
-                          <div
-                            className="bg-dark rounded-circle"
-                            style={{ height: "24px", width: "24px" }}
-                          >
-                            <img src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"></img>
-                          </div>
-                          <span className=" fw-semibold text-truncate text-end">
-                            {item.player?.username.slice(0, 5)}...
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                {item.creator?._id !== userId &&
+                item.player?._id !== userId &&
+                item.state === "playing" ? (
+                  <div>
+                    <OtherPlayingChallenges item={item} />
                   </div>
-                ) : item.state == "open" ||
-                  item.state == "requested" ||
-                  item.state == "playing" ? (
+                ) : item.state === "open" ||
+                  item.state === "requested" ||
+                  item.state === "playing" ? (
                   <div className="my-2 card">
                     <div className="d-flex align-items-center justify-content-between card-header">
-                      {item.state == "requested" &&
-                      item.creator._id == userId ? (
+                      {item.state === "requested" &&
+                      item.creator._id === userId ? (
                         <span>Requested Challenge By</span>
-                      ) : item.state == "playing" ? (
+                      ) : item.state === "playing" ? (
                         <span>Challenge running with</span>
                       ) : (
                         <span>Challenge set by</span>
@@ -131,7 +89,7 @@ const ChallengeList = React.memo(
                           </div>
                         </div>
                         {/* </div> */}
-                        {item.creator._id == userId && item.state == "open" ? (
+                        {item.creator._id === userId && item.state === "open" ? (
                           <div className="d-flex align-items-center justify-content-start">
                             <div
                               role="status"
@@ -189,8 +147,8 @@ const ChallengeList = React.memo(
                                 Delete
                               </button>
                             )}
-                          {item.state == "open" &&
-                            item.creator?._id != userId && (
+                          {item.state === "open" &&
+                            item.creator?._id !== userId && (
                               <button
                                 className="btn btn-primary playChallange btn-sm"
                                 onClick={() => {
