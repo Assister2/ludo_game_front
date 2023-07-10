@@ -89,7 +89,8 @@ const ChallengeList = React.memo(
                           </div>
                         </div>
                         {/* </div> */}
-                        {item.creator._id === userId && item.state === "open" ? (
+                        {item.creator._id === userId &&
+                        item.state === "open" ? (
                           <div className="d-flex align-items-center justify-content-start">
                             <div
                               role="status"
@@ -134,10 +135,7 @@ const ChallengeList = React.memo(
                           {item.creator?._id == userId &&
                             item.state == "open" && (
                               <button
-                                disabled={
-                                  item._id === isButtonDisabled &&
-                                  isButtonType === "delete"
-                                }
+                                disabled={false}
                                 className="btn btn-danger playChallange btn-sm"
                                 onClick={() => {
                                   setIsButtonDisabled(item._id);
@@ -155,7 +153,7 @@ const ChallengeList = React.memo(
                                   setIsButtonDisabled(item);
                                   setIsButtonType("playChallange");
                                 }}
-                                disabled={playGameLoading}
+                                disabled={false}
                               >
                                 {playGameLoading ? (
                                   <CircularProgress
@@ -174,7 +172,7 @@ const ChallengeList = React.memo(
                           {item.player?._id == userId &&
                             item.state == "requested" && (
                               <button
-                                disabled={RequestedLoading}
+                                disabled={false}
                                 className="btn btn-secondary btn-sm"
                                 onClick={() => {
                                   setIsButtonDisabled(item._id);
@@ -189,12 +187,7 @@ const ChallengeList = React.memo(
                           item.state == "requested" ? (
                             <div className="hstack gap-2 minBreakpoint-xs">
                               <button
-                                disabled={
-                                  item._id === isButtonDisabled &&
-                                  isButtonType === "viewChallange"
-                                    ? true
-                                    : false
-                                }
+                                disabled={false}
                                 className="checkCancelRequest btn btn-success viewChallange btn-sm"
                                 onClick={() => {
                                   setIsButtonDisabled(item._id);
@@ -215,12 +208,7 @@ const ChallengeList = React.memo(
                                 )}
                               </button>
                               <button
-                                disabled={
-                                  item._id === isButtonDisabled &&
-                                  isButtonType === "cancel"
-                                    ? true
-                                    : false
-                                }
+                                disabled={false}
                                 className="btn btn-danger cancelRequest btn-sm"
                                 onClick={() => {
                                   setIsButtonDisabled(item._id);
