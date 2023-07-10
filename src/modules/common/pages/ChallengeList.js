@@ -2,6 +2,8 @@ import React from "react";
 import { CDN_URL } from "../../../config";
 import { CSSTransition } from "react-transition-group";
 import { CircularProgress } from "@material-ui/core";
+import OtherPlayingChallenges from "./OtherPlayingChallenges";
+import ButtonChallenges from "./ButtonChallenges";
 const ChallengeList = React.memo(
   ({
     isButtonType,
@@ -9,6 +11,7 @@ const ChallengeList = React.memo(
     setIsButtonDisabled,
     isButtonDisabled,
     playGameLoading,
+    cancelChallenge,
     startGameLoading,
     challenges,
     handleOpen,

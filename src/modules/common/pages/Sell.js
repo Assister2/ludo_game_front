@@ -95,6 +95,7 @@ export default function Sell() {
               createdAt: new Date(),
             })
           );
+          setState(initialState);
           console.log(
             `upi://pay?pa=8233622253@paytm&pn=${userData.data.user}&am=${Number(
               state.amount

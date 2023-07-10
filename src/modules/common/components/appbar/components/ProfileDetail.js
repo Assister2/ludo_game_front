@@ -1,7 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import style from "styled-components";
+
 import { CDN_URL } from "../../../../../config";
 import { updateUserProfileReq } from "../../../../../redux/actions/user";
 
@@ -26,7 +26,7 @@ export default function ProfileDetails() {
   console.log("userdata", userData);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "userName" && value.length >= 2 && value.length <= 10) {
+    if (name === "userName" && value.length <= 10) {
       setUserName(value);
     }
   };
