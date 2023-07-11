@@ -46,7 +46,7 @@ const ChallengeList = React.memo(
                 item.player?._id != userId &&
                 item.state == "playing" ? (
                   <div>
-                    <OtherPlayingChallenges item={item} />
+                    <OtherPlayingChallenges item={item} CDN_URL={CDN_URL} />
                   </div>
                 ) : item.state == "open" ||
                   item.state == "requested" ||

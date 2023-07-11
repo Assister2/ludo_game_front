@@ -24,6 +24,8 @@ import moment from "moment";
 import socketNew2 from "../../../socker";
 import SwipeableContainer from "./Guidedrawer";
 import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
+import LudoKing from "../../../../public/images/ludoking.jpg";
+
 export default function Game(props) {
   const params = useParams();
   const navigate = useNavigate();
@@ -45,8 +47,10 @@ export default function Game(props) {
 
   const dispatch = useDispatch();
   let challengeInititalState = {
-    playerUserName: "",
     creatorUserName: "",
+    creatorImage: null,
+    playerUserName: "",
+    playerImage: null,
     playerId: "",
     creatorId: "",
     amount: 0,
@@ -164,7 +168,9 @@ export default function Game(props) {
         setChallenge({
           ...challenge,
           creatorUserName: event.data.creator.username,
+          creatorImage: event.data.creator.profileImage,
           playerUserName: event.data.player.username,
+          playerImage: event.data.creator.profileImage,
           roomCode: event.data.roomCode,
           amount: event.data.amount,
           creatorId: event.data.creator._id,
@@ -407,7 +413,7 @@ export default function Game(props) {
   const handleCancellationReason = async (text) => {
     setCancellation(text);
   };
-
+  console.log(challenge);
   return (
     <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
       <div>
@@ -458,9 +464,11 @@ export default function Game(props) {
                   style={{ height: "24px", width: "24px" }}
                 >
                   <img
-                    src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
+                    src={`${CDN_URL}avatar/${
+                      challenge.creatorImage ? challenge.creatorImage : "2.svg"
+                    }`}
                     alt="avatar"
-                  ></img>
+                  />
                 </div>
                 <span className=" fw-semibold text-truncate text-end">
                   {challenge.creatorUserName.slice(0, 5)}...
@@ -485,7 +493,12 @@ export default function Game(props) {
                   className="bg-dark rounded-circle"
                   style={{ height: "24px", width: "24px" }}
                 >
-                  <img src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"></img>
+                  <img
+                    src={`${CDN_URL}avatar/${
+                      challenge.playerImage ? challenge.playerImage : "2.svg"
+                    }`}
+                    alt="avatar"
+                  />
                 </div>
                 <span className=" fw-semibold text-truncate text-end">
                   {challenge.playerUserName.slice(0, 5)}...
@@ -522,18 +535,12 @@ export default function Game(props) {
                 className="btn btn-secondary text-capitalize d-flex align-items-center justify-content-center"
                 onClick={handleRedirect}
               >
-                {" "}
                 <img
                   style={{ width: "1.4rem", marginRight: "5px" }}
-                  src={`${CDN_URL}/images/ludoking.jpg`}
-                  // src={`${CDN_URL}/ludoking.jpg`}
-                  alt="avatar"
+                  // src={`${CDN_URL}public/images/ludoking.jpg`}
+                  src={LudoKing}
+                  alt="ludo king"
                 />
-                {/* <img
-                  style={{ height: "24px", width: "24px" }}
-                  src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
-                  alt="avatar"
-                ></img> */}
                 Open Ludo King
               </button>
             </div>

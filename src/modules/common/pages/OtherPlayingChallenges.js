@@ -1,6 +1,6 @@
 import React from "react";
 
-const OtherPlayingChallenges = ({ item }) => {
+const OtherPlayingChallenges = ({ item, CDN_URL }) => {
   return (
     <div className="my-2 card">
       <div className="text-start card-body">
@@ -11,9 +11,9 @@ const OtherPlayingChallenges = ({ item }) => {
               style={{ height: "24px", width: "24px" }}
             >
               <img
-                src="https://ludoplayers.com/static/media/avatar-m-5.28bb00c89f61b95d81ebd66ceb9ed80f.svg"
+                src={`${CDN_URL}avatar/${item.creator.profileImage}`}
                 alt="avatar"
-              ></img>
+              />
             </div>
             <span className=" fw-semibold text-truncate text-end">
               {item?.creator?.username.slice(0, 5)}...
@@ -40,7 +40,7 @@ const OtherPlayingChallenges = ({ item }) => {
               style={{ height: "24px", width: "24px" }}
             >
               <img
-                src="https://ludo3.s3.ap-south-1.amazonaws.com/avtar/2.svg"
+                src={`${CDN_URL}avatar/${item.player.profileImage}`}
                 alt="Avatar"
               />
             </div>
