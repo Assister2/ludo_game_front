@@ -24,7 +24,7 @@ export default function VeridyOtp({ route }) {
   const { isLoading, data: userdata } = useSelector(
     (state) => state.loginReducer
   );
-  console.log("checkkk,", userdata);
+  // console.log("checkkk,", userdata);
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],

@@ -12,7 +12,7 @@ import socketNew from "../../../../../socker";
 import { BsWindowDesktop } from "react-icons/bs";
 
 export default function Metrics() {
-  const { isLoading } = useSelector((state) => state.wallet);
+  const { isLoading } = useSelector((state) => state.loginReducer);
   const history = useNavigate();
   const dispatch = useDispatch();
   const socket2 = useSelector((state) => state.socketReducer);
@@ -22,7 +22,7 @@ export default function Metrics() {
   console.log();
 
   const logout = () => {
-    dispatch(logoutRequest({}, history));
+    dispatch(logoutRequest({}, history, "/"));
     console.log("chekckk", instance);
     instance.disconnect();
     console.log("localstorage", localStorage);

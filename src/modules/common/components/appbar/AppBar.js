@@ -12,10 +12,12 @@ import { Guide } from "./components/Guide";
 // import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 
 import SideBar from "./components/SideBar";
-import { Link, useHref } from "react-router-dom";
+import { Link, useHref, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { logoutRequest } from "../../../../redux/actions/auth";
+
 function HideOnScroll(props) {
   const { children, window } = props;
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
@@ -37,6 +39,9 @@ HideOnScroll.propTypes = {
 };
 
 export default function Header(props) {
+  const history = useNavigate();
+  const dispatch = useDispatch();
+
   const [f_open, setOpen] = useState(false);
   // const userId = Cookies.get("userId");
   const [f_open_menu, setOpenMenu] = useState(false);
@@ -56,6 +61,15 @@ export default function Header(props) {
     return [<Guide />];
   }
 
+  useEffect(() => {
+    if (
+      Cookies.get("token") === undefined ||
+      Cookies.get("userId") === undefined
+    ) {
+      console.log("cookies", Cookies);
+      dispatch(logoutRequest({}, history, "/login"));
+    }
+  }, [Cookies]);
   useEffect(() => {
     setShowComm(showCommission());
   }, [path]);

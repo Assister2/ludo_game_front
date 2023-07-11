@@ -69,10 +69,11 @@ export const loginLoading = (load) => {
 
 // // =====LOGOUT ACTIONS=========
 
-export const logoutRequest = (data, history) => {
+export const logoutRequest = (data, history, route) => {
   return {
     type: LOGOUT_AUTH.LOGOUT_REQUEST,
     navigation: history,
+    route: route
   };
 };
 

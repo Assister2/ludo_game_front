@@ -96,16 +96,6 @@ const ButtonChallenges = ({
                   setIsButtonType("delete");
                 }}
               >
-                {item._id === isButtonDisabled && isButtonType === "delete" && (
-                  <CircularProgress
-                    style={{
-                      width: "1.0rem",
-                      height: "1.0rem",
-                      verticalAlign: "middle",
-                      color: "#fff",
-                    }}
-                  />
-                )}{" "}
                 Delete
               </button>
             )}
@@ -118,16 +108,6 @@ const ButtonChallenges = ({
                 }}
                 disabled={item._id === isButtonDisabled && playGameLoading}
               >
-                {item._id === isButtonDisabled && playGameLoading && (
-                  <CircularProgress
-                    style={{
-                      width: "1.0rem",
-                      height: "1.0rem",
-                      verticalAlign: "middle",
-                      color: "#fff",
-                    }}
-                  />
-                )}{" "}
                 Play
               </button>
             )}
@@ -140,16 +120,6 @@ const ButtonChallenges = ({
                   setIsButtonType("requested");
                 }}
               >
-                {item._id === isButtonDisabled && RequestedLoading && (
-                  <CircularProgress
-                    style={{
-                      width: "1.0rem",
-                      height: "1.0rem",
-                      verticalAlign: "middle",
-                      color: "#fff",
-                    }}
-                  />
-                )}{" "}
                 Requested
               </button>
             )}
@@ -184,16 +154,6 @@ const ButtonChallenges = ({
                     setIsButtonType("cancel");
                   }}
                 >
-                  {cancelChallengeCreator && (
-                    <CircularProgress
-                      style={{
-                        width: "1.0rem",
-                        height: "1.0rem",
-                        verticalAlign: "middle",
-                        color: "#fff",
-                      }}
-                    />
-                  )}{" "}
                   Cancel
                 </button>
               </div>

@@ -9,10 +9,10 @@ import ViewChallenge from "./ViewChallenge";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { BsSortUp } from "react-icons/bs";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, history } from "react-router-dom";
 import socketNew2 from "../../../socker";
 import Dropdown from "react-bootstrap/Dropdown";
-import { logoutSuccess } from "../../.././redux/actions/auth";
+import { logoutSuccess, logoutRequest } from "../../.././redux/actions/auth";
 import {
   sortEvents,
   filterEvents,
@@ -27,7 +27,9 @@ import NotificationSound from "./notification.mp3";
 import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
 import audio1 from "./notification.mp3";
+
 export default function Play() {
+  const history = useNavigate();
   const dispatch = useDispatch();
   const userId = Cookies.get("userId");
 
@@ -39,6 +41,16 @@ export default function Play() {
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+
+  // for check cookies
+  if (
+    Cookies.get("token") === undefined ||
+    Cookies.get("token") === "" ||
+    Cookies.get("userId") === undefined
+  ) {
+    dispatch(logoutRequest({}, history, "/login"));
+  }
+
   const playAudio2 = () => {
     new Audio(audio1).play();
   };
@@ -132,14 +144,22 @@ export default function Play() {
           navigate(`/game/${events.challengeId}`);
           return;
         }
-        if (events.status == 400) {
+
+        if (events.status === 400) {
           setCreateChallengeLoading(false);
           setStartGameLoading(false);
           setRequestedLoading(false);
-          toast.error(events.error);
+          // console.log(events.error);
+
+          // if (events.error !== toast.errorText) {
+          //   toast.error(events.error);
+
+          //   toast.errorText = events.error;
+          // }
 
           return;
         }
+
         if (events.sort) {
           sortEvents(events, userId);
         }
@@ -231,17 +251,19 @@ export default function Play() {
         if (item.creator._id === userId || item.player._id === userId)
           challenge++;
       }
-      if (item.creator?._id === userId && item.state === "requested") {
-        // setCancelChallengeCreator(false);
-      }
-      if (item.creator?._id === userId && item.state === "requested" && audio) {
+      if (
+        item.creator?._id === userId &&
+        item.state === "requested" &&
+        audio &&
+        isButtonType !== "cancel"
+      ) {
         playAudio2();
         setAudio(false);
       }
     });
 
     return challenge;
-  }, [challenges, userId, audio]);
+  }, [challenges, userId, audio, isButtonType]);
 
   useEffect(() => {
     if (ws?.connected) {
@@ -304,12 +326,6 @@ export default function Play() {
     } else if (isButtonDisabled && isButtonType === "viewChallange") {
       startGame(isButtonDisabled);
     }
-
-    // Reset isButtonDisabled when a new request is received
-    if (isButtonDisabled && isButtonType === "requested") {
-      setIsButtonDisabled(null);
-      setIsButtonType(null);
-    }
   }, [isButtonDisabled, isButtonType]);
 
   const handleCancel = async (isButtonDisabled) => {
@@ -321,10 +337,8 @@ export default function Play() {
           payload: { challengeId: isButtonDisabled, userId },
         })
       );
-
-      setTimeout(() => {
-        setCancelChallengeCreator(false);
-      }, 2000);
+      setAudio(true);
+      setCancelChallengeCreator(false);
     }
   };
 
@@ -349,11 +363,7 @@ export default function Play() {
           })
         );
       }
-      setTimeout(() => {
-        setAudio(true);
-
-        setPlayGameLoading(false);
-      }, 2000);
+      setPlayGameLoading(false);
     } else {
       toast.error("not enough chips");
     }
