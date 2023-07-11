@@ -83,7 +83,7 @@ export default function Header(props) {
               type="button"
               className="bg-white border-0 btn btn-light"
             >
-              {/* <img src={`${CDN_URL}svgs/ham.svg`} alt="Menu" /> */}
+              <img src={`${CDN_URL}svgs/ham.svg`} alt="Menu" />
             </button>
             <div>
               <SwipeableDrawer

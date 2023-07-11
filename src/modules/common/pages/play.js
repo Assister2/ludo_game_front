@@ -114,7 +114,7 @@ export default function Play() {
 
       client.on("message", (event) => {
         var events = JSON.parse(event);
-        console.log(events);
+        // console.log(events);
         if (events.type === "heartbeat") {
           client.send(JSON.stringify({ type: "ack" }));
         }
@@ -221,7 +221,7 @@ export default function Play() {
     });
 
     return challenge;
-  }, [challenges]);
+  }, [challenges, userId]);
 
   const noOfholdChallenges = useMemo(() => {
     var challenge = 0;
@@ -235,13 +235,14 @@ export default function Play() {
         // setCancelChallengeCreator(false);
       }
       if (item.creator?._id === userId && item.state === "requested" && audio) {
+        debugger;
         playAudio2();
         setAudio(false);
       }
     });
 
     return challenge;
-  }, [challenges]);
+  }, [challenges, userId, audio]);
 
   useEffect(() => {
     if (ws?.connected) {
@@ -261,19 +262,23 @@ export default function Play() {
   }, [noOfholdChallenges, isTabVisible]);
 
   const createChallenge = () => {
+    setCreateChallengeLoading(true);
+
     if (amount <= 0) {
       toast.error("amount should be greater that 0 and multiples of 50");
+      setCreateChallengeLoading(false);
       return;
     }
     if (amount > 10000) {
       toast.error("amount should lesser than or equals to 10000");
+      setCreateChallengeLoading(false);
       return;
     }
     if (amount % 50 !== 0) {
       toast.error("amount should be multiple of 50");
+      setCreateChallengeLoading(false);
       return;
     }
-    setCreateChallengeLoading(true);
     ws.send(
       JSON.stringify({
         type: "create",
@@ -346,6 +351,8 @@ export default function Play() {
         );
       }
       setTimeout(() => {
+        setAudio(true);
+
         setPlayGameLoading(false);
       }, 2000);
     } else {
@@ -446,8 +453,8 @@ export default function Play() {
                       width: "1.0rem",
                       height: "1.0rem",
                       verticalAlign: "middle",
+                      color: "#fff",
                     }}
-                    color="white"
                   />{" "}
                   Set
                 </>
