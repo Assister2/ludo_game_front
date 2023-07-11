@@ -235,7 +235,6 @@ export default function Play() {
         // setCancelChallengeCreator(false);
       }
       if (item.creator?._id === userId && item.state === "requested" && audio) {
-        debugger;
         playAudio2();
         setAudio(false);
       }
