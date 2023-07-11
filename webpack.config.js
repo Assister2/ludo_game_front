@@ -78,6 +78,10 @@ module.exports = {
           from: "./public/avatar",
           to: path.resolve(__dirname, "build/avatar"),
         },
+        {
+          from: "./public/images/",
+          to: path.resolve(__dirname, "build/images"),
+        },
       ],
     }),
   ],

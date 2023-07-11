@@ -114,7 +114,7 @@ export default function Play() {
 
       client.on("message", (event) => {
         var events = JSON.parse(event);
-
+        console.log(events);
         if (events.type === "heartbeat") {
           client.send(JSON.stringify({ type: "ack" }));
         }
@@ -318,8 +318,6 @@ export default function Play() {
         })
       );
 
-      
-
       setTimeout(() => {
         setCancelChallengeCreator(false);
       }, 2000);
@@ -428,7 +426,7 @@ export default function Play() {
                 verticalAlign: "middle",
                 width: "auto",
               }}
-            ></input>
+            />
             <button
               disabled={createChallengeLoading}
               onClick={() => {
@@ -442,14 +440,17 @@ export default function Play() {
               }}
             >
               {createChallengeLoading ? (
-                <CircularProgress
-                  style={{
-                    width: "1.0rem",
-                    height: "1.0rem",
-                    verticalAlign: "middle",
-                  }}
-                  color="white"
-                />
+                <>
+                  <CircularProgress
+                    style={{
+                      width: "1.0rem",
+                      height: "1.0rem",
+                      verticalAlign: "middle",
+                    }}
+                    color="white"
+                  />{" "}
+                  Set
+                </>
               ) : (
                 "Set"
               )}
