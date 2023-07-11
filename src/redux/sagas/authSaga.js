@@ -132,7 +132,7 @@ function* logout(param) {
     Cookies.remove("fullName");
     Cookies.remove("userId");
     toast.success("Logged out successfully");
-    param.navigation("/");
+    param.navigation(param.route);
   } catch (error) {
     toast.error(error);
   }

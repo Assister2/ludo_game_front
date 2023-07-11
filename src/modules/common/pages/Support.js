@@ -5,7 +5,7 @@ export default function Support() {
     <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
       <div className="d-flex flex-column align-items-stretch justify-content-start">
         <img
-          src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/support.webp "
+          src="https://ludo3.s3.ap-south-1.amazonaws.com/support.webp"
           alt="support"
           className="w-75 mx-auto"
         />

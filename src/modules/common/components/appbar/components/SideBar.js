@@ -44,7 +44,7 @@ export default function SideBar({ f_open, handleClose }) {
                     &nbsp;
                   </p>
                   <img
-                    src="https://ludoplayers.com/static/media/hello.a512d06e9ef9c85276f6.webp"
+                    src="https://ludo3.s3.ap-south-1.amazonaws.com/hello.a512d06e9ef9c85276f6.webp"
                     alt="hello icon"
                     width="36px"
                   />
@@ -163,7 +163,7 @@ export default function SideBar({ f_open, handleClose }) {
                   <div className="d-flex align-items-center justify-content-start">
                     <div className="hstack gap-3 minBreakpoint-xs">
                       <img
-                        src="https://ludoplayers.com/static/media/liveChatOffcanvas.4db8ac024d1cc6d424a3.webp"
+                        src="https://ludo3.s3.ap-south-1.amazonaws.com/liveChatOffcanvas.4db8ac024d1cc6d424a3.webp"
                         height="36px"
                         alt="support icon"
                       />
@@ -187,7 +187,7 @@ export default function SideBar({ f_open, handleClose }) {
                     <div className="hstack gap-3 minBreakpoint-xs">
                       <img
                         style={{ width: "2rem" }}
-                        src={`${CDN_URL}svgs/legal.svg`}
+                        src={"https://ludo3.s3.ap-south-1.amazonaws.com/legal.svg"}
                         height="36px"
                         alt="support icon"
                       />

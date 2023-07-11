@@ -1,4 +1,5 @@
 import React from "react";
+import { CDN_URL } from "../../../config";
 
 const ViewChallenge = ({ holdModal, holdChallenge, userId, setHoldModal }) => {
   return (
@@ -47,7 +48,7 @@ const ViewChallenge = ({ holdModal, holdChallenge, userId, setHoldModal }) => {
                   style={{ height: "24px", width: "24px" }}
                 >
                   <img
-                    src="https://ludoplayers.com/static/media/avatar-m-1.0be9cab97da9db857abd6d00805bac77.svg"
+                    src={`${CDN_URL}avatar/${holdChallenge?.player?.profileImage}`}
                     alt="avatar"
                   />
                 </div>
@@ -71,7 +72,7 @@ const ViewChallenge = ({ holdModal, holdChallenge, userId, setHoldModal }) => {
                   style={{ height: "24px", width: "24px" }}
                 >
                   <img
-                    src="https://ludoplayers.com/static/media/avatar-m-1.0be9cab97da9db857abd6d00805bac77.svg"
+                    src={`${CDN_URL}avatar/${holdChallenge?.creator?.profileImage}`}
                     alt="avatar"
                   />
                 </div>
