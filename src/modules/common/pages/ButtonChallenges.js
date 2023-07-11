@@ -102,8 +102,8 @@ const ButtonChallenges = ({
                       width: "1.0rem",
                       height: "1.0rem",
                       verticalAlign: "middle",
+                      color: "#fff",
                     }}
-                    color="white"
                   />
                 )}{" "}
                 Delete
@@ -124,8 +124,8 @@ const ButtonChallenges = ({
                       width: "1.0rem",
                       height: "1.0rem",
                       verticalAlign: "middle",
+                      color: "#fff",
                     }}
-                    color="white"
                   />
                 )}{" "}
                 Play
@@ -146,8 +146,8 @@ const ButtonChallenges = ({
                       width: "1.0rem",
                       height: "1.0rem",
                       verticalAlign: "middle",
+                      color: "#fff",
                     }}
-                    color="white"
                   />
                 )}{" "}
                 Requested
@@ -170,8 +170,8 @@ const ButtonChallenges = ({
                         width: "1.0rem",
                         height: "1.0rem",
                         verticalAlign: "middle",
+                        color: "#fff",
                       }}
-                      color="white"
                     />
                   )}{" "}
                   Play
@@ -190,8 +190,8 @@ const ButtonChallenges = ({
                         width: "1.0rem",
                         height: "1.0rem",
                         verticalAlign: "middle",
+                        color: "#fff",
                       }}
-                      color="white"
                     />
                   )}{" "}
                   Cancel

@@ -655,8 +655,8 @@ export default function Game(props) {
                       width: "1.5rem",
                       height: "1.5rem",
                       verticalAlign: "middle",
+                      color: "#fff",
                     }}
-                    color="white"
                   />
                 ) : (
                   "Yes, i lost"
@@ -742,9 +742,9 @@ export default function Game(props) {
                       width: "1.5rem",
                       height: "1.5rem",
                       verticalAlign: "middle",
+                      color: "#fff",
                     }}
-                    color="white"
-                  ></CircularProgress>
+                  />
                 ) : (
                   "Post Result"
                 )}
@@ -875,8 +875,8 @@ export default function Game(props) {
                     width: "1.5rem",
                     height: "1.5rem",
                     verticalAlign: "middle",
+                    color: "#fff",
                   }}
-                  color="white"
                 />
               ) : (
                 "Confirm"
