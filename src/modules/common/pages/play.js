@@ -151,11 +151,11 @@ export default function Play() {
           setRequestedLoading(false);
           // console.log(events.error);
 
-          // if (events.error !== toast.errorText) {
-          //   toast.error(events.error);
+          if (events.error !== toast.errorText) {
+            toast.error(events.error);
 
-          //   toast.errorText = events.error;
-          // }
+            toast.errorText = events.error;
+          }
 
           return;
         }
@@ -513,6 +513,7 @@ export default function Play() {
             />
           </div>
           <ChallengeList
+            ws={ws}
             challenges={challenges}
             userId={userId}
             isButtonDisabled={isButtonDisabled}

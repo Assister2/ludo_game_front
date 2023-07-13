@@ -2,6 +2,7 @@ import React from "react";
 import { CircularProgress } from "@material-ui/core";
 const ButtonChallenges = ({
   item,
+  ws,
   userId,
   CDN_URL,
   setIsButtonDisabled,
@@ -134,24 +135,20 @@ const ButtonChallenges = ({
                     setIsButtonType("viewChallange");
                   }}
                 >
-                  {startGameLoading && (
-                    <CircularProgress
-                      style={{
-                        width: "1.0rem",
-                        height: "1.0rem",
-                        verticalAlign: "middle",
-                        color: "#fff",
-                      }}
-                    />
-                  )}{" "}
                   Play
                 </button>
                 <button
                   disabled={cancelChallengeCreator}
                   className="btn btn-danger cancelRequest btn-sm"
                   onClick={() => {
-                    setIsButtonDisabled(item._id);
-                    setIsButtonType("cancel");
+                    // setIsButtonDisabled(item._id);
+                    // setIsButtonType("cancel");
+                    ws.send(
+                      JSON.stringify({
+                        type: "cancel",
+                        payload: { challengeId: item._id, userId },
+                      })
+                    );
                   }}
                 >
                   Cancel
