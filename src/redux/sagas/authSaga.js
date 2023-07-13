@@ -13,7 +13,7 @@ import {
   loginSuccess,
   loginLoading,
   logoutSuccess,
-  logoutLoading
+  logoutLoading,
 } from "../actions/auth";
 import {
   getWalletError,
@@ -42,6 +42,7 @@ function* signUp(param) {
     toast.error(data.error);
     yield put(signUpError(data.error));
   } else {
+    yield put(signUpLoading(false));
     yield put(signUpError(data.error));
 
     toast.error(data.error);
@@ -113,6 +114,7 @@ function* login(param) {
     toast.error(data.error);
     yield put(loginError(data.error));
   } else {
+    yield put(loginLoading(false));
     yield put(loginError(data.error));
     toast.error(data.error);
   }

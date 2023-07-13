@@ -168,9 +168,9 @@ export default function Register(props) {
                         width: "1.5rem",
                         height: "1.5rem",
                         verticalAlign: "middle",
+                        color: "#fff",
                       }}
-                      color="white"
-                    ></CircularProgress>
+                    />
                   ) : (
                     "Submit"
                   )}
