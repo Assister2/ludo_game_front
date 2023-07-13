@@ -513,6 +513,7 @@ export default function Play() {
             />
           </div>
           <ChallengeList
+            ws={ws}
             challenges={challenges}
             userId={userId}
             isButtonDisabled={isButtonDisabled}

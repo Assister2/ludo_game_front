@@ -19,6 +19,7 @@ const ChallengeList = React.memo(
     viewGame,
     viewHold,
     cancelChallengeCreator,
+    ws,
   }) => {
     const memoizedChallenges = React.useMemo(
       () =>
@@ -53,6 +54,7 @@ const ChallengeList = React.memo(
                   item.state == "playing" ? (
                   <div>
                     <ButtonChallenges
+                      ws={ws}
                       item={item}
                       userId={userId}
                       CDN_URL={CDN_URL}
