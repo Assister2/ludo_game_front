@@ -13,7 +13,7 @@ import {
   loginSuccess,
   loginLoading,
   logoutSuccess,
-  logoutLoading
+  logoutLoading,
 } from "../actions/auth";
 import {
   getWalletError,
@@ -48,9 +48,13 @@ function* signUp(param) {
   }
 }
 const connectSocket = () => {
-  // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
-  const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS); // Replace with your server URL
 
+  // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
+  const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
+    auth: {
+      token: `${Cookies.get("token")}`,
+    },
+  }); // Replace with your server URL
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {
       console.log("Socket.IO connected");
