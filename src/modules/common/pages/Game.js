@@ -282,10 +282,6 @@ export default function Game(props) {
             return toast.error("File size exceeds the maximum limit.");
           } else {
             const s3 = new AWS.S3();
-            const ReactS3Client = new S3(config);
-            const newFileName = `${Date.now()}_${file.name}_id_${
-              challengeObject.id
-            }`;
             const params = {
               Bucket: "ludo3",
               Key: `${Date.now()}_${file.name}_id_${challengeObject.id}`,
@@ -306,9 +302,9 @@ export default function Game(props) {
           challengeObject.image = Url;
 
           let challenge = await winChallengeApi(challengeObject);
-          // if (challenge) {
-          //   navigate("/play");
-          // }
+          if (challenge) {
+            navigate("/play");
+          }
           setPostResultLoading(false);
 
           if (challenge) {
@@ -341,9 +337,9 @@ export default function Game(props) {
     try {
       setisIlostClicked(true);
       let challenge = await looseChallengeApi(challengeId);
-      // if (challenge) {
-      //   navigate("/play");
-      // }
+      if (challenge) {
+        navigate("/play");
+      }
       setisIlostClicked(false);
       if (challenge.status == 200) {
         localStorage.removeItem("countdownEndTime");
@@ -373,9 +369,9 @@ export default function Game(props) {
     try {
       setDisableCancelButton(true);
       let challenge = await cancelChallengeApi(challengeObject);
-      // if (challenge) {
-      //   navigate("/play");
-      // }
+      if (challenge) {
+        navigate("/play");
+      }
       setDisableCancelButton(false);
       if (challenge) {
         localStorage.removeItem("countdownEndTime");
