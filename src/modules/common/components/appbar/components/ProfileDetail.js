@@ -1,7 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { toast } from "react-toastify";
 import { CDN_URL } from "../../../../../config";
 import { updateUserProfileReq } from "../../../../../redux/actions/user";
 
@@ -12,6 +12,14 @@ export default function ProfileDetails() {
   const [userName, setUserName] = useState();
 
   const handleSubmit = () => {
+    if (userName[0] == " ") {
+      toast.error("First letter of name cannot be empty");
+      return;
+    }
+    if (userName.length < 3) {
+      toast.error("name should be at least 3 characters");
+      return;
+    }
     try {
       dispatch(updateUserProfileReq({ username: userName }));
     } catch (error) {
@@ -26,8 +34,10 @@ export default function ProfileDetails() {
   console.log("userdata", userData);
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     if (name === "userName" && value.length <= 10) {
-      setUserName(value);
+      const lowercaseValue = value.toLowerCase();
+      setUserName(lowercaseValue);
     }
   };
 
@@ -59,6 +69,7 @@ export default function ProfileDetails() {
             <label className="form-label text-capitalize">username</label>
             <div className="align-self-stretch d-flex align-items-center">
               <input
+                required
                 name="userName"
                 type="text"
                 className="form-control me-2"

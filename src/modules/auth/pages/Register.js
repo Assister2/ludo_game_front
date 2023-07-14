@@ -36,13 +36,20 @@ export default function Register(props) {
   const [state, setState] = useState(initialState);
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+    
     if (name === "referalCode") {
       // Remove any non-digit characters from the input
       const numericValue = value.replace(/\D/g, "");
 
       // Limit the input to a maximum of 10 digits
       const truncatedValue = numericValue.slice(0, 10);
+
+      setState((prev) => ({ ...prev, [name]: truncatedValue }));
+    } else if (name === "name") {
+      const lowercaseValue = value.toLowerCase();
+
+      // Limit the input to a maximum of 10 characters
+      const truncatedValue = lowercaseValue.slice(0, 10);
 
       setState((prev) => ({ ...prev, [name]: truncatedValue }));
     } else {
@@ -59,11 +66,19 @@ export default function Register(props) {
     }
   }, []);
 
-  const onSubmit = () => {
+  const onSubmit = ()  => {
     let signupData = {
       fullName: state.name,
       phone: state.phoneNumber,
     };
+    if (state.name[0] == " ") {
+      toast.error("First letter of name cannot be empty");
+      return;
+    }
+    if (state.name.length < 3) {
+      toast.error("name should be at least 3 characters");
+      return;
+    }
     if (state.referalCode != "") {
       if (state.referalCode.length < 10) {
         toast.error("referal code must be at least 10 digits");
