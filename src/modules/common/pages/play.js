@@ -310,7 +310,6 @@ export default function Play() {
   };
 
   useEffect(() => {
-    console.log(isButtonDisabled, isButtonType);
     if (isButtonDisabled && isButtonType === "delete") {
       deleteChallenge(isButtonDisabled);
     } else if (isButtonDisabled && isButtonType === "cancel") {
