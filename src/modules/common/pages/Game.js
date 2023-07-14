@@ -306,6 +306,9 @@ export default function Game(props) {
           challengeObject.image = Url;
 
           let challenge = await winChallengeApi(challengeObject);
+          if (challenge) {
+            navigate("/play");
+          }
           setPostResultLoading(false);
 
           if (challenge) {
@@ -338,6 +341,9 @@ export default function Game(props) {
     try {
       setisIlostClicked(true);
       let challenge = await looseChallengeApi(challengeId);
+      if (challenge) {
+        navigate("/play");
+      }
       setisIlostClicked(false);
       if (challenge.status == 200) {
         localStorage.removeItem("countdownEndTime");
@@ -367,6 +373,9 @@ export default function Game(props) {
     try {
       setDisableCancelButton(true);
       let challenge = await cancelChallengeApi(challengeObject);
+      if (challenge) {
+        navigate("/play");
+      }
       setDisableCancelButton(false);
       if (challenge) {
         localStorage.removeItem("countdownEndTime");
