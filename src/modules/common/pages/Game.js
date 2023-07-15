@@ -9,7 +9,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { BsArrowLeftShort, BsInfoCircle, BsClipboard } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import S3 from "react-aws-s3";
 import {
   cancelChallengeApi,
   getChallengeByIdApi,
@@ -111,13 +110,9 @@ export default function Game(props) {
       const handleVisibilityChange = () => {
         setIsTabVisible(!document.hidden);
       };
-
       document.addEventListener("visibilitychange", handleVisibilityChange);
-
       const wss = socketNew.connect();
-
       setWs(wss);
-
       heartbeatInterval = setInterval(() => {
         wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
       }, 2000);
@@ -130,7 +125,6 @@ export default function Game(props) {
           },
         })
       );
-
       wss.emit(
         "ludogame",
         JSON.stringify({
@@ -162,9 +156,8 @@ export default function Game(props) {
         ws.emit("ludogame", JSON.stringify({ type: "ack" }));
       }
 
-      if (event.status == 200) {
+      if (event.status === 200) {
         // let looser = user.id != challenge.creator._id ? "creator" : "player";
-        console.log("chekck11", event.data);
         setChallenge({
           ...challenge,
           creatorUserName: event.data.creator.username,
@@ -176,14 +169,18 @@ export default function Game(props) {
           creatorId: event.data.creator._id,
           playerId: event.data.player._id,
         });
+        if (event.data.state === "hold") {
+          navigate("/play");
+        }
         const userIss =
-          userId == event.data?.creator._id ? "creator" : "player";
+          userId === event.data?.creator._id ? "creator" : "player";
         const otherUseree =
-          userId != event.data?.creator._id ? "creator" : "player";
+          userId !== event.data?.creator._id ? "creator" : "player";
         setuserIs(userIss);
+
         if (
-          event.data.results[userIss]?.result == "" &&
-          event.data.results[otherUseree]?.result != ""
+          event.data.results[userIss]?.result === "" &&
+          event.data.results[otherUseree]?.result !== ""
         ) {
           setShowTimer(true);
         }
