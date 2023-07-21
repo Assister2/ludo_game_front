@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import socketNew from "../../socker";
 import { toast } from "react-toastify";
 // Import the redux-saga/effects
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
@@ -22,15 +23,12 @@ function* getUserProfile(param) {
   if (data.status == 200) {
     yield put(getUserProfileSuccess(data.data));
   } else if (data.status === 400) {
-    console.log("");
-    localStorage.clear();
-    sessionStorage.clear();
-    window.localStorage.clear();
-    localStorage.removeItem("wallet");
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");
-    param.navigation(`/login`);
+    window.location.href = "/login";
+    socketNew.disconnect();
+
     toast.error(data.error);
     yield put(loginError(data.error));
     toast.error(data.error);

@@ -23,24 +23,7 @@ export default function Metrics() {
 
   const logout = () => {
     dispatch(logoutRequest({}, history, "/"));
-    console.log("chekckk", instance);
-    instance.disconnect();
-    console.log("localstorage", localStorage);
-    console.log("localstorage2", window.localStorage);
-    socketNew.disconnect();
-    localStorage.clear();
-    sessionStorage.clear();
-    window.localStorage.clear();
-    Cookies.remove();
-    Cookies.set(null);
-    console.log("localstorage3", localStorage);
-    console.log("localstorage4", window.localStorage);
-    window.location.reload();
 
-    // Cookies.remove("isLoggedIn")
-    // Cookies.remove("token")
-    // Cookies.remove("fullName")
-    // navigate("/")
     // cogoToast.success("Logged out")
   };
 
@@ -68,7 +51,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data.gamesPlayed}
+                  {userData?.data?.gamesPlayed}
                 </div>
               </div>
             </div>

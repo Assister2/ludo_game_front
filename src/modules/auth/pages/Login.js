@@ -10,13 +10,6 @@ import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
 
 export default function Login(props) {
-  localStorage.clear();
-  sessionStorage.clear();
-  window.localStorage.clear();
-  localStorage.removeItem("wallet");
-  Cookies.remove("token");
-  Cookies.remove("fullName");
-  Cookies.remove("userId");
 
   const dispatch = useDispatch();
   const navigate = useNavigateSearch(false);

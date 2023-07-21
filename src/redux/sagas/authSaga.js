@@ -4,6 +4,7 @@ import io from "socket.io-client";
 // Import the redux-saga/effects
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import { LOGIN_AUTH, LOGOUT_AUTH, USER_AUTH } from "../contstants";
+import socketNew from "../../socker";
 import {
   signUpError,
   signUpLoading,
@@ -20,7 +21,7 @@ import {
   getWalletLoading,
   getWalletSuccess,
 } from "../actions/wallet";
-import { userSignUp, verifyOTP } from "../../apis/auth";
+import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
 
 // Sign up
 function* signUp(param) {
@@ -49,7 +50,6 @@ function* signUp(param) {
   }
 }
 const connectSocket = () => {
-
   // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
   const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
     auth: {
@@ -81,13 +81,8 @@ function* login(param) {
   console.log("check", data);
   yield put(loginLoading(true));
   if (data.status == 200) {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.localStorage.clear();
-    localStorage.removeItem("wallet");
-    Cookies.remove("token");
-    Cookies.remove("fullName");
-    Cookies.remove("userId");
+    console.log("checkkk1", data);
+    console.log("checkkk2", data.data);
 
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
@@ -125,20 +120,16 @@ function* login(param) {
 }
 
 function* logout(param) {
-  console.log("param", param);
   yield put(logoutLoading(true));
-
+  const data = yield logoutAPI();
   try {
     yield put(logoutSuccess());
-    localStorage.clear();
-    sessionStorage.clear();
-    window.localStorage.clear();
-    localStorage.removeItem("wallet");
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");
+    socketNew.disconnect();
     toast.success("Logged out successfully");
-    param.navigation(param.route);
+    // param.navigation(param.route);
   } catch (error) {
     toast.error(error);
   }

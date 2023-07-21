@@ -6,6 +6,7 @@ const token =
     : "";
 
 export const axiosConfig = axios.create({
+  withCredentials: true,
   baseURL: process.env.REACT_APP_CLIENT_BASEURL,
   headers: {
     "Content-Type": "application/json",

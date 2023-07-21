@@ -17,7 +17,7 @@ const TwentyMinuteCountdown = ({ challengeObj }) => {
   };
 
   const storedEndTime = localStorage.getItem("countdownEndTime");
-  const initialEndTime = Date.now() + 5 * 60 * 1000; // 20 minutes in milliseconds
+  const initialEndTime = Date.now() + 4 * 60 * 1000; // 20 minutes in milliseconds
   const [endTime, setEndTime] = useState(storedEndTime || initialEndTime);
 
   useEffect(() => {

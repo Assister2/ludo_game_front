@@ -67,7 +67,7 @@ function Guide(props) {
 
   useEffect(() => {
     var socketNew = null;
-    if (!userId || userData.isBlocked) {
+    if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
     }
@@ -105,7 +105,7 @@ function Guide(props) {
         if (data.error) {
           // Handle error
         } else if (data.data !== null || data.data !== undefined) {
-          if (data.data.isBlocked) {
+          if (data?.data?.isBlocked) {
             Cookies.remove("token");
             Cookies.remove("fullName");
             Cookies.remove("userId");

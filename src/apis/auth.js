@@ -1,4 +1,5 @@
 import { axiosConfig } from "./axiosConfig";
+import axios from "axios";
 // import { initializeApp } from "firebase/app";
 // import { getMessaging, getToken } from "firebase/messaging";
 
@@ -56,7 +57,7 @@ export const verifyOTP = async (param) => {
 export const verifyOTP2 = async (param) => {
   // let token = await initFB();
   param = { ...param };
-  
+
   const data = await axiosConfig
     .post("/auth/OTP", param)
     .then((res) => {
@@ -71,6 +72,14 @@ export const loginAPI = async (payload) => {
   try {
     const data = await axiosConfig.post("/auth/login", payload);
 
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const logoutAPI = async () => {
+  try {
+    const data = await axiosConfig.post("/auth/logout");
     return data;
   } catch (error) {
     return error.response.data;
