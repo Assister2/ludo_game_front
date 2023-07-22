@@ -46,6 +46,7 @@ export default function Header(props) {
 
   const path = useHref(window?.location);
   const { data } = useSelector((state) => state.loginReducer);
+  console.log("checkkguide", data);
   function showCommission() {
     return ["/"].includes(window.location.pathname);
   }

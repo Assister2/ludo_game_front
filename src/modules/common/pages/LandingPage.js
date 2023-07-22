@@ -14,7 +14,6 @@ export default function LandingPage() {
   const dispatch = useDispatch();
   const isLoggedIn = Cookies.get("userId");
   const { data } = useSelector((state) => state.loginReducer);
-
   const token = Cookies.get("token");
   const [f_open, setOpen] = useState(false);
 
@@ -65,7 +64,6 @@ export default function LandingPage() {
               style={{ maxWidth: "auto", maxHeight: "auto" }}
               className="w-100"
               src="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
-              // src="https://ckstroat.sirv.com/lp/illustrations/landingPage.webp"
               alt="landing"
             />
           </div>
@@ -103,7 +101,7 @@ export default function LandingPage() {
                       <source
                         media="(min-width:1024px)"
                         srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
-                      ></source>
+                      />
                       <source
                         media="(min-width:768px)"
                         srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
@@ -260,7 +258,7 @@ export default function LandingPage() {
               <div></div>
             </div>
           </div>
-        )}{" "}
+        )}
         {!data.isLoggedIn && (
           <div className="text-center text-muted" style={{ marginTop: "1rem" }}>
             <i>
@@ -288,7 +286,6 @@ export default function LandingPage() {
             >
               Play Now
             </button>
-
             <Link
               className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center position-fixed text-dark"
               to="/support"

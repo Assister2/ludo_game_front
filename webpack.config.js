@@ -10,11 +10,16 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "js/bundle.[contenthash].js",
+    chunkFilename: "js/[name].[contenthash].js", // Optional: For code splitting
     publicPath: "/",
   },
+  mode: "production", // Set mode to "production" for optimized build
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
+    splitChunks: {
+      chunks: "all", // For code splitting
+    },
   },
   module: {
     rules: [
@@ -46,8 +51,7 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            name: "[name].[contenthash].[ext]",
-            outputPath: "fonts/",
+            name: "fonts/[name].[contenthash].[ext]",
           },
         },
       },
@@ -57,8 +61,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[contenthash].[ext]",
-              outputPath: "assets/",
+              name: "assets/[name].[contenthash].[ext]",
             },
           },
         ],
@@ -91,10 +94,6 @@ module.exports = {
           from: "./public/avatar",
           to: path.resolve(__dirname, "build/avatar"),
         },
-        // {
-        //   from: "./public/images/",
-        //   to: path.resolve(__dirname, "build/images"),
-        // },
       ],
     }),
   ],
@@ -108,5 +107,11 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
-  devtool: "source-map",
+  // devtool: "source-map",
+  // performance: {
+  //   hints: 'error',
+  //   maxEntrypointSize: 512000,
+  //   maxAssetSize: 512000,
+  // },
+
 };
