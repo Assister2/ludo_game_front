@@ -29,7 +29,7 @@ function App() {
       <div className="App">
         <ToastContainer position="bottom-right" autoClose={3000} />
         <Router>
-          <Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
             <Header />
             <Fragment>
               <Routes />
