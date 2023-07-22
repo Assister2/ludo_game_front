@@ -15,7 +15,7 @@ import SideBar from "./components/SideBar";
 import { Link, useHref, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { withRouter } from "react-router-dom";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function HideOnScroll(props) {
   const { children, window } = props;

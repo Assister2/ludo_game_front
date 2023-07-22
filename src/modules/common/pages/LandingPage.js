@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CDN_URL } from "../../../config";
 import { getWalletReq } from "../../../redux/actions/wallet";
 
-export function LandingPage() {
+export default function LandingPage() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(Cookies.get("userId"));
   const dispatch = useDispatch();

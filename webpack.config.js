@@ -2,21 +2,33 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-// const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: ["./src/index.js"],
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "js/bundle.js",
+    filename: "js/bundle.[contenthash].js",
     publicPath: "/",
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
   module: {
     rules: [
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
         exclude: /node_modules/,
-        use: ["file-loader?name=media/[name].[ext]"],
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "media/[name].[contenthash].[ext]",
+            },
+          },
+        ],
       },
       {
         test: /\.(js|jsx)$/,
@@ -34,7 +46,7 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            name: "fonts/[name].[ext]",
+            name: "[name].[contenthash].[ext]",
             outputPath: "fonts/",
           },
         },
@@ -45,7 +57,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "assets/[name].[ext]",
+              name: "[name].[contenthash].[ext]",
               outputPath: "assets/",
             },
           },
@@ -62,6 +74,7 @@ module.exports = {
       template: path.resolve(__dirname, "public/index.html"),
       favicon: "./public/favicon.ico",
       manifest: "./public/manifest.json",
+      minify: true,
     }),
     new Dotenv(),
     new CopyWebpackPlugin({
@@ -78,10 +91,10 @@ module.exports = {
           from: "./public/avatar",
           to: path.resolve(__dirname, "build/avatar"),
         },
-        {
-          from: "./public/images/",
-          to: path.resolve(__dirname, "build/images"),
-        },
+        // {
+        //   from: "./public/images/",
+        //   to: path.resolve(__dirname, "build/images"),
+        // },
       ],
     }),
   ],
@@ -95,5 +108,5 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
-  devtool: false,
+  devtool: "source-map",
 };

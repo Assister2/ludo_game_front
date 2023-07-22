@@ -66,7 +66,7 @@ export default function Game(props) {
   const [walletWs, setWalletWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
   const [socket, setSocket] = useState(null);
-  const webSocketRef = useRef(null);
+
   const config = {
     bucketName: process.env.REACT_APP_BUCKET_NAME,
     region: process.env.REACT_APP_REGION,
