@@ -22,7 +22,7 @@ const Routes = (props) => {
   const { data } = useSelector((state) => state.loginReducer);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<span></span>}>
       <Switch>
         {data.isLoggedIn ? (
           <>

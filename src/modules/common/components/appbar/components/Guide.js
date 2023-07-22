@@ -58,14 +58,8 @@ function Guide(props) {
     }
   }, [data.isLoggedIn]);
 
-  const clientRef = useRef(null);
-  const [waitingToReconnect, setWaitingToReconnect] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  let interval;
-  let isMounted = true; // Add a variable to track if the component is mounted
-
   useEffect(() => {
+    console.log("wokringg");
     var socketNew = null;
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
@@ -81,7 +75,6 @@ function Guide(props) {
       socketNew.connect();
 
       let client = null;
-      let reconnectTimeout = null;
 
       client = socketNew.connect();
 
@@ -96,8 +89,6 @@ function Guide(props) {
           })
         );
       }, 3000);
-
-      setIsOpen(true);
 
       client.on("getUserWallet", (message) => {
         const data = JSON.parse(message);
@@ -123,18 +114,6 @@ function Guide(props) {
       });
     }
   }, [socket2, userId]);
-  // useEffect(() => {
-  //   client.emit(
-  //     "getUserWallet",
-  //     JSON.stringify({
-  //       type: "getUserWallet",
-  //       payload: {
-  //         userId: userId,
-  //       },
-  //     })
-  //   );
-  // }, []);
-
   const handleClose = () => setOpen(false);
   return (
     <div>

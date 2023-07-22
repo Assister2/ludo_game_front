@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import io from "socket.io-client";
+// Import the redux-saga/effects
 import { put, call, takeLatest } from "redux-saga/effects";
 import { LOGIN_AUTH, LOGOUT_AUTH, USER_AUTH } from "../contstants";
 import socketNew from "../../socker";
@@ -9,7 +10,6 @@ import {
   signUpLoading,
   signUpSuccess,
   loginError,
-  loginRequest,
   loginSuccess,
   loginLoading,
   logoutSuccess,
@@ -22,13 +22,37 @@ import {
 } from "../actions/wallet";
 import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
 
+function* signUp(param) {
+  yield put(signUpLoading(true));
+  const data = yield userSignUp(param.payload);
+
+  if (data.status == 200) {
+    toast.success(`OTP has sent to your number`, { hideAfter: 5 });
+
+    yield put({ type: "ON_SIGNUPPAGE", payload: true });
+
+    param.navigation(`/verify-otp?p=${param.payload.phone}`, {
+      state: { ...param.payload, isVerified: true },
+    });
+
+    yield put(signUpSuccess(data));
+  } else if (data.status == 400) {
+    toast.error(data.error);
+    yield put(signUpError(data.error));
+  } else {
+    yield put(signUpLoading(false));
+    yield put(signUpError(data.error));
+
+    toast.error(data.error);
+  }
+}
 const connectSocket = () => {
+  // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
   const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
     auth: {
       token: `${Cookies.get("token")}`,
     },
-  });
-
+  }); // Replace with your server URL
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {
       console.log("Socket.IO connected");
@@ -42,31 +66,7 @@ const connectSocket = () => {
   });
 };
 
-function* signUp(param) {
-  yield put(signUpLoading(true));
-  const data = yield userSignUp(param.payload);
-
-  if (data.status === 200) {
-    toast.success(`OTP has sent to your number`, { hideAfter: 5 });
-    const dataall = { ...param.payload, signUp: true };
-
-    yield put({ type: "ON_SIGNUPPAGE", payload: true });
-
-    param.navigation(`/verify-otp?p=${param.payload.phone}`, {
-      state: { ...param.payload, isVerified: true },
-    });
-
-    yield put(signUpSuccess(data));
-  } else if (data.status === 400) {
-    toast.error(data.error);
-    yield put(signUpError(data.error));
-  } else {
-    yield put(signUpLoading(false));
-    yield put(signUpError(data.error));
-    toast.error(data.error);
-  }
-}
-
+// Sign up
 function* login(param) {
   let data = null;
   if (param?.payload?.register) {
@@ -77,18 +77,17 @@ function* login(param) {
 
   console.log("check", data);
   yield put(loginLoading(true));
-
   if (data.status === 200) {
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
     Cookies.set("userId", data.data?._id, { expires: 30 });
 
     yield put(getWalletSuccess(data));
-    // const socket = yield call(connectSocket);
-
-    yield put({ type: "SOCKET_CONNECTED", payload: socketNew });
+    const socket = yield call(connectSocket);
+    yield put({ type: "SOCKET_CONNECTED", payload: socket });
 
     yield put(loginSuccess(data));
+
     param.navigation(`/`);
   } else if (data.status === 400) {
     Cookies.remove("token");

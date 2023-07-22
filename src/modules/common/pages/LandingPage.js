@@ -10,7 +10,7 @@ import { getWalletReq } from "../../../redux/actions/wallet";
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(Cookies.get("userId"));
+
   const dispatch = useDispatch();
   const isLoggedIn = Cookies.get("userId");
   const { data } = useSelector((state) => state.loginReducer);

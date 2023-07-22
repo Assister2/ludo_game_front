@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState, Suspense } from "react";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import "./App.css";
 import socketNew from "./socker";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,7 +29,7 @@ function App() {
       <div className="App">
         <ToastContainer position="bottom-right" autoClose={3000} />
         <Router>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<span></span>}>
             <Header />
             <Fragment>
               <Routes />

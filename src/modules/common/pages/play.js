@@ -11,7 +11,7 @@ import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { BsSortUp } from "react-icons/bs";
 import { useNavigate, useLocation, history } from "react-router-dom";
 import socketNew2 from "../../../socker";
-import Dropdown from "react-bootstrap/Dropdown";
+
 import { logoutSuccess, logoutRequest } from "../../.././redux/actions/auth";
 import {
   sortEvents,
