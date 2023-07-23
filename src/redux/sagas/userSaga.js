@@ -1,8 +1,6 @@
 import Cookies from "js-cookie";
-import socketNew from "../../socker";
 import { toast } from "react-toastify";
-// Import the redux-saga/effects
-import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import { USER_PROFILE } from "../contstants";
 import {
   getUserProfileSuccess,
@@ -14,24 +12,26 @@ import {
 } from "../actions/user";
 import { loginError } from "../actions/auth";
 import { getUserProfileApi, updateUserProfileApi } from "../../apis/user";
+import { connectSocket, disconnectSocket } from "../../socket";
 
 // Sign up
 function* getUserProfile(param) {
   yield put(getUserProfileLoading(true));
   const data = yield getUserProfileApi();
 
-  if (data.status == 200) {
+  if (data.status === 200) {
     yield put(getUserProfileSuccess(data.data));
   } else if (data.status === 400) {
+    // Disconnect the socket and remove cookies on profile error
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");
-    window.location.href = "/login";
-    socketNew.disconnect();
+    yield call(disconnectSocket());
+    yield put({ type: "SOCKET_CONNECTED", payload: null });
 
+    window.location.href = "/login";
     toast.error(data.error);
     yield put(loginError(data.error));
-    toast.error(data.error);
     yield put(getUserProfileError(data.error));
   } else {
     yield put(getUserProfileError(data.error));
@@ -42,12 +42,12 @@ function* getUserProfile(param) {
 function* updateUserProfile(param) {
   yield put(updateUserProfileLoading(true));
   const data = yield updateUserProfileApi(param);
-  if (data.status == 200) {
+  if (data.status === 200) {
     // toast.success("Profile updated");
     toast.success(data.data.error);
 
     yield put(updateUserProfileSuccess(data.data));
-  } else if (data.status == 400) {
+  } else if (data.status === 400) {
     toast.error(data.error);
     yield put(updateUserProfileError(data.error));
   } else {

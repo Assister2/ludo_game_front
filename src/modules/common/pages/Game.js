@@ -11,16 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   cancelChallengeApi,
-  getChallengeByIdApi,
   looseChallengeApi,
   winChallengeApi,
 } from "../../../apis/challenge";
-import { ClockTimer } from "./timer";
+
 import { getWalletReq } from "../../../redux/actions/wallet";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import Moment from "react-moment";
-import moment from "moment";
-import socketNew2 from "../../../socker";
+
+import { connectSocket, isSocketConnected } from "../../../socket";
 import SwipeableContainer from "./Guidedrawer";
 import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 import LudoKing from "../../../../public/images/ludoking.jpg";
@@ -33,8 +31,6 @@ export default function Game(props) {
   const [IsLoading, setIsLoading] = useState(false);
   const [is_open, setOpen] = useState(false);
   const [lostModal, setLostModal] = useState(false);
-  const [myResult, setMyResult] = useState("");
-  const [isTabSwitch, setTabSwitch] = useState(false);
   const [disableCancelButton, setDisableCancelButton] = useState(false);
   const [screenshoot, setScreenshoot] = useState("");
   const [cancellationReason, setCancellation] = useState("");
@@ -56,7 +52,7 @@ export default function Game(props) {
     roomCode: "",
     challengeId: params.id,
   };
-  const [isTabVisible, setIsTabVisible] = useState(true);
+
   window.Buffer = window.Buffer || require("buffer").Buffer;
   const [image, setImage] = useState(null);
   const [challenge, setChallenge] = useState(challengeInititalState);
@@ -65,7 +61,6 @@ export default function Game(props) {
   const [ws, setWs] = useState();
   const [walletWs, setWalletWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
-  const [socket, setSocket] = useState(null);
 
   const config = {
     bucketName: process.env.REACT_APP_BUCKET_NAME,
@@ -93,38 +88,22 @@ export default function Game(props) {
         "https://play.google.com/store/apps/details?id=com.ludo.king";
     }
   };
-  const socket2 = useSelector((state) => state.socketReducer);
 
-  if (!socket2.instance) {
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
-  }
-  const { instance } = socket2;
-  var socketNew = instance;
+  const socket = useRef(null);
   useEffect(() => {
     let heartbeatInterval = null;
     if (userId) {
-      if (userId) {
-        socketNew.connect();
+      socket.current = connectSocket();
+
+      if (!isSocketConnected(socket.current)) {
+        socket.current.connect();
       }
-      dispatch(getWalletReq());
-      const handleVisibilityChange = () => {
-        setIsTabVisible(!document.hidden);
-      };
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-      const wss = socketNew.connect();
+
+      const wss = socket.current;
       setWs(wss);
       heartbeatInterval = setInterval(() => {
         wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
       }, 2000);
-      wss.emit(
-        "getUserWallet",
-        JSON.stringify({
-          type: "getUserWallet",
-          payload: {
-            userId: userId,
-          },
-        })
-      );
       wss.emit(
         "ludogame",
         JSON.stringify({
@@ -204,7 +183,7 @@ export default function Game(props) {
         navigate("/play");
         return;
       }
-      if (event.status == 400) {
+      if (event.status === 400) {
         // toast.error(event.error)
         navigate("/play");
         return;

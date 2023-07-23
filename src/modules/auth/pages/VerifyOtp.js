@@ -1,29 +1,25 @@
 import { CircularProgress } from "@material-ui/core";
-import { PanoramaRounded } from "@material-ui/icons";
+
 // import cogoToast from "cogo-toast";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
+
 import React, { useEffect, useState } from "react";
 // import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { resendOTP, verifyOTP, verifyOTP2 } from "../../../apis/auth";
+import { useNavigate } from "react-router-dom";
+import { resendOTP, verifyOTP2 } from "../../../apis/auth";
 import { loginRequest } from "../../../redux/actions/auth";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
 export default function VeridyOtp({ route }) {
-  const location = useLocation();
   const history = useNavigate();
   const dispatch = useDispatch();
-  const { state: data } = location;
+
   const navigate = useNavigateSearch(true);
-  const { data: loginData } = useSelector((state) => state.loginReducer);
-  const newsoc = useSelector((state) => state);
+
   const { signUpPage } = useSelector((state) => state.signupPage1);
-  const { isLoading, data: userdata } = useSelector(
-    (state) => state.loginReducer
-  );
+
   // console.log("checkkk,", userdata);
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
@@ -31,7 +27,7 @@ export default function VeridyOtp({ route }) {
     isPaste: false,
     isVerified: false,
   });
-  const isLoggedIn = Cookies.get("isLoggedIn");
+
   const [timer, setTimer] = useState(60);
 
   const [loading, setLoading] = useState(false);

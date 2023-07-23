@@ -2,13 +2,9 @@
 import { combineReducers } from "redux";
 
 // Reducers
-import {
-  signUpReducer,
-  loginReducer,
-  socketReducer,
-  signupPage1,
-} from "./auth";
+import { signUpReducer, loginReducer, signupPage1 } from "./auth";
 import { user } from "./user";
+import { socketReducer } from "./socket";
 import { wallet } from "./wallet";
 import { wallet1, displaytimer } from "./buychips";
 

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { logoutRequest } from "../../../../../redux/actions/auth";
-import socketNew from "../../../../../socker";
+import socketNew from "../../../../../socket";
 import { BsWindowDesktop } from "react-icons/bs";
 
 export default function Metrics() {

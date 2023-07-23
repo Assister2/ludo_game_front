@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { LOGIN_AUTH, USER_AUTH, LOGOUT_AUTH } from "../contstants";
-import io from "socket.io-client";
+
 // ============SIGN UP REDUCER==================
 
 const initialState = {
@@ -9,32 +9,10 @@ const initialState = {
   error: "",
 };
 
-const initialState1 = {
-  instance: null,
-  isConnected: false,
-  error: null,
-};
 const initialState2 = {
   signUpPage: null,
 };
-export const socketReducer = (state = initialState1, action) => {
-  switch (action.type) {
-    case "SOCKET_CONNECTED":
-      return {
-        ...state,
-        instance: action.payload,
-        isConnected: true,
-      };
-    case "SOCKET_CONNECTION_FAILED":
-      return {
-        ...state,
-        error: action.payload,
-      };
-    // other cases...
-    default:
-      return state;
-  }
-};
+
 export const signupPage1 = (state = initialState2, action) => {
   switch (action.type) {
     case "ON_SIGNUPPAGE":

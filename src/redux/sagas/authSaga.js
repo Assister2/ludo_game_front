@@ -1,10 +1,8 @@
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import io from "socket.io-client";
-// Import the redux-saga/effects
+import { connectSocket, disconnectSocket } from "../../socket";
 import { put, call, takeLatest } from "redux-saga/effects";
 import { LOGIN_AUTH, LOGOUT_AUTH, USER_AUTH } from "../contstants";
-import socketNew from "../../socker";
 import {
   signUpError,
   signUpLoading,
@@ -15,18 +13,14 @@ import {
   logoutSuccess,
   logoutLoading,
 } from "../actions/auth";
-import {
-  getWalletError,
-  getWalletLoading,
-  getWalletSuccess,
-} from "../actions/wallet";
+import { getWalletSuccess } from "../actions/wallet";
 import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
 
 function* signUp(param) {
   yield put(signUpLoading(true));
   const data = yield userSignUp(param.payload);
 
-  if (data.status == 200) {
+  if (data.status === 200) {
     toast.success(`OTP has sent to your number`, { hideAfter: 5 });
 
     yield put({ type: "ON_SIGNUPPAGE", payload: true });
@@ -36,7 +30,7 @@ function* signUp(param) {
     });
 
     yield put(signUpSuccess(data));
-  } else if (data.status == 400) {
+  } else if (data.status === 400) {
     toast.error(data.error);
     yield put(signUpError(data.error));
   } else {
@@ -46,27 +40,7 @@ function* signUp(param) {
     toast.error(data.error);
   }
 }
-const connectSocket = () => {
-  // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
-  const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
-    auth: {
-      token: `${Cookies.get("token")}`,
-    },
-  }); // Replace with your server URL
-  return new Promise((resolve, reject) => {
-    socket.on("connect", () => {
-      console.log("Socket.IO connected");
-      resolve(socket);
-    });
 
-    socket.on("connect_error", (error) => {
-      console.log("Socket.IO connection error:", error);
-      reject(error);
-    });
-  });
-};
-
-// Sign up
 function* login(param) {
   let data = null;
   if (param?.payload?.register) {
@@ -83,8 +57,16 @@ function* login(param) {
     Cookies.set("userId", data.data?._id, { expires: 30 });
 
     yield put(getWalletSuccess(data));
-    const socket = yield call(connectSocket);
-    yield put({ type: "SOCKET_CONNECTED", payload: socket });
+
+    // Establish the socket connection and save it in the Redux store
+    // try {
+    //   const socket = yield call(connectSocket);
+    //   console.log("checksodcket", socket);
+    //   yield put({ type: "SOCKET_CONNECTED", payload: socket });
+    // } catch (error) {
+    //   // Handle any errors that occur during socket connection setup
+    //   yield put({ type: "SOCKET_CONNECTION_FAILED", payload: error.message });
+    // }
 
     yield put(loginSuccess(data));
 
@@ -107,19 +89,20 @@ function* logout(param) {
   yield put(logoutLoading(true));
   const data = yield logoutAPI();
 
-  try {
-    yield put(logoutSuccess());
+  yield put(logoutSuccess());
 
-    Cookies.remove("token");
-    Cookies.remove("fullName");
-    Cookies.remove("userId");
-    socketNew.disconnect();
-    toast.success("Logged out successfully");
-  } catch (error) {
-    toast.error(error);
-  }
+  Cookies.remove("token");
+  Cookies.remove("fullName");
+  Cookies.remove("userId");
+
+  // Disconnect the socket on logout
+  disconnectSocket();
+  yield disconnectSocket();
+  // Clear the socket instance from the Redux store
+  yield put({ type: "SOCKET_CONNECTED", payload: null });
+
+  toast.success("Logged out successfully");
 }
-
 export default function* authSaga() {
   yield takeLatest(USER_AUTH.SIGNUP_REQUEST, signUp);
   yield takeLatest(LOGIN_AUTH.LOGIN_REQUEST, login);

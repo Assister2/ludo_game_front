@@ -7,10 +7,10 @@ import "./animation.css";
 import ViewChallenge from "./ViewChallenge";
 // import Avatar from "react-avatar";
 import Cookies from "js-cookie";
-import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
-import { BsSortUp } from "react-icons/bs";
-import { useNavigate, useLocation, history } from "react-router-dom";
-import socketNew2 from "../../../socker";
+import React, { useEffect, useRef, useState, useMemo } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { connectSocket, isSocketConnected } from "../../../socket";
 
 import { logoutSuccess, logoutRequest } from "../../.././redux/actions/auth";
 import {
@@ -70,7 +70,8 @@ export default function Play() {
   const { data } = useSelector((state) => state.wallet1);
 
   if (!socket2.instance) {
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
+    const socket = connectSocket();
+    dispatch({ type: "SOCKET_CONNECTED", payload: socket });
   }
   const { instance } = socket2;
   var socketNew = instance;
@@ -87,16 +88,14 @@ export default function Play() {
 
   const audioPlayer = useRef(null);
   let client = null;
-  function playAudio() {
-    audioPlayer.current.play();
-  }
-
+  const socket = useRef(null);
   useEffect(() => {
     let heartbeatInterval;
-    let deleteOpenChallengesOfCreator = true;
+
     if (userId) {
-      if (userId) {
-        socketNew.connect();
+      socket.current = connectSocket();
+      if (!isSocketConnected(socket.current)) {
+        socket.current.connect();
       }
 
       const handleVisibilityChange = () => {
@@ -105,9 +104,7 @@ export default function Play() {
 
       document.addEventListener("visibilitychange", handleVisibilityChange);
 
-      client = socketNew.connect();
-
-      // if (client) {
+      client = socket.current;
 
       if (!!client) {
         setWs(client);
@@ -149,7 +146,6 @@ export default function Play() {
           setCreateChallengeLoading(false);
           setStartGameLoading(false);
           setRequestedLoading(false);
-          // console.log(events.error);
 
           if (events.error !== toast.errorText) {
             toast.error(events.error);
@@ -195,8 +191,6 @@ export default function Play() {
             payload: { userId },
           })
         );
-
-        // client.close();
       }
     };
   }, []);

@@ -42,7 +42,7 @@ export default function Login(props) {
       setLoading(true);
       let userLogin = await loginAPI({ phone: state.phone });
 
-      if (userLogin.status == 200) {
+      if (userLogin.status === 200) {
         setLoading(false);
         toast.success("OTP sent successfully!");
         navigate("/verify-otp", { p: state.phone });

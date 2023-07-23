@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, Suspense } from "react";
 import { Provider } from "react-redux";
 import "./App.css";
-import socketNew from "./socker";
+import { disconnectSocket, connectSocket } from "./socket";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -18,8 +18,8 @@ const Header = React.lazy(() =>
 const Routes = React.lazy(() => import("./routing/Routes"));
 
 function App() {
-  if (Cookies.get("userId") === undefined) {
-    socketNew.disconnect();
+  if (!Cookies.get("userId")) {
+    disconnectSocket();
   }
   requestForToken2();
   requestForToken();

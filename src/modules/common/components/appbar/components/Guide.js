@@ -1,41 +1,32 @@
-import { SwipeableDrawer } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
+import { SwipeableDrawer } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { CDN_URL } from "../../../../../config";
 import { BsWalletFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
-import socketNew2 from "../../../../../socker";
-import {
-  getWalletError,
-  getWalletLoading,
-  getWalletSuccess,
-} from "../../../../../redux/actions/wallet";
-import { useNavigate, useLocation } from "react-router-dom";
 import { logoutSuccess } from "../../../../../redux/actions/auth";
-// let URL = `${process.env.REACT_APP_CLIENT_BASEURL_WS}/wallet`;
+import {
+  connectSocket,
+  disconnectSocket,
+  isSocketConnected,
+} from "../../../../../socket";
 
 function Guide(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const socket2 = useSelector((state) => state.socketReducer);
-  if (!socket2.instance) {
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
-  }
-
   const [f_open, setOpen] = useState(false);
-  const walletData = useSelector((state) => state.wallet);
+
   const { data } = useSelector((state) => state.loginReducer);
   const { data: userData } = useSelector((state) => state.user);
 
   const [wallet, setWallet] = useState({});
-
   const socket = useRef(null);
-  const [userId, setUserId] = useState(Cookies.get("userId"));
-  const isLoggedIn = Cookies.get("isLoggedIn");
+  const userId = Cookies.get("userId");
 
   useEffect(() => {
     if (!userData?._id) {
@@ -59,38 +50,36 @@ function Guide(props) {
   }, [data.isLoggedIn]);
 
   useEffect(() => {
-    console.log("wokringg");
-    var socketNew = null;
+    console.log("working");
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
+      return;
     }
 
-    if (socket2) {
-      const { instance } = socket2;
-      socketNew = instance;
-    }
+    // Use the connectSocket function to establish the socket connection
+    socket.current = connectSocket();
 
-    if (userId && socketNew) {
-      socketNew.connect();
+    if (userId && socket.current) {
+      socket.current.connect();
 
-      let client = null;
-
-      client = socketNew.connect();
-
-      setInterval(() => {
-        client.emit(
-          "getUserWallet",
-          JSON.stringify({
-            type: "getUserWallet",
-            payload: {
-              userId: userId,
-            },
-          })
-        );
+      // Set up the interval to emit the "getUserWallet" event periodically
+      const interval = setInterval(() => {
+        if (isSocketConnected(socket.current)) {
+          socket.current.emit(
+            "getUserWallet",
+            JSON.stringify({
+              type: "getUserWallet",
+              payload: {
+                userId: userId,
+              },
+            })
+          );
+        }
       }, 3000);
 
-      client.on("getUserWallet", (message) => {
+      // Handle "getUserWallet" event received from the socket
+      socket.current.on("getUserWallet", (message) => {
         const data = JSON.parse(message);
 
         if (data.error) {
@@ -100,21 +89,29 @@ function Guide(props) {
             Cookies.remove("token");
             Cookies.remove("fullName");
             Cookies.remove("userId");
-            client.disconnect();
+            disconnectSocket(socket.current);
 
             dispatch(logoutSuccess());
             navigate("/login");
           }
-          // Only update state if the component is still mounted
 
           setWallet(data.data);
-
           dispatch({ type: "GET_WALLET_REQUEST1", payload: data.data });
         }
       });
+
+      return () => {
+        // Clear the interval and disconnect the socket when the component is unmounted
+        clearInterval(interval);
+        if (isSocketConnected(socket.current)) {
+          disconnectSocket(socket.current);
+        }
+      };
     }
-  }, [socket2, userId]);
+  }, [userId]);
+
   const handleClose = () => setOpen(false);
+
   return (
     <div>
       <div className="partials">
@@ -126,34 +123,14 @@ function Guide(props) {
           open={f_open}
           onClose={handleClose}
         >
-          <div>
-            <div
-              style={{ padding: "1rem" }}
-              className="bg-dark offcanvas-header"
-            >
-              <div className="text-white fw-bold offcanvas-title h5">
-                How To Play Games & Earn?
-              </div>
-              <button
-                onClick={handleClose}
-                type="button"
-                className="btn-close btn-close-white"
-                aria-label="Close"
-              ></button>
-            </div>
-          </div>
+          {/* Your drawer content */}
         </SwipeableDrawer>
       </div>
       {data.isLoggedIn ? (
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="green" />
-            <strong className="ml-2">
-              {/* {walletData.data.wallet == 0
-                ? wallet.wallet
-                : walletData.data.wallet} */}
-              {wallet.wallet}
-            </strong>
+            <strong className="ml-2">{wallet.wallet}</strong>
           </div>
         </Link>
       ) : (
@@ -170,16 +147,6 @@ function Guide(props) {
           <p className="m-0 p-0">Guide</p>
         </button>
       )}
-      {/* <div aria-modal="true" style={{ visibility: "visible" }} role="dialogue" className="h-50 offcanvas offcanvas-bottom show">
-        <div className="bg-dark p-4 text-white offcanvas-header">
-          <div className="text-white fw-bold offcanvas-title h5">
-            How To Play Games & Earn?
-          </div>
-          <button aria-label="Close" type="button" className="btn-close btn-close-white">
-
-          </button>
-        </div>
-      </div> */}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { CircularProgress } from "@material-ui/core";
-// import cogoToast from "cogo-toast";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
@@ -14,59 +13,17 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CDN_URL } from "../../../config";
-import socketNew2 from "../../../socker";
+import { connectSocket } from "../../../socket";
 import { userBuyChipsRequest } from "../../../redux/actions/wallet";
 
 export default function Buy() {
   const dispatch = useDispatch();
-  const socket2 = useSelector((state) => state.socketReducer);
+
   const socket3 = useSelector((state) => state.wallet);
+  const { isLoading } = useSelector((state) => state.wallet);
   console.log("socket2buy", socket3.data);
-  if (!socket2.instance) {
-    console.log("working232");
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew2 });
-  }
-  const { instance } = socket2;
-  var socketNew = instance;
 
   const [amount, setAmount] = useState("");
-  const { isLoading } = useSelector((state) => state.wallet);
-  let userId = Cookies.get("userId");
-  const [ws, setWs] = useState(socketNew.connect());
-  const [wallet, setWallet] = useState({});
-
-  console.log("sockett", socketNew);
-  useEffect(() => {
-    const wss = socketNew.connect();
-    console.log("34343dssss", wss);
-    setWs(wss);
-    wss.on("connect", (e) => {
-      wss.send(
-        JSON.stringify({
-          type: "getUserWallet",
-          payload: {
-            userId,
-          },
-        })
-      );
-    });
-    wss.onclose = () => {
-      console.log("WebSocket connection closed233");
-      // wss.close();
-      // window.location.reload();
-    };
-  }, []);
-  useEffect(() => {
-    ws.emit(
-      "getUserWallet",
-      JSON.stringify({
-        type: "getUserWallet",
-        payload: {
-          userId: userId,
-        },
-      })
-    );
-  }, [socket3.isLoading]);
 
   const pay = () => {
     if (amount <= 0) {
@@ -78,31 +35,9 @@ export default function Buy() {
         userBuyChipsRequest({ amount: Number(amount), createdAt: new Date() })
       );
 
-      console.log("paying", ws);
-      ws.emit(
-        "getUserWallet",
-        JSON.stringify({
-          type: "getUserWallet",
-          payload: {
-            userId,
-          },
-        })
-      );
       setAmount("");
     }
   };
-
-  ws.on("getUserWallet", (event) => {
-    // console.log("event", event);
-    event = JSON.parse(event);
-    if (event.status == 200) {
-      console.log("cehckwallet", event.data.wallet);
-      localStorage.setItem("wallet", event.data.wallet);
-      // setWallet(event.data)
-      // console.log("event", event);
-    }
-    // setChallenges(event)
-  });
 
   return (
     <>
