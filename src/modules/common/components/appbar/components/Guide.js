@@ -58,11 +58,11 @@ function Guide(props) {
     }
 
     // Use the connectSocket function to establish the socket connection
-    socket.current = connectSocket();
+    if (!isSocketConnected(socket.current)) {
+      socket.current = connectSocket();
+    }
 
     if (userId && socket.current) {
-      socket.current.connect();
-
       // Set up the interval to emit the "getUserWallet" event periodically
       const interval = setInterval(() => {
         if (isSocketConnected(socket.current)) {
