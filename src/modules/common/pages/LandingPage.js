@@ -47,12 +47,21 @@ export default function LandingPage() {
       >
         {!data.isLoggedIn ? (
           <div>
-            <img
-              style={{ maxWidth: "auto", maxHeight: "auto" }}
-              className="w-100"
-              src="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
-              alt="landing"
-            />
+            <picture>
+              <source
+                media="(max-width: 768px)"
+                srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
+              />
+              <source
+                media="(min-width: 769px)"
+                srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
+              />
+              <img
+                style={{ maxWidth: "100%", height: "auto" }}
+                src="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
+                alt="landing"
+              />
+            </picture>
           </div>
         ) : (
           <div>
@@ -84,25 +93,30 @@ export default function LandingPage() {
               <div className="mb-3 gx-3 row">
                 <div className="col">
                   <Link className="text-decoration-none text-black" to="/play">
-                    <picture>
-                      <source
-                        media="(min-width:1024px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
-                      />
-                      <source
-                        media="(min-width:768px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
-                      />
-                      <img
-                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
-                        className="rounded-3"
-                        style={{
-                          width: "100%",
-                          cursor: "pointer",
-                          height: "auto",
-                        }}
-                      ></img>
-                    </picture>
+                    <div>
+                      <picture>
+                        <source
+                          media="(min-width: 1024px)"
+                          srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
+                          type="image/webp" // Specify the image type for WebP format
+                        />
+                        <source
+                          media="(min-width: 768px)"
+                          srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp"
+                          type="image/webp" // Specify the image type for WebP format
+                        />
+                        <img
+                          src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo1.webp" // Provide a fallback image for browsers that don't support <picture>
+                          className="rounded-3"
+                          style={{
+                            width: "100%",
+                            cursor: "pointer",
+                            height: "auto",
+                          }}
+                          alt="landing"
+                        />
+                      </picture>
+                    </div>
                   </Link>
                 </div>
 
@@ -111,26 +125,30 @@ export default function LandingPage() {
                     className="position-relative"
                     style={{ cursor: "not-allowed" }}
                   >
-                    <picture>
-                      <source
-                        media="(min-width:1024px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
-                      />
-                      <source
-                        media="(min-width:768px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
-                      />
-                      <img
-                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
-                        alt="ludo classic"
-                        className="rounded-3"
-                        style={{
-                          width: "100%",
-                          cursor: "not-allowed",
-                          height: "auto",
-                        }}
-                      />
-                    </picture>
+                    <div>
+                      <picture>
+                        <source
+                          media="(min-width: 1024px)"
+                          srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
+                          type="image/webp" // Specify the image type for WebP format
+                        />
+                        <source
+                          media="(min-width: 768px)"
+                          srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp"
+                          type="image/webp" // Specify the image type for WebP format
+                        />
+                        <img
+                          src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo2.webp" // Provide a fallback image for browsers that don't support <picture>
+                          alt="ludo classic"
+                          className="rounded-3"
+                          style={{
+                            width: "100%",
+                            cursor: "pointer", // Change cursor style to "pointer"
+                            height: "auto",
+                          }}
+                        />
+                      </picture>
+                    </div>
                     <div className="position-absolute top-0 start-0 end-0 bottom-0 bg-black opacity-25"></div>
                     <div
                       className="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-start justify-content-end overflow-hidden"
@@ -157,26 +175,30 @@ export default function LandingPage() {
                     className="position-relative"
                     style={{ cursor: "not-allowed" }}
                   >
-                    <picture>
-                      <source
-                        media="(min-width:1024px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
-                      />
-                      <source
-                        media="(min-width:768px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
-                      />
-                      <img
-                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
-                        alt="ludo classic"
-                        className="rounded-3"
-                        style={{
-                          width: "100%",
-                          cursor: "not-allowed",
-                          height: "auto",
-                        }}
-                      />
-                    </picture>
+                    <div>
+                      <picture>
+                        <source
+                          media="(min-width: 1024px)"
+                          srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
+                          type="image/webp" // Specify the image type for WebP format
+                        />
+                        <source
+                          media="(min-width: 768px)"
+                          srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp"
+                          type="image/webp" // Specify the image type for WebP format
+                        />
+                        <img
+                          src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo3.webp" // Provide a fallback image for browsers that don't support <picture>
+                          alt="ludo classic"
+                          className="rounded-3"
+                          style={{
+                            width: "100%",
+                            cursor: "pointer", // Change cursor style to "pointer"
+                            height: "auto",
+                          }}
+                        />
+                      </picture>
+                    </div>
                     <div className="position-absolute top-0 start-0 end-0 bottom-0 bg-black opacity-25"></div>
                     <div
                       className="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-start justify-content-end overflow-hidden"
@@ -202,26 +224,20 @@ export default function LandingPage() {
                     className="position-relative"
                     style={{ cursor: "not-allowed" }}
                   >
-                    <picture>
-                      <source
-                        media="(min-width:1024px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
-                      />
-                      <source
-                        media="(min-width:768px)"
-                        srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
-                      />
-                      <img
-                        src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
-                        alt="ludo classic"
-                        className="rounded-3"
-                        style={{
-                          width: "100%",
-                          cursor: "not-allowed",
-                          height: "auto",
-                        }}
-                      />
-                    </picture>
+                    <div>
+                      <picture>
+                        <img
+                          src="https://ludo3.s3.ap-south-1.amazonaws.com/ludo4.webp"
+                          alt="ludo classic"
+                          className="rounded-3"
+                          style={{
+                            width: "100%",
+                            cursor: "not-allowed",
+                            height: "auto",
+                          }}
+                        />
+                      </picture>
+                    </div>
                     <div className="position-absolute top-0 start-0 end-0 bottom-0 bg-black opacity-25"></div>
                     <div
                       className="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-start justify-content-end overflow-hidden"
