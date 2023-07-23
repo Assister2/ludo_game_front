@@ -53,7 +53,6 @@ export default function Game(props) {
     challengeId: params.id,
   };
 
-  window.Buffer = window.Buffer || require("buffer").Buffer;
   const [image, setImage] = useState(null);
   const [challenge, setChallenge] = useState(challengeInititalState);
   const [showTimer, setShowTimer] = useState(false);
