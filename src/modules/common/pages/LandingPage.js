@@ -1,28 +1,15 @@
 import { SwipeableDrawer } from "@material-ui/core";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import io from "socket.io-client";
-import React, { useEffect, useState } from "react";
+
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { CDN_URL } from "../../../config";
-import { getWalletReq } from "../../../redux/actions/wallet";
 
 export default function LandingPage() {
   const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-  const isLoggedIn = Cookies.get("userId");
   const { data } = useSelector((state) => state.loginReducer);
-  const token = Cookies.get("token");
   const [f_open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getWalletReq());
-    }
-  }, []);
-
   const handleClose = () => setOpen(false);
 
   return (
@@ -315,10 +302,6 @@ export default function LandingPage() {
           )}
         </div>
       )}
-      {/* <Link className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center position-fixed text-dark" style={{ width: "60px", height: "60px", zIndex: 10, bottom: "30px", right: "30px" }}>
-        <img src="	https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/spinWheel.webp" height={"30px"} alt="spin wheel icon">
-        </img>
-      </Link> */}
     </div>
   );
 }

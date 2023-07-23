@@ -2,7 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { CDN_URL } from "../../../../../config";
+import { CDN_URL, AVATAR } from "../../../../../config";
 import { updateUserProfileReq } from "../../../../../redux/actions/user";
 
 export default function ProfileDetails() {
@@ -10,7 +10,7 @@ export default function ProfileDetails() {
   const userData = useSelector((state) => state.user);
   const [editButton, setEditButton] = useState(false);
   const [userName, setUserName] = useState();
-
+  console.log("adddd", `${AVATAR}${userData?.data?.profileImage}`);
   const handleSubmit = () => {
     if (userName[0] == " ") {
       toast.error("First letter of name cannot be empty");
@@ -55,14 +55,10 @@ export default function ProfileDetails() {
                   width: "60px",
                   height: "60px",
                   backgroundSize: "contain",
-                  backgroundImage: `url(${CDN_URL}avatar/${userData?.data?.profileImage}`,
+                  backgroundImage: `url(${AVATAR}${userData?.data?.profileImage})`, // Add "url()" here
                 }}
                 className="bg-success rounded-circle position-relative"
-              >
-                {/* <div style={{ width: "24px", height: "24px", bottom: "0px", right: "0px", cursor: "pointer" }} className="position-absolute shadow rounded-circle bg-white">
-
-                                </div> */}
-              </div>
+              ></div>
             </div>
           </div>
           <div className="d-flex flex-column align-items-start justify-content-center mb-3">
