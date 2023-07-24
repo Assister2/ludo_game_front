@@ -81,7 +81,6 @@ export default function Play() {
   const [cancelChallengeCreator, setCancelChallengeCreator] = useState(false);
   const [RequestedLoading, setRequestedLoading] = useState(false);
 
-
   let client = null;
   const socket = useRef(null);
   useEffect(() => {
@@ -142,11 +141,7 @@ export default function Play() {
           setStartGameLoading(false);
           setRequestedLoading(false);
 
-          if (events.error !== toast.errorText) {
-            toast.error(events.error);
-
-            toast.errorText = events.error;
-          }
+          toast.error(events.error);
 
           return;
         }
@@ -240,7 +235,6 @@ export default function Play() {
         if (item.creator._id === userId || item.player._id === userId)
           challenge++;
       }
-      
     });
 
     return challenge;
