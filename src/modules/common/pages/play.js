@@ -106,7 +106,7 @@ export default function Play() {
 
       heartbeatInterval = setInterval(() => {
         client.send(JSON.stringify({ type: "heartbeat" }));
-      }, 2000);
+      }, 1000);
 
       client.send(
         JSON.stringify({

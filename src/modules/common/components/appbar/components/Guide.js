@@ -76,7 +76,7 @@ function Guide(props) {
             })
           );
         }
-      }, 3000);
+      }, 2000);
 
       // Handle "getUserWallet" event received from the socket
       socket.current.on("getUserWallet", (message) => {
