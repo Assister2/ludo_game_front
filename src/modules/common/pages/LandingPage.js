@@ -50,15 +50,15 @@ export default function LandingPage() {
             <picture>
               <source
                 media="(max-width: 768px)"
-                srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
+                srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/landingNew.webp"
               />
               <source
                 media="(min-width: 769px)"
-                srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
+                srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/landingNew.webp"
               />
               <img
                 style={{ maxWidth: "100%", height: "auto" }}
-                src="https://ludo3.s3.ap-south-1.amazonaws.com/final.gif"
+                src="https://ludo3.s3.ap-south-1.amazonaws.com/landingNew.webp"
                 alt="landing"
               />
             </picture>

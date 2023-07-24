@@ -108,7 +108,7 @@ export function sortEvents(events, userId) {
   return events;
 }
 
-export function filterEvents(events, userId, viewGame, playAudio2) {
+export function filterEvents(events, userId, viewGame) {
   let tempData = events.filter(
     (item) =>
       !(

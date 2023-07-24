@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: ["./src/index.js"],
@@ -16,7 +16,7 @@ module.exports = {
   mode: "production", // Set mode to "production" for optimized build
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    moduleIds: "deterministic", // Assign deterministic module IDs
     splitChunks: {
       chunks: "all", // For code splitting
     },
@@ -40,11 +40,14 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            cacheDirectory: true, // Enable caching for faster builds
+          },
         },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"], // Use MiniCssExtractPlugin to extract CSS
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -77,9 +80,20 @@ module.exports = {
       template: path.resolve(__dirname, "public/index.html"),
       favicon: "./public/favicon.ico",
       manifest: "./public/manifest.json",
-      minify: true,
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+      },
     }),
     new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[contenthash].css",
+      chunkFilename: "css/[id].[contenthash].css",
+    }),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -107,11 +121,5 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
-  // devtool: "source-map",
-  // performance: {
-  //   hints: 'error',
-  //   maxEntrypointSize: 512000,
-  //   maxAssetSize: 512000,
-  // },
-
+  devtool: "source-map", // Enable source maps for better debugging
 };

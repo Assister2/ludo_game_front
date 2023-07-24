@@ -23,10 +23,9 @@ import Dialog from "@material-ui/core/Dialog";
 import { useDispatch } from "react-redux";
 
 import { useSelector } from "react-redux";
-import NotificationSound from "./notification.mp3";
+
 import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
-import audio1 from "./notification.mp3";
 
 export default function Play() {
   const history = useNavigate();
@@ -37,7 +36,6 @@ export default function Play() {
   const [challenges, setChallenges] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(null);
   const [isButtonType, setIsButtonType] = useState(false);
-  const [audio, setAudio] = useState(true);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -51,9 +49,6 @@ export default function Play() {
     dispatch(logoutRequest({}, history, "/login"));
   }
 
-  const playAudio2 = () => {
-    new Audio(audio1).play();
-  };
   const handleOpen = () => {
     setIsOpen(true);
   };
@@ -86,7 +81,7 @@ export default function Play() {
   const [cancelChallengeCreator, setCancelChallengeCreator] = useState(false);
   const [RequestedLoading, setRequestedLoading] = useState(false);
 
-  const audioPlayer = useRef(null);
+
   let client = null;
   const socket = useRef(null);
   useEffect(() => {
@@ -160,7 +155,7 @@ export default function Play() {
           sortEvents(events, userId);
         }
         if (events.filter) {
-          const tempData = filterEvents(events, userId, viewGame, playAudio2);
+          const tempData = filterEvents(events, userId, viewGame);
           setChallenges(tempData);
         }
       });
@@ -245,19 +240,11 @@ export default function Play() {
         if (item.creator._id === userId || item.player._id === userId)
           challenge++;
       }
-      if (
-        item.creator?._id === userId &&
-        item.state === "requested" &&
-        audio &&
-        isButtonType !== "cancel"
-      ) {
-        playAudio2();
-        setAudio(false);
-      }
+      
     });
 
     return challenge;
-  }, [challenges, userId, audio, isButtonType]);
+  }, [challenges, userId, isButtonType]);
 
   useEffect(() => {
     if (ws?.connected) {
@@ -330,7 +317,7 @@ export default function Play() {
           payload: { challengeId: isButtonDisabled, userId },
         })
       );
-      setAudio(true);
+
       setCancelChallengeCreator(false);
     }
   };
@@ -417,8 +404,6 @@ export default function Play() {
       className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
       style={{ padding: "1rem", important: "true" }}
     >
-      <audio ref={audioPlayer} src={NotificationSound} />
-
       <div className="d-flex flex-column">
         <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 ">
           <div className="input-group flex-1 flex-nowrap">
