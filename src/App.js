@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Provider } from "react-redux";
 import "./App.css";
-import { disconnectSocket } from "./socket";
+import socketNew from "./socket";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -14,7 +14,7 @@ import Routes from "./routing/Routes";
 
 function App() {
   if (!Cookies.get("userId")) {
-    disconnectSocket();
+    socketNew.disconnect();
   }
   // requestForToken2();
   // requestForToken();

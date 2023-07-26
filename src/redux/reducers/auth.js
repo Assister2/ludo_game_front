@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { LOGIN_AUTH, USER_AUTH, LOGOUT_AUTH } from "../contstants";
-import { disconnectSocket } from "../../socket";
+
 
 // ============SIGN UP REDUCER==================
 

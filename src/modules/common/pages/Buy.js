@@ -13,7 +13,7 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CDN_URL } from "../../../config";
-import { connectSocket } from "../../../socket";
+
 import { userBuyChipsRequest } from "../../../redux/actions/wallet";
 
 export default function Buy() {

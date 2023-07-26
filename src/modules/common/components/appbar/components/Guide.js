@@ -9,25 +9,20 @@ import { useNavigate } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
 import { logoutSuccess } from "../../../../../redux/actions/auth";
-import {
-  connectSocket,
-  disconnectSocket,
-  isSocketConnected,
-} from "../../../../../socket";
-
+import socketNew from "../../../../../socket";
 function Guide(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [f_open, setOpen] = useState(false);
-
   const { data } = useSelector((state) => state.loginReducer);
+  const { instance } = useSelector((state) => state.socketReducer);
   const { data: userData } = useSelector((state) => state.user);
-
+  if (!instance) {
+    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew });
+  }
   const [wallet, setWallet] = useState({});
   const socket = useRef(null);
   const userId = Cookies.get("userId");
-
   useEffect(() => {
     if (!userData?._id) {
       if (data.isLoggedIn && Cookies.get("token")) {
@@ -48,7 +43,6 @@ function Guide(props) {
       }
     }
   }, [data.isLoggedIn]);
-
   useEffect(() => {
     console.log("working");
     if (!userId || userData?.isBlocked) {
@@ -56,26 +50,22 @@ function Guide(props) {
       navigate("/login");
       return;
     }
-
-    // Use the connectSocket function to establish the socket connection
-    if (!isSocketConnected(socket.current)) {
-      socket.current = connectSocket();
+    if (instance) {
+      socket.current = instance;
     }
 
     if (userId && socket.current) {
-      // Set up the interval to emit the "getUserWallet" event periodically
+      socketNew.connect();
       const interval = setInterval(() => {
-        if (isSocketConnected(socket.current)) {
-          socket.current.emit(
-            "getUserWallet",
-            JSON.stringify({
-              type: "getUserWallet",
-              payload: {
-                userId: userId,
-              },
-            })
-          );
-        }
+        socket.current.emit(
+          "getUserWallet",
+          JSON.stringify({
+            type: "getUserWallet",
+            payload: {
+              userId: userId,
+            },
+          })
+        );
       }, 2000);
 
       // Handle "getUserWallet" event received from the socket
@@ -89,7 +79,7 @@ function Guide(props) {
             Cookies.remove("token");
             Cookies.remove("fullName");
             Cookies.remove("userId");
-            disconnectSocket(socket.current);
+            socketNew.disconnect();
 
             dispatch(logoutSuccess());
             navigate("/login");
@@ -103,9 +93,6 @@ function Guide(props) {
       return () => {
         // Clear the interval and disconnect the socket when the component is unmounted
         clearInterval(interval);
-        if (isSocketConnected(socket.current)) {
-          disconnectSocket(socket.current);
-        }
       };
     }
   }, [userId]);

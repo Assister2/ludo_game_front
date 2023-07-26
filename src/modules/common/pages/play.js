@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { connectSocket, isSocketConnected } from "../../../socket";
+import socketNew from "../../../socket";
 
 import { logoutSuccess, logoutRequest } from "../../.././redux/actions/auth";
 import {
@@ -61,15 +61,8 @@ export default function Play() {
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
-  const socket2 = useSelector((state) => state.socketReducer);
+  const { instance } = useSelector((state) => state.socketReducer);
   const { data } = useSelector((state) => state.wallet1);
-
-  if (!socket2.instance) {
-    const socket = connectSocket();
-    dispatch({ type: "SOCKET_CONNECTED", payload: socket });
-  }
-  const { instance } = socket2;
-  var socketNew = instance;
 
   const [holdChallenge, setHoldChallenge] = useState({});
 
@@ -80,46 +73,44 @@ export default function Play() {
   const [playGameLoading, setPlayGameLoading] = useState(false);
   const [cancelChallengeCreator, setCancelChallengeCreator] = useState(false);
   const [RequestedLoading, setRequestedLoading] = useState(false);
+  console.log("ssss", instance);
 
-  let client = null;
+  if (!instance) {
+    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew });
+  }
   const socket = useRef(null);
   useEffect(() => {
     let heartbeatInterval;
-
+    socket.current = socketNew.connect();
     if (userId) {
-      socket.current = connectSocket();
-      if (!isSocketConnected(socket.current)) {
-        socket.current.connect();
-      }
-
       const handleVisibilityChange = () => {
         setIsTabVisible(!document.hidden);
       };
 
       document.addEventListener("visibilitychange", handleVisibilityChange);
 
-      client = socket.current;
+      // client = socket.current;
 
-      if (!!client) {
-        setWs(client);
+      if (!!socket.current) {
+        setWs(socket.current);
       }
 
       heartbeatInterval = setInterval(() => {
-        client.send(JSON.stringify({ type: "heartbeat" }));
+        socket.current.send(JSON.stringify({ type: "heartbeat" }));
       }, 1000);
 
-      client.send(
+      socket.current.send(
         JSON.stringify({
           type: "",
           payload: { userId },
         })
       );
 
-      client.on("message", (event) => {
+      socket.current.on("message", (event) => {
         var events = JSON.parse(event);
         // console.log(events);
         if (events.type === "heartbeat") {
-          client.send(JSON.stringify({ type: "ack" }));
+          socket.current.send(JSON.stringify({ type: "ack" }));
         }
         if (events.status === 2) {
           setCreateChallengeLoading(false);
@@ -155,7 +146,7 @@ export default function Play() {
         }
       });
 
-      client.on("error", (events) => {
+      socket.current.on("error", (events) => {
         console.log("ccc", events);
       });
     }
@@ -163,8 +154,8 @@ export default function Play() {
       dispatch(logoutSuccess());
       navigate("/login");
     }
-    if (client) {
-      client.send(
+    if (socket.current) {
+      socket.current.send(
         JSON.stringify({
           type: "deleteOpenChallengesOfCreator",
           payload: { userId },
@@ -174,8 +165,8 @@ export default function Play() {
 
     return () => {
       clearInterval(heartbeatInterval);
-      if (client) {
-        client.send(
+      if (socket.current) {
+        socket.current.send(
           JSON.stringify({
             type: "deleteOpenChallengesOfCreator",
             payload: { userId },

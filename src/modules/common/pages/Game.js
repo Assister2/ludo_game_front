@@ -18,7 +18,7 @@ import {
 import { getWalletReq } from "../../../redux/actions/wallet";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { connectSocket, isSocketConnected } from "../../../socket";
+import socketNew from "../../../socket";
 import SwipeableContainer from "./Guidedrawer";
 import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 import LudoKing from "../../../../public/images/ludoking.jpg";
@@ -92,11 +92,8 @@ export default function Game(props) {
   useEffect(() => {
     let heartbeatInterval = null;
     if (userId) {
-      socket.current = connectSocket();
-
-      if (!isSocketConnected(socket.current)) {
-        socket.current.connect();
-      }
+      socket.current = socketNew;
+      socket.current.connect();
 
       const wss = socket.current;
       setWs(wss);

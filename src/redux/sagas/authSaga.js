@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { connectSocket, disconnectSocket } from "../../socket";
+import io from "socket.io-client";
+import socketNew from "../../socket";
 import { put, call, takeLatest } from "redux-saga/effects";
 import { LOGIN_AUTH, LOGOUT_AUTH, USER_AUTH } from "../contstants";
 import {
@@ -57,17 +58,8 @@ function* login(param) {
     Cookies.set("userId", data.data?._id, { expires: 30 });
 
     yield put(getWalletSuccess(data));
-
-    // Establish the socket connection and save it in the Redux store
-    // try {
-    //   const socket = yield call(connectSocket);
-    //   console.log("checksodcket", socket);
-    //   yield put({ type: "SOCKET_CONNECTED", payload: socket });
-    // } catch (error) {
-    //   // Handle any errors that occur during socket connection setup
-    //   yield put({ type: "SOCKET_CONNECTION_FAILED", payload: error.message });
-    // }
-
+    const socket = socketNew.connect();
+    yield put({ type: "SOCKET_CONNECTED", payload: socket });
     yield put(loginSuccess(data));
 
     param.navigation(`/`);
@@ -96,8 +88,7 @@ function* logout(param) {
   Cookies.remove("userId");
 
   // Disconnect the socket on logout
-  disconnectSocket();
-  yield disconnectSocket();
+  socketNew.disconnect();
   // Clear the socket instance from the Redux store
   yield put({ type: "SOCKET_CONNECTED", payload: null });
 
