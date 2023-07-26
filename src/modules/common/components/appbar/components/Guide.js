@@ -10,6 +10,7 @@ import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
 import { logoutSuccess } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
+import { getUserProfileApi } from "../../../../../apis/user";
 function Guide(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,12 +51,12 @@ function Guide(props) {
       navigate("/login");
       return;
     }
+    socket.current = socketNew.connect();
     if (instance) {
       socket.current = instance;
     }
 
     if (userId && socket.current) {
-      socketNew.connect();
       const interval = setInterval(() => {
         socket.current.emit(
           "getUserWallet",
@@ -87,6 +88,23 @@ function Guide(props) {
 
           setWallet(data.data);
           dispatch({ type: "GET_WALLET_REQUEST1", payload: data.data });
+        }
+      });
+      socket.current.on("getUserProfile", async (message) => {
+        try {
+          const data = await getUserProfileApi();
+          if (data.status === 400) {
+            Cookies.remove("token");
+            Cookies.remove("fullName");
+            Cookies.remove("userId");
+            socketNew.disconnect();
+            dispatch({ type: "SOCKET_CONNECTED", payload: null });
+
+            window.location.href = "/login";
+          }
+        } catch (error) {
+          // Handle any errors that occurred during the API call
+          console.error("Error fetching user profile:", error);
         }
       });
 
