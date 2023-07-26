@@ -42,7 +42,7 @@ export default function LandingPage() {
         </SwipeableDrawer>
       </div>
       <div
-        style={{ filter: "brightness(1.1)" }}
+        style={{}}
         className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
       >
         {!data.isLoggedIn ? (

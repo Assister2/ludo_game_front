@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { LOGIN_AUTH, USER_AUTH, LOGOUT_AUTH } from "../contstants";
+import { disconnectSocket } from "../../socket";
 
 // ============SIGN UP REDUCER==================
 
@@ -91,7 +92,7 @@ export const loginReducer = (
         isLoading: false,
       };
     }
-    
+
     case LOGOUT_AUTH.LOGOUT_LOADING: {
       const { payload } = action;
       return {
@@ -103,6 +104,10 @@ export const loginReducer = (
 
     case LOGOUT_AUTH.LOGOUT_SUCCESS: {
       console.log("logout case");
+      Cookies.remove("token");
+      Cookies.remove("fullName");
+      Cookies.remove("userId");
+
       return {
         ...state,
         data: { isLoggedIn: false, token: "" },

@@ -217,6 +217,7 @@ export default function Play() {
 
         if (
           (item.creator?._id === userId && item.state === "open") ||
+          (item.player?._id === userId && item.state === "requested") ||
           (item.creator?._id === userId && item.state === "requested")
         ) {
           challenge++;
