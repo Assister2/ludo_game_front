@@ -51,7 +51,7 @@ function Guide(props) {
       navigate("/login");
       return;
     }
-    socket.current = socketNew.connect();
+    // socket.current = socketNew.connect();
     if (instance) {
       socket.current = instance;
     }
