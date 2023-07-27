@@ -10,7 +10,6 @@ import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
 
 export default function Login(props) {
-
   const dispatch = useDispatch();
   const navigate = useNavigateSearch(false);
   const [loading, setLoading] = useState(false);
@@ -69,7 +68,7 @@ export default function Login(props) {
               <img alt="mobile" src={`${CDN_URL}svgs/phone.svg`} />
             </span>
             <input
-              type="tel"
+              type="number"
               name="phone"
               id="phone"
               className="form-control"
