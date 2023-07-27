@@ -25,36 +25,13 @@ function Guide(props) {
   const socket = useRef(null);
   const userId = Cookies.get("userId");
   useEffect(() => {
-    if (!userData?._id) {
-      if (data.isLoggedIn && Cookies.get("token")) {
-        let route = window.location.pathname;
-        if (route === "/login" || route === "/register") {
-          window.location.href = "/";
-          return null;
-        }
-
-        dispatch(getUserProfileReq());
-        dispatch(getWalletReq());
-      } else {
-        let route = window.location.pathname;
-        if (route !== "/login" && route !== "/register" && route !== "/") {
-          window.location.href = "/login";
-          return null;
-        }
-      }
-    }
-  }, [data.isLoggedIn]);
-  useEffect(() => {
     console.log("working");
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
       return;
     }
-    // socket.current = socketNew.connect();
-    if (instance) {
-      socket.current = instance;
-    }
+    socket.current = socketNew.connect();
 
     if (userId && socket.current) {
       const interval = setInterval(() => {
@@ -113,7 +90,27 @@ function Guide(props) {
         clearInterval(interval);
       };
     }
-  }, [userId]);
+  }, []);
+  useEffect(() => {
+    if (!userData?._id) {
+      if (data.isLoggedIn && Cookies.get("token")) {
+        let route = window.location.pathname;
+        if (route === "/login" || route === "/register") {
+          window.location.href = "/";
+          return null;
+        }
+
+        dispatch(getUserProfileReq());
+        dispatch(getWalletReq());
+      } else {
+        let route = window.location.pathname;
+        if (route !== "/login" && route !== "/register" && route !== "/") {
+          window.location.href = "/login";
+          return null;
+        }
+      }
+    }
+  }, [data.isLoggedIn]);
 
   const handleClose = () => setOpen(false);
 
