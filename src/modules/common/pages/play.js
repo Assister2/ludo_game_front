@@ -73,7 +73,7 @@ export default function Play() {
   const [playGameLoading, setPlayGameLoading] = useState(false);
   const [cancelChallengeCreator, setCancelChallengeCreator] = useState(false);
   const [RequestedLoading, setRequestedLoading] = useState(false);
-  console.log("ssss", instance);
+
 
   if (!instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew });
@@ -137,9 +137,9 @@ export default function Play() {
           return;
         }
 
-        // if (events.sort) {
-        //   sortEvents(events, userId);
-        // }
+        if (events.sort) {
+          sortEvents(events, userId);
+        }
         if (events.filter) {
           const tempData = filterEvents(events, userId, viewGame);
           setChallenges(tempData);

@@ -49,10 +49,7 @@ export default function Register(props) {
       // Remove any special characters except spaces from the input
       const alphanumericValue = value.replace(/[^a-zA-Z0-9\s]/g, "");
 
-      // Limit the input to a maximum of 10 characters
-      const truncatedValue = alphanumericValue.slice(0, 10);
-
-      setState((prev) => ({ ...prev, [name]: truncatedValue }));
+      setState((prev) => ({ ...prev, [name]: alphanumericValue }));
     } else {
       setState((prev) => ({ ...prev, [name]: value }));
     }
