@@ -12,16 +12,24 @@ export default function ProfileDetails() {
   const [userName, setUserName] = useState();
   console.log("adddd", `${AVATAR}${userData?.data?.profileImage}`);
   const handleSubmit = () => {
-    if (userName[0] == " ") {
-      toast.error("First letter of name cannot be empty");
+    // Remove spaces from the userName
+    const trimmedUserName = userName.trim();
+
+    // Ensure only alphabets and numbers are present
+    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    if (!alphanumericRegex.test(trimmedUserName)) {
+      toast.error("Name cannot contain special characters");
       return;
     }
-    if (userName.length < 3) {
-      toast.error("name should be at least 3 characters");
+
+    if (trimmedUserName.length < 3) {
+      toast.error("Name should be at least 3 characters");
       return;
     }
+
+    // Rest of your code for handling the form submission...
     try {
-      dispatch(updateUserProfileReq({ username: userName }));
+      dispatch(updateUserProfileReq({ username: trimmedUserName }));
     } catch (error) {
       setEditButton(false);
     }
@@ -35,9 +43,15 @@ export default function ProfileDetails() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "userName" && value.length <= 10) {
-      const lowercaseValue = value.toLowerCase();
-      setUserName(lowercaseValue);
+    if (name === "userName") {
+      // Remove spaces from the value
+      const newValue = value.replace(/\s/g, "");
+
+      // Ensure the length is not greater than 10 characters
+      if (newValue.length <= 10) {
+        const lowercaseValue = newValue.toLowerCase();
+        setUserName(lowercaseValue);
+      }
     }
   };
 

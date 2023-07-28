@@ -36,7 +36,7 @@ export default function Register(props) {
   const [state, setState] = useState(initialState);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "referalCode") {
       // Remove any non-digit characters from the input
       const numericValue = value.replace(/\D/g, "");
@@ -46,10 +46,11 @@ export default function Register(props) {
 
       setState((prev) => ({ ...prev, [name]: truncatedValue }));
     } else if (name === "name") {
-      const lowercaseValue = value.toLowerCase();
+      // Remove any special characters except spaces from the input
+      const alphanumericValue = value.replace(/[^a-zA-Z0-9\s]/g, "");
 
       // Limit the input to a maximum of 10 characters
-      const truncatedValue = lowercaseValue.slice(0, 10);
+      const truncatedValue = alphanumericValue.slice(0, 10);
 
       setState((prev) => ({ ...prev, [name]: truncatedValue }));
     } else {
@@ -66,7 +67,7 @@ export default function Register(props) {
     }
   }, []);
 
-  const onSubmit = ()  => {
+  const onSubmit = () => {
     let signupData = {
       fullName: state.name,
       phone: state.phoneNumber,

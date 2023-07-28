@@ -137,9 +137,9 @@ export default function Play() {
           return;
         }
 
-        if (events.sort) {
-          sortEvents(events, userId);
-        }
+        // if (events.sort) {
+        //   sortEvents(events, userId);
+        // }
         if (events.filter) {
           const tempData = filterEvents(events, userId, viewGame);
           setChallenges(tempData);
