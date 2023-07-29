@@ -1,11 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
-
-// import cogoToast from "cogo-toast";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import React, { useEffect, useState } from "react";
-// import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resendOTP, verifyOTP2 } from "../../../apis/auth";
@@ -17,10 +13,7 @@ export default function VeridyOtp({ route }) {
   const dispatch = useDispatch();
 
   const navigate = useNavigateSearch(true);
-
   const { signUpPage } = useSelector((state) => state.signupPage1);
-
-  // console.log("checkkk,", userdata);
   const phone = useCustumSearchParams()?.p;
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
@@ -36,10 +29,6 @@ export default function VeridyOtp({ route }) {
   const setValidationMsg = (msg) => {
     toast.error(msg);
   };
-
-  // if (userdata?.isLoggedIn) {
-  //   navigate("/play");
-  // }
 
   const handleChange = (evt) => {
     if (state.isPaste === false) {
@@ -102,34 +91,34 @@ export default function VeridyOtp({ route }) {
   // setLoading(false);
 
   const verify = async () => {
-    if (state.digits?.join("")?.length < 6) {
+    if (state.digits.join("").length < 6) {
       setValidationMsg("All 6 digits Required!");
       return;
     }
+
     setLoading(true);
 
-    // let verifyOTPData = await verifyOTP()
-    if (signUpPage) {
-      console.log("ifworking");
-      var data = await verifyOTP2({
-        phone: phone,
-        otp: state.digits?.join(""),
-      });
+    const otp = state.digits.join("");
 
-      if (data) {
-        dispatch(loginRequest({ data: data, register: true }, history));
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
+    try {
+      if (signUpPage) {
+        const data = await verifyOTP2({ phone, otp });
+        dispatch(loginRequest({ data, register: true }, history));
+      } else {
+        dispatch(loginRequest({ phone, otp }, history));
       }
-    } else {
-      dispatch(
-        loginRequest({ phone: phone, otp: state.digits?.join("") }, history)
-      );
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error while verifying:", error);
+      setLoading(false);
     }
+
+    setState({
+      digits: ["", "", "", "", "", ""],
+      isPaste: false,
+      isVerified: false,
+    });
   };
 
   const resend = async () => {

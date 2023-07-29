@@ -86,7 +86,7 @@ function* login(param) {
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");
-    param.navigation(`/login`);
+    // param.navigation(`/login`);
     toast.error(data.error);
     yield put(loginError(data.error));
   } else {
