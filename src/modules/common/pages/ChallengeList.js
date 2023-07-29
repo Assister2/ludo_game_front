@@ -5,20 +5,13 @@ import OtherPlayingChallenges from "./OtherPlayingChallenges";
 import ButtonChallenges from "./ButtonChallenges";
 const ChallengeList = React.memo(
   ({
-    isButtonType,
-    setIsButtonType,
-    setIsButtonDisabled,
-    isButtonDisabled,
-    playGameLoading,
-    cancelChallenge,
-    startGameLoading,
+    challengeButton,
     challenges,
     handleOpen,
     userId,
-    RequestedLoading,
+    buttonLoading,
     viewGame,
     viewHold,
-    cancelChallengeCreator,
     ws,
   }) => {
     const memoizedChallenges = React.useMemo(
@@ -55,20 +48,13 @@ const ChallengeList = React.memo(
                   <div>
                     <ButtonChallenges
                       ws={ws}
+                      buttonLoading={buttonLoading}
                       item={item}
                       userId={userId}
                       CDN_URL={CDN_URL}
-                      setIsButtonDisabled={setIsButtonDisabled}
-                      setIsButtonType={setIsButtonType}
-                      playGameLoading={playGameLoading}
-                      startGameLoading={startGameLoading}
-                      cancelChallenge={cancelChallenge}
                       viewGame={viewGame}
+                      challengeButton={challengeButton}
                       viewHold={viewHold}
-                      isButtonDisabled={isButtonDisabled}
-                      isButtonType={isButtonType}
-                      RequestedLoading={RequestedLoading}
-                      cancelChallengeCreator={cancelChallengeCreator}
                     />
                   </div>
                 ) : (
@@ -190,22 +176,7 @@ const ChallengeList = React.memo(
             </CSSTransition>
           );
         }),
-      [
-        challenges,
-        isButtonDisabled,
-        isButtonType,
-        setIsButtonDisabled,
-        setIsButtonType,
-        startGameLoading,
-        userId,
-        playGameLoading,
-        cancelChallengeCreator,
-        handleOpen,
-        viewGame,
-        viewHold,
-        RequestedLoading,
-        cancelChallenge,
-      ]
+      [challenges, buttonLoading, handleOpen, viewGame, viewHold]
     );
 
     return (

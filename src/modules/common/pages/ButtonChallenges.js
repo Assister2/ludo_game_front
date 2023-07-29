@@ -1,21 +1,12 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
 const ButtonChallenges = ({
   item,
-  ws,
+  buttonLoading,
   userId,
   CDN_URL,
-  setIsButtonDisabled,
-  setIsButtonType,
-  playGameLoading,
-  startGameLoading,
-  cancelChallenge,
   viewGame,
+  challengeButton,
   viewHold,
-  isButtonDisabled,
-  isButtonType,
-  RequestedLoading,
-  cancelChallengeCreator,
 }) => {
   return (
     <div className="my-2 card">
@@ -88,13 +79,10 @@ const ButtonChallenges = ({
           <div className="hstack gap-2 minBreakpoint-xs">
             {item.creator?._id === userId && item.state === "open" && (
               <button
-                disabled={
-                  item._id === isButtonDisabled && isButtonType === "delete"
-                }
+                disabled={buttonLoading}
                 className="btn btn-danger playChallange btn-sm"
                 onClick={() => {
-                  setIsButtonDisabled(item._id);
-                  setIsButtonType("delete");
+                  challengeButton(item, "delete");
                 }}
               >
                 Delete
@@ -104,21 +92,19 @@ const ButtonChallenges = ({
               <button
                 className="btn btn-primary playChallange btn-sm"
                 onClick={() => {
-                  setIsButtonDisabled(item);
-                  setIsButtonType("playChallange");
+                  challengeButton(item, "play");
                 }}
-                disabled={item._id === isButtonDisabled && playGameLoading}
+                disabled={buttonLoading}
               >
                 Play
               </button>
             )}
             {item.player?._id === userId && item.state === "requested" && (
               <button
-                disabled={RequestedLoading}
+                disabled={buttonLoading}
                 className="btn btn-secondary btn-sm"
                 onClick={() => {
-                  setIsButtonDisabled(item._id);
-                  setIsButtonType("requested");
+                  challengeButton(item, "cancel");
                 }}
               >
                 Requested
@@ -128,27 +114,19 @@ const ButtonChallenges = ({
             {item.creator?._id === userId && item.state === "requested" && (
               <div className="hstack gap-2 minBreakpoint-xs">
                 <button
-                  disabled={startGameLoading}
+                  disabled={buttonLoading}
                   className="checkCancelRequest btn btn-success viewChallange btn-sm"
                   onClick={() => {
-                    setIsButtonDisabled(item._id);
-                    setIsButtonType("viewChallange");
+                    challengeButton(item, "startGame");
                   }}
                 >
                   Play
                 </button>
                 <button
-                  disabled={cancelChallengeCreator}
+                  disabled={buttonLoading}
                   className="btn btn-danger cancelRequest btn-sm"
                   onClick={() => {
-                    // setIsButtonDisabled(item._id);
-                    // setIsButtonType("cancel");
-                    ws.send(
-                      JSON.stringify({
-                        type: "cancel",
-                        payload: { challengeId: item._id, userId },
-                      })
-                    );
+                    challengeButton(item, "cancel");
                   }}
                 >
                   Cancel

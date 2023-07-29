@@ -33,9 +33,8 @@ export default function Play() {
   const userId = Cookies.get("userId");
 
   const [amount, setAmount] = useState("");
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [challenges, setChallenges] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(null);
-  const [isButtonType, setIsButtonType] = useState(false);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -67,13 +66,6 @@ export default function Play() {
   const [holdChallenge, setHoldChallenge] = useState({});
 
   const [holdModal, setHoldModal] = useState(false);
-
-  const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
-  const [startGameLoading, setStartGameLoading] = useState(false);
-  const [playGameLoading, setPlayGameLoading] = useState(false);
-  const [cancelChallengeCreator, setCancelChallengeCreator] = useState(false);
-  const [RequestedLoading, setRequestedLoading] = useState(false);
-
 
   if (!instance) {
     dispatch({ type: "SOCKET_CONNECTED", payload: socketNew });
@@ -108,18 +100,12 @@ export default function Play() {
 
       socket.current.on("message", (event) => {
         var events = JSON.parse(event);
+        if (events.status === "enabled") {
+          setButtonLoading(false);
+        }
         // console.log(events);
         if (events.type === "heartbeat") {
           socket.current.send(JSON.stringify({ type: "ack" }));
-        }
-        if (events.status === 2) {
-          setCreateChallengeLoading(false);
-        }
-        if (events.status === 22) {
-          setStartGameLoading(false);
-        }
-        if (events.status === 21) {
-          setRequestedLoading(false);
         }
 
         if (events.challengeRedirect) {
@@ -128,10 +114,7 @@ export default function Play() {
         }
 
         if (events.status === 400) {
-          setCreateChallengeLoading(false);
-          setStartGameLoading(false);
-          setRequestedLoading(false);
-
+          setButtonLoading(false);
           toast.error(events.error);
 
           return;
@@ -230,7 +213,7 @@ export default function Play() {
     });
 
     return challenge;
-  }, [challenges, userId, isButtonType]);
+  }, [challenges, userId]);
 
   useEffect(() => {
     if (ws?.connected) {
@@ -248,23 +231,22 @@ export default function Play() {
       }
     }
   }, [noOfholdChallenges, isTabVisible]);
+  useEffect(() => {}, [buttonLoading]);
 
   const createChallenge = () => {
-    setCreateChallengeLoading(true);
-
     if (amount <= 0) {
       toast.error("amount should be greater that 0 and multiples of 50");
-      setCreateChallengeLoading(false);
+
       return;
     }
     if (amount > 10000) {
       toast.error("amount should lesser than or equals to 10000");
-      setCreateChallengeLoading(false);
+
       return;
     }
     if (amount % 50 !== 0) {
       toast.error("amount should be multiple of 50");
-      setCreateChallengeLoading(false);
+
       return;
     }
     ws.send(
@@ -275,93 +257,21 @@ export default function Play() {
     );
     setAmount("");
   };
-
-  useEffect(() => {
-    if (isButtonDisabled && isButtonType === "delete") {
-      deleteChallenge(isButtonDisabled);
-    } else if (isButtonDisabled && isButtonType === "cancel") {
-      handleCancel(isButtonDisabled);
-    } else if (isButtonDisabled && isButtonType === "requested") {
-      cancelChallenge(isButtonDisabled);
-    } else if (
-      typeof isButtonDisabled !== "string" &&
-      isButtonType === "playChallange"
-    ) {
-      setIsButtonDisabled(isButtonDisabled._id);
-      playChallenge(isButtonDisabled);
-    } else if (isButtonDisabled && isButtonType === "viewChallange") {
-      startGame(isButtonDisabled);
+  const challengeButton = async (challenge, type) => {
+    if (type === "play" && data.wallet < challenge.amount) {
+      toast.error("not enough chips23");
+      return;
     }
-  }, [isButtonDisabled, isButtonType]);
 
-  const handleCancel = async (isButtonDisabled) => {
-    if (!cancelChallengeCreator) {
-      setCancelChallengeCreator(true);
+    if (!buttonLoading) {
       ws.send(
         JSON.stringify({
-          type: "cancel",
-          payload: { challengeId: isButtonDisabled, userId },
+          type: type,
+          payload: { challengeId: challenge._id, userId },
         })
       );
-
-      setCancelChallengeCreator(false);
     }
-  };
-
-  const deleteChallenge = (challengeId) => {
-    ws.send(
-      JSON.stringify({
-        type: "delete",
-        payload: { challengeId: challengeId, userId: userId },
-      })
-    );
-  };
-
-  const playChallenge = (challenge) => {
-    if (data.wallet >= challenge.amount) {
-      if (!playGameLoading) {
-        setPlayGameLoading(true);
-
-        ws.send(
-          JSON.stringify({
-            type: "play",
-            payload: { challengeId: challenge._id, userId },
-          })
-        );
-      }
-      setPlayGameLoading(false);
-    } else {
-      toast.error("not enough chips");
-    }
-  };
-  // console.log("ccdaf", challenges);
-
-  const cancelChallenge = (challengeId) => {
-    if (!RequestedLoading) {
-      ws.send(
-        JSON.stringify({
-          type: "cancel",
-          payload: { challengeId: challengeId, userId },
-        })
-      );
-
-      setRequestedLoading(false);
-    }
-  };
-
-  const startGame = (challengeId) => {
-    if (!startGameLoading) {
-      setStartGameLoading(true);
-
-      ws.send(
-        JSON.stringify({
-          type: "startGame",
-          payload: { challengeId, userId },
-        })
-      );
-      setIsButtonDisabled(null);
-      console.log("StartGame");
-    }
+    setButtonLoading(true);
   };
 
   const viewGame = (challengeId) => {
@@ -408,7 +318,7 @@ export default function Play() {
               }}
             />
             <button
-              disabled={createChallengeLoading}
+              disabled={false}
               onClick={() => {
                 createChallenge();
                 // socketNew.disconnect();
@@ -419,7 +329,7 @@ export default function Play() {
                 borderBottomRightRadius: "6px",
               }}
             >
-              {createChallengeLoading ? (
+              {false ? (
                 <>
                   <CircularProgress
                     style={{
@@ -480,18 +390,11 @@ export default function Play() {
             ws={ws}
             challenges={challenges}
             userId={userId}
-            isButtonDisabled={isButtonDisabled}
-            isButtonType={isButtonType}
-            setIsButtonDisabled={setIsButtonDisabled}
-            cancelChallenge={cancelChallenge}
-            setIsButtonType={setIsButtonType}
-            playGameLoading={playGameLoading}
-            RequestedLoading={RequestedLoading}
+            buttonLoading={buttonLoading}
+            challengeButton={challengeButton}
             viewGame={viewGame}
             viewHold={viewHold}
-            startGameLoading={startGameLoading}
             handleOpen={handleOpen}
-            cancelChallengeCreator={cancelChallengeCreator}
           />
         </ul>
       </div>
