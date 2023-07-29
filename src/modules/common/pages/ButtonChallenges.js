@@ -1,3 +1,4 @@
+import { CircularProgress } from "@material-ui/core";
 import React from "react";
 const ButtonChallenges = ({
   item,
@@ -96,7 +97,21 @@ const ButtonChallenges = ({
                 }}
                 disabled={buttonLoading}
               >
-                Play
+                {buttonLoading ? (
+                  <>
+                    <CircularProgress
+                      style={{
+                        width: "1.0rem",
+                        height: "1.0rem",
+                        verticalAlign: "middle",
+                        color: "#fff",
+                      }}
+                    />{" "}
+                    Play
+                  </>
+                ) : (
+                  "Play"
+                )}
               </button>
             )}
             {item.player?._id === userId && item.state === "requested" && (
@@ -107,7 +122,21 @@ const ButtonChallenges = ({
                   challengeButton(item, "cancel");
                 }}
               >
-                Requested
+                {buttonLoading ? (
+                  <>
+                    <CircularProgress
+                      style={{
+                        width: "1.0rem",
+                        height: "1.0rem",
+                        verticalAlign: "middle",
+                        color: "#fff",
+                      }}
+                    />{" "}
+                    requested
+                  </>
+                ) : (
+                  "requested"
+                )}
               </button>
             )}
 

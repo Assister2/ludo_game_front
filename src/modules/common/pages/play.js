@@ -34,6 +34,7 @@ export default function Play() {
 
   const [amount, setAmount] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
   const [challenges, setChallenges] = useState([]);
   const [sorting, setSorting] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
@@ -102,6 +103,7 @@ export default function Play() {
         var events = JSON.parse(event);
         if (events.status === "enabled") {
           setButtonLoading(false);
+          setCreateChallengeLoading(false);
         }
         // console.log(events);
         if (events.type === "heartbeat") {
@@ -249,17 +251,20 @@ export default function Play() {
 
       return;
     }
-    ws.send(
-      JSON.stringify({
-        type: "create",
-        payload: { amount: amount, userId },
-      })
-    );
+    if (!createChallengeLoading) {
+      ws.send(
+        JSON.stringify({
+          type: "create",
+          payload: { amount: amount, userId },
+        })
+      );
+    }
+    setCreateChallengeLoading(true);
     setAmount("");
   };
   const challengeButton = async (challenge, type) => {
     if (type === "play" && data.wallet < challenge.amount) {
-      toast.error("not enough chips23");
+      toast.error("not enough chips");
       return;
     }
 
@@ -318,7 +323,7 @@ export default function Play() {
               }}
             />
             <button
-              disabled={false}
+              disabled={createChallengeLoading}
               onClick={() => {
                 createChallenge();
                 // socketNew.disconnect();
@@ -329,7 +334,7 @@ export default function Play() {
                 borderBottomRightRadius: "6px",
               }}
             >
-              {false ? (
+              {createChallengeLoading ? (
                 <>
                   <CircularProgress
                     style={{
