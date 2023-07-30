@@ -3,18 +3,19 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { resendOTP, verifyOTP2 } from "../../../apis/auth";
 import { loginRequest } from "../../../redux/actions/auth";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
-export default function VeridyOtp({ route }) {
+export default function OTPVerification({ route }) {
   const history = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const navigate = useNavigateSearch(true);
   const { signUpPage } = useSelector((state) => state.signupPage1);
-  const phone = useCustumSearchParams()?.p;
+  const phone = location.state.phone
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
     isPaste: false,

@@ -26,7 +26,7 @@ function* signUp(param) {
 
     yield put({ type: "ON_SIGNUPPAGE", payload: true });
 
-    param.navigation(`/verify-otp?p=${param.payload.phone}`, {
+    param.navigation(`/verify-otp`, {
       state: { ...param.payload, isVerified: true },
     });
 
@@ -60,6 +60,7 @@ const connectSocket = () => {
   });
 };
 function* login(param) {
+
   let data = null;
   if (param?.payload?.register) {
     data = param?.payload?.data;
@@ -67,7 +68,7 @@ function* login(param) {
     data = yield verifyOTP(param.payload);
   }
 
-  console.log("check", data);
+ 
   yield put(loginLoading(true));
   if (data.status === 200) {
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });

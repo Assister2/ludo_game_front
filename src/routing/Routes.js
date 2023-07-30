@@ -14,7 +14,7 @@ import LegalTerms from "../modules/common/pages/LegalTerms";
 import Support from "../modules/common/pages/Support";
 import Login from "../modules/auth/pages/Login";
 import Register from "../modules/auth/pages/Register";
-import VeridyOtp from "../modules/auth/pages/VerifyOtp";
+import OTPVerification from "../modules/auth/pages/VerifyOtp";
 
 const Routes = (props) => {
   const { data } = useSelector((state) => state.loginReducer);
@@ -43,7 +43,7 @@ const Routes = (props) => {
           <Route path="/support" element={<Support />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/verify-otp" element={<VeridyOtp />} />
+          <Route path="/verify-otp" element={<OTPVerification />} />
           <Route path="*" element={<Navigate to="/" />} />
         </>
       )}
