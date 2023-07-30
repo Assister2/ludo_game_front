@@ -78,8 +78,8 @@ function* login(param) {
 
     yield put(loginSuccess(data));
 
-    const socket = yield call(connectSocket);
-    yield put({ type: "SOCKET_CONNECTED", payload: socket });
+    // const socket = yield call(connectSocket);
+    // yield put({ type: "SOCKET_CONNECTED", payload: socket });
     param.navigation(`/`);
   } else if (data.status === 400) {
     Cookies.remove("token");

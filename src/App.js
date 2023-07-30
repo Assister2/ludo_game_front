@@ -13,9 +13,9 @@ import Header from "./modules/common/components/appbar/AppBar";
 import Routes from "./routing/Routes";
 
 function App() {
-  // if (!Cookies.get("userId")) {
-  //   socketNew.disconnect();
-  // }
+  if (!Cookies.get("userId")) {
+    socketNew.disconnect();
+  }
   // requestForToken2();
   // requestForToken();
 
