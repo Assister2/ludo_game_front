@@ -51,7 +51,6 @@ const connectSocket = () => {
   return new Promise((resolve, reject) => {
     socket.on("connect", () => {
       console.log("Socket.IO connected");
-      resolve(socket);
     });
 
     socket.on("connect_error", (error) => {
@@ -77,10 +76,10 @@ function* login(param) {
 
     yield put(getWalletSuccess(data));
 
-    // const socket = yield call(connectSocket);
-    // yield put({ type: "SOCKET_CONNECTED", payload: socket });
     yield put(loginSuccess(data));
 
+    const socket = yield call(connectSocket);
+    yield put({ type: "SOCKET_CONNECTED", payload: socket });
     param.navigation(`/`);
   } else if (data.status === 400) {
     Cookies.remove("token");
