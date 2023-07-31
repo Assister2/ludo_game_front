@@ -5,12 +5,12 @@ import moment from "moment";
 export default function History() {
   const [btn, setBtn] = useState("all");
   const [histories, setHistories] = useState([]);
-  console.log("checkhi", histories);
+
 
   useEffect(() => {
     const fetchHistory = async () => {
       let history = await getHistoryApi();
-      console.log("chekddd12", history);
+    
       if (history.data.status === 200) {
         setHistories(history.data.data);
       }

@@ -26,7 +26,7 @@ export const displaytimer = (state = initialStatetimer, action) => {
   switch (action.type) {
     case "display_timer": {
       const { payload } = action;
-      console.log("tesst", payload);
+
 
       return { ...state, displayTimer: payload };
     }

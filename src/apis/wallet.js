@@ -18,16 +18,8 @@ export const getUPILink = async () => {
     },
     data: data,
   };
-  // axiosConfig
-  //   .get("https://merchant.upigateway.com/api/create_order", config)
-  //   .then((response) => {
-  //     console.log(response.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-};
 
+};
 export const buyWalletApi = async (data) => {
   const token =
     Cookies.get("token") !== undefined || Cookies.get("token") !== null
@@ -47,7 +39,7 @@ export const buyWalletApi = async (data) => {
 };
 
 export const sellWalletApi = async (data) => {
-  // console.log("payload",payload)
+ 
   const token =
     Cookies.get("token") !== undefined || Cookies.get("token") !== null
       ? Cookies.get("token")
@@ -71,7 +63,7 @@ export const getWalletApi = async () => {
       ? Cookies.get("token")
       : "";
 
-  // console.log("payload",payload)
+  
   try {
     const res = await axiosConfig.get(`/transaction/wallet`, {
       headers: {
@@ -82,4 +74,4 @@ export const getWalletApi = async () => {
   } catch (error) {
     return error.response.data;
   }
-};
+}

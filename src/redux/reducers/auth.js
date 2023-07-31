@@ -74,7 +74,7 @@ export const loginReducer = (
 
     case LOGIN_AUTH.LOGIN_SUCCESS: {
       const { payload } = action;
-      console.log("payload", payload);
+      
       return {
         ...state,
         data: { isLoggedIn: true, token: payload.data.jwtToken.jwtToken },
@@ -103,7 +103,7 @@ export const loginReducer = (
     }
 
     case LOGOUT_AUTH.LOGOUT_SUCCESS: {
-      console.log("logout case");
+      
       Cookies.remove("token");
       Cookies.remove("fullName");
       Cookies.remove("userId");

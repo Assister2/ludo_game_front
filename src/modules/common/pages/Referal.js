@@ -13,7 +13,7 @@ export default function ReferAndEarning() {
   const showToast = () => {
     toast.success("Text copied!");
   };
-  console.log("noofreferals", userData);
+ 
 
   const shareMessage =
     "Play Ludo and earn Rs10000 daily.\nCommission Charge - 3% Only\nReferral - 2% On All Games\n24x7 Live Chat Support\nInstant Withdrawal Via UPI/Bank\nRegister Now, My refer code is " +

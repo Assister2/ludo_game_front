@@ -5,23 +5,27 @@ import { HiUsers } from "react-icons/hi";
 import { AiFillWarning } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
+
 import { logoutRequest } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
-import { BsWindowDesktop } from "react-icons/bs";
+
 
 export default function Metrics() {
   const { isLoading } = useSelector((state) => state.loginReducer);
   const history = useNavigate();
   const dispatch = useDispatch();
-  const socket2 = useSelector((state) => state.socketReducer);
-  const { instance } = socket2;
-  console.log("checkinstallcee", instance);
+  const { instance } = useSelector((state) => state.socketReducer);
+  
 
-  console.log();
+
 
   const logout = () => {
+    if (instance) {
+       instance.disconnect();
+    } else {
+       socketNew.disconnect();
+    }
+
     dispatch(logoutRequest({}, history, "/"));
 
     // cogoToast.success("Logged out")

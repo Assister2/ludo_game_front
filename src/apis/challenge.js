@@ -4,7 +4,7 @@ import { axiosConfig } from "./axiosConfig";
 const token = localStorage.getItem("token");
 
 export const getChallengeByIdApi = async (challengeId) => {
-  // console.log("payload",payload)
+
   try {
     const token =
       Cookies.get("token") !== undefined || Cookies.get("token") !== null
@@ -94,7 +94,7 @@ export const cancelChallengeApi = async (challengeObject) => {
   }
 };
 export const looseChallengeApi = async (challengeId) => {
-  // console.log("payload",payload)
+
   try {
     const token =
       Cookies.get("token") !== undefined || Cookies.get("token") !== null

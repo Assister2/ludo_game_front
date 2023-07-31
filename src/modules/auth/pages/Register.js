@@ -26,7 +26,6 @@ export default function Register(props) {
   }
 
   const { isLoading } = useSelector((state) => state.signUpReducer);
-  console.log("is loading user", isLoading);
 
   const initialState = {
     name: "",
@@ -58,7 +57,7 @@ export default function Register(props) {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const referParam = queryParams.get("refer");
-    console.log(referParam);
+    
     if (referParam) {
       setState((prev) => ({ ...prev, referalCode: referParam }));
     }

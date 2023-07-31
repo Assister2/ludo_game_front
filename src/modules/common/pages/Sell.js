@@ -18,16 +18,16 @@ export default function Sell() {
   const userId = Cookies.get("userId");
   const { isLoading } = useSelector((state) => state.wallet);
   const { instance } = useSelector((state) => state.socketReducer);
-  console.log("isLoading33", isLoading);
+
   const userData = useSelector((state) => state.user);
   const [disableWithdraw, setDisableWithdraw] = useState(false);
-  console.log("sss", instance);
+
   const initialState = {
     upiId: "",
     confirmUpiId: "",
     amount: 0,
   };
-  console.log("disablee", disableWithdraw);
+ 
   const [state, setState] = useState(initialState);
   const dispatch = useDispatch();
 

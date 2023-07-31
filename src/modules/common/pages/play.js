@@ -68,13 +68,14 @@ export default function Play() {
 
   const [holdModal, setHoldModal] = useState(false);
 
-  if (!instance) {
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew });
-  }
   const socket = useRef(null);
   useEffect(() => {
     let heartbeatInterval;
-    socket.current = socketNew.connect();
+    if (instance) {
+      socket.current = instance.connect();
+    } else {
+      socket.current = socketNew.connect();
+    }
     if (userId) {
       const handleVisibilityChange = () => {
         setIsTabVisible(!document.hidden);
@@ -105,12 +106,13 @@ export default function Play() {
           setButtonLoading(false);
           setCreateChallengeLoading(false);
         }
-        // console.log(events);
+       
         if (events.type === "heartbeat") {
           socket.current.send(JSON.stringify({ type: "ack" }));
         }
-
+       
         if (events.challengeRedirect) {
+         
           navigate(`/game/${events.challengeId}`);
           return;
         }
@@ -132,7 +134,7 @@ export default function Play() {
       });
 
       socket.current.on("error", (events) => {
-        console.log("ccc", events);
+     
       });
     }
     if (!userId) {

@@ -71,12 +71,12 @@ function* updateWallet(param) {
 function* userBuySaga(param) {
   yield put(userBuyChipsLoading(true));
   const data = yield buyWalletApi(param);
-  console.log("dataaahere", data);
+ 
   if (data.status == 200) {
-    console.log("heredata", data.data.data.data.payment_url);
-    window.location.href = data.data.data.data.payment_url;
+    // console.log("heredata", data.data.data.data.payment_url);
+    // window.location.href = data.data.data.data.payment_url;
 
-    // toast.success("Chips added successfully");
+    toast.success("Chips added successfully");
 
     yield put(userBuyChipsSuccess(data.data));
   } else if (data.status == 400) {

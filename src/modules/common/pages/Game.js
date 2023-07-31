@@ -57,6 +57,7 @@ export default function Game(props) {
   const [challenge, setChallenge] = useState(challengeInititalState);
   const [showTimer, setShowTimer] = useState(false);
   const [userIs, setuserIs] = useState(null);
+  const { instance } = useSelector((state) => state.socketReducer);
   const [ws, setWs] = useState();
   const [walletWs, setWalletWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
@@ -92,11 +93,15 @@ export default function Game(props) {
   useEffect(() => {
     let heartbeatInterval = null;
     if (userId) {
-      socket.current = socketNew;
-      socket.current.connect();
+      if (instance) {
+        socket.current = instance.connect();
+      } else {
+        socket.current = socketNew.connect();
+      }
 
       const wss = socket.current;
       setWs(wss);
+    
       heartbeatInterval = setInterval(() => {
         wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
       }, 2000);
@@ -160,13 +165,12 @@ export default function Game(props) {
           setShowTimer(true);
         }
       }
-      // console.log("event.data22", event.data.results);
+      
       if (
         event.data?.creator?._id == userId &&
         event.data?.results?.creator?.result !== ""
       ) {
-        console.log("creatoor", event.data?.results);
-        // toast.error("You have already submitted result")
+     
         navigate("/play");
         return;
       }
@@ -174,8 +178,7 @@ export default function Game(props) {
         event.data?.player._id == userId &&
         event.data?.results?.player?.result !== ""
       ) {
-        console.log("playeeer", event.data?.results);
-        // toast.error("You have already submitted result")
+        
         navigate("/play");
         return;
       }
@@ -390,7 +393,7 @@ export default function Game(props) {
   const handleCancellationReason = async (text) => {
     setCancellation(text);
   };
-  console.log(challenge);
+
   return (
     <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
       <div>

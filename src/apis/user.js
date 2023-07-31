@@ -18,7 +18,7 @@ export const getUserProfileApi = async (payload) => {
   }
 };
 export const updateUserProfileApi = async (data) => {
-  // console.log("payload",payload)
+
   try {
     const token =
       Cookies.get("token") !== undefined || Cookies.get("token") !== null

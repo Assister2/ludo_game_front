@@ -17,7 +17,7 @@ export const user = (state = initialState, action) => {
 
     case USER_PROFILE.USER_GET_PROFILE_SUCCESS: {
       const { payload } = action;
-      console.log("payload",payload)
+      
       return { ...state, data: payload, error: "", isLoading: false };
     }
 
@@ -32,7 +32,7 @@ export const user = (state = initialState, action) => {
   
       case USER_PROFILE.USER_UPDATE_PROFILE_SUCCESS: {
         const { payload } = action;
-        console.log("payload",payload)
+       
         return { ...state, data: payload, error: "", isLoading: false };
       }
   

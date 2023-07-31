@@ -21,7 +21,7 @@ export default function Buy() {
 
   const socket3 = useSelector((state) => state.wallet);
   const { isLoading } = useSelector((state) => state.wallet);
-  console.log("socket2buy", socket3.data);
+
 
   const [amount, setAmount] = useState("");
 

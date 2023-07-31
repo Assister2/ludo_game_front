@@ -10,7 +10,7 @@ export default function ProfileDetails() {
   const userData = useSelector((state) => state.user);
   const [editButton, setEditButton] = useState(false);
   const [userName, setUserName] = useState();
-  console.log("adddd", `${AVATAR}${userData?.data?.profileImage}`);
+  
   const handleSubmit = () => {
     // Remove spaces from the userName
     const trimmedUserName = userName.trim();
@@ -39,7 +39,7 @@ export default function ProfileDetails() {
     setEditButton(userData.isLoading);
     setUserName(userData?.data?.username);
   }, [userData]);
-  console.log("userdata", userData);
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
 

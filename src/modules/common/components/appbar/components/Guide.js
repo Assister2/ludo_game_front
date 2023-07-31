@@ -29,7 +29,6 @@ function Guide(props) {
       socket.current=socketNew.connect()
     }
     
-    console.log("working");
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
