@@ -16,23 +16,25 @@ function Guide(props) {
   const navigate = useNavigate();
   const [f_open, setOpen] = useState(false);
   const { data } = useSelector((state) => state.loginReducer);
-  const socket2 = useSelector((state) => state.socketReducer);
+  const { instance } = useSelector((state) => state.socketReducer);
   const { data: userData } = useSelector((state) => state.user);
-  if (!socket2.instance) {
-    dispatch({ type: "SOCKET_CONNECTED", payload: socketNew });
-  }
   const [wallet, setWallet] = useState({});
   const socket = useRef(null);
   const userId = Cookies.get("userId");
   useEffect(() => {
-    socketNew.connect()
+    
+    if(instance){
+      socket.current = instance.connect();
+    }else{
+      socket.current=socketNew.connect()
+    }
+    
     console.log("working");
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
       return;
     }
-    socket.current = socketNew.connect();
 
     if (userId && socket.current) {
       const interval = setInterval(() => {
@@ -91,7 +93,7 @@ function Guide(props) {
         clearInterval(interval);
       };
     }
-  }, [socket2, userId]);
+  }, [instance]);
   useEffect(() => {
     if (!userData?._id) {
       if (data.isLoggedIn && Cookies.get("token")) {

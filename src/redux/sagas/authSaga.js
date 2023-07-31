@@ -79,8 +79,12 @@ function* login(param) {
 
     yield put(loginSuccess(data));
 
-    // const socket = yield call(connectSocket);
-    // yield put({ type: "SOCKET_CONNECTED", payload: socket });
+    const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
+      auth: {
+        token: `${Cookies.get("token")}`,
+      },
+    });
+    yield put({ type: "SOCKET_CONNECTED", payload: socket });
     param.navigation(`/`);
   } else if (data.status === 400) {
     Cookies.remove("token");
