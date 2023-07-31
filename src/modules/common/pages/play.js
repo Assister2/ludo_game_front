@@ -106,13 +106,12 @@ export default function Play() {
           setButtonLoading(false);
           setCreateChallengeLoading(false);
         }
-       
+
         if (events.type === "heartbeat") {
           socket.current.send(JSON.stringify({ type: "ack" }));
         }
-       
+
         if (events.challengeRedirect) {
-         
           navigate(`/game/${events.challengeId}`);
           return;
         }
@@ -133,9 +132,7 @@ export default function Play() {
         }
       });
 
-      socket.current.on("error", (events) => {
-     
-      });
+      socket.current.on("error", (events) => {});
     }
     if (!userId) {
       dispatch(logoutSuccess());
@@ -269,6 +266,7 @@ export default function Play() {
       toast.error("not enough chips");
       return;
     }
+ 
 
     if (!buttonLoading) {
       ws.send(
@@ -278,7 +276,7 @@ export default function Play() {
         })
       );
     }
-    setButtonLoading(true);
+    setButtonLoading(challenge._id);
   };
 
   const viewGame = (challengeId) => {

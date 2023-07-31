@@ -77,10 +77,10 @@ const ButtonChallenges = ({
           )}
         </div>
         <div className="d-flex align-items-center">
-          <div className="hstack gap-2 minBreakpoint-xs">
+          <div key={item._id} className="hstack gap-2 minBreakpoint-xs">
             {item.creator?._id === userId && item.state === "open" && (
               <button
-                disabled={buttonLoading}
+                disabled={buttonLoading === item._id}
                 className="btn btn-danger playChallange btn-sm"
                 onClick={() => {
                   challengeButton(item, "delete");
@@ -95,9 +95,9 @@ const ButtonChallenges = ({
                 onClick={() => {
                   challengeButton(item, "play");
                 }}
-                disabled={buttonLoading}
+                disabled={buttonLoading === item._id}
               >
-                {buttonLoading ? (
+                {buttonLoading === item._id ? (
                   <>
                     <CircularProgress
                       style={{
@@ -116,13 +116,13 @@ const ButtonChallenges = ({
             )}
             {item.player?._id === userId && item.state === "requested" && (
               <button
-                disabled={buttonLoading}
+                disabled={buttonLoading === item._id}
                 className="btn btn-secondary btn-sm"
                 onClick={() => {
                   challengeButton(item, "cancel");
                 }}
               >
-                {buttonLoading ? (
+                {buttonLoading === item._id ? (
                   <>
                     <CircularProgress
                       style={{
@@ -143,7 +143,7 @@ const ButtonChallenges = ({
             {item.creator?._id === userId && item.state === "requested" && (
               <div className="hstack gap-2 minBreakpoint-xs">
                 <button
-                  disabled={buttonLoading}
+                  disabled={buttonLoading === item._id}
                   className="checkCancelRequest btn btn-success viewChallange btn-sm"
                   onClick={() => {
                     challengeButton(item, "startGame");
@@ -152,7 +152,7 @@ const ButtonChallenges = ({
                   Play
                 </button>
                 <button
-                  disabled={buttonLoading}
+                  disabled={buttonLoading === item._id}
                   className="btn btn-danger cancelRequest btn-sm"
                   onClick={() => {
                     challengeButton(item, "cancel");

@@ -1179,8 +1179,7 @@ export default function LegalTerms(props) {
             <Accordion.Header>Contact us</Accordion.Header>
             <Accordion.Body>
               <p>
-                GamGod Tech Private Limited opposite Khosala Rice Mil, near new
-                aanaj mandi . 136129
+                GamGod Tech Private Limited 
               </p>
               <p>+917726908042</p>
               <p>support@gotiking.com</p>
