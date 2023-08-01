@@ -36,7 +36,7 @@ export default function Game(props) {
   const [cancellationReason, setCancellation] = useState("");
   const [canceLLationModal, setCancellationModal] = useState(false);
   const [fileType, setFileType] = useState("");
-  const [tabVisibleTime, setIsTabVisibleTime] = useState(true);
+
   const [isIlostClicked, setisIlostClicked] = useState(false);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
 
@@ -101,7 +101,7 @@ export default function Game(props) {
 
       const wss = socket.current;
       setWs(wss);
-    
+
       heartbeatInterval = setInterval(() => {
         wss.emit("ludogame", JSON.stringify({ type: "heartbeat" }));
       }, 2000);
@@ -165,12 +165,11 @@ export default function Game(props) {
           setShowTimer(true);
         }
       }
-      
+
       if (
         event.data?.creator?._id == userId &&
         event.data?.results?.creator?.result !== ""
       ) {
-     
         navigate("/play");
         return;
       }
@@ -178,7 +177,6 @@ export default function Game(props) {
         event.data?.player._id == userId &&
         event.data?.results?.player?.result !== ""
       ) {
-        
         navigate("/play");
         return;
       }
@@ -671,6 +669,8 @@ export default function Game(props) {
           <button
             onClick={() => {
               setWonModal(false);
+              setIsImageUploaded(false);
+              
               setScreenshoot("");
             }}
             type="button"
@@ -687,7 +687,7 @@ export default function Game(props) {
                 id="upload-btn"
                 className="btn btn-primary btn-lg"
                 type="file"
-                disabled={isImageUploaded}
+                disabled={false}
                 onChange={handleImageChange}
               />
               {screenshoot !== "" && (
@@ -705,7 +705,7 @@ export default function Game(props) {
 
               <button
                 type="button"
-                disabled={postResultLoading}
+                disabled={postResultLoading || !isImageUploaded}
                 className="btn btn-success btn-lg"
                 onClick={() => {
                   winChallenge({
@@ -749,6 +749,8 @@ export default function Game(props) {
           <button
             onClick={() => {
               setCancellationModal(false);
+              
+
             }}
             type="button"
             className="btn-close"
