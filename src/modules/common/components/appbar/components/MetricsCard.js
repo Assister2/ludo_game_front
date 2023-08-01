@@ -106,7 +106,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.playerInfo?.totalPenalty}.00
+                  {userData?.data?.account?.totalPenalty}.00
                 </div>
               </div>
             </div>
