@@ -73,10 +73,10 @@ function* userBuySaga(param) {
   const data = yield buyWalletApi(param);
  
   if (data.status == 200) {
-    console.log("heredata", data.data.data.data.payment_url);
-    window.location.href = data.data.data.data.payment_url;
+    const Url=data.data.data;
+    window.location.href = Url;
 
-    // toast.success("Chips added successfully");
+    
 
     yield put(userBuyChipsSuccess(data.data));
   } else if (data.status == 400) {
