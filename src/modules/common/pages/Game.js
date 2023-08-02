@@ -59,7 +59,6 @@ export default function Game(props) {
   const [userIs, setuserIs] = useState(null);
   const { instance } = useSelector((state) => state.socketReducer);
   const [ws, setWs] = useState();
-  const [walletWs, setWalletWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
 
   const config = {
