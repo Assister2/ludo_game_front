@@ -118,6 +118,7 @@ export default function Play() {
 
         if (events.status === 400) {
           setButtonLoading(false);
+          setCreateChallengeLoading(false);
           toast.error(events.error);
 
           return;
@@ -237,17 +238,17 @@ export default function Play() {
   const createChallenge = () => {
     if (amount <= 0) {
       toast.error("amount should be greater that 0 and multiples of 50");
-
+      setCreateChallengeLoading(false);
       return;
     }
     if (amount > 10000) {
       toast.error("amount should lesser than or equals to 10000");
-
+      setCreateChallengeLoading(false);
       return;
     }
     if (amount % 50 !== 0) {
       toast.error("amount should be multiple of 50");
-
+      setCreateChallengeLoading(false);
       return;
     }
     if (!createChallengeLoading) {
@@ -266,7 +267,6 @@ export default function Play() {
       toast.error("not enough chips");
       return;
     }
- 
 
     if (!buttonLoading) {
       ws.send(
@@ -285,15 +285,13 @@ export default function Play() {
 
   const viewHold = (challenge) => {
     setHoldChallenge(challenge);
-    if (
-      challenge.creator._id === userId &&
-      challenge.results.creator?.result === ""
-    ) {
-      viewGame(challenge._id);
-    } else if (
-      challenge.player?._id === userId &&
-      challenge.results.player?.result === ""
-    ) {
+
+    const isCreator = challenge.creator._id === userId;
+    const isPlayer = challenge.player?._id === userId;
+    const creatorResultEmpty = !challenge.results.creator?.result;
+    const playerResultEmpty = !challenge.results.player?.result;
+
+    if ((isCreator && creatorResultEmpty) || (isPlayer && playerResultEmpty)) {
       viewGame(challenge._id);
     } else {
       setHoldModal(true);

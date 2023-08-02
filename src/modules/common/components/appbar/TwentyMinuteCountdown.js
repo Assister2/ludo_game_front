@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { BsClockFill } from "react-icons/bs";
-import { timerApiHoldReq } from "../../../../apis/challenge";
+
 import { useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-const TwentyMinuteCountdown = ({ challengeObj }) => {
+import { useNavigate } from "react-router-dom";
+const TwentyMinuteCountdown = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleCountdownComplete = () => {

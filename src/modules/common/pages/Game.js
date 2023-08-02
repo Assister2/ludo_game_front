@@ -670,7 +670,7 @@ export default function Game(props) {
             onClick={() => {
               setWonModal(false);
               setIsImageUploaded(false);
-              
+
               setScreenshoot("");
             }}
             type="button"
@@ -681,27 +681,27 @@ export default function Game(props) {
         <div className="offcanvas-body">
           <div className="pb-3 d-flex flex-column align-items-stretch">
             <div className="vstack gap-3 minBreakpoint-xs">
-              <h1 className="text-capitalize">upload result</h1>
+              <h1 className="text-capitalize">Upload Result</h1>
+              {isImageUploaded && (
+                <>
+                  <img
+                    width={100}
+                    height={100}
+                    src={image}
+                    alt="Selected Image"
+                  />
+                </>
+              )}
+              <label htmlFor="upload-btn" className="btn btn-primary btn-lg">
+                {isImageUploaded ? "Replace Image" : "Upload Image"}
+              </label>
               <input
-                hidden
                 id="upload-btn"
-                className="btn btn-primary btn-lg"
                 type="file"
-                disabled={false}
+                accept="image/*"
+                style={{ display: "none" }}
                 onChange={handleImageChange}
               />
-              {screenshoot !== "" && (
-                <img
-                  width={100}
-                  height={100}
-                  src={image}
-                  alt="Selected Image"
-                />
-              )}
-
-              <label for="upload-btn" className="btn btn-primary btn-lg">
-                Upload Image
-              </label>
 
               <button
                 type="button"
@@ -749,8 +749,6 @@ export default function Game(props) {
           <button
             onClick={() => {
               setCancellationModal(false);
-              
-
             }}
             type="button"
             className="btn-close"
