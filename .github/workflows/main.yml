@@ -10,8 +10,8 @@ jobs:
       - name: Deploy NodeJS app
         uses: appleboy/ssh-action@v0.1.2
         with:
-          host: ${{secrets.SSH_KEY_STAG}} # IP address of the server you wish to ssh
-          key: ${{secrets.SSH_HOST_STAG}} # Private or public key of the server
+          host: ${{secrets.STAG_HOST}} # IP address of the server you wish to ssh
+          key: ${{secrets.STAG_KEY}} # Private or public key of the server
           username: root
           script: |
             rm -rf frontend_ludo
