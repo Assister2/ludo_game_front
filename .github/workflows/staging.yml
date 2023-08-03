@@ -14,13 +14,9 @@ jobs:
           key: ${{secrets.STAG_KEY}} # Private or public key of the server
           username: root
           script: |
-            rm -rf frontend_ludo
-            rm -rf /var/www/your_domain/html/build
             git clone git@github.com:practice5610/frontend_ludo.git
             cd frontend_ludo
             cp -R build /var/www/your_domain/html
             sudo service nginx restart
             sudo systemctl reload nginx
-            cd
-            rm -rf frontend_ludo
             echo 'Production Deployment successful to DigitalOcean'
