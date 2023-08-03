@@ -1,5 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
-// import { toast } from "react-toastify";
+
 import { toast } from "react-toastify";
 import AWS from "aws-sdk";
 import "react-toastify/dist/ReactToastify.css";
@@ -61,12 +61,12 @@ export default function Game(props) {
   const [ws, setWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
 
-  const config = {
-    bucketName: process.env.REACT_APP_BUCKET_NAME,
-    region: process.env.REACT_APP_REGION,
-    accessKeyId: process.env.REACT_APP_ACCESS,
-    secretAccessKey: process.env.REACT_APP_SECRET,
-  };
+  // const config = {
+  //   bucketName: process.env.REACT_APP_BUCKET_NAME,
+  //   region: process.env.REACT_APP_REGION,
+  //   accessKeyId: process.env.REACT_APP_ACCESS,
+  //   secretAccessKey: process.env.REACT_APP_SECRET,
+  // };
   AWS.config.update({
     bucketName: process.env.REACT_APP_BUCKET_NAME,
     region: process.env.REACT_APP_REGION,
