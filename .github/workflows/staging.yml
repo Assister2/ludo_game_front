@@ -23,4 +23,4 @@ jobs:
             sudo systemctl reload nginx
             cd
             rm -rf frontend_ludo
-            echo 'Production Deployment successful to DigitalOcean'
+            echo 'staging Deployment successful to DigitalOcean'
