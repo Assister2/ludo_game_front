@@ -10,7 +10,6 @@ import Slide from "@material-ui/core/Slide";
 import { CDN_URL } from "../../../../config";
 import { Guide } from "./components/Guide";
 
-
 import SideBar from "./components/SideBar";
 import { Link, useHref, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -46,7 +45,7 @@ export default function Header(props) {
 
   const path = useHref(window?.location);
   const { data } = useSelector((state) => state.loginReducer);
- 
+
   function showCommission() {
     return ["/"].includes(window.location.pathname);
   }

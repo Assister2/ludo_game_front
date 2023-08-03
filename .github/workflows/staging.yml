@@ -16,11 +16,11 @@ jobs:
           script: |
             rm -rf frontend_ludo
             rm -rf /var/www/your_domain/html/build
-            git clone git@github.com:practice5610/frontend_ludo.git
+            git clone -b staging git@github.com:practice5610/frontend_ludo.git
             cd frontend_ludo
             cp -R build /var/www/your_domain/html
             sudo service nginx restart
             sudo systemctl reload nginx
             cd
             rm -rf frontend_ludo
-            echo 'Deployment successful to DigitalOcean'
+            echo 'staging Deployment successful to DigitalOcean'

@@ -17,7 +17,7 @@ const TwentyMinuteCountdown = () => {
   };
 
   const storedEndTime = localStorage.getItem("countdownEndTime");
-  const initialEndTime = Date.now() + 1 * 60 * 1000; // 20 minutes in milliseconds
+  const initialEndTime = Date.now() + 4 * 60 * 1000; 
   const [endTime, setEndTime] = useState(storedEndTime || initialEndTime);
 
   useEffect(() => {
