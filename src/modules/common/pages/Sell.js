@@ -27,7 +27,7 @@ export default function Sell() {
     confirmUpiId: "",
     amount: 0,
   };
- 
+
   const [state, setState] = useState(initialState);
   const dispatch = useDispatch();
 
@@ -96,14 +96,6 @@ export default function Sell() {
             })
           );
           setState(initialState);
-          console.log(
-            `upi://pay?pa=8233622253@paytm&pn=${userData.data.user}&am=${Number(
-              state.amount
-            )}&tn=ludo%20pay`
-          );
-          // window.location.href = `upi://pay?pa=8233622253@paytm&pn=${
-          //   userData.data.user
-          // }&am=${Number(state.amount)}&tn=ludo%20pay`;
         }
       }
     } catch (error) {
