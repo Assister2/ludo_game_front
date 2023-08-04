@@ -75,7 +75,7 @@ export default function Header(props) {
         >
           {show_comm && (
             <div className="bg-danger py-2 text-white w-100">
-              Commission: 3% ◉ Referral: 2% For All Games
+              Commission: 3% ◉ Referral: 2% For All Games22
             </div>
           )}
           <Toolbar style={{ padding: "4px" }}>
