@@ -73,13 +73,13 @@ function* userBuySaga(param) {
   const data = yield buyWalletApi(param);
 
   if (data.status == 200) {
-    const Url = data.data.data;
-    if (!Url) {
-      toast.success("Chips added successfully");
-    } else {
-      window.location.href = Url;
-    }
-
+    // const Url = data.data.data;
+    // if (Url) {
+    //   window.location.href = Url;
+    // } else {
+    //   toast.success("Chips added successfully");
+    // }
+    toast.success("Chips added successfully");
     yield put(userBuyChipsSuccess(data.data));
   } else if (data.status == 400) {
     toast.error(data.error);
