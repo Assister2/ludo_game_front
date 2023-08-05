@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
+import "./style.css";
 import { SwipeableDrawer } from "@material-ui/core";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { BsWalletFill } from "react-icons/bs";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { CDN_URL } from "../../../../config";
 import { Guide } from "./components/Guide";
 
 import SideBar from "./components/SideBar";
-import { Link, useHref, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { withRouter } from "react-router-dom";
+import { Link, useHref } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function HideOnScroll(props) {
@@ -75,7 +73,7 @@ export default function Header(props) {
         >
           {show_comm && (
             <div className="bg-danger py-2 text-white w-100">
-              Commission: 3% ◉ Referral: 2% For All Games22
+              <b>Commission: 3% ◉ Referral: 2% For All Games</b>
             </div>
           )}
           <Toolbar style={{ padding: "4px" }}>
@@ -106,9 +104,22 @@ export default function Header(props) {
                     <button
                       onClick={handleClose}
                       type="button"
-                      className="btn-close"
+                      className="btn-close btn-close-white"
                       aria-label="Close"
                     ></button>
+                  </div>
+                  <div style={{ padding: "1rem" }}>
+                    <div className="iframe-container">
+                      {" "}
+                      {/* Apply the class */}
+                      <iframe
+                        src="https://www.youtube.com/embed/2IcRDUUsjBg"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
                   </div>
                 </div>
               </SwipeableDrawer>

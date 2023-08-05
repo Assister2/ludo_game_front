@@ -1,6 +1,6 @@
 import { SwipeableDrawer } from "@material-ui/core";
 import Cookies from "js-cookie";
-
+import "./style.css";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,6 +37,18 @@ export default function LandingPage() {
                 className="btn-close btn-close-white"
                 aria-label="Close"
               ></button>
+            </div>
+            <div style={{ padding: "1rem" }}>
+              <div className="iframe-container">
+                {" "}
+                <iframe
+                  src="https://www.youtube.com/embed/2IcRDUUsjBg"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
           </div>
         </SwipeableDrawer>
