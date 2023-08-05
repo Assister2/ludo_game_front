@@ -6,8 +6,9 @@ const SwipeableContainer = ({ is_open, handleGuide2 }) => {
   return (
     <div className="partials">
       <SwipeableDrawer
+        allowSwipeInChildren={true}
         PaperProps={{
-          style: { height: "50vh", minHeight: "50vh", overflowY: "auto" },
+          style: { height: "50vh", overflowY: "scroll" },
         }}
         anchor="bottom"
         open={is_open}
