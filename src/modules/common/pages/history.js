@@ -6,11 +6,10 @@ export default function History() {
   const [btn, setBtn] = useState("all");
   const [histories, setHistories] = useState([]);
 
-
   useEffect(() => {
     const fetchHistory = async () => {
       let history = await getHistoryApi();
-    
+
       if (history.data.status === 200) {
         setHistories(history.data.data);
       }
@@ -151,8 +150,7 @@ export default function History() {
                               )}
                               {(item.type == "buy" ||
                                 item.type == "won" ||
-                                item.type == "referal" ||
-                                item.type == "cancelled") && (
+                                item.type == "referal") && (
                                 <span
                                   className="text-success text-end fw-bold my-1"
                                   style={{ fontSize: "0.8rem" }}
@@ -162,9 +160,7 @@ export default function History() {
                               )}
                             </div>
                           </div>
-                          {item.type == "lost" ||
-                          item.type == "won" ||
-                          item.type == "cancelled" ? (
+                          {item.type == "lost" || item.type == "won" ? (
                             <div className="d-flex align-items-center justify-content-between">
                               <span
                                 className="text-start text-capitalize"
