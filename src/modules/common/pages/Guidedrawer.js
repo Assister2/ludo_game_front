@@ -1,6 +1,6 @@
 import React from "react";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-
+import "./style.css";
 const SwipeableContainer = ({ is_open, handleGuide2 }) => {
   const handleClose = () => handleGuide2(false);
   return (
@@ -8,24 +8,36 @@ const SwipeableContainer = ({ is_open, handleGuide2 }) => {
       <SwipeableDrawer
         allowSwipeInChildren={true}
         PaperProps={{
-          style: { height: "50vh", overflowY: "scroll" },
+          style: {
+            width: "100vw",
+            minHeight: "50vh",
+            maxHeight: "50vh",
+          },
         }}
         anchor="bottom"
         open={is_open}
         onClose={handleClose}
       >
-        <div>
-          <div style={{ padding: "1rem" }} className="bg-dark offcanvas-header">
-            <div className="text-white fw-bold offcanvas-title h5">
-              Updated Game Rules (from 12th June 2023)
+        <div className="drawer-content">
+          <div className="drawer-header">
+            {/* Static header */}
+            <div
+              style={{ padding: "1rem" }}
+              className="bg-dark offcanvas-header"
+            >
+              <div className="text-white fw-bold offcanvas-title h5">
+                Updated Game Rules (from 12th June 2023)
+              </div>
+              <button
+                onClick={handleClose}
+                type="button"
+                className="btn-close btn-close-white"
+                aria-label="Close"
+              ></button>
             </div>
-            <button
-              onClick={handleClose}
-              type="button"
-              className="btn-close btn-close-white"
-              aria-label="Close"
-            ></button>
           </div>
+
+          {/* Content */}
           <div className="offcanvas-body" style={{ padding: "1rem" }}>
             <ul className="list-group mb-3">
               <li className="list-group-item text-start">

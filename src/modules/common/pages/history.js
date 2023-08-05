@@ -160,7 +160,9 @@ export default function History() {
                               )}
                             </div>
                           </div>
-                          {item.type == "lost" || item.type == "won" ? (
+                          {item.type == "lost" ||
+                          item.type == "won" ||
+                          item.type == "cancelled" ? (
                             <div className="d-flex align-items-center justify-content-between">
                               <span
                                 className="text-start text-capitalize"
@@ -168,12 +170,14 @@ export default function History() {
                               >
                                 Room Code : {item.roomCode}
                               </span>
-                              <span
-                                className="text-start"
-                                style={{ fontSize: "0.7rem" }}
-                              >
-                                Closing Balance: {item.closingBalance}
-                              </span>
+                              {item.type !== "cancelled" && (
+                                <span
+                                  className="text-start"
+                                  style={{ fontSize: "0.7rem" }}
+                                >
+                                  Closing Balance: {item.closingBalance}
+                                </span>
+                              )}
                             </div>
                           ) : (
                             <div className="d-flex align-items-center justify-content-between">

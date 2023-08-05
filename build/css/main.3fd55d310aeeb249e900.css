@@ -220,6 +220,26 @@ code {
     left: 0;
   }
   
+  .drawer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #333; /* Adjust the background color as needed */
+  }
+  
+  .drawer-body {
+    flex-grow: 1;
+    overflow: auto;
+  }
+  
+  /* Add your existing styles for offcanvas-header and other classes */
+  
 /* styles.css */
 .iframe-container {
     position: relative;
@@ -235,6 +255,26 @@ code {
     top: 0;
     left: 0;
   }
+  
+  .drawer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #333; /* Adjust the background color as needed */
+  }
+  
+  .drawer-body {
+    flex-grow: 1;
+    overflow: auto;
+  }
+  
+  /* Add your existing styles for offcanvas-header and other classes */
   
 @keyframes leftToRight {
   0% {
@@ -283,4 +323,4 @@ code {
   padding: 30px 20px;
 }
 
-/*# sourceMappingURL=main.fc18381de7f72b17d630.css.map*/
+/*# sourceMappingURL=main.3fd55d310aeeb249e900.css.map*/

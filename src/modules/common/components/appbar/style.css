@@ -14,3 +14,23 @@
     left: 0;
   }
   
+  .drawer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #333; /* Adjust the background color as needed */
+  }
+  
+  .drawer-body {
+    flex-grow: 1;
+    overflow: auto;
+  }
+  
+  /* Add your existing styles for offcanvas-header and other classes */
+  

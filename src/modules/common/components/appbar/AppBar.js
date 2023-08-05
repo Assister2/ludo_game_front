@@ -87,7 +87,11 @@ export default function Header(props) {
             <div>
               <SwipeableDrawer
                 PaperProps={{
-                  style: { width: "100vw", minHeight: "50vh" },
+                  style: {
+                    width: "100vw",
+                    minHeight: "50vh",
+                    maxHeight: "50vh",
+                  },
                 }}
                 anchor="bottom"
                 open={f_open}
@@ -108,18 +112,16 @@ export default function Header(props) {
                       aria-label="Close"
                     ></button>
                   </div>
-                  <div style={{ padding: "1rem" }}>
-                    <div className="iframe-container">
-                      {" "}
-                      {/* Apply the class */}
-                      <iframe
-                        src="https://www.youtube.com/embed/2IcRDUUsjBg"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
+
+                  {/* Content */}
+                  <div className="iframe-container">
+                    <iframe
+                      src="https://www.youtube.com/embed/2IcRDUUsjBg"
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
                   </div>
                 </div>
               </SwipeableDrawer>

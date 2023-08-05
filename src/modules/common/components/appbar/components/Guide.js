@@ -22,13 +22,12 @@ function Guide(props) {
   const socket = useRef(null);
   const userId = Cookies.get("userId");
   useEffect(() => {
-    
-    if(instance){
+    if (instance) {
       socket.current = instance.connect();
-    }else{
-      socket.current=socketNew.connect()
+    } else {
+      socket.current = socketNew.connect();
     }
-    
+
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
@@ -134,7 +133,8 @@ function Guide(props) {
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="green" />
-            <strong className="ml-2">{wallet.wallet}</strong>
+
+            <strong style={{ fontWeight: "900" }}>{wallet.wallet}</strong>
           </div>
         </Link>
       ) : (
