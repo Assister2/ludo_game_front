@@ -184,8 +184,6 @@ export function challengesSort(challegesData, userId, sorting) {
       if (b.state === "open" && b.creator._id !== userId) return 1;
     }
 
-    // 1) state == "open" && creator._id == userId
-
     if (a.state === "open" && a.creator._id !== userId && a.player !== userId)
       return -1;
     if (b.state === "open" && b.creator._id !== userId && b.player !== userId)

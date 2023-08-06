@@ -36,7 +36,7 @@ export default function Play() {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
   const [challenges, setChallenges] = useState([]);
-  const [sorting, setSorting] = useState("");
+
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -107,7 +107,6 @@ export default function Play() {
           setButtonLoading(false);
           setCreateChallengeLoading(false);
         }
-        console.log("checkkk", event);
 
         if (events.type === "heartbeat") {
           socket.current.send(JSON.stringify({ type: "ack" }));
@@ -163,13 +162,6 @@ export default function Play() {
     };
   }, []);
 
-  useEffect(() => {
-    let challegesData = [...challenges];
-    challengesSort(challegesData, userId, sorting);
-
-    setChallenges(challegesData);
-  }, [sorting]);
-
   const noOfChallenges = useMemo(() => {
     var challenge = 0;
 
@@ -205,20 +197,6 @@ export default function Play() {
 
     return challenge;
   }, [challenges, userId]);
-
-  const noOfholdChallenges = useMemo(() => {
-    var challenge = 0;
-
-    challenges.map((item) => {
-      if (item.state === "hold") {
-        if (item.creator._id === userId || item.player._id === userId)
-          challenge++;
-      }
-    });
-
-    return challenge;
-  }, [challenges, userId]);
-
   useEffect(() => {
     if (ws?.connected) {
       if (ws) {
@@ -234,8 +212,7 @@ export default function Play() {
         }
       }
     }
-  }, [noOfholdChallenges, isTabVisible]);
-  useEffect(() => {}, [buttonLoading]);
+  }, [isTabVisible]);
 
   const createChallenge = () => {
     if (amount <= 0) {
