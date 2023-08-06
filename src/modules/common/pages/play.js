@@ -47,6 +47,7 @@ export default function Play() {
     Cookies.get("userId") === undefined
   ) {
     dispatch(logoutRequest({}, history, "/login"));
+    navigate("/");
   }
 
   const handleOpen = () => {
@@ -106,6 +107,7 @@ export default function Play() {
           setButtonLoading(false);
           setCreateChallengeLoading(false);
         }
+        console.log("checkkk", event);
 
         if (events.type === "heartbeat") {
           socket.current.send(JSON.stringify({ type: "ack" }));

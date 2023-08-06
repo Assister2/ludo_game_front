@@ -8,21 +8,17 @@ import { useNavigate } from "react-router-dom";
 import { logoutRequest } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
 
-
 export default function Metrics() {
   const { isLoading } = useSelector((state) => state.loginReducer);
   const history = useNavigate();
   const dispatch = useDispatch();
   const { instance } = useSelector((state) => state.socketReducer);
-  
-
-
 
   const logout = () => {
     if (instance) {
-       instance.disconnect();
+      instance.disconnect();
     } else {
-       socketNew.disconnect();
+      socketNew.disconnect();
     }
 
     dispatch(logoutRequest({}, history, "/"));

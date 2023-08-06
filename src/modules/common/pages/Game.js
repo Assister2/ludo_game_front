@@ -136,7 +136,7 @@ export default function Game(props) {
       }
 
       if (event.status === 200) {
-        // let looser = user.id != challenge.creator._id ? "creator" : "player";
+        
         setChallenge({
           ...challenge,
           creatorUserName: event.data.creator.username,
@@ -148,6 +148,7 @@ export default function Game(props) {
           creatorId: event.data.creator._id,
           playerId: event.data.player._id,
         });
+        
         if (event.data.state === "hold") {
           navigate("/play");
         }
@@ -246,6 +247,7 @@ export default function Game(props) {
         const uploadFile = async (file) => {
           setPostResultLoading(true);
           if (!file) {
+            
             return;
           }
           const maxFileSize = 10 * 1024 * 1024; // 10 MB (in bytes)

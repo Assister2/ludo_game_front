@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { axiosConfig } from "./axiosConfig";
 import axios from "axios";
 // import { initializeApp } from "firebase/app";
@@ -79,7 +80,10 @@ export const loginAPI = async (payload) => {
 };
 export const logoutAPI = async () => {
   try {
-    const data = await axiosConfig.post("/auth/logout");
+    const userId = Cookies.get("userId");
+    const data = await axiosConfig.get("/auth/logout", {
+      params: { userId }, // Include userId as a query parameter
+    });
     return data;
   } catch (error) {
     return error.response.data;
