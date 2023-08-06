@@ -15,13 +15,7 @@ export default function Metrics() {
   const { instance } = useSelector((state) => state.socketReducer);
 
   const logout = () => {
-    if (instance) {
-      instance.disconnect();
-    } else {
-      socketNew.disconnect();
-    }
-
-    dispatch(logoutRequest({}, history, "/"));
+    dispatch(logoutRequest());
 
     // cogoToast.success("Logged out")
   };

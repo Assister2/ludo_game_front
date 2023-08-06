@@ -8,10 +8,15 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
-import { logoutSuccess } from "../../../../../redux/actions/auth";
+import {
+  logoutRequest,
+  logoutSuccess,
+} from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
+import { toast } from "react-toastify";
 function Guide(props) {
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [f_open, setOpen] = useState(false);
   const { data } = useSelector((state) => state.loginReducer);
@@ -45,6 +50,17 @@ function Guide(props) {
           })
         );
       }, 2000);
+
+      socket.current.on("disconnect", (message) => {
+        dispatch(logoutSuccess());
+        Cookies.remove("token");
+        Cookies.remove("fullName");
+        Cookies.remove("userId");
+        window.location.href = "/login";
+        dispatch({ type: "SOCKET_CONNECTED", payload: null });
+
+        toast.success("Logged out successfully");
+      });
 
       // Handle "getUserWallet" event received from the socket
       socket.current.on("getUserWallet", (message) => {

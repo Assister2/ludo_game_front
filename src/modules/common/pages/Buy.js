@@ -2,12 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import {
-  buyWalletApi,
-  getWalletApi,
-  sellWalletApi,
-  getUPILink,
-} from "../../../apis/wallet";
+
 import React, { useEffect, useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,9 +14,7 @@ import { userBuyChipsRequest } from "../../../redux/actions/wallet";
 export default function Buy() {
   const dispatch = useDispatch();
 
-  const socket3 = useSelector((state) => state.wallet);
   const { isLoading } = useSelector((state) => state.wallet);
-
 
   const [amount, setAmount] = useState("");
 

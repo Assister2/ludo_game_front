@@ -3,19 +3,9 @@ import { toast } from "react-toastify";
 // Import the redux-saga/effects
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import { WALLET } from "../contstants";
-import {
-  getUserProfileSuccess,
-  getUserProfileError,
-  getUserProfileLoading,
-  updateUserProfileLoading,
-  updateUserProfileSuccess,
-  updateUserProfileError,
-} from "../actions/user";
+
 import { getUserProfileApi, updateUserProfileApi } from "../../apis/user";
 import {
-  getWalletError,
-  getWalletLoading,
-  getWalletSuccess,
   updateWalletError,
   updateWalletLoading,
   updateWalletSuccess,
@@ -26,31 +16,9 @@ import {
   userSellChipsLoading,
   userSellChipsSuccess,
 } from "../actions/wallet";
-import {
-  buyWalletApi,
-  getWalletApi,
-  sellWalletApi,
-  getUPILink,
-} from "../../apis/wallet";
+import { buyWalletApi, sellWalletApi } from "../../apis/wallet";
 
 // Sign up
-function* getWallet(param) {
-  yield put(getWalletLoading(false));
-
-  const data = yield getUPILink();
-
-  if (!!data) {
-    if (data?.status == 200) {
-      yield put(getWalletSuccess(data?.data));
-    } else if (data?.status == 400) {
-      toast.error(data?.error);
-      yield put(getWalletError(data?.error));
-    } else {
-      yield put(getWalletError(data?.error));
-      toast.error(data?.error);
-    }
-  }
-}
 
 function* updateWallet(param) {
   yield put(updateWalletLoading(true));
@@ -107,7 +75,6 @@ function* userSellSaga(param) {
 }
 
 export default function* userSaga() {
-  yield takeLatest(WALLET.GET_WALLET_REQUEST, getWallet);
   yield takeLatest(WALLET.UPDATE_WALLET_REQUEST, updateWallet);
   yield takeLatest(WALLET.USER_BUY_CHIPS_REQUEST, userBuySaga);
   yield takeLatest(WALLET.USER_SELL_CHIPS_REQUEST, userSellSaga);

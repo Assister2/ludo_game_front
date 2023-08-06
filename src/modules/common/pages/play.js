@@ -31,7 +31,7 @@ export default function Play() {
   const history = useNavigate();
   const dispatch = useDispatch();
   const userId = Cookies.get("userId");
-
+  const navigate = useNavigate();
   const [amount, setAmount] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
@@ -39,16 +39,6 @@ export default function Play() {
 
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-
-  // for check cookies
-  if (
-    Cookies.get("token") === undefined ||
-    Cookies.get("token") === "" ||
-    Cookies.get("userId") === undefined
-  ) {
-    dispatch(logoutRequest({}, history, "/login"));
-    navigate("/");
-  }
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -58,7 +48,7 @@ export default function Play() {
     setIsOpen(false);
   };
   const [ws, setWs] = useState();
-  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
