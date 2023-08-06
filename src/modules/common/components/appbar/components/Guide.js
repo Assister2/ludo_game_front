@@ -51,7 +51,7 @@ function Guide(props) {
         );
       }, 2000);
 
-      socket.current.on("disconnect", (message) => {
+      socket.current.on("logout", (message) => {
         dispatch(logoutSuccess());
         Cookies.remove("token");
         Cookies.remove("fullName");
