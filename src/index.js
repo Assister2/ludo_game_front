@@ -5,10 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import App from "./App";
 import * as Sentry from "@sentry/react";
 const backendUrl = process.env.REACT_APP_CLIENT_BASEURL || "";
-if (
-  process.env.NODE_ENV === "production" ||
-  process.env.NODE_ENV === "staging"
-) {
+if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN_PROD || "",
     integrations: [
