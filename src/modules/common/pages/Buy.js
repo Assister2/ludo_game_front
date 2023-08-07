@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../components/atoms/CircularLoading'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
@@ -77,13 +77,10 @@ export default function Buy() {
             <div className="d-grid">
               <button className="btn btn-primary" onClick={pay}>
                 {isLoading ? (
-                  <CircularProgress
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      verticalAlign: "middle",
-                    }}
-                    color="white"
+                  <CircularLoading
+                  height={'1.5rem'}
+                  width={'1.5rem'}
+                  color={'white'}
                   />
                 ) : (
                   "Pay"

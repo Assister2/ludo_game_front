@@ -1,4 +1,3 @@
-import { CircularProgress } from "@material-ui/core";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -8,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CDN_URL } from "../../../config";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
-
+import CircularLoading from './../../common/components/atoms/CircularLoading'
 export default function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,14 +90,11 @@ export default function Login(props) {
               className="btn btn-primary text-uppercase"
             >
               {loading ? (
-                <CircularProgress
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    verticalAlign: "middle",
-                  }}
-                  color="white"
-                />
+               <CircularLoading
+               height={'1.5rem'}
+               width={'1.5rem'}
+               color={'white'}
+               />
               ) : (
                 "get otp"
               )}

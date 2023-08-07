@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../../atoms/CircularLoading'
 import { BiDollarCircle } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { AiFillWarning } from "react-icons/ai";
@@ -109,13 +109,10 @@ export default function Metrics() {
           className="text-capitalize btn btn-outline-danger"
         >
           {isLoading ? (
-            <CircularProgress
-              style={{
-                width: "1.5rem",
-                height: "1.5rem",
-                verticalAlign: "middle",
-              }}
-              color="white"
+            <CircularLoading
+            height={'1.5rem'}
+            width={'1.5rem'}
+            color={'white'}
             />
           ) : (
             "LOG OUT"
