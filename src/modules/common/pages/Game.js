@@ -20,7 +20,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import socketNew from "../../../socket";
 import SwipeableContainer from "./Guidedrawer";
-import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
+// import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 import LudoKing from "../../../../public/images/ludoking.jpg";
 
 export default function Game(props) {
@@ -55,7 +55,7 @@ export default function Game(props) {
 
   const [image, setImage] = useState(null);
   const [challenge, setChallenge] = useState(challengeInititalState);
-  const [showTimer, setShowTimer] = useState(false);
+  // const [showTimer, setShowTimer] = useState(false);
   const [userIs, setuserIs] = useState(null);
   const { instance } = useSelector((state) => state.socketReducer);
   const [ws, setWs] = useState();
@@ -121,13 +121,13 @@ export default function Game(props) {
   }, []);
 
   if (ws) {
-    ws.on("showTimer", (datas) => {
-      localStorage.removeItem("countdownEndTime");
+    // ws.on("showTimer", (datas) => {
+    //   localStorage.removeItem("countdownEndTime");
 
-      var data = JSON.parse(datas);
-      setShowTimer(data.showTimer);
-      // localStorage.setItem("showTimer", data.showTimer);
-    });
+    //   var data = JSON.parse(datas);
+    //   setShowTimer(data.showTimer);
+    //   // localStorage.setItem("showTimer", data.showTimer);
+    // });
     ws.on("ludogame", (event) => {
       event = JSON.parse(event);
 
@@ -158,12 +158,12 @@ export default function Game(props) {
           userId !== event.data?.creator._id ? "creator" : "player";
         setuserIs(userIss);
 
-        if (
-          event.data.results[userIss]?.result === "" &&
-          event.data.results[otherUseree]?.result !== ""
-        ) {
-          setShowTimer(true);
-        }
+        // if (
+        //   event.data.results[userIss]?.result === "" &&
+        //   event.data.results[otherUseree]?.result !== ""
+        // ) {
+        //   setShowTimer(true);
+        // }
       }
 
       if (
@@ -411,7 +411,7 @@ export default function Game(props) {
           </Link>
           <div>
             {" "}
-            {showTimer ? (
+            {/* {showTimer ? (
               <TwentyMinuteCountdown
                 challengeObj={{
                   challengeId: challenge.challengeId,
@@ -420,7 +420,7 @@ export default function Game(props) {
               />
             ) : (
               <></>
-            )}
+            )} */}
           </div>
 
           <div className="d-grid">
