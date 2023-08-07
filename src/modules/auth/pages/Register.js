@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../../common/components/atoms/CircularLoading'
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -175,13 +175,10 @@ export default function Register(props) {
                   className="text-capitalize btn btn-primary"
                 >
                   {isLoading ? (
-                    <CircularProgress
-                      style={{
-                        width: "1.5rem",
-                        height: "1.5rem",
-                        verticalAlign: "middle",
-                        color: "#fff",
-                      }}
+                    <CircularLoading
+                    height={'1.5rem'}
+                    width={'1.5rem'}
+                    color={'white'}
                     />
                   ) : (
                     "Submit"

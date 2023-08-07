@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../components/atoms/CircularLoading'
 import React from "react";
 const ButtonChallenges = ({
   item,
@@ -99,13 +99,10 @@ const ButtonChallenges = ({
               >
                 {buttonLoading === item._id ? (
                   <>
-                    <CircularProgress
-                      style={{
-                        width: "1.0rem",
-                        height: "1.0rem",
-                        verticalAlign: "middle",
-                        color: "#fff",
-                      }}
+                    <CircularLoading
+                    height={'1.0rem'}
+                    width={'1.0rem'}
+                    color={'white'}
                     />{" "}
                     Play
                   </>
@@ -124,13 +121,10 @@ const ButtonChallenges = ({
               >
                 {buttonLoading === item._id ? (
                   <>
-                    <CircularProgress
-                      style={{
-                        width: "1.0rem",
-                        height: "1.0rem",
-                        verticalAlign: "middle",
-                        color: "#fff",
-                      }}
+                    <CircularLoading
+                    height={'1.0rem'}
+                    width={'1.0rem'}
+                    color={'white'}
                     />{" "}
                     requested
                   </>

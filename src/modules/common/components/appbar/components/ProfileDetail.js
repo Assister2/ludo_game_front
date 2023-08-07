@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../../atoms/CircularLoading'
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -94,13 +94,10 @@ export default function ProfileDetails() {
                   style={{ width: "75px" }}
                 >
                   {userData.isLoading ? (
-                    <CircularProgress
-                      style={{
-                        width: "1.5rem",
-                        height: "1.5rem",
-                        verticalAlign: "middle",
-                      }}
-                      color="white"
+                    <CircularLoading
+                    height={'1.5rem'}
+                    width={'1.5rem'}
+                    color={'white'}
                     />
                   ) : (
                     "Save"

@@ -18,10 +18,10 @@ import {
   filterEvents,
   challengesSort,
 } from "../functions/functions";
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../components/atoms/CircularLoading'
 import Dialog from "@material-ui/core/Dialog";
 import { useDispatch } from "react-redux";
-
+import DailogModal from './../components/atoms/DailogModal'
 import { useSelector } from "react-redux";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -266,11 +266,11 @@ export default function Play() {
       setHoldModal(true);
     }
   };
-
   return (
     <div
       className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
       style={{ padding: "1rem", important: "true" }}
+      // onClick={() => setIsOpen(false)}
     >
       <div className="d-flex flex-column">
         <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 ">
@@ -303,13 +303,10 @@ export default function Play() {
             >
               {createChallengeLoading ? (
                 <>
-                  <CircularProgress
-                    style={{
-                      width: "1.0rem",
-                      height: "1.0rem",
-                      verticalAlign: "middle",
-                      color: "#fff",
-                    }}
+                  <CircularLoading
+                  height={'1.0rem'}
+                  width={'1.0rem'}
+                  color={'white'}
                   />{" "}
                   Set
                 </>
@@ -370,15 +367,15 @@ export default function Play() {
           />
         </ul>
       </div>
-      <Dialog open={isOpen} onClose={handleClose}>
+      { isOpen &&
+      <DailogModal data = {'Admin Will Update Result'} setIsOpen={setIsOpen}/>}
+      {/* <Dialog open={isOpen} onClose={handleClose}>
         <DialogContent style={{ paddingTop: "13px" }}>
-          {/* <Paper className={classes.paperContainer}> */}
           <Typography variant="body1">
             <b>Admin Will Update Result</b>
           </Typography>
-          {/* </Paper> */}
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
       <ViewChallenge
         holdModal={holdModal}
         holdChallenge={holdChallenge}

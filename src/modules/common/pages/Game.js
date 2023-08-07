@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../components/atoms/CircularLoading'
 
 import { toast } from "react-toastify";
 import AWS from "aws-sdk";
@@ -629,13 +629,10 @@ export default function Game(props) {
                 className="text-capitalize btn btn-danger btn-lg"
               >
                 {isIlostClicked ? (
-                  <CircularProgress
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      verticalAlign: "middle",
-                      color: "#fff",
-                    }}
+                  <CircularLoading
+                  height={'1.5rem'}
+                  width={'1.5rem'}
+                  color={'white'}
                   />
                 ) : (
                   "Yes, i lost"
@@ -718,13 +715,10 @@ export default function Game(props) {
               >
                 {" "}
                 {postResultLoading || IsLoading ? (
-                  <CircularProgress
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      verticalAlign: "middle",
-                      color: "#fff",
-                    }}
+                  <CircularLoading
+                  height={'1.5rem'}
+                  width={'1.5rem'}
+                  color={'white'}
                   />
                 ) : (
                   "Post Result"
@@ -851,13 +845,10 @@ export default function Game(props) {
               }}
             >
               {disableCancelButton ? (
-                <CircularProgress
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    verticalAlign: "middle",
-                    color: "#fff",
-                  }}
+                <CircularLoading
+                height={'1.5rem'}
+                width={'1.5rem'}
+                color={'white'}
                 />
               ) : (
                 "Confirm"
