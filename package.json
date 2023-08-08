@@ -43,7 +43,9 @@
     "socket.io-client": "^4.5.4"
   },
   "scripts": {
+    "start1": "webpack serve --mode development --https",
     "start": "webpack serve --mode development",
+    "dev": "set HTTPS=true&&npm start",
     "build": "webpack --mode production",
     "live": "webpack --mode production",
     "test": "react-scripts test",
