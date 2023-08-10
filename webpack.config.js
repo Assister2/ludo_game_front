@@ -116,7 +116,7 @@ module.exports = {
       directory: path.resolve(__dirname, "build"),
     },
     compress: true,
-    port: 3004,
+    port: 3000,
     hot: true,
     open: true,
     historyApiFallback: true,
