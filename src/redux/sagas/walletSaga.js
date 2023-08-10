@@ -41,19 +41,11 @@ function* userBuySaga(param) {
   const data = yield buyWalletApi(param);
 
   if (data.status == 200) {
-<<<<<<< HEAD
-    const Url = data.data.data;
-    if (Url) {
-      window.location.href = Url;
-    }else{
-         toast.success("Chips added successfully");
-=======
     if (process.env.NODE_ENV === "production") {
       const Url = data.data.data;
       window.location.href = Url;
     } else {
       toast.success("Chips added successfully");
->>>>>>> db0fb1a9400636345bb8b97c0c9f2dfeb0dddf50
     }
 
     yield put(userBuyChipsSuccess(data.data));
