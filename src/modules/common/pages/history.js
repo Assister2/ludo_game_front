@@ -17,7 +17,6 @@ export default function History() {
     fetchHistory();
   }, []);
 
-
   return (
     <>
       <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
@@ -174,14 +173,13 @@ export default function History() {
                               >
                                 Room Code : {item.roomCode}
                               </span>
-                              {item.type !== "cancelled" && (
-                                <span
-                                  className="text-start"
-                                  style={{ fontSize: "0.7rem" }}
-                                >
-                                  Closing Balance: {item.closingBalance}
-                                </span>
-                              )}
+
+                              <span
+                                className="text-start"
+                                style={{ fontSize: "0.7rem" }}
+                              >
+                                Closing Balance: {item.closingBalance}
+                              </span>
                             </div>
                           ) : (
                             <div className="d-flex align-items-center justify-content-between">
@@ -430,14 +428,12 @@ export default function History() {
                                   Room Code : 090078601
                                 </span>
 
-                                {item.type !== "cancelled" && (
-                                  <span
-                                    className="text-start"
-                                    style={{ fontSize: "0.7rem" }}
-                                  >
-                                    Closing Balance: {item.closingBalance}
-                                  </span>
-                                )}
+                                <span
+                                  className="text-start"
+                                  style={{ fontSize: "0.7rem" }}
+                                >
+                                  Closing Balance: {item.closingBalance}
+                                </span>
                               </div>
                             ) : (
                               <div className="d-flex align-items-center justify-content-between">
