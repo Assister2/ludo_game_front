@@ -308,7 +308,7 @@ export default function History() {
                                   className="text-start text-capitalize"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Room Code : 090078601
+                                  Room Code : {item.roomCode}
                                 </span>
                               </div>
                             ) : (
@@ -425,7 +425,7 @@ export default function History() {
                                   className="text-start text-capitalize"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Room Code : 090078601
+                                  Room Code : {item.roomCode}
                                 </span>
 
                                 <span
