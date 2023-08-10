@@ -5,7 +5,7 @@ import moment from "moment";
 export default function History() {
   const [btn, setBtn] = useState("all");
   const [histories, setHistories] = useState([]);
-
+  console.log("userhis", histories);
   useEffect(() => {
     const fetchHistory = async () => {
       let history = await getHistoryApi();
@@ -152,6 +152,7 @@ export default function History() {
                               )}
                               {(item.type == "buy" ||
                                 item.type == "won" ||
+                                item.type == "cancelled" ||
                                 item.type == "referal") && (
                                 <span
                                   className="text-success text-end fw-bold my-1"
@@ -290,6 +291,7 @@ export default function History() {
                                   </span>
                                 )}
                                 {(item.type == "buy" ||
+                                  item.type == "cancelled" ||
                                   item.type == "referal") && (
                                   <span
                                     className="text-success text-end fw-bold my-1"
@@ -402,18 +404,19 @@ export default function History() {
                                     className="text-danger text-end fw-bold my-1"
                                     style={{ fontSize: "0.8rem" }}
                                   >
-                                    (-) {item.amount}
+                                    (-) {item.amount}34
                                   </span>
                                 )}
-                                {item.type == "buy" ||
-                                  (item.type == "won" && (
-                                    <span
-                                      className="text-success text-end fw-bold my-1"
-                                      style={{ fontSize: "0.8rem" }}
-                                    >
-                                      (+) {item.amount}
-                                    </span>
-                                  ))}
+                                {(item.type == "buy" ||
+                                  item.type == "cancelled" ||
+                                  item.type == "won") && (
+                                  <span
+                                    className="text-success text-end fw-bold my-1"
+                                    style={{ fontSize: "0.8rem" }}
+                                  >
+                                    (+) {item.amount}
+                                  </span>
+                                )}
                               </div>
                             </div>
                             {item.type == "lost" ||
