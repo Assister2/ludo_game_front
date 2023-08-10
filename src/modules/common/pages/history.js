@@ -141,8 +141,7 @@ export default function History() {
                             </div>
                             <div className="d-flex flex-column align-items-end justify-content-center">
                               {(item.type == "withdraw" ||
-                                item.type === "Game" ||
-                                item.type == "lost") && (
+                                item.type === "Game") && (
                                 <span
                                   className="text-danger text-end fw-bold my-1"
                                   style={{ fontSize: "0.8rem" }}
@@ -281,8 +280,7 @@ export default function History() {
                               </div>
                               <div className="d-flex flex-column align-items-end justify-content-center">
                                 {(item.type == "withdraw" ||
-                                  item.type == "Game" ||
-                                  item.type == "lost") && (
+                                  item.type == "Game") && (
                                   <span
                                     className="text-danger text-end fw-bold my-1"
                                     style={{ fontSize: "0.8rem" }}
@@ -398,13 +396,12 @@ export default function History() {
                               </div>
                               <div className="d-flex flex-column align-items-end justify-content-center">
                                 {(item.type == "withdraw" ||
-                                  item.type == "Game" ||
-                                  item.type == "lost") && (
+                                  item.type == "Game") && (
                                   <span
                                     className="text-danger text-end fw-bold my-1"
                                     style={{ fontSize: "0.8rem" }}
                                   >
-                                    (-) {item.amount}34
+                                    (-) {item.amount}
                                   </span>
                                 )}
                                 {(item.type == "buy" ||
