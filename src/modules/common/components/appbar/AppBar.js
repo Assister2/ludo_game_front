@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
+import "./style.css";
 import { SwipeableDrawer } from "@material-ui/core";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { BsWalletFill } from "react-icons/bs";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { CDN_URL } from "../../../../config";
 import { Guide } from "./components/Guide";
 
 import SideBar from "./components/SideBar";
-import { Link, useHref, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { withRouter } from "react-router-dom";
+import { Link, useHref } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function HideOnScroll(props) {
@@ -75,7 +73,7 @@ export default function Header(props) {
         >
           {show_comm && (
             <div className="bg-danger py-2 text-white w-100">
-              Commission: 3% ◉ Referral: 2% For All Games
+              <b>Commission: 3% ◉ Referral: 2% For All Games</b>
             </div>
           )}
           <Toolbar style={{ padding: "4px" }}>
@@ -89,26 +87,46 @@ export default function Header(props) {
             <div>
               <SwipeableDrawer
                 PaperProps={{
-                  style: { width: "100vw", minHeight: "50vh" },
+                  style: {
+                    width: "100vw",
+                    minHeight: "50vh",
+                    maxHeight: "50vh",
+                  },
                 }}
                 anchor="bottom"
                 open={f_open}
                 onClose={handleClose}
               >
-                <div>
-                  <div
-                    style={{ padding: "1rem" }}
-                    className="bg-dark offcanvas-header"
-                  >
-                    <div className="text-white fw-bold offcanvas-title h5">
-                      How To Play Games & Earn?
+                <div className="drawer-content">
+                  <div className="drawer-header">
+                    {/* Static header */}
+                    <div
+                      style={{ padding: "1rem" }}
+                      className="bg-dark offcanvas-header"
+                    >
+                      <div className="text-white fw-bold offcanvas-title h5">
+                        How To Play Games & Earn?
+                      </div>
+                      <button
+                        onClick={handleClose}
+                        type="button"
+                        className="btn-close btn-close-white"
+                        aria-label="Close"
+                      ></button>
                     </div>
-                    <button
-                      onClick={handleClose}
-                      type="button"
-                      className="btn-close"
-                      aria-label="Close"
-                    ></button>
+                  </div>
+
+                  {/* Content */}
+                  <div className="drawer-body">
+                    <div className="iframe-container">
+                      <iframe
+                        src="https://www.youtube.com/embed/2IcRDUUsjBg"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
                   </div>
                 </div>
               </SwipeableDrawer>

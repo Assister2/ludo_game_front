@@ -16,6 +16,7 @@ import {
 } from "../actions/auth";
 import { getWalletSuccess } from "../actions/wallet";
 import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
+import { useHistory } from "react-router";
 
 function* signUp(param) {
   yield put(signUpLoading(true));
@@ -60,7 +61,6 @@ const connectSocket = () => {
   });
 };
 function* login(param) {
-
   let data = null;
   if (param?.payload?.register) {
     data = param?.payload?.data;
@@ -68,7 +68,6 @@ function* login(param) {
     data = yield verifyOTP(param.payload);
   }
 
- 
   yield put(loginLoading(true));
   if (data.status === 200) {
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
@@ -106,13 +105,8 @@ function* logout(param) {
 
   yield put(logoutSuccess());
 
-  Cookies.remove("token");
-  Cookies.remove("fullName");
-  Cookies.remove("userId");
-
-  // Disconnect the socket on logout
   socketNew.disconnect();
-  // Clear the socket instance from the Redux store
+
   yield put({ type: "SOCKET_CONNECTED", payload: null });
 
   toast.success("Logged out successfully");

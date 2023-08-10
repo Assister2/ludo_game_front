@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../../common/components/atoms/CircularLoading'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
@@ -302,14 +302,11 @@ export default function OTPVerification({ route }) {
                 disabled={timer > 0}
               >
                 {r_loading ? (
-                  <CircularProgress
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      verticalAlign: "middle",
-                    }}
-                    color="white"
-                  />
+                 <CircularLoading
+                 height={'1.5rem'}
+                 width={'1.5rem'}
+                 color={'white'}
+                 />
                 ) : (
                   "Resend OTP"
                 )}
@@ -326,14 +323,11 @@ export default function OTPVerification({ route }) {
                 className="btn btn-primary text-uppercase"
               >
                 {loading ? (
-                  <CircularProgress
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      verticalAlign: "middle",
-                    }}
-                    color="white"
-                  />
+                 <CircularLoading
+                 height={'1.5rem'}
+                 width={'1.5rem'}
+                 color={'white'}
+                 />
                 ) : (
                   "verify"
                 )}

@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../components/atoms/CircularLoading'
 import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
@@ -198,13 +198,10 @@ export default function Sell() {
                 onClick={sell}
               >
                 {isLoading ? (
-                  <CircularProgress
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      verticalAlign: "middle",
-                    }}
-                    color="white"
+                  <CircularLoading
+                  height={'1.5rem'}
+                  width={'1.5rem'}
+                  color={'white'}
                   />
                 ) : (
                   "Sell"

@@ -3,23 +3,6 @@ import { useSelector } from "react-redux";
 import { axiosConfig } from "./axiosConfig";
 // const { data } = useSelector((state) => state.loginReducer)
 
-export const getUPILink = async () => {
-  let data = JSON.stringify({
-    key: "process.env.PAY_ON_UPI_SECRET",
-    client_txn_id: "1234567890",
-    amount: "100",
-    p_info: "Product Name",
-    customer_name: "test",
-    redirect_url: "http://68.183.89.191:3000/wallet",
-  });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-
-};
 export const buyWalletApi = async (data) => {
   const token =
     Cookies.get("token") !== undefined || Cookies.get("token") !== null
@@ -39,7 +22,6 @@ export const buyWalletApi = async (data) => {
 };
 
 export const sellWalletApi = async (data) => {
- 
   const token =
     Cookies.get("token") !== undefined || Cookies.get("token") !== null
       ? Cookies.get("token")
@@ -63,7 +45,6 @@ export const getWalletApi = async () => {
       ? Cookies.get("token")
       : "";
 
-  
   try {
     const res = await axiosConfig.get(`/transaction/wallet`, {
       headers: {
@@ -74,4 +55,4 @@ export const getWalletApi = async () => {
   } catch (error) {
     return error.response.data;
   }
-}
+};

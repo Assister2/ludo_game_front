@@ -1,6 +1,6 @@
 import { SwipeableDrawer } from "@material-ui/core";
 import Cookies from "js-cookie";
-
+import "./style.css";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,26 +17,46 @@ export default function LandingPage() {
       <div className="partials">
         <SwipeableDrawer
           PaperProps={{
-            style: { width: "100vw", minHeight: "50vh" },
+            style: {
+              width: "100vw",
+              minHeight: "50vh",
+              maxHeight: "50vh",
+            },
           }}
           anchor="bottom"
           open={f_open}
           onClose={handleClose}
         >
-          <div>
-            <div
-              style={{ padding: "1rem" }}
-              className="bg-dark offcanvas-header"
-            >
-              <div className="text-white fw-bold offcanvas-title h5">
-                How To Play Games & Earn?
+          <div className="drawer-content">
+            <div className="drawer-header">
+              {/* Static header */}
+              <div
+                style={{ padding: "1rem" }}
+                className="bg-dark offcanvas-header"
+              >
+                <div className="text-white fw-bold offcanvas-title h5">
+                  How To Play Games & Earn?
+                </div>
+                <button
+                  onClick={handleClose}
+                  type="button"
+                  className="btn-close btn-close-white"
+                  aria-label="Close"
+                ></button>
               </div>
-              <button
-                onClick={handleClose}
-                type="button"
-                className="btn-close btn-close-white"
-                aria-label="Close"
-              ></button>
+            </div>
+
+            {/* Content */}
+            <div className="drawer-body">
+              <div className="iframe-container">
+                <iframe
+                  src="https://www.youtube.com/embed/2IcRDUUsjBg"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
           </div>
         </SwipeableDrawer>

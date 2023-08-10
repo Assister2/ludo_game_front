@@ -1,32 +1,21 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
+import CircularLoading from './../../atoms/CircularLoading'
 import { BiDollarCircle } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { AiFillWarning } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { logoutRequest } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
-
 
 export default function Metrics() {
   const { isLoading } = useSelector((state) => state.loginReducer);
   const history = useNavigate();
   const dispatch = useDispatch();
   const { instance } = useSelector((state) => state.socketReducer);
-  
-
-
 
   const logout = () => {
-    if (instance) {
-       instance.disconnect();
-    } else {
-       socketNew.disconnect();
-    }
-
-    dispatch(logoutRequest({}, history, "/"));
+    dispatch(logoutRequest());
 
     // cogoToast.success("Logged out")
   };
@@ -120,13 +109,10 @@ export default function Metrics() {
           className="text-capitalize btn btn-outline-danger"
         >
           {isLoading ? (
-            <CircularProgress
-              style={{
-                width: "1.5rem",
-                height: "1.5rem",
-                verticalAlign: "middle",
-              }}
-              color="white"
+            <CircularLoading
+            height={'1.5rem'}
+            width={'1.5rem'}
+            color={'white'}
             />
           ) : (
             "LOG OUT"

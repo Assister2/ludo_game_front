@@ -8,11 +8,15 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
-import { logoutSuccess } from "../../../../../redux/actions/auth";
+import {
+  logoutRequest,
+  logoutSuccess,
+} from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
-import { getUserProfileApi } from "../../../../../apis/user";
+import { toast } from "react-toastify";
 function Guide(props) {
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [f_open, setOpen] = useState(false);
   const { data } = useSelector((state) => state.loginReducer);
@@ -22,13 +26,12 @@ function Guide(props) {
   const socket = useRef(null);
   const userId = Cookies.get("userId");
   useEffect(() => {
-    
-    if(instance){
+    if (instance) {
       socket.current = instance.connect();
-    }else{
-      socket.current=socketNew.connect()
+    } else {
+      socket.current = socketNew.connect();
     }
-    
+
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
@@ -47,6 +50,17 @@ function Guide(props) {
           })
         );
       }, 2000);
+
+      socket.current.on("logout", (message) => {
+        dispatch(logoutSuccess());
+        Cookies.remove("token");
+        Cookies.remove("fullName");
+        Cookies.remove("userId");
+        window.location.href = "/login";
+        dispatch({ type: "SOCKET_CONNECTED", payload: null });
+
+        toast.success("Logged out successfully");
+      });
 
       // Handle "getUserWallet" event received from the socket
       socket.current.on("getUserWallet", (message) => {
@@ -67,23 +81,6 @@ function Guide(props) {
 
           setWallet(data.data);
           dispatch({ type: "GET_WALLET_REQUEST1", payload: data.data });
-        }
-      });
-      socket.current.on("getUserProfile", async (message) => {
-        try {
-          const data = await getUserProfileApi();
-          if (data.status === 400) {
-            Cookies.remove("token");
-            Cookies.remove("fullName");
-            Cookies.remove("userId");
-            socketNew.disconnect();
-            dispatch({ type: "SOCKET_CONNECTED", payload: null });
-
-            window.location.href = "/login";
-          }
-        } catch (error) {
-          // Handle any errors that occurred during the API call
-          console.error("Error fetching user profile:", error);
         }
       });
 
@@ -134,7 +131,8 @@ function Guide(props) {
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="green" />
-            <strong className="ml-2">{wallet.wallet}</strong>
+
+            <strong style={{ fontWeight: "900" }}>{wallet.wallet}</strong>
           </div>
         </Link>
       ) : (
