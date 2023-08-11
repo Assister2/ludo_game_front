@@ -1,5 +1,5 @@
 import React from "react";
-import CircularLoading from './../../atoms/CircularLoading'
+import CircularLoading from "./../../atoms/CircularLoading";
 import { BiDollarCircle } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { AiFillWarning } from "react-icons/ai";
@@ -60,7 +60,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.account?.totalWin}.00
+                  {userData?.data?.account?.totalWin}
                 </div>
               </div>
             </div>
@@ -110,9 +110,9 @@ export default function Metrics() {
         >
           {isLoading ? (
             <CircularLoading
-            height={'1.5rem'}
-            width={'1.5rem'}
-            color={'white'}
+              height={"1.5rem"}
+              width={"1.5rem"}
+              color={"white"}
             />
           ) : (
             "LOG OUT"
