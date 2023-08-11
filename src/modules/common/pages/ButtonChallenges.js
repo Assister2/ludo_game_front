@@ -126,10 +126,10 @@ const ButtonChallenges = ({
                     width={'1.0rem'}
                     color={'white'}
                     />{" "}
-                    requested
+                    Requested
                   </>
                 ) : (
-                  "requested"
+                  "Requested"
                 )}
               </button>
             )}
