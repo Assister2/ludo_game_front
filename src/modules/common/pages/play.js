@@ -31,6 +31,7 @@ export default function Play() {
   const history = useNavigate();
   const dispatch = useDispatch();
   const userId = Cookies.get("userId");
+  const username = Cookies.get("fullName");
   const navigate = useNavigate();
   const [amount, setAmount] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -233,7 +234,7 @@ export default function Play() {
       ws.send(
         JSON.stringify({
           type: "create",
-          payload: { amount: amount, userId },
+          payload: { amount: amount, userId, username },
         })
       );
     }
