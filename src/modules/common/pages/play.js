@@ -12,20 +12,13 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import socketNew from "../../../socket";
 
-import { logoutSuccess, logoutRequest } from "../../.././redux/actions/auth";
-import {
-  sortEvents,
-  filterEvents,
-  challengesSort,
-} from "../functions/functions";
+import { logoutSuccess } from "../../.././redux/actions/auth";
+import { sortEvents, filterEvents } from "../functions/functions";
 import CircularLoading from "./../components/atoms/CircularLoading";
-import Dialog from "@material-ui/core/Dialog";
+
 import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
-
-import DialogContent from "@material-ui/core/DialogContent";
-import Typography from "@material-ui/core/Typography";
 
 export default function Play() {
   const history = useNavigate();
