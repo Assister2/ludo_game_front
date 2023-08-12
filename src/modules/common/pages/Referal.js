@@ -1,13 +1,13 @@
 import React from "react";
-import { BsArrowLeftShort } from "react-icons/bs";
+
 import { useSelector } from "react-redux";
 import { FaTelegram } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
-import { CDN_URL } from "../../../config";
+
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import { TelegramShareButton, WhatsappShareButton } from "react-share";
-import { BorderColor } from "@material-ui/icons";
+
 export default function ReferAndEarning() {
   let userData = useSelector((state) => state.user);
   const showToast = () => {
@@ -26,7 +26,7 @@ export default function ReferAndEarning() {
       await navigator.share({
         title: "Share via",
         text: shareMessage,
-        // url: window.location.origin,
+        url: window.location.origin,
       });
     } catch (error) {
       console.log("Error sharing:", error);
@@ -92,7 +92,7 @@ export default function ReferAndEarning() {
                       disabled
                       value={userData.data.referCode}
                     />
-                    <CopyToClipboard text={shareMessage} onCopy={showToast}>
+                    <CopyToClipboard onCopy={showToast} options={shareMessage}>
                       <button className="btn btn-primary text-uppercase">
                         copy
                       </button>
