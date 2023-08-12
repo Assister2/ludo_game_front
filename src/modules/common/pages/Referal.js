@@ -92,7 +92,7 @@ export default function ReferAndEarning() {
                       disabled
                       value={userData.data.referCode}
                     />
-                    <CopyToClipboard onCopy={showToast} options={shareMessage}>
+                    <CopyToClipboard text={shareMessage} onCopy={showToast}>
                       <button className="btn btn-primary text-uppercase">
                         copy
                       </button>
