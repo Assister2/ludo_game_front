@@ -1,27 +1,24 @@
 import React from "react";
-import { BsArrowLeftShort } from "react-icons/bs";
+
 import { useSelector } from "react-redux";
 import { FaTelegram } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
-import { CDN_URL } from "../../../config";
+
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import { TelegramShareButton, WhatsappShareButton } from "react-share";
-import { BorderColor } from "@material-ui/icons";
+
 export default function ReferAndEarning() {
   let userData = useSelector((state) => state.user);
   const showToast = () => {
     toast.success("Text copied!");
   };
- 
 
   const shareMessage =
     "Play Ludo and earn Rs10000 daily.\nCommission Charge - 3% Only\nReferral - 2% On All Games\n24x7 Live Chat Support\nInstant Withdrawal Via UPI/Bank\nRegister Now, My refer code is " +
     userData.data.referCode +
-    "\n👇👇\n" +
-    window.location.origin +
-    "/register?refer=" +
-    userData.data.referCode;
+    "\n👇👇";
+
   const share = async () => {
     try {
       await navigator.share({
@@ -108,7 +105,15 @@ export default function ReferAndEarning() {
                   className="btn btn-primary btn-md w-100"
                   style={{ backgroundColor: "green", borderColor: "green" }}
                 >
-                  <WhatsappShareButton url={shareMessage} quote={shareMessage}>
+                  <WhatsappShareButton
+                    url={
+                      window.location.origin +
+                      "/register?refer=" +
+                      userData.data.referCode
+                    }
+                    title={shareMessage}
+                    separator=" - "
+                  >
                     <FaWhatsapp
                       style={{ paddingRight: "5px" }}
                       size={25}

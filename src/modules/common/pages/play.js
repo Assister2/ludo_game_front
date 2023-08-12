@@ -18,10 +18,10 @@ import {
   filterEvents,
   challengesSort,
 } from "../functions/functions";
-import CircularLoading from './../components/atoms/CircularLoading'
+import CircularLoading from "./../components/atoms/CircularLoading";
 import Dialog from "@material-ui/core/Dialog";
 import { useDispatch } from "react-redux";
-import DailogModal from './../components/atoms/DailogModal'
+import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 
 import DialogContent from "@material-ui/core/DialogContent";
@@ -31,6 +31,7 @@ export default function Play() {
   const history = useNavigate();
   const dispatch = useDispatch();
   const userId = Cookies.get("userId");
+  const username = Cookies.get("fullName");
   const navigate = useNavigate();
   const [amount, setAmount] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -215,16 +216,25 @@ export default function Play() {
       setCreateChallengeLoading(false);
       return;
     }
-    if (amount % 50 !== 0) {
-      toast.error("amount should be multiple of 50");
-      setCreateChallengeLoading(false);
-      return;
+
+    if (amount < 50) {
+      if (amount % 10 !== 0) {
+        toast.error("Amount should be a multiple of 10.");
+        setCreateChallengeLoading(false);
+        return;
+      }
+    } else {
+      if (amount % 50 !== 0) {
+        toast.error("Amount should be a multiple of 50.");
+        setCreateChallengeLoading(false);
+        return;
+      }
     }
     if (!createChallengeLoading) {
       ws.send(
         JSON.stringify({
           type: "create",
-          payload: { amount: amount, userId },
+          payload: { amount: amount, userId, username },
         })
       );
     }
@@ -304,9 +314,9 @@ export default function Play() {
               {createChallengeLoading ? (
                 <>
                   <CircularLoading
-                  height={'1.0rem'}
-                  width={'1.0rem'}
-                  color={'white'}
+                    height={"1.0rem"}
+                    width={"1.0rem"}
+                    color={"white"}
                   />{" "}
                   Set
                 </>
@@ -367,8 +377,9 @@ export default function Play() {
           />
         </ul>
       </div>
-      { isOpen &&
-      <DailogModal data = {'Admin Will Update Result'} setIsOpen={setIsOpen}/>}
+      {isOpen && (
+        <DailogModal data={"Admin Will Update Result"} setIsOpen={setIsOpen} />
+      )}
       {/* <Dialog open={isOpen} onClose={handleClose}>
         <DialogContent style={{ paddingTop: "13px" }}>
           <Typography variant="body1">
