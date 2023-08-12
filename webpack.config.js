@@ -78,7 +78,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
-      favicon: "./public/favicon.ico",
+      favicon: "./public/favicon.webp",
       manifest: "./public/manifest.json",
       minify: {
         collapseWhitespace: true,

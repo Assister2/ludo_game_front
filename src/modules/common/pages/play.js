@@ -215,8 +215,8 @@ export default function Play() {
       setCreateChallengeLoading(false);
       return;
     }
-    if (amount % 50 !== 0) {
-      toast.error("amount should be multiple of 50");
+    if (amount % 10 !== 0) {
+      toast.error("amount should be multiple of 10");
       setCreateChallengeLoading(false);
       return;
     }
