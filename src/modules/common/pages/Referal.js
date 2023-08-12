@@ -13,7 +13,6 @@ export default function ReferAndEarning() {
   const showToast = () => {
     toast.success("Text copied!");
   };
- 
 
   const shareMessage =
     "Play Ludo and earn Rs10000 daily.\nCommission Charge - 3% Only\nReferral - 2% On All Games\n24x7 Live Chat Support\nInstant Withdrawal Via UPI/Bank\nRegister Now, My refer code is " +
@@ -27,7 +26,7 @@ export default function ReferAndEarning() {
       await navigator.share({
         title: "Share via",
         text: shareMessage,
-        url: window.location.origin,
+        // url: window.location.origin,
       });
     } catch (error) {
       console.log("Error sharing:", error);
