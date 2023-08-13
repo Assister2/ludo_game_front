@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store from "./redux";
 import Cookies from "js-cookie";
-// import { requestForToken2, requestForToken } from "./firebase";
+import { requestForToken2, requestForToken } from "./firebase";
 import Header from "./modules/common/components/appbar/AppBar";
 import Routes from "./routing/Routes";
 import DailogModal from './modules/common/components/atoms/DailogModal'
@@ -16,7 +16,7 @@ function App() {
   if (!Cookies.get("userId")) {
     socketNew.disconnect();
   }
-  // requestForToken2();
+  requestForToken2();
   // requestForToken();
 
   return (
