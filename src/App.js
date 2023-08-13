@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store from "./redux";
 import Cookies from "js-cookie";
-
 import Header from "./modules/common/components/appbar/AppBar";
 import Routes from "./routing/Routes";
 import DailogModal from "./modules/common/components/atoms/DailogModal";

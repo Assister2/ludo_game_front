@@ -1,31 +1,5 @@
 import Cookies from "js-cookie";
 import { axiosConfig } from "./axiosConfig";
-import axios from "axios";
-// import { initializeApp } from "firebase/app";
-// import { getMessaging, getToken } from "firebase/messaging";
-
-// const initFB = async () => {
-//   try {
-//     const firebaseConfig = {
-//       apiKey: "AIzaSyDCEr29Ji7Y_f5W9gzeOEViad1rNLl1mlw",
-//       authDomain: "ludo-b0877.firebaseapp.com",
-//       projectId: "ludo-b0877",
-//       storageBucket: "ludo-b0877.appspot.com",
-//       messagingSenderId: "327439659478",
-//       appId: "1:327439659478:web:4d116c366c60bd9004b477",
-//       measurementId: "G-F1NBS76HRH",
-//     };
-//     const firebaseApp = initializeApp(firebaseConfig);
-//     const messaging = getMessaging(firebaseApp);
-//     let token = await getToken(messaging);
-
-//     if (token) return token;
-//     return "";
-//   } catch (err) {
-
-//     return "";
-//   }
-// };
 
 // USER SIGN UP
 export const userSignUp = async (param) => {
