@@ -1,11 +1,11 @@
 import React from "react";
-import { SwipeableDrawer } from "@material-ui/core";
 import { CDN_URL } from "../../../../../config";
 import Cookies from "js-cookie";
 import { BsWallet2, BsClockHistory, BsGift } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 export default function SideBar({ f_open, handleClose }) {
   const { data } = useSelector((state) => state.loginReducer);
@@ -13,35 +13,24 @@ export default function SideBar({ f_open, handleClose }) {
   let fullName = Cookies.get("fullName");
 
   return (
-    <SwipeableDrawer
-      PaperProps={{
-        style: { width: "90vw", maxWidth: "450px" },
-      }}
-      anchor="left"
-      open={f_open}
-      onClose={handleClose}
-    >
-      <div>
-        <div style={{ padding: "1rem" }} className="bg-dark offcanvas-header">
-          <div className="text-white fw-bold offcanvas-title h5">Goti King</div>
-          <button
-            onClick={handleClose}
-            type="button"
-            className="btn-close btn-close-white"
-            aria-label="Close"
-          ></button>
-        </div>
+    <>
+      <Offcanvas show={f_open} onHide={handleClose} style={{ zIndex: "1200" }}>
+        <Offcanvas.Header className="bg-dark">
+          <Offcanvas.Title className="text-white"> Goti King</Offcanvas.Title>
+          <button type="button" class="btn-close btn-close-white" aria-label="Close" onClick={handleClose}></button>
+        </Offcanvas.Header>
         <div className="d-flex flex-column align-items-stretch justify-content-start p-0 offcanvas-body">
           <div className="d-flex align-items-center justify-content-between p-4">
             <div className="fs-1 fw-bold text-start d-flex align-items-center justify-content-start">
               <div className="hstack gap-2 minBreakpoint-xs">
                 <div className="m-0 me-1 d-flex align-items-center justify-content-start">
-                  <p className="m-0">Hey, {data.isLoggedIn ? fullName : ""}</p>
+                  <p className="m-0">Hey,</p>
                   <p
                     className="text-truncate m-0 me-2"
                     style={{ maxWidth: "125px" }}
                   >
                     &nbsp;
+                    {data.isLoggedIn ? fullName : ""}
                   </p>
                   <img
                     src="https://ludo3.s3.ap-south-1.amazonaws.com/hello.a512d06e9ef9c85276f6.webp"
@@ -50,6 +39,19 @@ export default function SideBar({ f_open, handleClose }) {
                   />
                 </div>
               </div>
+            </div>
+            <div>
+              <a href="#/profile">
+                <div
+                  class="rounded-circle bg-dark"
+                  style={{ width: "40px", height: "40px" }}
+                >
+                  <img
+                    src=""
+                    alt="avatar"
+                  />
+                </div>
+              </a>
             </div>
           </div>
           <div className=" d-flex flex-column align-items-stretch justify-content-start">
@@ -187,7 +189,9 @@ export default function SideBar({ f_open, handleClose }) {
                     <div className="hstack gap-3 minBreakpoint-xs">
                       <img
                         style={{ width: "2rem" }}
-                        src={"https://ludo3.s3.ap-south-1.amazonaws.com/legal.svg"}
+                        src={
+                          "https://ludo3.s3.ap-south-1.amazonaws.com/legal.svg"
+                        }
                         height="36px"
                         alt="support icon"
                       />
@@ -299,7 +303,7 @@ export default function SideBar({ f_open, handleClose }) {
             )}
           </div>
         </div>
-      </div>
-    </SwipeableDrawer>
+      </Offcanvas>
+    </>
   );
 }

@@ -27,84 +27,138 @@
     color: var(--toastify-text-color-light);
 }
    */
-.formSub{
-	display: none;
+.formSub {
+    display: none;
 }
-.hidden-content{
-	display: none;
+
+.hidden-content {
+    display: none;
 }
-.show-content{
-	display: block;
+
+.show-content {
+    display: block;
 }
+
 .challengeText {
     float: left;
     width: 65%;
     text-align: center;
 }
+
 .challengeButton {
     float: right;
 }
 
-.challengeButton a.btn-secondary{
+.challengeButton a.btn-secondary {
     color: #fff !important;
 }
 
 .history-list {
-    padding: .15rem 1.25rem!important;
+    padding: .15rem 1.25rem !important;
 }
-.invalid-feedback{
-	display: block;
+
+.invalid-feedback {
+    display: block;
 }
+
 .text-justified {
     text-align: justify;
 }
+
 .termCondition {
     padding: 20px;
 }
+
 .colorCode {
     color: red;
     text-decoration: underline;
 }
-.blinking{
+
+.blinking {
     color: #dc3545;
     font-size: 25px;
-    
-    animation:blinkingText 1.2s infinite;
+
+    animation: blinkingText 1.2s infinite;
 }
-@keyframes blinkingText{
-    0%{     color: #dc3545;    }
-    49%{    color: #dc3545; }
-    60%{    color: transparent; }
-    99%{    color:transparent;  }
-    100%{   color: #dc3545;    }
+
+@keyframes blinkingText {
+    0% {
+        color: #dc3545;
+    }
+
+    49% {
+        color: #dc3545;
+    }
+
+    60% {
+        color: transparent;
+    }
+
+    99% {
+        color: transparent;
+    }
+
+    100% {
+        color: #dc3545;
+    }
 }
 
 
-.blinking-black{
+.blinking-black {
     color: #000;
-    
-    animation:blinkingTextBlack 1.2s infinite;
-}
-@keyframes blinkingTextBlack{
-    0%{     color: #000;    }
-    49%{    color: #000; }
-    60%{    color: transparent; }
-    99%{    color:transparent;  }
-    100%{   color: #000;    }
+
+    animation: blinkingTextBlack 1.2s infinite;
 }
 
-.blinking-info{
+@keyframes blinkingTextBlack {
+    0% {
+        color: #000;
+    }
+
+    49% {
+        color: #000;
+    }
+
+    60% {
+        color: transparent;
+    }
+
+    99% {
+        color: transparent;
+    }
+
+    100% {
+        color: #000;
+    }
+}
+
+.blinking-info {
     color: #17a2b8;
     font-size: 25px;
-    
-    animation:blinkingTextInfo 1.2s infinite;
+
+    animation: blinkingTextInfo 1.2s infinite;
 }
-@keyframes blinkingTextInfo{
-    0%{     color:#17a2b8 ;    }
-    49%{    color: #17a2b8 ; }
-    60%{    color: transparent; }
-    99%{    color:transparent;  }
-    100%{   color: #17a2b8 ;    }
+
+@keyframes blinkingTextInfo {
+    0% {
+        color: #17a2b8;
+    }
+
+    49% {
+        color: #17a2b8;
+    }
+
+    60% {
+        color: transparent;
+    }
+
+    99% {
+        color: transparent;
+    }
+
+    100% {
+        color: #17a2b8;
+    }
 }
 
 #image_upload_preview {
@@ -112,15 +166,17 @@
     margin-top: 6px;
 }
 
-.btn.disabled, .btn:disabled {
+.btn.disabled,
+.btn:disabled {
     cursor: no-drop;
 }
 
-.btn-primary.focus, .btn-primary:focus {
+.btn-primary.focus,
+.btn-primary:focus {
     color: #fff;
     background-color: #7c95ce;
     border-color: #b1b4b7;
-    box-shadow: 0 0 0 0.2rem rgba(38,143,255,.5);
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, .5);
 }
 
 .danger-alert {
@@ -137,7 +193,7 @@
     color: white !important;
 }
 
-#inputSetChallenge{
+#inputSetChallenge {
     display: inline-block;
     width: auto;
     vertical-align: middle;
@@ -147,24 +203,29 @@
     text-align: center;
     color: red;
 }
+
 .challengeBetween {
     color: coral;
     border: 1px solid;
     border-radius: 10px;
     padding: 5px;
 }
- body {
-    text-align: center!important;
- }
- .align-left {
-    text-align: left!important;
- }
- .challengeOptions {
+
+body {
+    text-align: center !important;
+}
+
+.align-left {
+    text-align: left !important;
+}
+
+.challengeOptions {
     zoom: 1.2;
     border: 1px solid;
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
 .custom-file {
     position: relative;
     display: inline-block;
@@ -172,9 +233,11 @@
     height: calc(2.25rem + 2px);
     margin-bottom: 0;
 }
+
 .custom-file-input:lang(en)~.custom-file-label::after {
     content: "Browse";
 }
+
 .custom-file-label::after {
     position: absolute;
     top: 0;
@@ -190,4 +253,15 @@
     background-color: #e9ecef;
     border-left: 1px solid #ced4da;
     border-radius: 0 .25rem .25rem 0;
+}
+
+.btn-close {
+    background: transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E") 50%/1em auto no-repeat;
+    border: 0;
+    border-radius: 0.375rem;
+    box-sizing: initial !important;
+    color: #000;
+    height: 1em;
+    opacity: .5;
+    width: 1em;
 }

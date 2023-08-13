@@ -19,13 +19,9 @@ import {
   challengesSort,
 } from "../functions/functions";
 import CircularLoading from "./../components/atoms/CircularLoading";
-import Dialog from "@material-ui/core/Dialog";
 import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
-
-import DialogContent from "@material-ui/core/DialogContent";
-import Typography from "@material-ui/core/Typography";
 
 export default function Play() {
   const history = useNavigate();
