@@ -26,9 +26,8 @@ function* signUp(param) {
     toast.success(`OTP has sent to your number`, { hideAfter: 5 });
 
     yield put({ type: "ON_SIGNUPPAGE", payload: true });
-
     param.navigation(`/verify-otp`, {
-      state: { ...param.payload, isVerified: true },
+      state: { ...param.payload, isVerified: true, registerUser: true },
     });
 
     yield put(signUpSuccess(data));
