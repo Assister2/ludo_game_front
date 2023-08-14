@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export function sortEvents(events, userId) {
   events.sort((a, b) => {
     if (
@@ -205,4 +207,22 @@ export function challengesSort(challegesData, userId, sorting) {
     // Default sorting
     return 0;
   });
+}
+export function validateAmount(amount) {
+  if (amount < 20 || amount > 10000) {
+    toast.error("Amount should be between 20 and 10000.");
+    return false;
+  }
+
+  if (amount < 50 && amount % 10 !== 0) {
+    toast.error("Amount should be a multiple of 10.");
+    return false;
+  }
+
+  if (amount >= 50 && amount % 50 !== 0) {
+    toast.error("Amount should be a multiple of 50.");
+    return false;
+  }
+
+  return true;
 }

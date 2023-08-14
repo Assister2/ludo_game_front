@@ -82,7 +82,9 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {data?.account?.referelBalance}.00
+                  {data?.account?.referelBalance?.toFixed(
+                    data?.account?.referelBalance % 1 !== 0 ? 2 : 0
+                  )}
                 </div>
               </div>
             </div>
@@ -98,7 +100,9 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {data?.account?.totalPenalty}.00
+                  {data?.account?.totalPenalty?.toFixed(
+                    data?.account?.totalPenalty % 1 !== 0 ? 2 : 0
+                  )}
                 </div>
               </div>
             </div>

@@ -13,7 +13,11 @@ import { useNavigate } from "react-router-dom";
 import socketNew from "../../../socket";
 
 import { logoutSuccess } from "../../.././redux/actions/auth";
-import { sortEvents, filterEvents } from "../functions/functions";
+import {
+  sortEvents,
+  filterEvents,
+  validateAmount,
+} from "../functions/functions";
 import CircularLoading from "./../components/atoms/CircularLoading";
 
 import { useDispatch } from "react-redux";
@@ -199,29 +203,13 @@ export default function Play() {
   }, [isTabVisible]);
 
   const createChallenge = () => {
-    if (amount <= 0) {
-      toast.error("amount should be greater that 0 and multiples of 50");
-      setCreateChallengeLoading(false);
-      return;
-    }
-    if (amount > 10000) {
-      toast.error("amount should lesser than or equals to 10000");
-      setCreateChallengeLoading(false);
-      return;
-    }
+    const isValidAmount = validateAmount(amount);
+    console.log("isvalidamu", isValidAmount);
 
-    if (amount < 50) {
-      if (amount % 10 !== 0) {
-        toast.error("Amount should be a multiple of 10.");
-        setCreateChallengeLoading(false);
-        return;
-      }
-    } else {
-      if (amount % 50 !== 0) {
-        toast.error("Amount should be a multiple of 50.");
-        setCreateChallengeLoading(false);
-        return;
-      }
+    if (!isValidAmount) {
+      setCreateChallengeLoading(false);
+      setAmount("");
+      return;
     }
     if (!createChallengeLoading) {
       ws.send(
