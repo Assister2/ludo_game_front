@@ -41,7 +41,7 @@ function* userBuySaga(param) {
   const data = yield buyWalletApi(param);
 
   if (data.status == 200) {
-    if (process.env.NODE_ENV === "staging") {
+    if (process.env.NODE_ENV === "production") {
       const Url = data.data.data;
       window.location.href = Url;
     } else {
