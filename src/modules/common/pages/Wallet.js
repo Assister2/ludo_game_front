@@ -18,7 +18,6 @@ export default function Wallet() {
   useEffect(() => {
     dispatch(getWalletReq());
   }, []);
-  // const navigation = useNavigation()
   return (
     <>
       <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
