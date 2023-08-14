@@ -14,7 +14,7 @@ export default function WithDraw() {
   // useEffect(() => {
   //   (async () => {
   //     let userdata = await getUserProfileApi();
-      
+
   //     setDisableWithdraw(userdata?.data?.data);
   //   })();
   // }, []);
@@ -46,7 +46,11 @@ export default function WithDraw() {
               >
                 Chips
               </span>
-              <span className="fs-4">{wallet?.winningCash}</span>
+              <span className="fs-4">
+                {wallet?.winningCash?.toFixed(
+                  wallet?.winningCash % 1 !== 0 ? 2 : 0
+                )}
+              </span>
             </div>
           </div>
           <div className="d-flex flex-column align-items-stretch pt-4">

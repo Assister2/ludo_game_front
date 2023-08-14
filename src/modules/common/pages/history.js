@@ -178,7 +178,10 @@ export default function History() {
                                 className="text-start"
                                 style={{ fontSize: "0.7rem" }}
                               >
-                                Closing Balance: {item.closingBalance}
+                                Closing Balance:{" "}
+                                {item?.closingBalance?.toFixed(
+                                  item?.closingBalance % 1 !== 0 ? 2 : 0
+                                )}
                               </span>
                             </div>
                           ) : (
@@ -193,7 +196,10 @@ export default function History() {
                                 className="text-start"
                                 style={{ fontSize: "0.7rem" }}
                               >
-                                Closing Balance: {item.closingBalance}
+                                Closing Balance:{" "}
+                                {item?.closingBalance?.toFixed(
+                                  item?.closingBalance % 1 !== 0 ? 2 : 0
+                                )}
                               </span>
                             </div>
                           )}
@@ -323,7 +329,10 @@ export default function History() {
                                   className="text-start"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Closing Balance: {item.closingBalance}
+                                  Closing Balance:{" "}
+                                  {item?.closingBalance?.toFixed(
+                                    item?.closingBalance % 1 !== 0 ? 2 : 0
+                                  )}
                                 </span>
                               </div>
                             )}
@@ -433,7 +442,10 @@ export default function History() {
                                   className="text-start"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Closing Balance: {item.closingBalance}
+                                  Closing Balance:{" "}
+                                  {item?.closingBalance?.toFixed(
+                                    item?.closingBalance % 1 !== 0 ? 2 : 0
+                                  )}
                                 </span>
                               </div>
                             ) : (
@@ -448,7 +460,10 @@ export default function History() {
                                   className="text-start"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Closing Balance: {item.closingBalance}
+                                  Closing Balance:{" "}
+                                  {item?.closingBalance?.toFixed(
+                                    item?.closingBalance % 1 !== 0 ? 2 : 0
+                                  )}
                                 </span>
                               </div>
                             )}

@@ -23,6 +23,7 @@ function Guide(props) {
   const { instance } = useSelector((state) => state.socketReducer);
   const { data: userData } = useSelector((state) => state.user);
   const [wallet, setWallet] = useState({});
+
   const socket = useRef(null);
   const userId = Cookies.get("userId");
   useEffect(() => {
@@ -132,7 +133,9 @@ function Guide(props) {
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="green" />
 
-            <strong style={{ fontWeight: "900" }}>{wallet.wallet}</strong>
+            <strong style={{ fontWeight: "900" }}>
+              {wallet?.wallet?.toFixed(wallet?.wallet % 1 !== 0 ? 2 : 0)}
+            </strong>
           </div>
         </Link>
       ) : (

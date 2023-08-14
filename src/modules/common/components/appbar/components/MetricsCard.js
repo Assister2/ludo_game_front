@@ -20,7 +20,8 @@ export default function Metrics() {
     // cogoToast.success("Logged out")
   };
 
-  let userData = useSelector((state) => state.user);
+  let { data } = useSelector((state) => state.user);
+
   return (
     <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
       <div className="mb-3 shadow card">
@@ -44,7 +45,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.gamesPlayed}
+                  {data?.gamesPlayed}
                 </div>
               </div>
             </div>
@@ -60,7 +61,9 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.account?.totalWin}
+                  {data?.account?.totalWin.toFixed(
+                    data?.account?.totalWin % 1 !== 0 ? 2 : 0
+                  )}
                 </div>
               </div>
             </div>
@@ -79,7 +82,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.account?.referelBalance}.00
+                  {data?.account?.referelBalance}.00
                 </div>
               </div>
             </div>
@@ -95,7 +98,7 @@ export default function Metrics() {
                   </div>
                 </div>
                 <div className="fs-5 fw-semibold text-start py-1 px-2 card-body">
-                  {userData?.data?.account?.totalPenalty}.00
+                  {data?.account?.totalPenalty}.00
                 </div>
               </div>
             </div>

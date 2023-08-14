@@ -33,7 +33,11 @@ export default function Deposit() {
               >
                 Chips
               </span>
-              <span className="fs-4">{wallet?.depositCash}</span>
+              <span className="fs-4">
+                {wallet?.depositCash?.toFixed(
+                  wallet?.depositCash % 1 !== 0 ? 2 : 0
+                )}
+              </span>
             </div>
           </div>
           <div className="d-flex flex-column align-items-stretch pt-4">
