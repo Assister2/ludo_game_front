@@ -12,17 +12,17 @@ const SwipeableContainer = ({ is_open, handleGuide2 }) => {
         onHide={handleClose}
         placement="bottom"
       >
-        <Offcanvas.Header className="bg-dark">
-          <Offcanvas.Title className="text-white">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>
             {" "}
             Updated Game Rules (from 12th June 2023)
           </Offcanvas.Title>
-          <button
+          {/* <button
             type="button"
             class="btn-close btn-close-white"
             aria-label="Close"
             onClick={handleClose}
-          ></button>
+          ></button> */}
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className="list-group mb-3">

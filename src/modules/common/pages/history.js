@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getHistoryApi } from "../../../apis/history";
 import moment from "moment";
+import AppLayout from "../layout/AppLayout";
 
 export default function History() {
   const [btn, setBtn] = useState("all");
@@ -18,8 +19,8 @@ export default function History() {
   }, []);
 
   return (
-    <>
-      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         <div>
           <div className="d-flex align-items-center justify-content-start overflow-auto pt-3 px-0 container">
             <span
@@ -178,7 +179,10 @@ export default function History() {
                                 className="text-start"
                                 style={{ fontSize: "0.7rem" }}
                               >
-                                Closing Balance: {item.closingBalance}
+                                Closing Balance:{" "}
+                                {item?.closingBalance?.toFixed(
+                                  item?.closingBalance % 1 !== 0 ? 2 : 0
+                                )}
                               </span>
                             </div>
                           ) : (
@@ -193,7 +197,10 @@ export default function History() {
                                 className="text-start"
                                 style={{ fontSize: "0.7rem" }}
                               >
-                                Closing Balance: {item.closingBalance}
+                                Closing Balance:{" "}
+                                {item?.closingBalance?.toFixed(
+                                  item?.closingBalance % 1 !== 0 ? 2 : 0
+                                )}
                               </span>
                             </div>
                           )}
@@ -323,7 +330,10 @@ export default function History() {
                                   className="text-start"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Closing Balance: {item.closingBalance}
+                                  Closing Balance:{" "}
+                                  {item?.closingBalance?.toFixed(
+                                    item?.closingBalance % 1 !== 0 ? 2 : 0
+                                  )}
                                 </span>
                               </div>
                             )}
@@ -433,7 +443,10 @@ export default function History() {
                                   className="text-start"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Closing Balance: {item.closingBalance}
+                                  Closing Balance:{" "}
+                                  {item?.closingBalance?.toFixed(
+                                    item?.closingBalance % 1 !== 0 ? 2 : 0
+                                  )}
                                 </span>
                               </div>
                             ) : (
@@ -448,7 +461,10 @@ export default function History() {
                                   className="text-start"
                                   style={{ fontSize: "0.7rem" }}
                                 >
-                                  Closing Balance: {item.closingBalance}
+                                  Closing Balance:{" "}
+                                  {item?.closingBalance?.toFixed(
+                                    item?.closingBalance % 1 !== 0 ? 2 : 0
+                                  )}
                                 </span>
                               </div>
                             )}
@@ -463,6 +479,6 @@ export default function History() {
           </div>
         </div>
       </div>
-    </>
+    </AppLayout>
   );
 }

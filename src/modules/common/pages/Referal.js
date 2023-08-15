@@ -7,6 +7,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import { TelegramShareButton, WhatsappShareButton } from "react-share";
+import AppLayout from "../layout/AppLayout";
 
 export default function ReferAndEarning() {
   let userData = useSelector((state) => state.user);
@@ -41,9 +42,9 @@ export default function ReferAndEarning() {
   };
 
   return (
-    <>
-      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
-        <div className="mb-3 shadow card">
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
+        <div className="mb-3 card">
           <div className="bg-light text-dark text-capitalize card-header">
             Your Referral Earnings
           </div>
@@ -51,7 +52,7 @@ export default function ReferAndEarning() {
           <div className="card-body">
             <div className="d-flex align-items-center justify-content-between">
               <div className="d-flex flex-column border-end flex-grow-1 align-items-center justify-content-center">
-                <span className="text-capitalize fw-bold">
+                <span className="text-capitalize fw-bold" style={{fontSize: "0.8rem"}}>
                   referred players
                 </span>
                 <span>
@@ -59,7 +60,7 @@ export default function ReferAndEarning() {
                 </span>
               </div>
               <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                <span className="text-capitalize fw-bold">
+                <span className="text-capitalize fw-bold" style={{fontSize: "0.8rem"}}>
                   Referral Earning
                 </span>
                 <span>₹{userData?.data?.account?.referelBalance}</span>
@@ -67,7 +68,7 @@ export default function ReferAndEarning() {
             </div>
           </div>
         </div>
-        <div className="mb-3 shadow card">
+        <div className="mb-3 card">
           <div className="bg-light text-dark text-capitalize card-header">
             Referral Code
           </div>
@@ -102,8 +103,8 @@ export default function ReferAndEarning() {
 
               <div className="d-grid">
                 <button
-                  className="btn btn-primary btn-md w-100"
-                  style={{ backgroundColor: "green", borderColor: "green" }}
+                  className="btn btn-success btn-md w-100"
+                  // style={{ backgroundColor: "green", borderColor: "green" }}
                 >
                   <WhatsappShareButton
                     url={
@@ -169,6 +170,6 @@ export default function ReferAndEarning() {
           </div>
         </div>
       </div>
-    </>
+    </AppLayout>
   );
 }

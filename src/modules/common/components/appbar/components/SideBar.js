@@ -1,5 +1,5 @@
 import React from "react";
-import { CDN_URL } from "../../../../../config";
+import { CDN_URL, AVATAR } from "../../../../../config";
 import Cookies from "js-cookie";
 import { BsWallet2, BsClockHistory, BsGift } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 export default function SideBar({ f_open, handleClose }) {
+  const userData = useSelector((state) => state.user);
   const { data } = useSelector((state) => state.loginReducer);
   let isLoggedIn = Cookies.get("isLoggedIn");
   let fullName = Cookies.get("fullName");
@@ -17,7 +18,12 @@ export default function SideBar({ f_open, handleClose }) {
       <Offcanvas show={f_open} onHide={handleClose} style={{ zIndex: "1200" }}>
         <Offcanvas.Header className="bg-dark">
           <Offcanvas.Title className="text-white"> Goti King</Offcanvas.Title>
-          <button type="button" class="btn-close btn-close-white" aria-label="Close" onClick={handleClose}></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            aria-label="Close"
+            onClick={handleClose}
+          ></button>
         </Offcanvas.Header>
         <div className="d-flex flex-column align-items-stretch justify-content-start p-0 offcanvas-body">
           <div className="d-flex align-items-center justify-content-between p-4">
@@ -40,19 +46,21 @@ export default function SideBar({ f_open, handleClose }) {
                 </div>
               </div>
             </div>
-            <div>
-              <a href="#/profile">
-                <div
-                  class="rounded-circle bg-dark"
-                  style={{ width: "40px", height: "40px" }}
-                >
-                  <img
-                    src=""
-                    alt="avatar"
-                  />
-                </div>
-              </a>
-            </div>
+            {data.isLoggedIn && (
+              <div>
+                <a href="/profile">
+                  <div
+                    class="rounded-circle bg-dark"
+                    style={{ width: "40px", height: "40px" }}
+                  >
+                    <img
+                      src={`${AVATAR}${userData?.data?.profileImage}`}
+                      alt="avatar"
+                    />
+                  </div>
+                </a>
+              </div>
+            )}
           </div>
           <div className=" d-flex flex-column align-items-stretch justify-content-start">
             {data.isLoggedIn ? (

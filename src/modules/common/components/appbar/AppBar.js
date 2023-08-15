@@ -6,8 +6,7 @@ import { Guide } from "./components/Guide";
 import SideBar from "./components/SideBar";
 import { Link, useHref } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 export default function Header(props) {
   const [f_open, setOpen] = useState(false);
@@ -30,6 +29,7 @@ export default function Header(props) {
     return [<Guide />];
   }
 
+
   useEffect(() => {
     setShowComm(showCommission());
   }, [path]);
@@ -45,9 +45,30 @@ export default function Header(props) {
       >
         {show_comm && (
           <div className="bg-danger py-2 text-white w-100">
-            <b>Commission: 3% ◉ Referral: 2% For All Games</b>
+            Commission: 3% ◉ Referral: 2% For All Games
           </div>
         )}
+        <Offcanvas
+          show={f_open}
+          onHide={handleClose}
+          placement={"bottom"}
+          className={"h-50"}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>How To Play Games & Earn?</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <div className="iframe-container">
+              <iframe
+                src="https://www.youtube.com/embed/2IcRDUUsjBg"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </Offcanvas.Body>
+        </Offcanvas>
         <div
           class="w-100 bg-white shadow-sm text-white py-2 pe-2 ps-2 d-flex d-sm-flex align-items-center align-items-sm-center justify-content-between justify-content-sm-between"
           style={{ zIndex: "100", height: "70px" }}
@@ -68,13 +89,11 @@ export default function Header(props) {
                 <img
                   src="https://ludo3.s3.ap-south-1.amazonaws.com/logo.webp"
                   alt="logo"
-                  height="40"
-                  width="40"
+                  height="50"
                 />
               </span>
             </Link>
           </div>
-          <div style={{ marginLeft: "auto", marginRight: "10px" }}>
             {data?.isLoggedIn ? (
               <Guide></Guide>
             ) : (
@@ -91,7 +110,7 @@ export default function Header(props) {
                   width="1em"
                   height="1em"
                   fill="currentColor"
-                  className="me-1"
+                  className="me-2"
                 >
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
@@ -99,7 +118,6 @@ export default function Header(props) {
                 <span className="text-capitalize">guide</span>
               </button>
             )}
-          </div>
         </div>
       </div>
     </React.Fragment>

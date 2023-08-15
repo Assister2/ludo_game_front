@@ -1,4 +1,4 @@
-import CircularLoading from './../components/atoms/CircularLoading'
+import CircularLoading from "./../components/atoms/CircularLoading";
 
 import { toast } from "react-toastify";
 import AWS from "aws-sdk";
@@ -22,6 +22,7 @@ import socketNew from "../../../socket";
 import SwipeableContainer from "./Guidedrawer";
 // import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 import LudoKing from "../../../../public/images/ludoking.jpg";
+import AppLayout from "../layout/AppLayout";
 
 export default function Game(props) {
   const params = useParams();
@@ -136,7 +137,6 @@ export default function Game(props) {
       }
 
       if (event.status === 200) {
-        
         setChallenge({
           ...challenge,
           creatorUserName: event.data.creator.username,
@@ -148,7 +148,7 @@ export default function Game(props) {
           creatorId: event.data.creator._id,
           playerId: event.data.player._id,
         });
-        
+
         if (event.data.state === "hold") {
           navigate("/play");
         }
@@ -247,7 +247,6 @@ export default function Game(props) {
         const uploadFile = async (file) => {
           setPostResultLoading(true);
           if (!file) {
-            
             return;
           }
           const maxFileSize = 10 * 1024 * 1024; // 10 MB (in bytes)
@@ -394,24 +393,25 @@ export default function Game(props) {
   };
 
   return (
-    <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
-      <div>
-        <SwipeableContainer
-          is_open={is_open}
-          handleGuide2={handleGuide2}
-        ></SwipeableContainer>
-      </div>
-      <div>
-        <div className="d-flex alig-items-center justify-content-between mt-2 mb-3">
-          <Link to="/play">
-            <button type="button" className="text-capitalize btn btn-primary">
-              <BsArrowLeftShort />
-              <span className="text-capitalize">back</span>
-            </button>
-          </Link>
-          <div>
-            {" "}
-            {/* {showTimer ? (
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
+        <div>
+          <SwipeableContainer
+            is_open={is_open}
+            handleGuide2={handleGuide2}
+          ></SwipeableContainer>
+        </div>
+        <div>
+          <div className="d-flex alig-items-center justify-content-between mt-2 mb-3">
+            <Link to="/play">
+              <button type="button" className="text-capitalize btn btn-primary">
+                <BsArrowLeftShort className="me-2" />
+                <span className="text-capitalize">back</span>
+              </button>
+            </Link>
+            <div>
+              {" "}
+              {/* {showTimer ? (
               <TwentyMinuteCountdown
                 challengeObj={{
                   challengeId: challenge.challengeId,
@@ -421,443 +421,448 @@ export default function Game(props) {
             ) : (
               <></>
             )} */}
-          </div>
-
-          <div className="d-grid">
-            <button
-              type="button"
-              onClick={handleGuide}
-              className="d-flex align-items-center justify-content-center btn btn-outline-danger"
-            >
-              <BsInfoCircle className="me-1" />
-              <span className="text-capitalize">Rules</span>
-            </button>
-          </div>
-        </div>
-        <div className="mb-2 shadow card">
-          <div className="text-start card-body">
-            <div className="d-flex align-items-center justify-content-between">
-              <div className="d-flex flex-column align-items-start vstack gap-2 minBreakpoint-xs">
-                <div
-                  className="bg-dark rounded-circle me-2"
-                  style={{ height: "24px", width: "24px" }}
-                >
-                  <img
-                    src={`${CDN_URL}avatar/${
-                      challenge.creatorImage ? challenge.creatorImage : "2.svg"
-                    }`}
-                    alt="avatar"
-                  />
-                </div>
-                <span className=" fw-semibold text-truncate text-end">
-                  {challenge.creatorUserName.slice(0, 5)}...
-                </span>
-              </div>
-              <div className="d-flex flex-column align-items-center vstack gap-2 minBreakpoint-xs">
-                <span>
-                  <em>
-                    <img
-                      src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
-                      alt="verses-icon"
-                      width="24"
-                    />
-                  </em>
-                </span>
-                <span className="text-success fw-bold text-center">
-                  ₹ {challenge.amount}
-                </span>
-              </div>
-              <div className="d-flex flex-column align-items-end vstack gap-2 minBreakpoint-xs">
-                <div
-                  className="bg-dark rounded-circle"
-                  style={{ height: "24px", width: "24px" }}
-                >
-                  <img
-                    src={`${CDN_URL}avatar/${
-                      challenge.playerImage ? challenge.playerImage : "2.svg"
-                    }`}
-                    alt="avatar"
-                  />
-                </div>
-                <span className=" fw-semibold text-truncate text-end">
-                  {challenge.playerUserName.slice(0, 5)}...
-                </span>
-              </div>
             </div>
-          </div>
-        </div>
-        <div className="mb-2 shadow card">
-          <div style={{ fontSize: "80%" }} className="card-body">
-            Opponent का एक भी टोकन खुलने के बाद यदि आप Game Left करते हो तो
-            Opponent को सीधा Win कर दिया जायेगा ! Auto Exit के केस में Admins का
-            निर्णय ही अंतिम होगा जिससे आपको मान न होगा ! लेकिन यदि आप गेम को जान
-            भुजकर Auto Exit में छोड़ देते है तो आपको Loss कर दिया जायेगा
-          </div>
-        </div>
-        <div className="mb-3 shadow card">
-          <div className="bg-light text-dark text-capitalize card-header">
-            room code
-          </div>
-          <div className="card-body">
-            <h1 className="py-3 fw-bold">{challenge.roomCode}</h1>
+
             <div className="d-grid">
-              <CopyToClipboard text={challenge.roomCode} onCopy={showToast}>
-                <button className="btn btn-primary text-capitalize d-flex align-items-center justify-content-center">
-                  {" "}
-                  <BsClipboard className="me-1" color="white" />
-                  copy code
-                </button>
-              </CopyToClipboard>
-
               <button
-                style={{ marginTop: "5px" }}
-                className="btn btn-secondary text-capitalize d-flex align-items-center justify-content-center"
-                onClick={handleRedirect}
+                type="button"
+                onClick={handleGuide}
+                className="d-flex align-items-center justify-content-center btn btn-outline-danger"
               >
-                <img
-                  style={{ width: "1.4rem", marginRight: "5px" }}
-                  // src={`${CDN_URL}public/images/ludoking.jpg`}
-                  src={LudoKing}
-                  alt="ludo king"
-                />
-                Open Ludo King
+                <BsInfoCircle className="me-2" />
+                <span className="text-capitalize">Rules</span>
               </button>
             </div>
           </div>
-        </div>
-        <div className="mb-3 shadow card">
-          <div className="bg-light text-dark text-capitalize card-header">
-            Game Result
-          </div>
-          <div className="card-body">
-            <p>
-              After completion of your game, select the status of the game and
-              post your screenshot below
-            </p>
-            <div className="d-flex flex-column align-content-stretch">
-              <button
-                className="btn btn-success btn-lg text-uppercase mb-3"
-                onClick={() => {
-                  setWonModal(true);
-                }}
-              >
-                i won
-              </button>
-              <button
-                className="btn btn-danger btn-lg text-uppercase mb-3"
-                onClick={() => {
-                  setLostModal(true);
-                }}
-              >
-                i lost
-              </button>
-              <button
-                className="btn btn-outline-dark btn-lg text-uppercase"
-                onClick={() => {
-                  setCancellationModal(!canceLLationModal);
-                }}
-              >
-                cancel
-              </button>
-            </div>{" "}
-          </div>
-        </div>
-        <div className="mb-3 shadow card">
-          <div className="bg-light text-dark text-capitalize card-header">
-            Penalty
-          </div>
-          <div className="card-body">
-            <table className="table table-striped table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Amount</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>₹100</td>
-                  <td>Fraud / Fake Screenshot</td>
-                </tr>
-                <tr>
-                  <td>₹50</td>
-                  <td>Wrong Update</td>
-                </tr>
-                <tr>
-                  <td>₹50</td>
-                  <td>No Update</td>
-                </tr>
-                <tr>
-                  <td>₹25</td>
-                  <td>Abusing</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div
-        role="dialog"
-        aria-modal="true"
-        className={`h-auto offcanvas offcanvas-bottom ${
-          lostModal ? "show" : "hide"
-        }`}
-        tabindex="-1"
-        style={{ visibility: "visible" }}
-      >
-        <div className="offcanvas-header">
-          <div className="offcanvas-title h5"></div>
-          <button
-            onClick={() => {
-              setLostModal(false);
-            }}
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="offcanvas-body">
-          <h1 className="text-capitalize">are you sure you lost this game?</h1>
-          <div className="py-4">
-            <div className="vstack gap-3 minBreakpoint-xs">
-              <button
-                disabled={isIlostClicked}
-                type="button"
-                onClick={() => {
-                  looseChallenge(challenge.challengeId);
-                }}
-                className="text-capitalize btn btn-danger btn-lg"
-              >
-                {isIlostClicked ? (
-                  <CircularLoading
-                  height={'1.5rem'}
-                  width={'1.5rem'}
-                  color={'white'}
-                  />
-                ) : (
-                  "Yes, i lost"
-                )}
-              </button>
-              <button
-                onClick={() => {
-                  setLostModal(false);
-                }}
-                type="button"
-                className="btn btn-outline-danger btn-lg"
-              >
-                No
-              </button>
+          <div className="mb-2 shadow card">
+            <div className="text-start card-body">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column align-items-start vstack gap-2 minBreakpoint-xs">
+                  <div
+                    className="bg-dark rounded-circle me-2"
+                    style={{ height: "24px", width: "24px" }}
+                  >
+                    <img
+                      src={`${CDN_URL}avatar/${
+                        challenge.creatorImage
+                          ? challenge.creatorImage
+                          : "2.svg"
+                      }`}
+                      alt="avatar"
+                    />
+                  </div>
+                  <span className=" fw-semibold text-truncate text-end">
+                    {challenge.creatorUserName.slice(0, 5)}...
+                  </span>
+                </div>
+                <div className="d-flex flex-column align-items-center vstack gap-2 minBreakpoint-xs">
+                  <span>
+                    <em>
+                      <img
+                        src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
+                        alt="verses-icon"
+                        width="24"
+                      />
+                    </em>
+                  </span>
+                  <span className="text-success fw-bold text-center">
+                    ₹ {challenge.amount}
+                  </span>
+                </div>
+                <div className="d-flex flex-column align-items-end vstack gap-2 minBreakpoint-xs">
+                  <div
+                    className="bg-dark rounded-circle"
+                    style={{ height: "24px", width: "24px" }}
+                  >
+                    <img
+                      src={`${CDN_URL}avatar/${
+                        challenge.playerImage ? challenge.playerImage : "2.svg"
+                      }`}
+                      alt="avatar"
+                    />
+                  </div>
+                  <span className=" fw-semibold text-truncate text-end">
+                    {challenge.playerUserName.slice(0, 5)}...
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+          <div className="mb-2 shadow card">
+            <div style={{ fontSize: "80%" }} className="card-body">
+              Opponent का एक भी टोकन खुलने के बाद यदि आप Game Left करते हो तो
+              Opponent को सीधा Win कर दिया जायेगा ! Auto Exit के केस में Admins
+              का निर्णय ही अंतिम होगा जिससे आपको मान न होगा ! लेकिन यदि आप गेम
+              को जान भुजकर Auto Exit में छोड़ देते है तो आपको Loss कर दिया जायेगा
+            </div>
+          </div>
+          <div className="mb-3 shadow card">
+            <div className="bg-light text-dark text-capitalize card-header">
+              room code
+            </div>
+            <div className="card-body">
+              <h1 className="py-3 fw-bold">{challenge.roomCode}</h1>
+              <div className="d-grid">
+                <CopyToClipboard text={challenge.roomCode} onCopy={showToast}>
+                  <button className="btn btn-primary text-capitalize d-flex align-items-center justify-content-center">
+                    {" "}
+                    <BsClipboard className="me-1" color="white" />
+                    copy code
+                  </button>
+                </CopyToClipboard>
 
-      {/* win modal */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        className={`h-auto offcanvas offcanvas-bottom ${
-          wonModal ? "show" : "hide"
-        }`}
-        tabindex="-1"
-        style={{ visibility: "visible" }}
-      >
-        <div className="offcanvas-header">
-          <div className="offcanvas-title h5"></div>
-          <button
-            onClick={() => {
-              setWonModal(false);
-              setIsImageUploaded(false);
-
-              setScreenshoot("");
-            }}
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="offcanvas-body">
-          <div className="pb-3 d-flex flex-column align-items-stretch">
-            <div className="vstack gap-3 minBreakpoint-xs">
-              <h1 className="text-capitalize">Upload Result</h1>
-              {isImageUploaded && (
-                <>
+                <button
+                  style={{ marginTop: "5px" }}
+                  className="btn btn-secondary text-capitalize d-flex align-items-center justify-content-center"
+                  onClick={handleRedirect}
+                >
                   <img
-                    width={100}
-                    height={100}
-                    src={image}
-                    alt="Selected Image"
+                    style={{ width: "1.4rem", marginRight: "5px" }}
+                    // src={`${CDN_URL}public/images/ludoking.jpg`}
+                    src={LudoKing}
+                    alt="ludo king"
                   />
-                </>
-              )}
-              <label htmlFor="upload-btn" className="btn btn-primary btn-lg">
-                {isImageUploaded ? "Replace Image" : "Upload Image"}
-              </label>
-              <input
-                id="upload-btn"
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={handleImageChange}
-              />
+                  Open Ludo King
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="mb-3 shadow card">
+            <div className="bg-light text-dark text-capitalize card-header">
+              Game Result
+            </div>
+            <div className="card-body">
+              <p>
+                After completion of your game, select the status of the game and
+                post your screenshot below
+              </p>
+              <div className="d-flex flex-column align-content-stretch">
+                <button
+                  className="btn btn-success btn-lg text-uppercase mb-3"
+                  onClick={() => {
+                    setWonModal(true);
+                  }}
+                >
+                  i won
+                </button>
+                <button
+                  className="btn btn-danger btn-lg text-uppercase mb-3"
+                  onClick={() => {
+                    setLostModal(true);
+                  }}
+                >
+                  i lost
+                </button>
+                <button
+                  className="btn btn-outline-dark btn-lg text-uppercase"
+                  onClick={() => {
+                    setCancellationModal(!canceLLationModal);
+                  }}
+                >
+                  cancel
+                </button>
+              </div>{" "}
+            </div>
+          </div>
+          <div className="mb-3 shadow card">
+            <div className="bg-light text-dark text-capitalize card-header">
+              Penalty
+            </div>
+            <div className="card-body">
+              <table className="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Amount</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>₹100</td>
+                    <td>Fraud / Fake Screenshot</td>
+                  </tr>
+                  <tr>
+                    <td>₹50</td>
+                    <td>Wrong Update</td>
+                  </tr>
+                  <tr>
+                    <td>₹50</td>
+                    <td>No Update</td>
+                  </tr>
+                  <tr>
+                    <td>₹25</td>
+                    <td>Abusing</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          role="dialog"
+          aria-modal="true"
+          className={`h-auto offcanvas offcanvas-bottom ${
+            lostModal ? "show" : "hide"
+          }`}
+          tabindex="-1"
+          style={{ visibility: "visible" }}
+        >
+          <div className="offcanvas-header">
+            <div className="offcanvas-title h5"></div>
+            <button
+              onClick={() => {
+                setLostModal(false);
+              }}
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body">
+            <h1 className="text-capitalize">
+              are you sure you lost this game?
+            </h1>
+            <div className="py-4">
+              <div className="vstack gap-3 minBreakpoint-xs">
+                <button
+                  disabled={isIlostClicked}
+                  type="button"
+                  onClick={() => {
+                    looseChallenge(challenge.challengeId);
+                  }}
+                  className="text-capitalize btn btn-danger btn-lg"
+                >
+                  {isIlostClicked ? (
+                    <CircularLoading
+                      height={"1.5rem"}
+                      width={"1.5rem"}
+                      color={"white"}
+                    />
+                  ) : (
+                    "Yes, i lost"
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    setLostModal(false);
+                  }}
+                  type="button"
+                  className="btn btn-outline-danger btn-lg"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        {/* win modal */}
+        <div
+          role="dialog"
+          aria-modal="true"
+          className={`h-auto offcanvas offcanvas-bottom ${
+            wonModal ? "show" : "hide"
+          }`}
+          tabindex="-1"
+          style={{ visibility: "visible" }}
+        >
+          <div className="offcanvas-header">
+            <div className="offcanvas-title h5"></div>
+            <button
+              onClick={() => {
+                setWonModal(false);
+                setIsImageUploaded(false);
+
+                setScreenshoot("");
+              }}
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body">
+            <div className="pb-3 d-flex flex-column align-items-stretch">
+              <div className="vstack gap-3 minBreakpoint-xs">
+                <h1 className="text-capitalize">Upload Result</h1>
+                {isImageUploaded && (
+                  <>
+                    <img
+                      width={100}
+                      height={100}
+                      src={image}
+                      alt="Selected Image"
+                    />
+                  </>
+                )}
+                <label htmlFor="upload-btn" className="btn btn-primary btn-lg">
+                  {isImageUploaded ? "Replace Image" : "Upload Image"}
+                </label>
+                <input
+                  id="upload-btn"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+
+                <button
+                  type="button"
+                  disabled={postResultLoading || !isImageUploaded}
+                  className="btn btn-success btn-lg"
+                  onClick={() => {
+                    winChallenge({
+                      id: challenge.challengeId,
+                      image: screenshoot,
+                      fileType: fileType,
+                    });
+                  }}
+                >
+                  {" "}
+                  {postResultLoading || IsLoading ? (
+                    <CircularLoading
+                      height={"1.5rem"}
+                      width={"1.5rem"}
+                      color={"white"}
+                    />
+                  ) : (
+                    "Post Result"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* cancellation modal */}
+        <div
+          role="dialog"
+          aria-modal="true"
+          className={`h-auto offcanvas offcanvas-bottom ${
+            canceLLationModal ? "show" : "hide"
+          }`}
+          tabindex="-1"
+          style={{ visibility: "visible" }}
+        >
+          <div className="offcanvas-header">
+            <div className="offcanvas-title h5"></div>
+            <button
+              onClick={() => {
+                setCancellationModal(false);
+              }}
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body">
+            <h5 className="text-capitalize">we would like to know more</h5>
+            <h6 className="text-capitalize">select reason for cancelling</h6>
+            <div className="row row-cols-auto g-2 py-3 container-fluid">
+              <div className="col">
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  onClick={() => {
+                    handleCancellationReason("No Room Code");
+                  }}
+                >
+                  No Room Code
+                </span>
+              </div>
+              <div className="col">
+                <span
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    handleCancellationReason("Not Joined");
+                  }}
+                >
+                  Not Joined
+                </span>
+              </div>
+              <div className="col">
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  onClick={() => {
+                    handleCancellationReason("Not Playing");
+                  }}
+                >
+                  Not Playing
+                </span>
+              </div>
+              <div className="col">
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  onClick={() => {
+                    handleCancellationReason("Don't want to Play");
+                  }}
+                >
+                  Don't want to Play
+                </span>
+              </div>
+              <div className="col">
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  onClick={() => {
+                    handleCancellationReason("Opponent Abusing");
+                  }}
+                >
+                  Opponent Abusing
+                </span>
+              </div>
+              <div className="col">
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  onClick={() => {
+                    handleCancellationReason("Game Not Start");
+                  }}
+                >
+                  Game Not Start
+                </span>
+              </div>
+              <div className="col">
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="py-2 px-3 badge rounded-pill bg-secondary"
+                  onClick={() => {
+                    handleCancellationReason("Other");
+                  }}
+                >
+                  Other
+                </span>
+              </div>
+            </div>
+            <div className="d-flex flex-column align-items-stretch pb-3">
               <button
                 type="button"
-                disabled={postResultLoading || !isImageUploaded}
-                className="btn btn-success btn-lg"
+                disabled={cancellationReason === "" || disableCancelButton}
+                className="text-capitalize btn btn-primary btn-lg"
                 onClick={() => {
-                  winChallenge({
-                    id: challenge.challengeId,
-                    image: screenshoot,
-                    fileType: fileType,
+                  cancelChallenge({
+                    _id: challenge.challengeId,
+                    cancellationReason,
                   });
                 }}
               >
-                {" "}
-                {postResultLoading || IsLoading ? (
+                {disableCancelButton ? (
                   <CircularLoading
-                  height={'1.5rem'}
-                  width={'1.5rem'}
-                  color={'white'}
+                    height={"1.5rem"}
+                    width={"1.5rem"}
+                    color={"white"}
                   />
                 ) : (
-                  "Post Result"
+                  "Confirm"
                 )}
               </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* cancellation modal */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        className={`h-auto offcanvas offcanvas-bottom ${
-          canceLLationModal ? "show" : "hide"
-        }`}
-        tabindex="-1"
-        style={{ visibility: "visible" }}
-      >
-        <div className="offcanvas-header">
-          <div className="offcanvas-title h5"></div>
-          <button
-            onClick={() => {
-              setCancellationModal(false);
-            }}
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="offcanvas-body">
-          <h5 className="text-capitalize">we would like to know more</h5>
-          <h6 className="text-capitalize">select reason for cancelling</h6>
-          <div className="row row-cols-auto g-2 py-3 container-fluid">
-            <div className="col">
-              <span
-                style={{ cursor: "pointer" }}
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                onClick={() => {
-                  handleCancellationReason("No Room Code");
-                }}
-              >
-                No Room Code
-              </span>
-            </div>
-            <div className="col">
-              <span
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  handleCancellationReason("Not Joined");
-                }}
-              >
-                Not Joined
-              </span>
-            </div>
-            <div className="col">
-              <span
-                style={{ cursor: "pointer" }}
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                onClick={() => {
-                  handleCancellationReason("Not Playing");
-                }}
-              >
-                Not Playing
-              </span>
-            </div>
-            <div className="col">
-              <span
-                style={{ cursor: "pointer" }}
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                onClick={() => {
-                  handleCancellationReason("Don't want to Play");
-                }}
-              >
-                Don't want to Play
-              </span>
-            </div>
-            <div className="col">
-              <span
-                style={{ cursor: "pointer" }}
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                onClick={() => {
-                  handleCancellationReason("Opponent Abusing");
-                }}
-              >
-                Opponent Abusing
-              </span>
-            </div>
-            <div className="col">
-              <span
-                style={{ cursor: "pointer" }}
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                onClick={() => {
-                  handleCancellationReason("Game Not Start");
-                }}
-              >
-                Game Not Start
-              </span>
-            </div>
-            <div className="col">
-              <span
-                style={{ cursor: "pointer" }}
-                className="py-2 px-3 badge rounded-pill bg-secondary"
-                onClick={() => {
-                  handleCancellationReason("Other");
-                }}
-              >
-                Other
-              </span>
-            </div>
-          </div>
-          <div className="d-flex flex-column align-items-stretch pb-3">
-            <button
-              type="button"
-              disabled={cancellationReason === "" || disableCancelButton}
-              className="text-capitalize btn btn-primary btn-lg"
-              onClick={() => {
-                cancelChallenge({
-                  _id: challenge.challengeId,
-                  cancellationReason,
-                });
-              }}
-            >
-              {disableCancelButton ? (
-                <CircularLoading
-                height={'1.5rem'}
-                width={'1.5rem'}
-                color={'white'}
-                />
-              ) : (
-                "Confirm"
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </AppLayout>
   );
 }
 

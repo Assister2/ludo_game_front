@@ -5,7 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import * as Sentry from "@sentry/react";
-import { registerServiceWorker } from "./serviceWorker";
+
 const backendUrl = process.env.REACT_APP_CLIENT_BASEURL || "";
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
@@ -31,4 +31,4 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-registerServiceWorker();
+

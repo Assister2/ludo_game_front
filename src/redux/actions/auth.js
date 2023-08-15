@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { USER_AUTH, LOGIN_AUTH, LOGOUT_AUTH } from "../contstants/index";
 
 // =====SIGN UP ACTIONS=========

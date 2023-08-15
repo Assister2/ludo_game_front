@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { CDN_URL } from "../../../config";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import AppLayout from "../layout/AppLayout";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function LandingPage() {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <AppLayout>
       <div className="partials">
         <Offcanvas
           show={f_open}
@@ -22,9 +23,7 @@ export default function LandingPage() {
           className={"h-50"}
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>
-              How To Play Games & Earn?
-            </Offcanvas.Title>
+            <Offcanvas.Title>How To Play Games & Earn?</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             <div className="iframe-container">
@@ -39,10 +38,7 @@ export default function LandingPage() {
           </Offcanvas.Body>
         </Offcanvas>
       </div>
-      <div
-        style={{}}
-        className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
-      >
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         {!data.isLoggedIn ? (
           <div>
             <picture>
@@ -55,7 +51,8 @@ export default function LandingPage() {
                 srcSet="https://ludo3.s3.ap-south-1.amazonaws.com/landingNew.webp"
               />
               <img
-                style={{ maxWidth: "100%", height: "auto" }}
+                className="mw-100"
+                style={{ maxHeight: "448px" }}
                 src="https://ludo3.s3.ap-south-1.amazonaws.com/landingNew.webp"
                 alt="landing"
               />
@@ -64,7 +61,29 @@ export default function LandingPage() {
         ) : (
           <div>
             <div className="p-0 container-fluid">
-              .
+              <div
+                role="alert"
+                className="fade d-flex align-items-center justify-content-between alert alert-warning show text-start"
+                style={{ fontSize: "0.9rem" }}
+              >
+                <span>
+                  <b>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      width="20"
+                      height="20"
+                      fill="red"
+                    >
+                      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                    </svg>{" "}
+                    &nbsp;&nbsp;Notice:- यदि आप किसी को OTP देते है और आपके खाते
+                    से किसी UPI ID पर पैसे निकल जाते है तो उसके ज़िम्मेदार हम
+                    नहीं होंगे ! हमारी टीम किसी से OTP नहीं लेती है इसलिए OTP
+                    किसी को ना दें 🙏
+                  </b>
+                </span>
+              </div>
               <div className="d-flex align-items-center justify-content-between mt-3 mb-4">
                 <h1 className="text-capitalize text-start">games</h1>
                 <button
@@ -256,12 +275,33 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-              <div></div>
+              <div className="position-fixed" style={{bottom: "50px", zIndex: "10", left: "400px"}}>
+                <Link
+                  className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center text-dark"
+                  to="/support"
+                  style={{
+                    height: "60px",
+                    width: "60px",
+                    zIndex: 10,
+                    bottom: "100px",
+                    right: "30px",
+                  }}
+                >
+                  <img
+                    src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/liveChat.webp"
+                    height="36px"
+                    alt="support icon"
+                  />
+                </Link>
+              </div>
             </div>
           </div>
         )}
         {!data.isLoggedIn && (
-          <div className="text-center text-muted" style={{ marginTop: "1rem" }}>
+          <div
+            className="text-center text-muted"
+            style={{ marginTop: "1rem", paddingBottom: "90px" }}
+          >
             <i>
               This Game involves an element of financial risk and may be
               addictive. Please Play responsibly and at your own risk.
@@ -271,40 +311,42 @@ export default function LandingPage() {
       </div>
       {!data.isLoggedIn && (
         <div
-          className="position-fixed d-flex align-items-center justify-content-center hstack gap-3 minBreakpoint-xs"
-          style={{ zIndex: "10", bottom: "30px", left: "20px", right: "20px" }}
+          className="position-fixed d-flex align-items-center justify-content-center hstack gap-3 minBreakpoint-xs mx-auto mx-lg-0"
+          style={{
+            zIndex: "10",
+            bottom: "30px",
+            left: "20px",
+            right: "20px",
+            maxWidth: "440px",
+          }}
         >
           <div className="d-grid flex-grow-1">
             <button
               onClick={() =>
                 data.isLoggedIn ? navigate("/play") : navigate("/login")
               }
-              style={{
-                padding: "14px 0px",
-                fontSize: "1.3rem",
-              }}
-              className="btn btn-dark btn-lg fw-semibold"
+              className="btn btn-dark btn-lg fw-semibold py-3"
             >
               Play Now
             </button>
-            <Link
-              className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center position-fixed text-dark"
-              to="/support"
-              style={{
-                height: "60px",
-                width: "60px",
-                zIndex: 10,
-                bottom: "100px",
-                right: "30px",
-              }}
-            >
-              <img
-                src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/liveChat.webp"
-                height="36px"
-                alt="support icon"
-              />
-            </Link>
           </div>
+          <Link
+            className="bg-light border shadow rounded-circle d-flex align-items-center justify-content-center text-dark"
+            to="/support"
+            style={{
+              height: "60px",
+              width: "60px",
+              zIndex: 10,
+              bottom: "100px",
+              right: "30px",
+            }}
+          >
+            <img
+              src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/icons/liveChat.webp"
+              height="36px"
+              alt="support icon"
+            />
+          </Link>
           {data.isLoggedIn && (
             <a
               href="whatsapp://send/?phone=918808344653&amp;text=I+have+an+issue.+Please+Help+Me&amp;app_absent=0"
@@ -316,6 +358,6 @@ export default function LandingPage() {
           )}
         </div>
       )}
-    </div>
+    </AppLayout>
   );
 }

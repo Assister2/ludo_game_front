@@ -1,4 +1,4 @@
-import CircularLoading from './../../common/components/atoms/CircularLoading'
+import CircularLoading from "./../../common/components/atoms/CircularLoading";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
@@ -8,6 +8,8 @@ import { resendOTP, verifyOTP2 } from "../../../apis/auth";
 import { loginRequest } from "../../../redux/actions/auth";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
+import AppLayout from "../../common/layout/AppLayout";
+
 export default function OTPVerification({ route }) {
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -15,7 +17,9 @@ export default function OTPVerification({ route }) {
 
   const navigate = useNavigateSearch(true);
   const { signUpPage } = useSelector((state) => state.signupPage1);
-  const phone = location.state.phone
+  const phone = location.state.phone;
+  const fromRegister = location.state.registerUser;
+
   const [state, setState] = useState({
     digits: ["", "", "", "", "", ""],
     isPaste: false,
@@ -126,7 +130,7 @@ export default function OTPVerification({ route }) {
     try {
       setRLoading(true);
       setTimer(60);
-      let res = await resendOTP({ phone: phone });
+      let res = await resendOTP({ phone: phone, register: fromRegister });
       if (res.status == 200) {
         toast.success("OTP Sent");
       } else {
@@ -147,8 +151,8 @@ export default function OTPVerification({ route }) {
   }, [timer]);
 
   return (
-    <div>
-      <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         <div className="card">
           <div className="bg-light text-dark text-capitalize card-header">
             Verify Otp
@@ -299,14 +303,14 @@ export default function OTPVerification({ route }) {
                 onClick={resend}
                 style={{ minWidth: "6rem" }}
                 className="btn btn-outline-dark btn-sm"
-                disabled={timer > 0}
+                disabled={false}
               >
                 {r_loading ? (
-                 <CircularLoading
-                 height={'1.5rem'}
-                 width={'1.5rem'}
-                 color={'white'}
-                 />
+                  <CircularLoading
+                    height={"1.5rem"}
+                    width={"1.5rem"}
+                    color={"white"}
+                  />
                 ) : (
                   "Resend OTP"
                 )}
@@ -323,11 +327,11 @@ export default function OTPVerification({ route }) {
                 className="btn btn-primary text-uppercase"
               >
                 {loading ? (
-                 <CircularLoading
-                 height={'1.5rem'}
-                 width={'1.5rem'}
-                 color={'white'}
-                 />
+                  <CircularLoading
+                    height={"1.5rem"}
+                    width={"1.5rem"}
+                    color={"white"}
+                  />
                 ) : (
                   "verify"
                 )}
@@ -336,6 +340,6 @@ export default function OTPVerification({ route }) {
           </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }
