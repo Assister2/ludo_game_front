@@ -204,7 +204,6 @@ export default function Play() {
 
   const createChallenge = () => {
     const isValidAmount = validateAmount(amount);
-    console.log("isvalidamu", isValidAmount);
 
     if (!isValidAmount) {
       setCreateChallengeLoading(false);
