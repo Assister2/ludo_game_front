@@ -8,6 +8,8 @@ import { resendOTP, verifyOTP2 } from "../../../apis/auth";
 import { loginRequest } from "../../../redux/actions/auth";
 import useCustumSearchParams from "../hooks/useCustumSearchParams";
 import useNavigateSearch from "../hooks/useNavigateSearch";
+import AppLayout from "../../common/layout/AppLayout";
+
 export default function OTPVerification({ route }) {
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -149,8 +151,8 @@ export default function OTPVerification({ route }) {
   }, [timer]);
 
   return (
-    <div>
-      <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         <div className="card">
           <div className="bg-light text-dark text-capitalize card-header">
             Verify Otp
@@ -338,6 +340,6 @@ export default function OTPVerification({ route }) {
           </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

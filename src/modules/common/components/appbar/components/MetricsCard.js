@@ -23,7 +23,7 @@ export default function Metrics() {
   let { data } = useSelector((state) => state.user);
 
   return (
-    <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
       <div className="mb-3 shadow card">
         <div className="bg-light text-dark text-capitalize card-header">
           Metrics
@@ -38,6 +38,7 @@ export default function Metrics() {
                 >
                   <div className="hstack gap-1 minBreakpoint-xs">
                     <img
+                      alt="icon"
                       width={"16px"}
                       src="https://ludoplayers.com/static/media/sword.9cc91e4925dc62491c20.webp"
                     />

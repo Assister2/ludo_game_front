@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { SwipeableDrawer } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CDN_URL } from "../../../../../config";
@@ -14,6 +13,8 @@ import {
 } from "../../../../../redux/actions/auth";
 import socketNew from "../../../../../socket";
 import { toast } from "react-toastify";
+import Offcanvas from "react-bootstrap/Offcanvas";
+
 function Guide(props) {
   const dispatch = useDispatch();
 
@@ -115,25 +116,23 @@ function Guide(props) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <>
       <div className="partials">
-        <SwipeableDrawer
-          PaperProps={{
-            style: { width: "100vw", minHeight: "50vh" },
-          }}
-          anchor="bottom"
-          open={f_open}
-          onClose={handleClose}
+        <Offcanvas
+          className={"h-50"}
+          show={f_open}
+          onHide={handleClose}
+          placement="bottom"
         >
           {/* Your drawer content */}
-        </SwipeableDrawer>
+        </Offcanvas>
       </div>
       {data.isLoggedIn ? (
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="green" />
 
-            <strong style={{ fontWeight: "900" }}>
+            <strong>
               {wallet?.wallet?.toFixed(wallet?.wallet % 1 !== 0 ? 2 : 0)}
             </strong>
           </div>
@@ -152,7 +151,7 @@ function Guide(props) {
           <p className="m-0 p-0">Guide</p>
         </button>
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import CircularLoading from './../components/atoms/CircularLoading'
+import CircularLoading from "./../components/atoms/CircularLoading";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { CDN_URL } from "../../../config";
 
 import { userBuyChipsRequest } from "../../../redux/actions/wallet";
+import AppLayout from "../layout/AppLayout";
 
 export default function Buy() {
   const dispatch = useDispatch();
@@ -33,13 +34,13 @@ export default function Buy() {
   };
 
   return (
-    <>
-      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         <div className="mb-3 d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center justify-content-start">
             <Link to="/wallet">
               <button className="btn btn-primary border">
-                <BsArrowLeftShort />
+                <BsArrowLeftShort className="me-2" />
                 Back
               </button>
             </Link>
@@ -78,9 +79,9 @@ export default function Buy() {
               <button className="btn btn-primary" onClick={pay}>
                 {isLoading ? (
                   <CircularLoading
-                  height={'1.5rem'}
-                  width={'1.5rem'}
-                  color={'white'}
+                    height={"1.5rem"}
+                    width={"1.5rem"}
+                    color={"white"}
                   />
                 ) : (
                   "Pay"
@@ -117,6 +118,6 @@ export default function Buy() {
           </div>
         </div>
       </div>
-    </>
+    </AppLayout>
   );
 }

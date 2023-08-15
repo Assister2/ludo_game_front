@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpRequest } from "../../../redux/actions/auth";
 import Cookies from "js-cookie";
+import AppLayout from '../../common/layout/AppLayout';
 
 export default function Register(props) {
   const { data } = useSelector((state) => state.loginReducer);
@@ -92,8 +93,8 @@ export default function Register(props) {
   };
 
   return (
-    <div>
-      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <AppLayout>
+      <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         <div className="card">
           <div className="bg-light text-dark text-capitalize card-header">
             register
@@ -109,7 +110,7 @@ export default function Register(props) {
               <div className="vstack gap-4 minBreakpoint-xs">
                 <div className="d-flex flex-column align-items-start">
                   <label className="text-capitalize form-label">
-                    Name (as per Aadhaar card)
+                    Name
                   </label>
                   <input
                     required
@@ -121,7 +122,6 @@ export default function Register(props) {
                   />
                 </div>
                 <div
-                  style={{ marginTop: "1rem" }}
                   className="d-flex flex-column align-items-start"
                 >
                   <label className="text-capitalize form-label">
@@ -146,7 +146,6 @@ export default function Register(props) {
                   />
                 </div>
                 <div
-                  style={{ marginTop: "1rem" }}
                   className="d-flex flex-column align-items-start"
                 >
                   <label className="text-capitalize form-label">
@@ -161,15 +160,14 @@ export default function Register(props) {
                     value={state.referalCode}
                   />
                 </div>
-                <div style={{ marginTop: "1rem" }}>
+                <div>
                   <p style={{ fontSize: "0.8rem", textAlign: "start" }}>
-                    By continuing, you agree to our{" "}
+                    By Continuing, you agree to our{" "}
                     <a href="/legal">Legal Terms</a> and you are 18 years or
                     older.
                   </p>
                 </div>
                 <button
-                  style={{ fontSize: "0.8rem", width: "100%" }}
                   type="submit"
                   disabled={isLoading}
                   className="text-capitalize btn btn-primary"
@@ -192,6 +190,6 @@ export default function Register(props) {
           </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

@@ -56,7 +56,7 @@ export default function ProfileDetails() {
   };
 
   return (
-    <div className=" col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0">
+    <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
       <div className="mb-3 shadow card">
         <div className="bg-light text-dark text-capitalize card-header">
           profile
@@ -71,7 +71,7 @@ export default function ProfileDetails() {
                   backgroundSize: "contain",
                   backgroundImage: `url(${AVATAR}${userData?.data?.profileImage})`, // Add "url()" here
                 }}
-                className="bg-success rounded-circle position-relative"
+                className="bg-success rounded-circle position-relative shadow"
               ></div>
             </div>
           </div>

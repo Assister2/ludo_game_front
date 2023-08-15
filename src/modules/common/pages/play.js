@@ -19,10 +19,10 @@ import {
   validateAmount,
 } from "../functions/functions";
 import CircularLoading from "./../components/atoms/CircularLoading";
-
 import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
+import AppLayout from "../layout/AppLayout";
 
 export default function Play() {
   const history = useNavigate();
@@ -258,58 +258,59 @@ export default function Play() {
     }
   };
   return (
-    <div
-      className="col-12 col-sm-12 col-md-6 col-lg-4 mx-auto p-3 g-0"
-      style={{ padding: "1rem", important: "true" }}
-      // onClick={() => setIsOpen(false)}
-    >
-      <div className="d-flex flex-column">
-        <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 ">
-          <div className="input-group flex-1 flex-nowrap">
-            <input
-              type="number"
-              onChange={handleChange}
-              value={amount}
-              className="form-control"
-              min={50}
-              max={10000}
-              placeholder="Amount"
-              style={{
-                display: "inline-block",
-                verticalAlign: "middle",
-                width: "auto",
-              }}
-            />
-            <button
-              disabled={createChallengeLoading}
-              onClick={() => {
-                createChallenge();
-                // socketNew.disconnect();
-              }}
-              className="btn btn-primary w-25"
-              style={{
-                borderTopRightRadius: "6px",
-                borderBottomRightRadius: "6px",
-              }}
-            >
-              {createChallengeLoading ? (
-                <>
-                  <CircularLoading
-                    height={"1.0rem"}
-                    width={"1.0rem"}
-                    color={"white"}
-                  />{" "}
-                  Set
-                </>
-              ) : (
-                "Set"
-              )}
-            </button>
+    <AppLayout>
+      <div
+        className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0"
+        style={{ padding: "1rem", important: "true" }}
+        // onClick={() => setIsOpen(false)}
+      >
+        <div className="d-flex flex-column">
+          <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 ">
+            <div className="input-group flex-1 flex-nowrap">
+              <input
+                type="number"
+                onChange={handleChange}
+                value={amount}
+                className="form-control"
+                min={50}
+                max={10000}
+                placeholder="Amount"
+                style={{
+                  display: "inline-block",
+                  verticalAlign: "middle",
+                  width: "auto",
+                }}
+              />
+              <button
+                disabled={createChallengeLoading}
+                onClick={() => {
+                  createChallenge();
+                  // socketNew.disconnect();
+                }}
+                className="btn btn-primary w-25"
+                style={{
+                  borderTopRightRadius: "6px",
+                  borderBottomRightRadius: "6px",
+                }}
+              >
+                {createChallengeLoading ? (
+                  <>
+                    <CircularLoading
+                      height={"1.0rem"}
+                      width={"1.0rem"}
+                      color={"white"}
+                    />{" "}
+                    Set
+                  </>
+                ) : (
+                  "Set"
+                )}
+              </button>
 
-            <br></br>
-          </div>
+              <br></br>
+            </div>
 
-          {/* <Dropdown>
+            {/* <Dropdown>
             <Dropdown.Toggle id="dropdown-basic">
               <BsSortUp />
             </Dropdown.Toggle>
@@ -331,49 +332,53 @@ export default function Play() {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown> */}
-        </div>
-        <ul className="m-0 px-2">
-          <div className="separator mt-3 mb-3">
-            <img
-              src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/winner-cup-icon-png-19.png"
-              alt="WinCupImg"
-              style={{ width: "20px", height: "20px" }}
-            />
-            &nbsp;Open Battles&nbsp;
-            <img
-              src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/winner-cup-icon-png-19.png"
-              alt="WinCupImg"
-              style={{ width: "20px", height: "20px" }}
-            />
           </div>
-          <ChallengeList
-            ws={ws}
-            challenges={challenges}
-            userId={userId}
-            buttonLoading={buttonLoading}
-            challengeButton={challengeButton}
-            viewGame={viewGame}
-            viewHold={viewHold}
-            handleOpen={handleOpen}
+          <ul className="m-0 px-2">
+            <div className="separator mt-3 mb-3">
+              <img
+                src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/winner-cup-icon-png-19.png"
+                alt="WinCupImg"
+                style={{ width: "20px", height: "20px" }}
+              />
+              &nbsp;Open Battles&nbsp;
+              <img
+                src="https://ludo-players.s3.ap-south-1.amazonaws.com/cdn/lp/illustrations/winner-cup-icon-png-19.png"
+                alt="WinCupImg"
+                style={{ width: "20px", height: "20px" }}
+              />
+            </div>
+            <ChallengeList
+              ws={ws}
+              challenges={challenges}
+              userId={userId}
+              buttonLoading={buttonLoading}
+              challengeButton={challengeButton}
+              viewGame={viewGame}
+              viewHold={viewHold}
+              handleOpen={handleOpen}
+            />
+          </ul>
+        </div>
+        {isOpen && (
+          <DailogModal
+            data={"Admin Will Update Result"}
+            setIsOpen={setIsOpen}
           />
-        </ul>
-      </div>
-      {isOpen && (
-        <DailogModal data={"Admin Will Update Result"} setIsOpen={setIsOpen} />
-      )}
-      {/* <Dialog open={isOpen} onClose={handleClose}>
+        )}
+        {/* <Dialog open={isOpen} onClose={handleClose}>
         <DialogContent style={{ paddingTop: "13px" }}>
           <Typography variant="body1">
             <b>Admin Will Update Result</b>
           </Typography>
         </DialogContent>
       </Dialog> */}
-      <ViewChallenge
-        holdModal={holdModal}
-        holdChallenge={holdChallenge}
-        userId={userId}
-        setHoldModal={setHoldModal}
-      />
-    </div>
+        <ViewChallenge
+          holdModal={holdModal}
+          holdChallenge={holdChallenge}
+          userId={userId}
+          setHoldModal={setHoldModal}
+        />
+      </div>
+    </AppLayout>
   );
 }

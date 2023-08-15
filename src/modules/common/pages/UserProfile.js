@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserProfileReq } from "../../../redux/actions/user";
 import Metrics from "../components/appbar/components/MetricsCard";
 import ProfileDetails from "../components/appbar/components/ProfileDetail";
+import AppLayout from "../layout/AppLayout";
 
 export default function UserProfile(props) {
     const dispatch = useDispatch()
@@ -10,9 +11,9 @@ export default function UserProfile(props) {
         dispatch(getUserProfileReq())
     },[])
     return (
-        <div>
+        <AppLayout>
             <ProfileDetails />
             <Metrics />
-        </div>
+        </AppLayout>
     );
 }
