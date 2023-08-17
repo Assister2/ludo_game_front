@@ -20,7 +20,7 @@ export default function SideBar({ f_open, handleClose }) {
           <Offcanvas.Title className="text-white"> Goti King</Offcanvas.Title>
           <button
             type="button"
-            class="btn-close btn-close-white"
+            className="btn-close btn-close-white"
             aria-label="Close"
             onClick={handleClose}
           ></button>
@@ -50,7 +50,7 @@ export default function SideBar({ f_open, handleClose }) {
               <div>
                 <a href="/profile">
                   <div
-                    class="rounded-circle bg-dark"
+                    className="rounded-circle bg-dark"
                     style={{ width: "40px", height: "40px" }}
                   >
                     <img

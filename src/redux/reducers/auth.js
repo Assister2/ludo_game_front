@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 import { LOGIN_AUTH, USER_AUTH, LOGOUT_AUTH } from "../contstants";
 
-
 // ============SIGN UP REDUCER==================
 
 const initialState = {
@@ -106,6 +105,7 @@ export const loginReducer = (
       Cookies.remove("token");
       Cookies.remove("fullName");
       Cookies.remove("userId");
+      localStorage.removeItem("socket_connected");
 
       return {
         ...state,

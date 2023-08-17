@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 import AppLayout from "../layout/AppLayout";
+import io from "socket.io-client";
 
 export default function Play() {
   const history = useNavigate();
@@ -50,7 +51,7 @@ export default function Play() {
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
-  const { instance } = useSelector((state) => state.socketReducer);
+  const isConnected = localStorage.getItem("socket_connected");
   const { data } = useSelector((state) => state.wallet1);
 
   const [holdChallenge, setHoldChallenge] = useState({});
@@ -60,8 +61,13 @@ export default function Play() {
   const socket = useRef(null);
   useEffect(() => {
     let heartbeatInterval;
-    if (instance) {
-      socket.current = instance.connect();
+    if (isConnected) {
+      //retrieve the existing socket-io instance
+      socket.current = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
+        auth: {
+          token: `${Cookies.get("token")}`,
+        },
+      }).connect();
     } else {
       socket.current = socketNew.connect();
     }

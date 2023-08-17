@@ -15,16 +15,19 @@ const OtherPlayingChallenges = ({ item, CDN_URL }) => {
                 alt="avatar"
               />
             </div>
-            <span className=" fw-semibold text-truncate" style={{ width: "80px" }}>
+            <span
+              className=" fw-semibold text-truncate"
+              style={{ width: "80px" }}
+            >
               {item?.creator?.username.slice(0, 5)}...
             </span>
           </div>
           <div>
-              <img
-                src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
-                alt="verses-icon"
-                height="40"
-              />
+            <img
+              src="	https://ludoplayers.com/static/media/vs.c153e22fa9dc9f58742d.webp"
+              alt="verses-icon"
+              height="40"
+            />
           </div>
           <div className="d-flex flex-row-reverse align-items-end">
             <div
@@ -36,13 +39,16 @@ const OtherPlayingChallenges = ({ item, CDN_URL }) => {
                 alt="Avatar"
               />
             </div>
-            <span className=" fw-semibold text-truncate" style={{ width: "80px" }}>
+            <span
+              className=" fw-semibold text-truncate"
+              style={{ width: "80px" }}
+            >
               {item.player?.username.slice(0, 5)}...
             </span>
           </div>
         </div>
-        <div class="d-flex align-items-center justify-content-center pt-3">
-          <span class="text-success fw-bold">Rs {item.amount}</span>
+        <div className="d-flex align-items-center justify-content-center pt-3">
+          <span className="text-success fw-bold">Rs {item.amount}</span>
         </div>
       </div>
     </div>
