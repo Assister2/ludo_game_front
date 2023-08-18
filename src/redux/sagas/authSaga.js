@@ -84,8 +84,6 @@ function* login(param) {
     });
     yield put({ type: "SOCKET_CONNECTED", payload: socket });
 
-    localStorage.setItem("socket_connected", true);
-
     param.navigation(`/`);
   } else if (data.status === 400) {
     Cookies.remove("token");

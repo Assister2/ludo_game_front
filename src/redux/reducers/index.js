@@ -8,6 +8,7 @@ import { socketReducer } from "./socket";
 import { wallet } from "./wallet";
 import { wallet1, displaytimer } from "./buychips";
 import { history } from "./history";
+import { play } from "./play";
 
 export default combineReducers({
   signupPage1,
@@ -18,6 +19,7 @@ export default combineReducers({
   wallet,
   wallet1,
   history,
+  play,
   displaytimer,
 
   // Here you can registering another reducers.

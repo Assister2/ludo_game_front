@@ -18,7 +18,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <div className="App" style={{height: "100vh"}}>
+      <div className="App" style={{ height: "100vh" }}>
         {/* <DailogModal/> */}
         <ToastContainer position="bottom-right" autoClose={3000} />
         <Router>

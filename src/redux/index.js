@@ -25,7 +25,7 @@ const sagaMiddleware = createSagaMiddleware();
 const persistConfig = {
   key: "root",
   storage,
-  whiteList: [],
+  whiteList: ["socketReducer"],
   // whiteList:["signInReducer"]
 };
 

@@ -105,7 +105,6 @@ export const loginReducer = (
       Cookies.remove("token");
       Cookies.remove("fullName");
       Cookies.remove("userId");
-      localStorage.removeItem("socket_connected");
 
       return {
         ...state,

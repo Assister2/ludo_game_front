@@ -24,6 +24,7 @@ import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 import AppLayout from "../layout/AppLayout";
 import io from "socket.io-client";
+import { getChallengesSuccess } from "../../../redux/actions/play";
 
 export default function Play() {
   const history = useNavigate();
@@ -31,10 +32,12 @@ export default function Play() {
   const userId = Cookies.get("userId");
   const username = Cookies.get("fullName");
   const navigate = useNavigate();
+
+  const { challenges } = useSelector((state) => state.play);
+
   const [amount, setAmount] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
   const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
-  const [challenges, setChallenges] = useState([]);
 
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +54,8 @@ export default function Play() {
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
-  const isConnected = localStorage.getItem("socket_connected");
+  const { instance } = useSelector((state) => state.socketReducer);
+
   const { data } = useSelector((state) => state.wallet1);
 
   const [holdChallenge, setHoldChallenge] = useState({});
@@ -61,13 +65,10 @@ export default function Play() {
   const socket = useRef(null);
   useEffect(() => {
     let heartbeatInterval;
-    if (isConnected) {
+
+    if (instance) {
       //retrieve the existing socket-io instance
-      socket.current = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
-        auth: {
-          token: `${Cookies.get("token")}`,
-        },
-      }).connect();
+      socket.current = instance.connect();
     } else {
       socket.current = socketNew.connect();
     }
@@ -124,7 +125,7 @@ export default function Play() {
         }
         if (events.filter) {
           const tempData = filterEvents(events, userId, viewGame);
-          setChallenges(tempData);
+          dispatch(getChallengesSuccess(tempData));
         }
       });
 
@@ -354,7 +355,6 @@ export default function Play() {
             </div>
             <ChallengeList
               ws={ws}
-              challenges={challenges}
               userId={userId}
               buttonLoading={buttonLoading}
               challengeButton={challengeButton}
