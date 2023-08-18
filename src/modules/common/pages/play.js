@@ -1,11 +1,8 @@
-// import cogoToast from "cogo-toast";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ChallengeList from "./ChallengeList";
-// import Dash from "./dash";
 import "./animation.css";
 import ViewChallenge from "./ViewChallenge";
-// import Avatar from "react-avatar";
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 
@@ -67,7 +64,6 @@ export default function Play() {
     let heartbeatInterval;
 
     if (instance) {
-      //retrieve the existing socket-io instance
       socket.current = instance.connect();
     } else {
       socket.current = socketNew.connect();
@@ -78,8 +74,6 @@ export default function Play() {
       };
 
       document.addEventListener("visibilitychange", handleVisibilityChange);
-
-      // client = socket.current;
 
       if (!!socket.current) {
         setWs(socket.current);
@@ -268,7 +262,6 @@ export default function Play() {
       <div
         className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0"
         style={{ padding: "1rem", important: "true" }}
-        // onClick={() => setIsOpen(false)}
       >
         <div className="d-flex flex-column">
           <div className="bg-gray-200 h-100 w-100 p-3 bg-light d-flex align-items-center justify-content-between hstack gap-2 ">
@@ -291,7 +284,6 @@ export default function Play() {
                 disabled={createChallengeLoading}
                 onClick={() => {
                   createChallenge();
-                  // socketNew.disconnect();
                 }}
                 className="btn btn-primary w-25"
                 style={{
@@ -315,29 +307,6 @@ export default function Play() {
 
               <br></br>
             </div>
-
-            {/* <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic">
-              <BsSortUp />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item
-                onClick={() => {
-                  setSorting("lowToHigh");
-                }}
-              >
-                Low-High
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  setSorting("highToLow");
-                }}
-              >
-                High-slow
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown> */}
           </div>
           <ul className="m-0 px-2">
             <div className="separator mt-3 mb-3">
@@ -370,13 +339,6 @@ export default function Play() {
             setIsOpen={setIsOpen}
           />
         )}
-        {/* <Dialog open={isOpen} onClose={handleClose}>
-        <DialogContent style={{ paddingTop: "13px" }}>
-          <Typography variant="body1">
-            <b>Admin Will Update Result</b>
-          </Typography>
-        </DialogContent>
-      </Dialog> */}
         <ViewChallenge
           holdModal={holdModal}
           holdChallenge={holdChallenge}
