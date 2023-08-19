@@ -9,6 +9,8 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import socketNew from "../../../socket";
 
+// intented comment
+
 import { logoutSuccess } from "../../.././redux/actions/auth";
 import {
   sortEvents,
