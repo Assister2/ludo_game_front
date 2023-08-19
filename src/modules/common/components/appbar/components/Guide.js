@@ -11,7 +11,7 @@ import {
   logoutRequest,
   logoutSuccess,
 } from "../../../../../redux/actions/auth";
-import socketNew from "../../../../../socket";
+import { connectSocket, disconnectSocket } from "../../../../../socket";
 import { toast } from "react-toastify";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
@@ -27,13 +27,9 @@ function Guide(props) {
 
   const socket = useRef(null);
   const userId = Cookies.get("userId");
-  useEffect(() => {
-    if (instance) {
-      socket.current = instance.connect();
-    } else {
-      socket.current = socketNew.connect();
-    }
 
+  useEffect(() => {
+    socket.current = connectSocket();
     if (!userId || userData?.isBlocked) {
       dispatch(logoutSuccess());
       navigate("/login");
@@ -59,7 +55,6 @@ function Guide(props) {
         Cookies.remove("fullName");
         Cookies.remove("userId");
         window.location.href = "/login";
-        dispatch({ type: "SOCKET_CONNECTED", payload: null });
 
         toast.success("Logged out successfully");
       });
@@ -75,7 +70,7 @@ function Guide(props) {
             Cookies.remove("token");
             Cookies.remove("fullName");
             Cookies.remove("userId");
-            socketNew.disconnect();
+            disconnectSocket();
 
             dispatch(logoutSuccess());
             navigate("/login");

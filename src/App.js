@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Provider } from "react-redux";
 import "./App.css";
-import socketNew from "./socket";
+import { disconnectSocket } from "./socket";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -13,7 +13,7 @@ import Routes from "./routing/Routes";
 // import DailogModal from "./modules/common/components/atoms/DailogModal";
 function App() {
   if (!Cookies.get("userId")) {
-    socketNew.disconnect();
+    disconnectSocket();
   }
 
   return (

@@ -6,13 +6,12 @@ import { AiFillWarning } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutRequest } from "../../../../../redux/actions/auth";
-import socketNew from "../../../../../socket";
+
 
 export default function Metrics() {
   const { isLoading } = useSelector((state) => state.loginReducer);
-  const history = useNavigate();
+
   const dispatch = useDispatch();
-  const { instance } = useSelector((state) => state.socketReducer);
 
   const logout = () => {
     dispatch(logoutRequest());

@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import io from "socket.io-client";
-import socketNew from "../../socket";
+
+import { disconnectSocket } from "../../socket";
 import { put, call, takeLatest } from "redux-saga/effects";
 import { LOGIN_AUTH, LOGOUT_AUTH, USER_AUTH } from "../contstants";
 import {
@@ -16,7 +16,7 @@ import {
 } from "../actions/auth";
 import { getWalletSuccess } from "../actions/wallet";
 import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
-import { useHistory } from "react-router";
+
 
 function* signUp(param) {
   yield put(signUpLoading(true));
@@ -41,24 +41,7 @@ function* signUp(param) {
     toast.error(data.error);
   }
 }
-const connectSocket = () => {
-  // const websocketURL = process.env.REACT_APP_CLIENT_BASEURL_WS || "ws://localhost:4001";
-  const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
-    auth: {
-      token: `${Cookies.get("token")}`,
-    },
-  }); // Replace with your server URL
-  return new Promise((resolve, reject) => {
-    socket.on("connect", () => {
-      console.log("Socket.IO connected");
-    });
 
-    socket.on("connect_error", (error) => {
-      console.log("Socket.IO connection error:", error);
-      reject(error);
-    });
-  });
-};
 function* login(param) {
   let data = null;
   if (param?.payload?.register) {
@@ -76,13 +59,6 @@ function* login(param) {
     yield put(getWalletSuccess(data));
 
     yield put(loginSuccess(data));
-
-    const socket = io(process.env.REACT_APP_CLIENT_BASEURL_WS, {
-      auth: {
-        token: `${Cookies.get("token")}`,
-      },
-    });
-    yield put({ type: "SOCKET_CONNECTED", payload: socket });
 
     param.navigation(`/`);
   } else if (data.status === 400) {
@@ -105,9 +81,9 @@ function* logout(param) {
 
   yield put(logoutSuccess());
 
-  socketNew.disconnect();
+  disconnectSocket();
 
-  yield put({ type: "SOCKET_CONNECTED", payload: null });
+
 
   toast.success("Logged out successfully");
 }

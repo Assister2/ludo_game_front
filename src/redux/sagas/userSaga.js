@@ -12,7 +12,7 @@ import {
 } from "../actions/user";
 import { loginError } from "../actions/auth";
 import { getUserProfileApi, updateUserProfileApi } from "../../apis/user";
-import socketNew from "../../socket";
+import { connectSocket, disconnectSocket } from "../../socket";
 
 // Sign up
 function* getUserProfile(param) {
@@ -26,8 +26,7 @@ function* getUserProfile(param) {
     Cookies.remove("token");
     Cookies.remove("fullName");
     Cookies.remove("userId");
-    socketNew.disconnect();
-    yield put({ type: "SOCKET_CONNECTED", payload: null });
+    disconnectSocket();
 
     window.location.href = "/login";
     toast.error(data.error);

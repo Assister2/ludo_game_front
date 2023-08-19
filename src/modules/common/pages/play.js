@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
-import socketNew from "../../../socket";
+import { connectSocket } from "../../../socket";
 
 // intented comment
 
@@ -64,11 +64,8 @@ export default function Play() {
   useEffect(() => {
     let heartbeatInterval;
 
-    if (instance) {
-      socket.current = instance.connect();
-    } else {
-      socket.current = socketNew.connect();
-    }
+    socket.current = connectSocket();
+
     if (userId) {
       const handleVisibilityChange = () => {
         setIsTabVisible(!document.hidden);
@@ -305,7 +302,6 @@ export default function Play() {
                   "Set"
                 )}
               </button>
-
               <br></br>
             </div>
           </div>

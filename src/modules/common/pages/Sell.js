@@ -37,23 +37,7 @@ export default function Sell() {
       [e.target.name]: e.target.value,
     });
   };
-  // useEffect(() => {
-  //   const client = instance.connect();
-  //   setWs(client);
-  //   client.emit(
-  //     "getUserWallet",
-  //     JSON.stringify({
-  //       type: "getUserWallet",
-  //       payload: {
-  //         userId: userId,
-  //       },
-  //     })
-  //   );
-  //   return () => {
-  //     // Disconnect the client or perform any necessary cleanup actions
-  //     client.disconnect();
-  //   };
-  // }, []);
+ 
   const showToast = () => {
     toast.error("Complete or cancel active challenges to withdraw!");
   };
