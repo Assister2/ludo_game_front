@@ -20,7 +20,6 @@ import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 import AppLayout from "../layout/AppLayout";
-import io from "socket.io-client";
 import { getChallengesSuccess } from "../../../redux/actions/play";
 
 export default function Play() {
