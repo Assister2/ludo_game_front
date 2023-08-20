@@ -22,7 +22,6 @@ import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 import AppLayout from "../layout/AppLayout";
-import { getChallengesSuccess } from "../../../redux/actions/play";
 
 export default function Play() {
   const history = useNavigate();
@@ -31,7 +30,7 @@ export default function Play() {
   const username = Cookies.get("fullName");
   const navigate = useNavigate();
 
-  const { challenges } = useSelector((state) => state.play);
+  const [challenges, setChallenges] = useState([]);
 
   const [amount, setAmount] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -117,7 +116,7 @@ export default function Play() {
         }
         if (events.filter) {
           const tempData = filterEvents(events, userId, viewGame);
-          dispatch(getChallengesSuccess(tempData));
+          setChallenges(tempData);
         }
       });
 
@@ -321,6 +320,7 @@ export default function Play() {
             </div>
             <ChallengeList
               ws={ws}
+              challenges={challenges}
               userId={userId}
               buttonLoading={buttonLoading}
               challengeButton={challengeButton}

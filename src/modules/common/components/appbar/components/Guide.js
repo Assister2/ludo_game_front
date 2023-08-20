@@ -21,9 +21,8 @@ function Guide(props) {
   const navigate = useNavigate();
   const [f_open, setOpen] = useState(false);
   const { data } = useSelector((state) => state.loginReducer);
-  const { instance } = useSelector((state) => state.socketReducer);
   const { data: userData } = useSelector((state) => state.user);
-  const [wallet, setWallet] = useState({});
+  const { data: wallet } = useSelector((state) => state.wallet1);
 
   const socket = useRef(null);
   const userId = Cookies.get("userId");
@@ -75,8 +74,6 @@ function Guide(props) {
             dispatch(logoutSuccess());
             navigate("/login");
           }
-
-          setWallet(data.data);
           dispatch({ type: "GET_WALLET_REQUEST1", payload: data.data });
         }
       });
@@ -86,7 +83,7 @@ function Guide(props) {
         clearInterval(interval);
       };
     }
-  }, [instance]);
+  }, []);
   useEffect(() => {
     if (!userData?._id) {
       if (data.isLoggedIn && Cookies.get("token")) {

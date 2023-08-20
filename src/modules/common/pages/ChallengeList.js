@@ -3,11 +3,11 @@ import { CDN_URL } from "../../../config";
 import { CSSTransition } from "react-transition-group";
 import OtherPlayingChallenges from "./OtherPlayingChallenges";
 import ButtonChallenges from "./ButtonChallenges";
-import { useSelector } from "react-redux";
 
 const ChallengeList = React.memo(
   ({
     challengeButton,
+    challenges,
     handleOpen,
     userId,
     buttonLoading,
@@ -15,8 +15,6 @@ const ChallengeList = React.memo(
     viewHold,
     ws,
   }) => {
-    const { challenges } = useSelector((state) => state.play);
-
     const memoizedChallenges = React.useMemo(
       () =>
         challenges.map((item) => {
