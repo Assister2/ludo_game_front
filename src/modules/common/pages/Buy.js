@@ -62,7 +62,7 @@ export default function Buy() {
             Buy Chips
           </div>
           <div className="card-body">
-            <label for="amount" className="form-label w-100 text-start">
+            <label htmlFor="amount" className="form-label w-100 text-start">
               Enter Amount
             </label>
             <div className="input-group mb-4">

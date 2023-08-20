@@ -54,25 +54,23 @@ export default function WithDraw() {
             </div>
           </div>
           <div className="d-flex flex-column align-items-stretch pt-4">
-            <a className="text-decoration-none">
-              <div className="d-grid">
-                {disableWithdraw ? (
-                  <Link
-                    className="btn btn-primary btn-lg text-capitalize mb-2"
-                    onClick={() => showToast()}
-                  >
-                    withdraw
-                  </Link>
-                ) : (
-                  <Link
-                    to="/sell"
-                    className="btn btn-primary btn-lg text-capitalize mb-2"
-                  >
-                    withdraw
-                  </Link>
-                )}
-              </div>
-            </a>
+            <div className="text-decoration-none d-grid">
+              {disableWithdraw ? (
+                <Link
+                  className="btn btn-primary btn-lg text-capitalize mb-2"
+                  onClick={() => showToast()}
+                >
+                  withdraw
+                </Link>
+              ) : (
+                <Link
+                  to="/sell"
+                  className="btn btn-primary btn-lg text-capitalize mb-2"
+                >
+                  withdraw
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>

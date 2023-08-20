@@ -3,6 +3,7 @@ import { CDN_URL } from "../../../config";
 import { CSSTransition } from "react-transition-group";
 import OtherPlayingChallenges from "./OtherPlayingChallenges";
 import ButtonChallenges from "./ButtonChallenges";
+import CircularLoading from "../components/atoms/CircularLoading";
 
 const ChallengeList = React.memo(
   ({
@@ -177,10 +178,13 @@ const ChallengeList = React.memo(
         }),
       [challenges, buttonLoading, handleOpen, viewGame, viewHold]
     );
-
     return (
       <ul style={{ padding: 0 }} className="challenge-list">
-        {memoizedChallenges}
+        {memoizedChallenges.length === 0 ? (
+          <CircularLoading />
+        ) : (
+          memoizedChallenges
+        )}
       </ul>
     );
   }

@@ -1,4 +1,4 @@
-import CircularLoading from './../../atoms/CircularLoading'
+import CircularLoading from "./../../atoms/CircularLoading";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ export default function ProfileDetails() {
   const userData = useSelector((state) => state.user);
   const [editButton, setEditButton] = useState(false);
   const [userName, setUserName] = useState();
-  
+
   const handleSubmit = () => {
     // Remove spaces from the userName
     const trimmedUserName = userName.trim();
@@ -39,7 +39,7 @@ export default function ProfileDetails() {
     setEditButton(userData.isLoading);
     setUserName(userData?.data?.username);
   }, [userData]);
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -84,7 +84,7 @@ export default function ProfileDetails() {
                 type="text"
                 className="form-control me-2"
                 onChange={handleChange}
-                value={userName}
+                value={userName || ""}
                 disabled={!editButton}
               ></input>
               {editButton ? (
@@ -95,9 +95,9 @@ export default function ProfileDetails() {
                 >
                   {userData.isLoading ? (
                     <CircularLoading
-                    height={'1.5rem'}
-                    width={'1.5rem'}
-                    color={'white'}
+                      height={"1.5rem"}
+                      width={"1.5rem"}
+                      color={"white"}
                     />
                   ) : (
                     "Save"
@@ -123,7 +123,7 @@ export default function ProfileDetails() {
                 type="text"
                 className="form-control me-2"
                 maxLength={10}
-                value={userData?.data?.phone}
+                value={userData?.data?.phone || ""}
                 disabled
               ></input>
             </div>

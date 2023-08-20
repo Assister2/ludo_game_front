@@ -52,7 +52,10 @@ export default function ReferAndEarning() {
           <div className="card-body">
             <div className="d-flex align-items-center justify-content-between">
               <div className="d-flex flex-column border-end flex-grow-1 align-items-center justify-content-center">
-                <span className="text-capitalize fw-bold" style={{fontSize: "0.8rem"}}>
+                <span
+                  className="text-capitalize fw-bold"
+                  style={{ fontSize: "0.8rem" }}
+                >
                   referred players
                 </span>
                 <span>
@@ -60,7 +63,10 @@ export default function ReferAndEarning() {
                 </span>
               </div>
               <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                <span className="text-capitalize fw-bold" style={{fontSize: "0.8rem"}}>
+                <span
+                  className="text-capitalize fw-bold"
+                  style={{ fontSize: "0.8rem" }}
+                >
                   Referral Earning
                 </span>
                 <span>₹{userData?.data?.account?.referelBalance}</span>
@@ -89,7 +95,7 @@ export default function ReferAndEarning() {
                       type="text"
                       className="form-control p-2"
                       disabled
-                      value={userData.data.referCode}
+                      value={userData?.data?.referCode || ""}
                     />
                     <CopyToClipboard text={shareMessage} onCopy={showToast}>
                       <button className="btn btn-primary text-uppercase">
@@ -102,10 +108,7 @@ export default function ReferAndEarning() {
               <p className="text-uppercase fw-bold fs-3 p-0 m-0 my-3">or</p>
 
               <div className="d-grid">
-                <button
-                  className="btn btn-success btn-md w-100"
-                  // style={{ backgroundColor: "green", borderColor: "green" }}
-                >
+                <div className="btn btn-success btn-md w-100">
                   <WhatsappShareButton
                     url={
                       window.location.origin +
@@ -118,14 +121,14 @@ export default function ReferAndEarning() {
                     <FaWhatsapp
                       style={{ paddingRight: "5px" }}
                       size={25}
-                      round
+                      round="true"
                     />
                     <span className="text-capitalize">Share to Whatsapp</span>
                   </WhatsappShareButton>
-                </button>
+                </div>
               </div>
               <div className="d-grid mt-2">
-                <button
+                <div
                   className="btn btn-primary btn-md w-100"
                   style={{ height: "38px" }}
                 >
@@ -133,11 +136,11 @@ export default function ReferAndEarning() {
                     <FaTelegram
                       style={{ paddingRight: "8px" }}
                       size={25}
-                      round
+                      round="true"
                     />
                     <span className="text-capitalize">Share to Telegram</span>
                   </TelegramShareButton>
-                </button>
+                </div>
               </div>
               <div className="d-grid mt-2">
                 <a href="#">

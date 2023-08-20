@@ -41,16 +41,14 @@ export default function Deposit() {
             </div>
           </div>
           <div className="d-flex flex-column align-items-stretch pt-4">
-            <a className="text-decoration-none">
-              <div className="d-grid">
-                <Link
-                  to="/buy"
-                  className="btn btn-primary btn-lg text-capitalize mb-2"
-                >
-                  Add
-                </Link>
-              </div>
-            </a>
+            <div className="text-decoration-none d-grid">
+              <Link
+                to="/buy"
+                className="btn btn-primary btn-lg text-capitalize mb-2"
+              >
+                Add
+              </Link>
+            </div>
           </div>
         </div>
       </div>

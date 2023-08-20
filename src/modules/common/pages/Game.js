@@ -23,6 +23,9 @@ import SwipeableContainer from "./Guidedrawer";
 // import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 import LudoKing from "../../../../public/images/ludoking.jpg";
 import AppLayout from "../layout/AppLayout";
+import LostModal from "../components/game/LostModal";
+import WinModal from "../components/game/WinModal";
+import CancellationModal from "../components/game/CancellationModal";
 
 export default function Game(props) {
   const params = useParams();
@@ -58,7 +61,6 @@ export default function Game(props) {
   const [challenge, setChallenge] = useState(challengeInititalState);
   // const [showTimer, setShowTimer] = useState(false);
   const [userIs, setuserIs] = useState(null);
-  const { instance } = useSelector((state) => state.socketReducer);
   const [ws, setWs] = useState();
   const [postResultLoading, setPostResultLoading] = useState(false);
 
@@ -87,6 +89,37 @@ export default function Game(props) {
       window.location.href =
         "https://play.google.com/store/apps/details?id=com.ludo.king";
     }
+  };
+
+  const handleLostModalClose = () => {
+    setLostModal(false);
+  };
+
+  const handleLooseChallenge = () => {
+    looseChallenge(challenge.challengeId);
+  };
+
+  const handleWonModalClose = () => {
+    setWonModal(false);
+    setIsImageUploaded(false);
+    setScreenshoot("");
+  };
+  const handleWinChallenge = () => {
+    winChallenge({
+      id: challenge.challengeId,
+      image: screenshoot,
+      fileType: fileType,
+    });
+  };
+
+  const handleCancellationModalClose = () => {
+    setCancellationModal(false);
+  };
+  const handleCancelChallenge = () => {
+    cancelChallenge({
+      _id: challenge.challengeId,
+      cancellationReason,
+    });
   };
 
   const socket = useRef(null);
@@ -594,269 +627,33 @@ export default function Game(props) {
             </div>
           </div>
         </div>
-        <div
-          role="dialog"
-          aria-modal="true"
-          className={`h-auto offcanvas offcanvas-bottom ${
-            lostModal ? "show" : "hide"
-          }`}
-          tabindex="-1"
-          style={{ visibility: "visible" }}
-        >
-          <div className="offcanvas-header">
-            <div className="offcanvas-title h5"></div>
-            <button
-              onClick={() => {
-                setLostModal(false);
-              }}
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="offcanvas-body">
-            <h1 className="text-capitalize">
-              are you sure you lost this game?
-            </h1>
-            <div className="py-4">
-              <div className="vstack gap-3 minBreakpoint-xs">
-                <button
-                  disabled={isIlostClicked}
-                  type="button"
-                  onClick={() => {
-                    looseChallenge(challenge.challengeId);
-                  }}
-                  className="text-capitalize btn btn-danger btn-lg"
-                >
-                  {isIlostClicked ? (
-                    <CircularLoading
-                      height={"1.5rem"}
-                      width={"1.5rem"}
-                      color={"white"}
-                    />
-                  ) : (
-                    "Yes, i lost"
-                  )}
-                </button>
-                <button
-                  onClick={() => {
-                    setLostModal(false);
-                  }}
-                  type="button"
-                  className="btn btn-outline-danger btn-lg"
-                >
-                  No
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* win modal */}
-        <div
-          role="dialog"
-          aria-modal="true"
-          className={`h-auto offcanvas offcanvas-bottom ${
-            wonModal ? "show" : "hide"
-          }`}
-          tabindex="-1"
-          style={{ visibility: "visible" }}
-        >
-          <div className="offcanvas-header">
-            <div className="offcanvas-title h5"></div>
-            <button
-              onClick={() => {
-                setWonModal(false);
-                setIsImageUploaded(false);
+        <LostModal
+          handleLooseChallenge={handleLooseChallenge}
+          handleClose={handleLostModalClose}
+          isIlostClicked={isIlostClicked}
+          lostModal={lostModal}
+          challenge={challenge}
+        />
 
-                setScreenshoot("");
-              }}
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="offcanvas-body">
-            <div className="pb-3 d-flex flex-column align-items-stretch">
-              <div className="vstack gap-3 minBreakpoint-xs">
-                <h1 className="text-capitalize">Upload Result</h1>
-                {isImageUploaded && (
-                  <>
-                    <img
-                      width={100}
-                      height={100}
-                      src={image}
-                      alt="Selected Image"
-                    />
-                  </>
-                )}
-                <label htmlFor="upload-btn" className="btn btn-primary btn-lg">
-                  {isImageUploaded ? "Replace Image" : "Upload Image"}
-                </label>
-                <input
-                  id="upload-btn"
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-
-                <button
-                  type="button"
-                  disabled={postResultLoading || !isImageUploaded}
-                  className="btn btn-success btn-lg"
-                  onClick={() => {
-                    winChallenge({
-                      id: challenge.challengeId,
-                      image: screenshoot,
-                      fileType: fileType,
-                    });
-                  }}
-                >
-                  {" "}
-                  {postResultLoading || IsLoading ? (
-                    <CircularLoading
-                      height={"1.5rem"}
-                      width={"1.5rem"}
-                      color={"white"}
-                    />
-                  ) : (
-                    "Post Result"
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* cancellation modal */}
-        <div
-          role="dialog"
-          aria-modal="true"
-          className={`h-auto offcanvas offcanvas-bottom ${
-            canceLLationModal ? "show" : "hide"
-          }`}
-          tabindex="-1"
-          style={{ visibility: "visible" }}
-        >
-          <div className="offcanvas-header">
-            <div className="offcanvas-title h5"></div>
-            <button
-              onClick={() => {
-                setCancellationModal(false);
-              }}
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="offcanvas-body">
-            <h5 className="text-capitalize">we would like to know more</h5>
-            <h6 className="text-capitalize">select reason for cancelling</h6>
-            <div className="row row-cols-auto g-2 py-3 container-fluid">
-              <div className="col">
-                <span
-                  style={{ cursor: "pointer" }}
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  onClick={() => {
-                    handleCancellationReason("No Room Code");
-                  }}
-                >
-                  No Room Code
-                </span>
-              </div>
-              <div className="col">
-                <span
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    handleCancellationReason("Not Joined");
-                  }}
-                >
-                  Not Joined
-                </span>
-              </div>
-              <div className="col">
-                <span
-                  style={{ cursor: "pointer" }}
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  onClick={() => {
-                    handleCancellationReason("Not Playing");
-                  }}
-                >
-                  Not Playing
-                </span>
-              </div>
-              <div className="col">
-                <span
-                  style={{ cursor: "pointer" }}
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  onClick={() => {
-                    handleCancellationReason("Don't want to Play");
-                  }}
-                >
-                  Don't want to Play
-                </span>
-              </div>
-              <div className="col">
-                <span
-                  style={{ cursor: "pointer" }}
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  onClick={() => {
-                    handleCancellationReason("Opponent Abusing");
-                  }}
-                >
-                  Opponent Abusing
-                </span>
-              </div>
-              <div className="col">
-                <span
-                  style={{ cursor: "pointer" }}
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  onClick={() => {
-                    handleCancellationReason("Game Not Start");
-                  }}
-                >
-                  Game Not Start
-                </span>
-              </div>
-              <div className="col">
-                <span
-                  style={{ cursor: "pointer" }}
-                  className="py-2 px-3 badge rounded-pill bg-secondary"
-                  onClick={() => {
-                    handleCancellationReason("Other");
-                  }}
-                >
-                  Other
-                </span>
-              </div>
-            </div>
-            <div className="d-flex flex-column align-items-stretch pb-3">
-              <button
-                type="button"
-                disabled={cancellationReason === "" || disableCancelButton}
-                className="text-capitalize btn btn-primary btn-lg"
-                onClick={() => {
-                  cancelChallenge({
-                    _id: challenge.challengeId,
-                    cancellationReason,
-                  });
-                }}
-              >
-                {disableCancelButton ? (
-                  <CircularLoading
-                    height={"1.5rem"}
-                    width={"1.5rem"}
-                    color={"white"}
-                  />
-                ) : (
-                  "Confirm"
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
+        <WinModal
+          handleClose={handleWonModalClose}
+          handleImageChange={handleImageChange}
+          handleWinChallenge={handleWinChallenge}
+          wonModal={wonModal}
+          isImageUploaded={isImageUploaded}
+          postResultLoading={postResultLoading}
+          IsLoading={IsLoading}
+          image={image}
+        />
+        <CancellationModal
+          handleCancellationModalClose={handleCancellationModalClose}
+          handleCancelChallenge={handleCancelChallenge}
+          handleCancellationReason={handleCancellationReason}
+          canceLLationModal={canceLLationModal}
+          cancellationReason={cancellationReason}
+          disableCancelButton={disableCancelButton}
+        />
       </div>
     </AppLayout>
   );

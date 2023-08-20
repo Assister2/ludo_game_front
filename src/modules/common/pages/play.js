@@ -51,7 +51,6 @@ export default function Play() {
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
-  const { instance } = useSelector((state) => state.socketReducer);
 
   const { data } = useSelector((state) => state.wallet1);
 
