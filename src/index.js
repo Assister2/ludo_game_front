@@ -5,6 +5,8 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import * as Sentry from "@sentry/react";
+import store from "./redux";
+import { Provider } from "react-redux";
 
 const backendUrl = process.env.REACT_APP_CLIENT_BASEURL || "";
 if (process.env.NODE_ENV === "production") {
@@ -24,11 +26,11 @@ if (process.env.NODE_ENV === "production") {
     replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
   });
 }
-
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
-

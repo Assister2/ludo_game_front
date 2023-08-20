@@ -113,17 +113,11 @@ export default function OTPVerification({ route }) {
         dispatch(loginRequest({ phone, otp }, history));
       }
 
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error("Error while verifying:", error);
       setLoading(false);
     }
-
-    setState({
-      digits: ["", "", "", "", "", ""],
-      isPaste: false,
-      isVerified: false,
-    });
   };
 
   const resend = async () => {
@@ -172,7 +166,7 @@ export default function OTPVerification({ route }) {
                   className="me-1"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
                   ></path>
                 </svg>
@@ -185,108 +179,26 @@ export default function OTPVerification({ route }) {
                 style={{ display: "flex" }}
                 onPaste={handlePaste}
               >
-                <input
-                  aria-label="Please enter verification code. Digit 1"
-                  autocomplete="off"
-                  className="  form-control"
-                  required={true}
-                  id="0"
-                  type="tel"
-                  maxLength={1}
-                  value={state.digits[0]}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    flex: "1 1 0%",
-                    textAlign: "center",
-                    marginRight: "4px",
-                  }}
-                />
-                <input
-                  aria-label="Digit 2"
-                  autocomplete="off"
-                  className="  form-control"
-                  required={true}
-                  id="1"
-                  type="tel"
-                  maxLength={1}
-                  value={state.digits[1]}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    flex: "1 1 0%",
-                    textAlign: "center",
-                    marginRight: "4px",
-                  }}
-                />
-                <input
-                  aria-label="Digit 3"
-                  autocomplete="off"
-                  className="  form-control"
-                  required={true}
-                  id="2"
-                  type="tel"
-                  maxLength={1}
-                  value={state.digits[2]}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    flex: "1 1 0%",
-                    textAlign: "center",
-                    marginRight: "4px",
-                  }}
-                />
-                <input
-                  aria-label="Digit 4"
-                  autocomplete="off"
-                  className="  form-control"
-                  required={true}
-                  id="3"
-                  type="tel"
-                  maxLength={1}
-                  value={state.digits[3]}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    flex: "1 1 0%",
-                    textAlign: "center",
-                    marginRight: "4px",
-                  }}
-                />
-                <input
-                  aria-label="Digit 5"
-                  autocomplete="off"
-                  className="  form-control"
-                  required={true}
-                  id="4"
-                  type="tel"
-                  maxLength={1}
-                  value={state.digits[4]}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    flex: "1 1 0%",
-                    textAlign: "center",
-                    marginRight: "4px",
-                  }}
-                />
-                <input
-                  aria-label="Digit 6"
-                  autocomplete="off"
-                  className="  form-control"
-                  required={true}
-                  id="5"
-                  type="tel"
-                  maxLength={1}
-                  value={state.digits[5]}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    flex: "1 1 0%",
-                    textAlign: "center",
-                    marginRight: "4px",
-                  }}
-                />
+                {state.digits.map((val, index) => (
+                  <input
+                    key={index}
+                    aria-label={`Digit ${index + 1}`}
+                    autoComplete="off"
+                    className="form-control"
+                    required={true}
+                    id={index}
+                    type="tel"
+                    maxLength={1}
+                    value={val}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    style={{
+                      flex: "1 1 0%",
+                      textAlign: "center",
+                      marginRight: "4px",
+                    }}
+                  />
+                ))}
               </div>
             </div>
             <div

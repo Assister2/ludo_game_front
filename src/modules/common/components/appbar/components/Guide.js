@@ -14,6 +14,7 @@ import {
 import { connectSocket, disconnectSocket } from "../../../../../socket";
 import { toast } from "react-toastify";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import CircularLoading from "../../atoms/CircularLoading";
 
 function Guide(props) {
   const dispatch = useDispatch();
@@ -123,10 +124,13 @@ function Guide(props) {
         <Link className="text-decoration-none text-white " to="/wallet">
           <div className="py-1 bg-white border px-2 text-dark d-flex align-items-center rounded-2">
             <BsWalletFill className="me-2" color="green" />
-
-            <strong>
-              {wallet?.wallet?.toFixed(wallet?.wallet % 1 !== 0 ? 2 : 0)}
-            </strong>
+            {wallet?.wallet ? (
+              <strong>
+                {wallet?.wallet?.toFixed(wallet?.wallet % 1 !== 0 ? 2 : 0)}
+              </strong>
+            ) : (
+              <CircularLoading width={20} height={20} color="#0D6EFD" />
+            )}
           </div>
         </Link>
       ) : (

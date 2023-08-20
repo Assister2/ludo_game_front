@@ -62,7 +62,7 @@ export default function Login(props) {
         <div className="card">
           <div className="bg-light text-dark card-header">Login</div>
           <div className="card-body">
-            <label for="phone" className="w-100 text-start form-label">
+            <label htmlFor="phone" className="w-100 text-start form-label">
               Mobile Number
             </label>
             <div className="input-group">
@@ -75,7 +75,7 @@ export default function Login(props) {
                 id="phone"
                 className="form-control"
                 aria-describedby="phone"
-                maxlength="10"
+                maxLength="10"
                 pattern="/^[6-9]{1}[0-9]{9}$/"
                 onChange={handleChange}
                 value={state.phone}

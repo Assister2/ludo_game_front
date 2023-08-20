@@ -72,7 +72,7 @@ export const logoutRequest = (data, history, route) => {
   return {
     type: LOGOUT_AUTH.LOGOUT_REQUEST,
     navigation: history,
-    route: route
+    route: route,
   };
 };
 
@@ -83,6 +83,12 @@ export const logoutSuccess = (data) => {
   };
 };
 
+export const automaticLogoutRequest = (data) => {
+  return {
+    type: LOGOUT_AUTH.AUTOMATIC_LOGOUT_REQUEST,
+    payload: data,
+  };
+};
 export const logoutLoading = (load) => {
   return {
     type: LOGOUT_AUTH.LOGOUT_LOADING,

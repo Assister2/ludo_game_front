@@ -6,6 +6,12 @@ export const getWalletReq = (data) => {
     payload: data,
   };
 };
+export const getWalletReq1 = (data) => {
+  return {
+    type: WALLET.GET_WALLET_REQUEST1,
+    payload: data,
+  };
+};
 
 export const getWalletSuccess = (data) => {
   return {

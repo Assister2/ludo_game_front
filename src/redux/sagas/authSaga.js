@@ -14,9 +14,12 @@ import {
   logoutSuccess,
   logoutLoading,
 } from "../actions/auth";
-import { getWalletSuccess } from "../actions/wallet";
+import {
+  getWalletLoading,
+  getWalletReq1,
+  getWalletSuccess,
+} from "../actions/wallet";
 import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
-
 
 function* signUp(param) {
   yield put(signUpLoading(true));
@@ -57,7 +60,6 @@ function* login(param) {
     Cookies.set("userId", data.data?._id, { expires: 30 });
 
     yield put(getWalletSuccess(data));
-
     yield put(loginSuccess(data));
 
     param.navigation(`/`);
@@ -78,17 +80,26 @@ function* login(param) {
 function* logout(param) {
   yield put(logoutLoading(true));
   const data = yield logoutAPI();
+  yield put(getWalletReq1());
 
   yield put(logoutSuccess());
 
   disconnectSocket();
-
-
-
   toast.success("Logged out successfully");
+}
+function* automaticLogout(param) {
+  yield put(logoutLoading(true));
+  const data = yield logoutAPI();
+  yield put(getWalletReq1());
+
+  yield put(logoutSuccess());
+
+  disconnectSocket();
+  toast.success("Logged out automatically");
 }
 export default function* authSaga() {
   yield takeLatest(USER_AUTH.SIGNUP_REQUEST, signUp);
   yield takeLatest(LOGIN_AUTH.LOGIN_REQUEST, login);
   yield takeLatest(LOGOUT_AUTH.LOGOUT_REQUEST, logout);
+  yield takeLatest(LOGOUT_AUTH.AUTOMATIC_LOGOUT_REQUEST, automaticLogout);
 }
