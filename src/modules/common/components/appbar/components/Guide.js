@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getWalletReq } from "../../../../../redux/actions/wallet";
 import { getUserProfileReq } from "../../../../../redux/actions/user";
 import {
+  automaticLogoutRequest,
   logoutRequest,
   logoutSuccess,
 } from "../../../../../redux/actions/auth";
@@ -50,12 +51,7 @@ function Guide(props) {
       // }, 2000);
 
       socket.current.on("logout", (message) => {
-        dispatch(logoutSuccess());
-        Cookies.remove("token");
-        Cookies.remove("fullName");
-        Cookies.remove("userId");
-        window.location.href = "/login";
-
+        dispatch(automaticLogoutRequest());
         toast.success("Logged out successfully");
       });
 
