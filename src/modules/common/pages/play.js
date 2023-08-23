@@ -69,15 +69,15 @@ export default function Play() {
         setIsTabVisible(!document.hidden);
       };
 
-      document.addEventListener("visibilitychange", handleVisibilityChange);
+      // document.addEventListener("visibilitychange", handleVisibilityChange);
 
       if (!!socket.current) {
         setWs(socket.current);
       }
 
-      heartbeatInterval = setInterval(() => {
-        socket.current.send(JSON.stringify({ type: "heartbeat" }));
-      }, 1000);
+      // heartbeatInterval = setInterval(() => {
+      //   socket.current.send(JSON.stringify({ type: "heartbeat" }));
+      // }, 1000);
 
       socket.current.send(
         JSON.stringify({
@@ -88,6 +88,7 @@ export default function Play() {
 
       socket.current.on("message", (event) => {
         var events = JSON.parse(event);
+
         if (events.status === "enabled") {
           setButtonLoading(false);
           setCreateChallengeLoading(false);
@@ -109,6 +110,9 @@ export default function Play() {
 
           return;
         }
+      });
+      socket.current.on("getChallenges", (event) => {
+        var events = JSON.parse(event);
 
         if (events.sort) {
           sortEvents(events, userId);
@@ -118,8 +122,9 @@ export default function Play() {
           setChallenges(tempData);
         }
       });
-
-      socket.current.on("error", (events) => {});
+      socket.current.on("error", (events) => {
+        toast.error(events.error);
+      });
     }
     if (!userId) {
       dispatch(logoutSuccess());
@@ -135,7 +140,7 @@ export default function Play() {
     }
 
     return () => {
-      clearInterval(heartbeatInterval);
+      // clearInterval(heartbeatInterval);
       if (socket.current) {
         socket.current.send(
           JSON.stringify({
@@ -223,7 +228,6 @@ export default function Play() {
       toast.error("not enough chips");
       return;
     }
-
     if (!buttonLoading) {
       ws.send(
         JSON.stringify({

@@ -1,20 +1,20 @@
-import React from "react";
+import React, { lazy } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes as Switch, Navigate } from "react-router-dom";
-import LandingPage from "../modules/common/pages/LandingPage";
-import UserProfile from "../modules/common/pages/UserProfile";
-import Wallet from "../modules/common/pages/Wallet";
-import Buy from "../modules/common/pages/Buy";
-import Sell from "../modules/common/pages/Sell";
-import ReferAndEarning from "../modules/common/pages/Referal";
-import Play from "../modules/common/pages/play";
-import Game from "../modules/common/pages/Game";
-import History from "../modules/common/pages/history";
-import LegalTerms from "../modules/common/pages/LegalTerms";
-import Support from "../modules/common/pages/Support";
-import Login from "../modules/auth/pages/Login";
-import Register from "../modules/auth/pages/Register";
-import OTPVerification from "../modules/auth/pages/VerifyOtp";
+const LandingPage = lazy(() => import("../modules/common/pages/LandingPage"));
+const UserProfile = lazy(() => import("../modules/common/pages/UserProfile"));
+const Wallet = lazy(() => import("../modules/common/pages/Wallet"));
+const Buy = lazy(() => import("../modules/common/pages/Buy"));
+const Sell = lazy(() => import("../modules/common/pages/Sell"));
+const ReferAndEarning = lazy(() => import("../modules/common/pages/Referal"));
+const Game = lazy(() => import("../modules/common/pages/Game"));
+const History = lazy(() => import("../modules/common/pages/history"));
+const LegalTerms = lazy(() => import("../modules/common/pages/LegalTerms"));
+const Support = lazy(() => import("../modules/common/pages/Support"));
+const Login = lazy(() => import("../modules/auth/pages/Login"));
+const Register = lazy(() => import("../modules/auth/pages/Register"));
+const OTPVerification = lazy(() => import("../modules/auth/pages/VerifyOtp"));
+const Play = lazy(() => import("../modules/common/pages/play"));
 
 const Routes = (props) => {
   const { data } = useSelector((state) => state.loginReducer);

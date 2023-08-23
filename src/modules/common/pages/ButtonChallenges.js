@@ -1,4 +1,4 @@
-import CircularLoading from './../components/atoms/CircularLoading'
+import CircularLoading from "./../components/atoms/CircularLoading";
 import React from "react";
 const ButtonChallenges = ({
   item,
@@ -100,9 +100,9 @@ const ButtonChallenges = ({
                 {buttonLoading === item._id ? (
                   <>
                     <CircularLoading
-                    height={'1.0rem'}
-                    width={'1.0rem'}
-                    color={'white'}
+                      height={"1.0rem"}
+                      width={"1.0rem"}
+                      color={"white"}
                     />{" "}
                     Play
                   </>
@@ -122,9 +122,9 @@ const ButtonChallenges = ({
                 {buttonLoading === item._id ? (
                   <>
                     <CircularLoading
-                    height={'1.0rem'}
-                    width={'1.0rem'}
-                    color={'white'}
+                      height={"1.0rem"}
+                      width={"1.0rem"}
+                      color={"white"}
                     />{" "}
                     Requested
                   </>

@@ -10,6 +10,7 @@ import {
   getHistorySuccess,
 } from "../../../redux/actions/history";
 import CircularLoading from "../components/atoms/CircularLoading";
+import { centerDivStyle } from "../../../App";
 
 const tabs = [
   {
@@ -48,7 +49,9 @@ export default function History() {
     <AppLayout>
       <div className="col-12 col-sm-10 col-md-7 col-lg-12 mx-auto p-3 g-0">
         {isLoading ? (
-          <CircularLoading />
+          <div style={centerDivStyle}>
+            <CircularLoading color="#0D6EFD" />
+          </div>
         ) : (
           <div>
             <div className="d-flex align-items-center justify-content-start overflow-auto pt-3 px-0 container">

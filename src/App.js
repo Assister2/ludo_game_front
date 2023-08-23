@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,7 +10,14 @@ import Cookies from "js-cookie";
 import Routes from "./routing/Routes";
 import { automaticLogoutRequest } from "./redux/actions/auth";
 import store from "./redux";
+import CircularLoading from "./modules/common/components/atoms/CircularLoading";
 // import DailogModal from "./modules/common/components/atoms/DailogModal";
+export const centerDivStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+};
 function App() {
   const dispatch = useDispatch();
   const checkCookies = (isLoggedIn) => {
@@ -28,18 +35,25 @@ function App() {
       clearInterval(interval);
     };
   }, []);
-
   return (
-    <div className="App" style={{ height: "100vh" }}>
-      {/* <DailogModal/> */}
-      <ToastContainer position="bottom-right" autoClose={3000} />
-      <Router>
-        {/* <Header /> */}
-        <Fragment>
-          <Routes />
-        </Fragment>
-      </Router>
-    </div>
+    <Suspense
+      fallback={
+        <div style={centerDivStyle}>
+          <CircularLoading width={64} height={64} color="#7E6FE6" />
+        </div>
+      }
+    >
+      <div className="App" style={{ height: "100vh" }}>
+        {/* <DailogModal/> */}
+        <ToastContainer position="bottom-right" autoClose={3000} />
+        <Router>
+          {/* <Header /> */}
+          <Fragment>
+            <Routes />
+          </Fragment>
+        </Router>
+      </div>
+    </Suspense>
   );
 }
 
