@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ChallengeList from "./ChallengeList";
-import "./animation.css";
-import ViewChallenge from "./ViewChallenge";
+import ChallengeList from "./play/ChallengeList";
+import "../styles/animation.css";
+import ViewChallenge from "./play/ViewChallenge";
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 
@@ -11,16 +11,16 @@ import { connectSocket } from "../../../socket";
 
 // intented comment
 
-import { logoutSuccess } from "../../.././redux/actions/auth";
+import { logoutSuccess } from "../../../redux/actions/auth";
 import {
   sortEvents,
   filterEvents,
   validateAmount,
   isAvailabletoPlayGame,
 } from "../functions/functions";
-import CircularLoading from "./../components/atoms/CircularLoading";
+import CircularLoading from "../components/atoms/CircularLoading";
 import { useDispatch } from "react-redux";
-import DailogModal from "./../components/atoms/DailogModal";
+import DailogModal from "../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 import AppLayout from "../layout/AppLayout";
 import { toContainElement } from "@testing-library/jest-dom/matchers";
@@ -54,7 +54,7 @@ export default function Play() {
     setAmount(e.target.value);
   };
 
-  const { data } = useSelector((state) => state.wallet1);
+  const { data } = useSelector((state) => state.wallet);
 
   const [holdChallenge, setHoldChallenge] = useState({});
 

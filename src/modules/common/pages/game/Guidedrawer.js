@@ -1,6 +1,6 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import "./style.css";
+import "../../styles/style.css";
 
 const SwipeableContainer = ({ is_open, handleGuide2 }) => {
   const handleClose = () => handleGuide2(false);

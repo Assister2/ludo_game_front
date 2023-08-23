@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { getHistoryApi } from "../../../apis/history";
 import AppLayout from "../layout/AppLayout";
 import { useDispatch, useSelector } from "react-redux";
-import All from "../components/history/tabs/All";
-import Wallet from "../components/history/tabs/Wallet";
-import Classic from "../components/history/tabs/Classic";
+import All from "./history/tabs/All";
+import Wallet from "./history/tabs/Wallet";
+import Classic from "./history/tabs/Classic";
 import {
   getHistoryLoading,
   getHistorySuccess,

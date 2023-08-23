@@ -19,13 +19,13 @@ import { getWalletReq } from "../../../redux/actions/wallet";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { connectSocket } from "../../../socket";
-import SwipeableContainer from "./Guidedrawer";
+import SwipeableContainer from "./game/Guidedrawer";
 // import TwentyMinuteCountdown from "../components/appbar/TwentyMinuteCountdown";
 import LudoKing from "../../../../public/images/ludoking.jpg";
 import AppLayout from "../layout/AppLayout";
-import LostModal from "../components/game/LostModal";
-import WinModal from "../components/game/WinModal";
-import CancellationModal from "../components/game/CancellationModal";
+import LostModal from "./game/LostModal";
+import WinModal from "./game/WinModal";
+import CancellationModal from "./game/CancellationModal";
 
 export default function Game(props) {
   const params = useParams();

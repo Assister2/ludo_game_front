@@ -1,5 +1,5 @@
 import React from "react";
-import { CDN_URL } from "../../../config";
+import { CDN_URL } from "../../../../config";
 
 const ViewChallenge = ({ holdModal, holdChallenge, userId, setHoldModal }) => {
   return (

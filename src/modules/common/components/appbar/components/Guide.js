@@ -23,7 +23,7 @@ function Guide(props) {
   const [f_open, setOpen] = useState(false);
   const { data } = useSelector((state) => state.loginReducer);
   const { data: userData } = useSelector((state) => state.user);
-  const { data: wallet } = useSelector((state) => state.wallet1);
+  const { data: wallet } = useSelector((state) => state.wallet);
 
   const socket = useRef(null);
   const userId = Cookies.get("userId");
@@ -37,17 +37,17 @@ function Guide(props) {
     }
 
     if (userId && socket.current) {
-      const interval = setInterval(() => {
-        socket.current.emit(
-          "getUserWallet",
-          JSON.stringify({
-            type: "getUserWallet",
-            payload: {
-              userId: userId,
-            },
-          })
-        );
-      }, 2000);
+      // const interval = setInterval(() => {
+      //   socket.current.emit(
+      //     "getUserWallet",
+      //     JSON.stringify({
+      //       type: "getUserWallet",
+      //       payload: {
+      //         userId: userId,
+      //       },
+      //     })
+      //   );
+      // }, 2000);
 
       socket.current.on("logout", (message) => {
         dispatch(logoutSuccess());
@@ -81,7 +81,7 @@ function Guide(props) {
 
       return () => {
         // Clear the interval and disconnect the socket when the component is unmounted
-        clearInterval(interval);
+        // clearInterval(interval);
       };
     }
   }, []);

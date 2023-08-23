@@ -15,10 +15,14 @@ import {
   logoutLoading,
 } from "../actions/auth";
 import {
+  getUserWallet,
   getWalletLoading,
   getWalletReq1,
   getWalletSuccess,
+  updateWalletReq,
+  updateWalletSuccess,
 } from "../actions/wallet";
+
 import { userSignUp, verifyOTP, logoutAPI } from "../../apis/auth";
 
 function* signUp(param) {
@@ -59,7 +63,7 @@ function* login(param) {
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
     Cookies.set("userId", data.data?._id, { expires: 30 });
 
-    yield put(getWalletSuccess(data));
+    yield put(updateWalletReq());
     yield put(loginSuccess(data));
 
     param.navigation(`/`);
@@ -80,8 +84,8 @@ function* login(param) {
 function* logout(param) {
   yield put(logoutLoading(true));
   const data = yield logoutAPI();
-  yield put(getWalletReq1());
 
+  yield put(updateWalletSuccess());
   yield put(logoutSuccess());
 
   disconnectSocket();
@@ -90,8 +94,8 @@ function* logout(param) {
 function* automaticLogout(param) {
   yield put(logoutLoading(true));
   const data = yield logoutAPI();
-  yield put(getWalletReq1());
 
+  yield put(updateWalletSuccess());
   yield put(logoutSuccess());
 
   disconnectSocket();

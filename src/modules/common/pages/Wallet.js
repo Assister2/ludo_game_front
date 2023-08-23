@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Cookies from "js-cookie";
-import Deposit from "../components/appbar/components/Deposit";
+import Deposit from "./wallet/Deposit";
 import { BsArrowLeftShort } from "react-icons/bs";
-import WithDraw from "../components/appbar/components/WithDraw";
+import WithDraw from "./wallet/WithDraw";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getWalletReq } from "../../../redux/actions/wallet";

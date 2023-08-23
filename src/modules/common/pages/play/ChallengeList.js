@@ -1,10 +1,10 @@
 import React from "react";
-import { CDN_URL } from "../../../config";
+import { CDN_URL } from "../../../../config";
 import { CSSTransition } from "react-transition-group";
 import OtherPlayingChallenges from "./OtherPlayingChallenges";
 import ButtonChallenges from "./ButtonChallenges";
-import CircularLoading from "../components/atoms/CircularLoading";
-import { centerDivStyle } from "../../../App";
+import CircularLoading from "../../components/atoms/CircularLoading";
+import { centerDivStyle } from "../../../../App";
 
 const ChallengeList = React.memo(
   ({

@@ -1,5 +1,5 @@
 import React from "react";
-import CircularLoading from "../atoms/CircularLoading";
+import CircularLoading from "../../components/atoms/CircularLoading";
 
 export default function CancellationModal({
   handleCancellationModalClose,

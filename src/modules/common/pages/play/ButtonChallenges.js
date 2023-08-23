@@ -1,4 +1,4 @@
-import CircularLoading from "./../components/atoms/CircularLoading";
+import CircularLoading from "../../components/atoms/CircularLoading";
 import React from "react";
 const ButtonChallenges = ({
   item,

@@ -8,13 +8,13 @@ const Buy = lazy(() => import("../modules/common/pages/Buy"));
 const Sell = lazy(() => import("../modules/common/pages/Sell"));
 const ReferAndEarning = lazy(() => import("../modules/common/pages/Referal"));
 const Game = lazy(() => import("../modules/common/pages/Game"));
-const History = lazy(() => import("../modules/common/pages/history"));
+const History = lazy(() => import("../modules/common/pages/History"));
 const LegalTerms = lazy(() => import("../modules/common/pages/LegalTerms"));
 const Support = lazy(() => import("../modules/common/pages/Support"));
 const Login = lazy(() => import("../modules/auth/pages/Login"));
 const Register = lazy(() => import("../modules/auth/pages/Register"));
 const OTPVerification = lazy(() => import("../modules/auth/pages/VerifyOtp"));
-const Play = lazy(() => import("../modules/common/pages/play"));
+const Play = lazy(() => import("../modules/common/pages/Play"));
 
 const Routes = (props) => {
   const { data } = useSelector((state) => state.loginReducer);

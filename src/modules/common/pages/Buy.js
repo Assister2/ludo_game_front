@@ -1,4 +1,4 @@
-import CircularLoading from "./../components/atoms/CircularLoading";
+import CircularLoading from "../components/atoms/CircularLoading";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";

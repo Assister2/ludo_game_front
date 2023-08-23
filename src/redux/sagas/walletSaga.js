@@ -16,15 +16,15 @@ import {
   userSellChipsLoading,
   userSellChipsSuccess,
 } from "../actions/wallet";
-import { buyWalletApi, sellWalletApi } from "../../apis/wallet";
+import { buyWalletApi, getWalletApi, sellWalletApi } from "../../apis/wallet";
 
 // Sign up
 
 function* updateWallet(param) {
   yield put(updateWalletLoading(true));
-  const data = yield updateUserProfileApi(param);
+  const data = yield getWalletApi(param);
   if (data.status == 200) {
-    toast.success("Profile updated");
+    // toast.success("Wallet updated");
 
     yield put(updateWalletSuccess(data.data));
   } else if (data.status == 400) {

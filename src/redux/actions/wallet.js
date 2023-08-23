@@ -1,14 +1,14 @@
 import { WALLET } from "../contstants/index";
 
-export const getWalletReq = (data) => {
-  return {
-    type: WALLET.GET_WALLET_REQUEST,
-    payload: data,
-  };
-};
 export const getWalletReq1 = (data) => {
   return {
     type: WALLET.GET_WALLET_REQUEST1,
+    payload: data,
+  };
+};
+export const getWalletReq = (data) => {
+  return {
+    type: WALLET.GET_WALLET_REQUEST,
     payload: data,
   };
 };
@@ -52,7 +52,7 @@ export const updateWalletReq = (data) => {
 export const updateWalletSuccess = (data) => {
   return {
     type: WALLET.UPDATE_WALLET_SUCCESS,
-    payload: data.data,
+    payload: data?.data,
   };
 };
 

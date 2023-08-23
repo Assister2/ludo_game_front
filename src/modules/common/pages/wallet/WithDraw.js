@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getUserProfileApi } from "../../../../../apis/user";
+import { getUserProfileApi } from "../../../../apis/user";
 export default function WithDraw() {
   const [disableWithdraw, setDisableWithdraw] = useState(false);
   const walletData = useSelector((state) => state.wallet);
@@ -19,8 +19,8 @@ export default function WithDraw() {
   //   })();
   // }, []);
   useEffect(() => {
-    setWallet(walletData1.data);
-  }, [walletData1]);
+    setWallet(walletData.data);
+  }, [walletData]);
   return (
     <>
       {/* <div className="fade d-flex align-items-center justify-content-between alert alert-danger show">

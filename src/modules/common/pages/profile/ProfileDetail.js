@@ -1,9 +1,9 @@
-import CircularLoading from "./../../atoms/CircularLoading";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { CDN_URL, AVATAR } from "../../../../../config";
-import { updateUserProfileReq } from "../../../../../redux/actions/user";
+import CircularLoading from "../../components/atoms/CircularLoading";
+import { updateUserProfileReq } from "../../../../redux/actions/user";
+import { AVATAR } from "../../../../config";
 
 export default function ProfileDetails() {
   const dispatch = useDispatch();
@@ -31,6 +31,7 @@ export default function ProfileDetails() {
     try {
       dispatch(updateUserProfileReq({ username: trimmedUserName }));
     } catch (error) {
+      toast.error(error);
       setEditButton(false);
     }
   };
@@ -38,7 +39,7 @@ export default function ProfileDetails() {
   useEffect(() => {
     setEditButton(userData.isLoading);
     setUserName(userData?.data?.username);
-  }, [userData]);
+  }, [userData?.data?.username]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

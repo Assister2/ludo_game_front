@@ -9,8 +9,8 @@ export default function Deposit() {
   const [wallet, setWallet] = useState({});
 
   useEffect(() => {
-    setWallet(walletData1.data);
-  }, [walletData1]);
+    setWallet(walletData.data);
+  }, [walletData]);
   return (
     <>
       <div className="mb-3 shadow card">

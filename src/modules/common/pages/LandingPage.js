@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import "./style.css";
+import "../styles/style.css";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";

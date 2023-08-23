@@ -1,18 +1,17 @@
-import CircularLoading from './../components/atoms/CircularLoading'
 import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router/cjs/react-router.min";
+import Cookies from "js-cookie";
+import CircularLoading from "../components/atoms/CircularLoading";
 import { CDN_URL } from "../../../config";
 import { userSellChipsRequest } from "../../../redux/actions/wallet";
 import { getUserProfileApi } from "../../../apis/user";
-import Cookies from "js-cookie";
-import AppLayout from '../layout/AppLayout';
+import AppLayout from "../layout/AppLayout";
 
 export default function Sell() {
-  const walletData1 = useSelector((state) => state.wallet1);
+  const walletData = useSelector((state) => state.wallet);
   const [wallet, setWallet] = useState({});
   const [ws, setWs] = useState(null);
   const userId = Cookies.get("userId");
@@ -37,7 +36,7 @@ export default function Sell() {
       [e.target.name]: e.target.value,
     });
   };
- 
+
   const showToast = () => {
     toast.error("Complete or cancel active challenges to withdraw!");
   };
@@ -51,8 +50,8 @@ export default function Sell() {
     })();
   }, []);
   useEffect(() => {
-    setWallet(walletData1.data);
-  }, [walletData1]);
+    setWallet(walletData.data);
+  }, [walletData]);
 
   const sell = () => {
     try {
@@ -183,9 +182,9 @@ export default function Sell() {
               >
                 {isLoading ? (
                   <CircularLoading
-                  height={'1.5rem'}
-                  width={'1.5rem'}
-                  color={'white'}
+                    height={"1.5rem"}
+                    width={"1.5rem"}
+                    color={"white"}
                   />
                 ) : (
                   "Sell"

@@ -17,7 +17,7 @@ export const user = (state = initialState, action) => {
 
     case USER_PROFILE.USER_GET_PROFILE_SUCCESS: {
       const { payload } = action;
-      
+
       return { ...state, data: payload, error: "", isLoading: false };
     }
 
@@ -26,20 +26,25 @@ export const user = (state = initialState, action) => {
       return { ...state, data: null, error: payload, isLoading: false };
     }
     case USER_PROFILE.USER_UPDATE_PROFILE_LOADING: {
-        const { payload } = action;
-        return { ...state, isLoading: payload };
-      }
-  
-      case USER_PROFILE.USER_UPDATE_PROFILE_SUCCESS: {
-        const { payload } = action;
-       
-        return { ...state, data: payload, error: "", isLoading: false };
-      }
-  
-      case USER_PROFILE.USER_UPDATE_PROFILE_ERROR: {
-        const { payload } = action;
-        return { ...state, data: null, error: payload, isLoading: false };
-      }
+      const { payload } = action;
+      return { ...state, isLoading: payload };
+    }
+
+    case USER_PROFILE.USER_UPDATE_PROFILE_SUCCESS: {
+      const { payload } = action;
+
+      return { ...state, data: payload, error: "", isLoading: false };
+    }
+
+    case USER_PROFILE.USER_UPDATE_PROFILE_ERROR: {
+      const { payload } = action;
+      return {
+        ...state,
+        data: payload.data,
+        error: payload.error,
+        isLoading: false,
+      };
+    }
     default:
       return state;
   }

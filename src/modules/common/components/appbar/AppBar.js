@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./style.css";
+import "../../styles/style.css";
 import { CDN_URL } from "../../../../config";
 import { Guide } from "./components/Guide";
 
