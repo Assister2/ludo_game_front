@@ -226,3 +226,11 @@ export function validateAmount(amount) {
 
   return true;
 }
+
+export function isAvailabletoPlayGame(wallet, amount) {
+  if (wallet < amount) {
+    toast.error("Not nough chips.");
+    return false;
+  }
+  return true;
+}

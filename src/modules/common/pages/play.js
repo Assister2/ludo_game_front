@@ -16,12 +16,14 @@ import {
   sortEvents,
   filterEvents,
   validateAmount,
+  isAvailabletoPlayGame,
 } from "../functions/functions";
 import CircularLoading from "./../components/atoms/CircularLoading";
 import { useDispatch } from "react-redux";
 import DailogModal from "./../components/atoms/DailogModal";
 import { useSelector } from "react-redux";
 import AppLayout from "../layout/AppLayout";
+import { toContainElement } from "@testing-library/jest-dom/matchers";
 
 export default function Play() {
   const history = useNavigate();
@@ -207,7 +209,7 @@ export default function Play() {
   const createChallenge = () => {
     const isValidAmount = validateAmount(amount);
 
-    if (!isValidAmount) {
+    if (!isValidAmount || !isAvailabletoPlayGame(data.wallet, amount)) {
       setCreateChallengeLoading(false);
       setAmount("");
       return;
@@ -224,8 +226,11 @@ export default function Play() {
     setAmount("");
   };
   const challengeButton = async (challenge, type) => {
-    if (type === "play" && data.wallet < challenge.amount) {
-      toast.error("not enough chips");
+    if (
+      type === "play" &&
+      !isAvailabletoPlayGame(data.wallet, challenge.amount)
+    ) {
+      toast.error("Not enough chips");
       return;
     }
     if (!buttonLoading) {
