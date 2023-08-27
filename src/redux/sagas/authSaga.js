@@ -62,7 +62,7 @@ function* login(param) {
     Cookies.set("token", data.data?.jwtToken?.jwtToken, { expires: 30 });
     Cookies.set("fullName", data.data?.fullName, { expires: 30 });
     Cookies.set("userId", data.data?._id, { expires: 30 });
-
+    Cookies.set("refreshToken", data.data?.refreshToken?.refreshToken, { expires : 30 * 60 * 86400});
     yield put(updateWalletReq());
     yield put(loginSuccess(data));
 

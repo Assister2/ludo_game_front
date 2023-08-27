@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { axiosConfig } from "./axiosConfig";
+import axiosConfig from "./axiosConfig";
 
 // USER SIGN UP
 export const userSignUp = async (param) => {
@@ -45,8 +45,8 @@ export const verifyOTP2 = async (param) => {
 };
 export const loginAPI = async (payload) => {
   try {
+    console.log(axiosConfig);
     const data = await axiosConfig.post("/auth/login", payload);
-
     return data;
   } catch (error) {
     return error.response.data;

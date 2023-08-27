@@ -14,7 +14,7 @@ const Support = lazy(() => import("../modules/common/pages/Support"));
 const Login = lazy(() => import("../modules/auth/pages/Login"));
 const Register = lazy(() => import("../modules/auth/pages/Register"));
 const OTPVerification = lazy(() => import("../modules/auth/pages/VerifyOtp"));
-const Play = lazy(() => import("../modules/common/pages/Play"));
+const Play = lazy(() => import("../modules/common/pages/play"));
 
 const Routes = (props) => {
   const { data } = useSelector((state) => state.loginReducer);

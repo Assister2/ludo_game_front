@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
-import { axiosConfig } from "./axiosConfig";
+import  axiosConfig  from "./axiosConfig";
 // const { data } = useSelector((state) => state.loginReducer)
 
 export const buyWalletApi = async (data) => {
