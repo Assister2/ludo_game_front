@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
-import axiosConfig from "./axiosConfig";
+// import axiosConfig from "./axiosConfig";
+import { axiosConfig } from "./axiosConfig";
 
 const token = localStorage.getItem("token");
 
